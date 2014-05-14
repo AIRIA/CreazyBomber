@@ -19,3 +19,7 @@
 *.exe
 *.out
 *.app
+
+# Android Bin Files
+proj.android/bin
+proj.android/obj
