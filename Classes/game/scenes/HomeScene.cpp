@@ -175,6 +175,15 @@ void HomeScene::__addSelectRoleUI()
     selectRole->setOpacity(0);
     selectRole->setEnabled(false);
     
+    /* change player menu */
+    auto changeNormal = SPRITE("change_role_normal.png");
+    auto changePress = SPRITE("change_role_press.png");
+    auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
+    auto changeMenu = Menu::create(changePlayerItem,nullptr);
+    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,30));
+    changeMenu->setPosition(Point::ZERO);
+    m_pBody->addChild(changeMenu);
+    
     rolePos.push_back(vampire->getPosition());
     rolePos.push_back(zombie->getPosition());
     rolePos.push_back(smurf->getPosition());
@@ -233,6 +242,8 @@ void HomeScene::__selectMode()
     
     battleMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.85f)));
     storyMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.9f)));
+    
+    
 }
 
 void HomeScene::__roleSelectHandler(cocos2d::Ref *pSender)
