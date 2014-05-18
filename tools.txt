@@ -1,0 +1,82 @@
+#include "HelloWorldScene.h"
+#include <fstream>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+USING_NS_CC;
+
+Scene* HelloWorld::createScene()
+{
+    
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = HelloWorld::create();
+
+    // add layer as a child to scene
+    scene->addChild(layer);
+
+    // return the scene
+    return scene;
+}
+
+// on "init" you need to initialize your instance
+bool HelloWorld::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+
+void HelloWorld::menuCloseCallback(Ref* pSender)
+{
+
+}
+
+void HelloWorld::onEnter()
+{
+    Layer::onEnter();
+    std::string pvr = "zh-Hans.lproj/locale_2-hd.plist";
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(pvr);
+    ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(pvr);
+    ValueMap frames = dict["frames"].asValueMap();
+    auto frame = frames.begin();
+    auto winSize = Director::getInstance()->getWinSize();
+    while (frame!=frames.end()) {
+        ValueMap frameDict = frame->second.asValueMap();
+        auto frameSize = SizeFromString(frameDict["sourceSize"].asString());
+        std::string frameName = frame->first;
+        log(frameName.c_str());
+
+        frame++;
+        //removeChildByTag(101);
+        auto currentSprite = Sprite::createWithSpriteFrameName(frameName);
+        auto spriteSize = currentSprite->getContentSize();
+        currentSprite->setAnchorPoint(Point::ZERO);
+        currentSprite->setTag(101);
+//        currentSprite->setPosition(Point(winSize.width/2,winSize.height/2));
+        addChild(currentSprite);
+        auto render = RenderTexture::create(frameSize.width, frameSize.height, Texture2D::PixelFormat::RGBA8888);
+        render->clear(1, 1, 1, 0);
+        render->begin();
+        currentSprite->visit();
+        render->end();
+        
+//        auto image = render->newImage(true);
+//        image->saveToFile(FileUtils::getInstance()->getWritablePath()+frameName, false);
+//        CC_SAFE_DELETE(image);
+//        render->onSaveToFile(frameName);
+        std::string targetDir = FileUtils::getInstance()->getWritablePath()+frameName;
+//        mkdir(targetDir.c_str(), 0744);
+        render->saveToFile(frameName,Image::Format::PNG);
+        log("%s/%s",FileUtils::getInstance()->getWritablePath().c_str(),frameName.c_str());
+    }
+}
