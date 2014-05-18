@@ -49,7 +49,7 @@
 		<link>
 			<name>cocos2dx</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/cocos2dx</locationURI>
+			<location>/Users/PerfectPlan/projects/CreazyBomber/cocos2d</location>
 		</link>
 		<link>
 			<name>extensions</name>
@@ -62,4 +62,10 @@
 			<locationURI>COCOS2DX/scripting</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>COCOS2DX</name>
+			<value>file:/Users/PerfectPlan</value>
+		</variable>
+	</variableList>
 </projectDescription>
