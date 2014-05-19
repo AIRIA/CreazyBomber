@@ -433,7 +433,7 @@ void RenderTexture::onSaveToFile(const std::string& filename)
     Image *image = newImage(true);
     if (image)
     {
-        image->saveToFile(filename.c_str(), false);
+        image->saveToFile(filename.c_str(), true);
     }
 
     CC_SAFE_DELETE(image);

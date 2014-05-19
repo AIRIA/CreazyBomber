@@ -23,9 +23,13 @@ private:
     void __selectMode();
     void __roleSelectHandler(Ref *pSender);
     void __hideRoles();
+    void __hideModes();
     
     void __addSelectModeUI();
     void __addSelectRoleUI();
+    void __stageSelectHandler(Ref *pSender);
+    void __addSelectStageUI();
+    void __addSelectSceneUI();
 public:
     void onTexturesLoaded();
     virtual bool init();
