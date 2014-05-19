@@ -8,6 +8,13 @@
 
 #include "HomeScene.h"
 enum{
+    kStatusSelectRole,
+    kStatusSelectMode,
+    kStatusSelectScene,
+    kStatusSelectStage
+} navStatus;
+
+enum{
     kBottomNode = 100,
     kBattleModeNode,
     kStoreModeNode,
@@ -17,7 +24,8 @@ enum{
     kBackNode2,
     kBackNode3,
     kBattleMenu,
-    kStoryMenu
+    kStoryMenu,
+    kBackMenu
 };
 
 bool HomeScene::init()
@@ -40,6 +48,7 @@ bool HomeScene::init()
     textureFiles.push_back("textures/locale_2");
     textureFiles.push_back("textures/locale_3");
     textureFiles.push_back("textures/selectstage");
+    textureFiles.push_back("textures/button");
     return true;
 }
 
@@ -133,8 +142,8 @@ void HomeScene::onTexturesLoaded()
     
     __addSelectModeUI();
     __addSelectRoleUI();
-    
-    
+    __addBackMenu();
+    //循环播放背景音乐
     SimpleAudioEngine::getInstance()->playBackgroundMusic("music/bg/music_main_bg.mp3",true);
 
 }
@@ -199,7 +208,7 @@ void HomeScene::__addSelectRoleUI()
     auto changePress = SPRITE("change_role_press.png");
     auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
     auto changeMenu = Menu::create(changePlayerItem,nullptr);
-    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,30));
+    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
     changeMenu->setPosition(Point::ZERO);
     m_pBody->addChild(changeMenu);
     
@@ -223,6 +232,7 @@ void HomeScene::__startMenuHandler(cocos2d::Ref *pSender)
     auto item = (MenuItemSprite*)pSender;
     auto menu = (Menu*)item->getParent();
     menu->setEnabled(false);
+    navStatus = kStatusSelectRole;
     
 }
 /* 点击开始后 显示出来选择角色的界面 以动画的方式进入场景 */
@@ -281,38 +291,18 @@ void HomeScene::__roleSelectHandler(cocos2d::Ref *pSender)
     }
     menuItem->selected();
     __hideRoles();
+    auto delayCall = CallFunc::create([&]()->void{
+        __selectMode();
+    });
+    auto showModeSeq = Sequence::create(DelayTime::create(0.8f),delayCall, nullptr);
+    runAction(showModeSeq);
+    navStatus = kStatusSelectMode;
 }
-/* 选择角色后 隐藏角色选择的界面 */
-void HomeScene::__hideRoles()
-{
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
-    auto roleMenu = (Menu*)m_pBody->getChildByTag(kSelectRoleMenu);
-    roleMenu->setEnabled(false);
-    auto children = roleMenu->getChildren();
-    int i=0;
-    for(auto &child : children)
-    {
-        auto item = (MenuItemSprite*)child;
-        if(item->isSelected()==false)
-        {
-            item->setOpacity(128);
-        }
-        i++;
-        auto delay = DelayTime::create(i*0.2f);
-        auto itemPos = item->getPosition();
-        auto move = MoveTo::create(0.3f, Point(itemPos.x,1000));
-        if (i==children.size()) {
-            auto showMode = CallFunc::create(CC_CALLBACK_0(HomeScene::__selectMode, this));
-            item->runAction(Sequence::create(delay,move,showMode,NULL));
-        }else{
-            item->runAction(Sequence::create(delay,move,NULL));
-        }
-        
-    }
-}
+
 
 void HomeScene::__addSelectStageUI()
 {
+    navStatus = kStatusSelectStage;
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     /* 获取三个节点 */
     auto back1 = bottomNode->getChildByTag(kBackNode1);
@@ -377,26 +367,12 @@ void HomeScene::__stageSelectHandler(cocos2d::Ref *pSender)
 
 }
 
-void HomeScene::__hideModes()
-{
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
-    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
-    auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
-    auto battleNode = bottomNode->getChildByTag(kBattleModeNode);
-    auto battleMenu = (Menu*)battleNode->getChildByTag(0);
-    auto storyMenu = (Menu*)storyNode->getChildByTag(0);
-    auto battleMenuItem = (MenuItemSprite*)battleMenu->getChildByTag(0);
-    auto storyMenuItem = (MenuItemSprite*)storyMenu->getChildByTag(0);
-    battleMenu->setEnabled(false);
-    storyMenu->setEnabled(false);
 
-    battleMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.0f)));
-    storyMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.0f)));
-}
 
 /* 选择大的场景 丛林 墓地 冰川 */
 void HomeScene::__addSelectSceneUI()
 {
+    navStatus = kStatusSelectScene;
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto back2 = bottomNode->getChildByTag(kBackNode2);
     auto back3 = bottomNode->getChildByTag(kBackNode3);
@@ -406,25 +382,7 @@ void HomeScene::__addSelectSceneUI()
         auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.8f));
         auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
         item->setCallback([&](Ref *pSender)->void{
-            auto bottomNode = m_pBody->getChildByTag(kBottomNode);
-            auto back2 = bottomNode->getChildByTag(kBackNode2);
-            auto back3 = bottomNode->getChildByTag(kBackNode3);
-            auto battleMenu = (Menu*)back2->getChildByTag(kBattleMenu);
-            auto storyMenu = (Menu*)back3->getChildByTag(kStoryMenu);
-            
-            auto hideMenu = [](Menu *menu)->void{
-                menu->setEnabled(false);
-                auto children = menu->getChildren();
-                auto it = children.begin();
-                while (it!=children.end()) {
-                    auto item = (MenuItemSprite*)*it;
-                    auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.0f));
-                    item->runAction(easeBackInOut);
-                    it++;
-                }
-            };
-            hideMenu(battleMenu);
-            hideMenu(storyMenu);
+            __hideScenes();
             __addSelectStageUI();
             
         });
@@ -463,15 +421,106 @@ void HomeScene::__addSelectSceneUI()
     storyMenu->setTag(kStoryMenu);
 }
 
+void HomeScene::__addBackMenu()
+{
+    auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"));
+    mainMenuItemBack->setPosition(Point(80,80));
+    auto mainMenu = Menu::create(mainMenuItemBack,nullptr);
+    mainMenu->setPosition(Point::ZERO);
+    m_pBody->addChild(mainMenu);
+    mainMenuItemBack->setCallback([&](Ref *pSender)->void{
+        switch (navStatus) {
+            case kStatusSelectRole:
+                __hideRoles();
+                break;
+            case kStatusSelectMode:
+                __hideModes();
+                break;
+            case kStatusSelectScene:
+                __hideScenes();
+                break;
+            case kStatusSelectStage:
+                break;
+            
+            default:
+                break;
+        }
+    });
+}
 
 
+/* 选择角色后 隐藏角色选择的界面 */
+void HomeScene::__hideRoles()
+{
+    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
+    auto roleMenu = (Menu*)m_pBody->getChildByTag(kSelectRoleMenu);
+    roleMenu->setEnabled(false);
+    auto children = roleMenu->getChildren();
+    int i=0;
+    for(auto &child : children)
+    {
+        auto item = (MenuItemSprite*)child;
+        if(item->isSelected()==false)
+        {
+            item->setOpacity(128);
+        }
+        i++;
+        auto delay = DelayTime::create(i*0.2f);
+        auto itemPos = item->getPosition();
+        auto move = MoveTo::create(0.3f, Point(itemPos.x,1000));
+        item->runAction(Sequence::create(delay,move,NULL));
+    }
+}
 
+void HomeScene::__hideModes()
+{
+    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
+    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
+    auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
+    auto battleNode = bottomNode->getChildByTag(kBattleModeNode);
+    auto battleMenu = (Menu*)battleNode->getChildByTag(0);
+    auto storyMenu = (Menu*)storyNode->getChildByTag(0);
+    auto battleMenuItem = (MenuItemSprite*)battleMenu->getChildByTag(0);
+    auto storyMenuItem = (MenuItemSprite*)storyMenu->getChildByTag(0);
+    battleMenu->setEnabled(false);
+    storyMenu->setEnabled(false);
+    
+    battleMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.0f)));
+    storyMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.0f)));
+}
 
+void HomeScene::__hideScenes()
+{
+    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
+    auto back2 = bottomNode->getChildByTag(kBackNode2);
+    auto back3 = bottomNode->getChildByTag(kBackNode3);
+    auto storyMenu = back3->getChildByTag(kStoryMenu);
+    auto battleMenu = back2->getChildByTag(kBattleMenu);
+    __hideElements(storyMenu, 0.3f);
+    __hideElements(battleMenu, 0.3f);
+}
 
+void HomeScene::__hideStages()
+{
+    
+}
 
-
-
-
+void HomeScene::__hideElements(cocos2d::Node *node,float duration)
+{
+    auto menu = (Menu*)node;
+    if(menu!=nullptr)
+    {
+        menu->setEnabled(false);
+    }
+    menu->setEnabled(false);
+    auto children = node->getChildren();
+    auto it = children.begin();
+    while (it!=children.end()) {
+        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(duration, 0.0f));
+        (*it)->runAction(easeBackInOut);
+        it++;
+    }
+}
 
 
 

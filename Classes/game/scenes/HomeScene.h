@@ -22,14 +22,21 @@ private:
     void __selectRole();
     void __selectMode();
     void __roleSelectHandler(Ref *pSender);
+    
+    
+    
     void __hideRoles();
     void __hideModes();
+    void __hideScenes();
+    void __hideStages();
+    void __hideElements(Node *node,float duration);
     
     void __addSelectModeUI();
     void __addSelectRoleUI();
     void __stageSelectHandler(Ref *pSender);
     void __addSelectStageUI();
     void __addSelectSceneUI();
+    void __addBackMenu();
 public:
     void onTexturesLoaded();
     virtual bool init();
