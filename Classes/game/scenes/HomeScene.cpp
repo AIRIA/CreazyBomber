@@ -15,7 +15,9 @@ enum{
     kSelectRoleMenu,
     kBackNode1,
     kBackNode2,
-    kBackNode3
+    kBackNode3,
+    kBattleMenu,
+    kStoryMenu
 };
 
 bool HomeScene::init()
@@ -371,8 +373,8 @@ void HomeScene::__stageSelectHandler(cocos2d::Ref *pSender)
 {
     /* 隐藏模式选择关卡 */
     __hideModes();
-    
-    __addSelectStageUI();
+    __addSelectSceneUI();
+
 }
 
 void HomeScene::__hideModes()
@@ -400,6 +402,65 @@ void HomeScene::__addSelectSceneUI()
     auto back3 = bottomNode->getChildByTag(kBackNode3);
     
     
+    auto createItemFunc = [&](std::string normal,std::string press,std::string disable)-> MenuItemSprite*{
+        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.8f));
+        auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
+        item->setCallback([&](Ref *pSender)->void{
+            auto bottomNode = m_pBody->getChildByTag(kBottomNode);
+            auto back2 = bottomNode->getChildByTag(kBackNode2);
+            auto back3 = bottomNode->getChildByTag(kBackNode3);
+            auto battleMenu = (Menu*)back2->getChildByTag(kBattleMenu);
+            auto storyMenu = (Menu*)back3->getChildByTag(kStoryMenu);
+            
+            auto hideMenu = [](Menu *menu)->void{
+                menu->setEnabled(false);
+                auto children = menu->getChildren();
+                auto it = children.begin();
+                while (it!=children.end()) {
+                    auto item = (MenuItemSprite*)*it;
+                    auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.0f));
+                    item->runAction(easeBackInOut);
+                    it++;
+                }
+            };
+            hideMenu(battleMenu);
+            hideMenu(storyMenu);
+            __addSelectStageUI();
+            
+        });
+        item->setEnabled(false);
+        item->setAnchorPoint(Point(0.5f,0.0f));
+        item->setScale(0);
+        item->runAction(easeBackInOut);
+        
+        return item;
+    };
+    
+    auto cl_story = createItemFunc("clstorynormal.png", "clstorypress.png", "clstorydisable.png");
+    auto md_story = createItemFunc("mdstorynormal.png", "mdstorypress.png", "mdstorydisable.png");
+    auto bc_story = createItemFunc("bcstorynormal.png", "bcstorypress.png", "bcstorydisable.png");
+    
+    cl_story->setPosition(Point(300,10));
+    md_story->setPosition(Point(550,100));
+    bc_story->setPosition(Point(800,100));
+    
+    auto cl_battle = createItemFunc("clbattlenormal.png", "clbattlepress.png", "clbattledisable.png");
+    auto md_battle = createItemFunc("mdbattlenormal.png", "mdbattlepress.png", "mdbattledisable.png");
+    auto bc_battle = createItemFunc("bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png");
+    
+    cl_battle->setPosition(Point(200,240));
+    md_battle->setPosition(Point(450,250));
+    bc_battle->setPosition(Point(700,230));
+    
+    auto storyMenu = Menu::create(cl_story,md_story,bc_story,nullptr);
+    auto battleMenu = Menu::create(cl_battle,md_battle,bc_battle,nullptr);
+    storyMenu->setPosition(Point::ZERO);
+    battleMenu->setPosition(Point::ZERO);
+    cl_story->setEnabled(true);
+    back2->addChild(battleMenu);
+    back3->addChild(storyMenu);
+    battleMenu->setTag(kBattleMenu);
+    storyMenu->setTag(kStoryMenu);
 }
 
 
