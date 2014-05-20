@@ -106,6 +106,7 @@ void HomeScene::onTexturesLoaded()
     sun->runAction(RepeatForever::create(rotate));
     auto bottomNode = Node::create();
     
+    /* start game menu */
     auto playBtn = MenuItemSprite::create(SPRITE("play_btn_normal.png"),SPRITE("play_btn_press.png"),CC_CALLBACK_1(HomeScene::__startMenuHandler, this));
     playBtn->setScale(0.7f);
     playBtn->setPosition(Point(480,320));
@@ -140,83 +141,12 @@ void HomeScene::onTexturesLoaded()
     bottomNode->setTag(kBottomNode);
     m_pBody->addChild(cloud);
     
-    __addSelectModeUI();
-    __addSelectRoleUI();
     __addBackMenu();
     //循环播放背景音乐
     SimpleAudioEngine::getInstance()->playBackgroundMusic("music/bg/music_main_bg.mp3",true);
 
 }
-/* 初始化选择游戏模式的UI */
-void HomeScene::__addSelectModeUI()
-{
-    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
-    auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
-    auto battleNode = bottomNode->getChildByTag(kBattleModeNode);
-    auto storyMode = MenuItemSprite::create(SPRITE("story_normal.png"), SPRITE("story_press.png"),CC_CALLBACK_1(HomeScene::__stageSelectHandler, this));
-    auto battleMode = MenuItemSprite::create(SPRITE("battle_normal.png"), SPRITE("battle_press.png"),SPRITE("battle_disable.png"));
-    storyMode->setAnchorPoint(Point(1.0f,0.0f));
-    battleMode->setAnchorPoint(Point::ZERO);
-    auto battleMenu = Menu::create(battleMode,nullptr);
-    storyMode->setPosition(950,185);
-    storyMode->setTag(0);
-    battleMode->setTag(0);
-    battleMode->setPosition(30,330);
-    battleMenu->setPosition(Point::ZERO);
-    battleNode->addChild(battleMenu);
-    battleMenu->setTag(0);
-    
-    auto storyMenu = Menu::create(storyMode,nullptr);
-    storyMenu->setPosition(Point::ZERO);
-    storyNode->addChild(storyMenu);
-    storyMenu->setTag(0);
 
-    battleMode->setScale(0);
-    storyMode->setScale(0);
-    
-    storyMenu->setEnabled(false);
-    battleMenu->setEnabled(false);
-}
-/* 初始化选择角色的UI */
-void HomeScene::__addSelectRoleUI()
-{
-    float roleScale = 0.8f;
-    auto vampire = MenuItemSprite::create(SPRITE("selectrole_vampire_normal.png"), SPRITE("selectrole_vampire_press.png"),CC_CALLBACK_1(HomeScene::__roleSelectHandler, this));
-    auto roleSize = vampire->getContentSize();
-    vampire->setPosition(Point(160,320));
-    
-    vampire->setScale(roleScale);
-    roleSize = Size(roleSize.width*roleScale,roleSize.height*roleScale);
-    auto zombie = MenuItemSprite::create(SPRITE("selectrole_zombie_normal.png"), SPRITE("selectrole_zombie_press.png"),CC_CALLBACK_1(HomeScene::__roleSelectHandler, this));
-    zombie->setPosition(vampire->getPosition()+Point(roleSize.width+20,-70));
-    zombie->setScale(roleScale);
-    auto smurf = MenuItemSprite::create(SPRITE("selectrole_smurf_normal.png"), SPRITE("selectrole_smurf_press.png"),CC_CALLBACK_1(HomeScene::__roleSelectHandler, this));
-    smurf->setPosition(zombie->getPosition()+Point(roleSize.width+20,130));
-    smurf->setScale(roleScale);
-    auto viking = MenuItemSprite::create(SPRITE("selectrole_viking_normal.png"), SPRITE("selectrole_viking_press.png"),CC_CALLBACK_1(HomeScene::__roleSelectHandler, this));
-    viking->setPosition(smurf->getPosition()+Point(roleSize.width+20,-80));
-    viking->setScale(roleScale);
-    auto selectRole = Menu::create(vampire,zombie,smurf,viking,nullptr);
-    selectRole->setPosition(Point::ZERO);
-    m_pBody->addChild(selectRole);
-    selectRole->setTag(kSelectRoleMenu);
-    selectRole->setOpacity(0);
-    selectRole->setEnabled(false);
-    
-    /* change player menu */
-    auto changeNormal = SPRITE("change_role_normal.png");
-    auto changePress = SPRITE("change_role_press.png");
-    auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
-    auto changeMenu = Menu::create(changePlayerItem,nullptr);
-    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
-    changeMenu->setPosition(Point::ZERO);
-    m_pBody->addChild(changeMenu);
-    
-    rolePos.push_back(vampire->getPosition());
-    rolePos.push_back(zombie->getPosition());
-    rolePos.push_back(smurf->getPosition());
-    rolePos.push_back(viking->getPosition());
-}
 /* 开始按钮的回调 点击后 隐藏部分UI */
 void HomeScene::__startMenuHandler(cocos2d::Ref *pSender)
 {
@@ -228,79 +158,182 @@ void HomeScene::__startMenuHandler(cocos2d::Ref *pSender)
         auto child = bottomNode->getChildByTag(tag);
         child->runAction(scaleAct->clone());
     }
-    __selectRole();
+
     auto item = (MenuItemSprite*)pSender;
     auto menu = (Menu*)item->getParent();
     menu->setEnabled(false);
     navStatus = kStatusSelectRole;
+    __showRoleSelectMenu();
     
 }
-/* 点击开始后 显示出来选择角色的界面 以动画的方式进入场景 */
-void HomeScene::__selectRole()
+
+void HomeScene::__addBackMenu()
 {
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_in.mp3");
-    auto roleMenu = (Menu*)m_pBody->getChildByTag(kSelectRoleMenu);
-    auto items = roleMenu->getChildren();
-    roleMenu->setOpacity(255);
-    roleMenu->setEnabled(true);
-    int i=0;
-    for(auto &item : items)
-    {
-        auto menuItem = (MenuItemSprite*)item;
-        auto targetPosition = menuItem->getPosition();
-        menuItem->setPosition(Point(targetPosition.x,1000));
-
-        auto delay = DelayTime::create(i++*0.2f);
-        auto moveAct = MoveTo::create(0.4f, targetPosition);
-        auto easeInout = EaseBackInOut::create(moveAct);
-        auto moveSeq = Sequence::create(delay,easeInout, nullptr);
-        menuItem->runAction(moveSeq);
-    }
-    
+    auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"));
+    mainMenuItemBack->setPosition(Point(80,80));
+    auto mainMenu = Menu::create(mainMenuItemBack,nullptr);
+    mainMenu->setPosition(Point::ZERO);
+    m_pBody->addChild(mainMenu);
+    mainMenuItemBack->setCallback([&](Ref *pSender)->void{
+        switch (navStatus) {
+            case kStatusSelectRole:
+                __hideRoles();
+                break;
+            case kStatusSelectMode:
+                __hideModes();
+                break;
+            case kStatusSelectScene:
+                __hideScenes();
+                break;
+            case kStatusSelectStage:
+                break;
+            
+            default:
+                break;
+        }
+    });
 }
 
+void HomeScene::__showRoleSelectMenu()
+{
+    int i = 0;
+    float roleScale = 0.8f;
+    auto createRoleItem = [&](std::string normal,std::string press,Point pos)->MenuItemSprite*{
+        /*  */
+        auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press));
+        item->setCallback([&](Ref *pSender)->void{
+            __hideRoles();
+            auto delay = DelayTime::create(0.8f);
+            auto delayShow = CallFunc::create([&]()->void{
+                __showGameModeSelectMenu();
+            });
+            auto delaySeq = Sequence::create(delay,delayShow, NULL);
+            this->runAction(delaySeq);
+            
+        });
+        item->setPosition(pos);
+        item->setScale(roleScale);
+        
+        
+        /* 动画方式进入场景 */
+        auto delay = DelayTime::create(i++*0.2f);
+        auto moveAct = MoveTo::create(0.4f, pos);
+        auto easeInout = EaseBackInOut::create(moveAct);
+        auto beforeRun = CallFuncN::create([](Ref *pSender)->void{
+            auto item = (MenuItemSprite*)pSender;
+            item->setPosition(Point(item->getPosition().x,1000));
+        });
+        auto moveSeq = Sequence::create(beforeRun,delay,easeInout, nullptr);
+        item->runAction(moveSeq);
+        return item;
+    };
+    
+    
+    auto vampire = createRoleItem("selectrole_vampire_normal.png","selectrole_vampire_press.png",Point(160,320));
+    auto roleSize = vampire->getContentSize();
+    roleSize = Size(roleSize.width*roleScale,roleSize.height*roleScale);
+    auto zombie = createRoleItem("selectrole_zombie_normal.png","selectrole_zombie_press.png",vampire->getPosition()+Point(roleSize.width+20,-70));
+    auto smurf = createRoleItem("selectrole_smurf_normal.png","selectrole_smurf_press.png",zombie->getPosition()+Point(roleSize.width+20,130));
+    auto viking = createRoleItem("selectrole_viking_normal.png","selectrole_viking_press.png",smurf->getPosition()+Point(roleSize.width+20,-80));
+    auto selectRole = Menu::create(vampire,zombie,smurf,viking,nullptr);
+    selectRole->setPosition(Point::ZERO);
+    m_pBody->addChild(selectRole);
+    selectRole->setTag(kSelectRoleMenu);
+}
 
-/* 角色隐藏完毕之后 调用此方法来 显示选择游戏模式的菜单 */
-void HomeScene::__selectMode()
+void HomeScene::__showGameModeSelectMenu()
 {
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
     auto battleNode = bottomNode->getChildByTag(kBattleModeNode);
-    auto battleMenu = (Menu*)battleNode->getChildByTag(0);
-    auto storyMenu = (Menu*)storyNode->getChildByTag(0);
-    battleMenu->setEnabled(true);
-    storyMenu->setEnabled(true);
-    auto battleMenuItem = (MenuItemSprite*)battleMenu->getChildByTag(0);
-    auto storyMenuItem = (MenuItemSprite*)storyMenu->getChildByTag(0);
+    auto createMenuItem = [](std::string normal,std::string press,std::string disable,Point archorPoint,Point pos)->MenuItemSprite*{
+        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.5f, 0.85f));
+        auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
+        item->setAnchorPoint(archorPoint);
+        item->setPosition(pos);
+        item->setScale(0);
+        item->setTag(0);
+        item->runAction(easeBackInOut);
+        return item;
+    };
     
-    battleMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.85f)));
-    storyMenuItem->runAction(EaseBackInOut::create(ScaleTo::create(0.5f, 0.9f)));
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_in.mp3");
+    auto addMenuToNode = [](MenuItemSprite *item,Node *node)->void{
+        auto menu = Menu::create(item,nullptr);
+        menu->setPosition(Point::ZERO);
+        menu->setTag(0);
+        node->addChild(menu);
+    };
+    auto storyMode = createMenuItem("story_normal.png","story_press.png","story_press.png",Point(1.0f,0.0f),Point(950,185));
+    auto battleMode = createMenuItem("battle_normal.png","battle_press.png","battle_disable.png",Point::ZERO,Point(30,330));
+    addMenuToNode(storyMode,storyNode);
+    addMenuToNode(battleMode,battleNode);
     
-}
-/* 选择角色的回调 */
-void HomeScene::__roleSelectHandler(cocos2d::Ref *pSender)
-{
-
-    auto menuItem = (MenuItemSprite*)pSender;
-    auto children = menuItem->getParent()->getChildren();
-    for(auto &item : children)
-    {
-        auto menuItem = (MenuItemSprite*)item;
-        menuItem->unselected();
-    }
-    menuItem->selected();
-    __hideRoles();
-    auto delayCall = CallFunc::create([&]()->void{
-        __selectMode();
+    storyMode->setCallback([&](Ref *pSender)->void{
+        __hideModes();
+        __showSceneSelectMenu();
     });
-    auto showModeSeq = Sequence::create(DelayTime::create(0.8f),delayCall, nullptr);
-    runAction(showModeSeq);
-    navStatus = kStatusSelectMode;
+    /* change player menu */
+    auto changeNormal = SPRITE("change_role_normal.png");
+    auto changePress = SPRITE("change_role_press.png");
+    auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
+    auto changeMenu = Menu::create(changePlayerItem,nullptr);
+    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
+    changeMenu->setPosition(Point::ZERO);
+    m_pBody->addChild(changeMenu);
+    
 }
 
+void HomeScene::__showSceneSelectMenu()
+{
+    navStatus = kStatusSelectScene;
+    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
+    auto back2 = bottomNode->getChildByTag(kBackNode2);
+    auto back3 = bottomNode->getChildByTag(kBackNode3);
+    
+    
+    auto createItemFunc = [&](std::string normal,std::string press,std::string disable,Point pos)-> MenuItemSprite*{
+        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.8f));
+        auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
+        item->setCallback([&](Ref *pSender)->void{
+            __hideScenes();
+            __showStageSelectMenu();
+            
+        });
+        item->setEnabled(false);
+        item->setPosition(pos);
+        item->setAnchorPoint(Point(0.5f,0.0f));
+        item->setScale(0);
+        item->runAction(easeBackInOut);
+        
+        return item;
+    };
+    
+    auto cl_story = createItemFunc("clstorynormal.png", "clstorypress.png", "clstorydisable.png",Point(300,10));
+    auto md_story = createItemFunc("mdstorynormal.png", "mdstorypress.png", "mdstorydisable.png",Point(550,100));
+    auto bc_story = createItemFunc("bcstorynormal.png", "bcstorypress.png", "bcstorydisable.png",Point(800,100));
+    
+    auto cl_battle = createItemFunc("clbattlenormal.png", "clbattlepress.png", "clbattledisable.png",Point(200,240));
+    auto md_battle = createItemFunc("mdbattlenormal.png", "mdbattlepress.png", "mdbattledisable.png",Point(450,250));
+    auto bc_battle = createItemFunc("bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png",Point(700,230));
+    
+    cl_battle->setPosition(Point(200,240));
+    md_battle->setPosition(Point(450,250));
+    bc_battle->setPosition(Point(700,230));
+    
+    auto addMenu = [](MenuItemSprite *cl,MenuItemSprite *md,MenuItemSprite *bc,Node *node,int tag)->void{
+        auto menu = Menu::create(cl,md,bc,nullptr);
+        menu->setPosition(Point::ZERO);
+        menu->setTag(tag);
+        node->addChild(menu);
 
-void HomeScene::__addSelectStageUI()
+    };
+    
+    addMenu(cl_story,md_story,bc_story,back3,kStoryMenu);
+    addMenu(cl_battle,md_battle,bc_battle,back2,kBattleMenu);
+    cl_story->setEnabled(true);
+}
+
+void HomeScene::__showStageSelectMenu()
 {
     navStatus = kStatusSelectStage;
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
@@ -313,18 +346,19 @@ void HomeScene::__addSelectStageUI()
     
     std::vector<Point> points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330),Point(400,450),Point(560,460),Point(720,450),Point(870,430)};
     
+    auto createMenu = [](Node *parentNode)->Menu*{
+        auto menu = Menu::create();
+        parentNode->addChild(menu);
+        menu->setPosition(Point::ZERO);
+        return menu;
+    };
+    
     int idx = 0;
     auto it = points.begin();
     
-    auto row1 = Menu::create();
-    auto row2 = Menu::create();
-    auto row3 = Menu::create();
-    back1->addChild(row1);
-    back2->addChild(row2);
-    back3->addChild(row3);
-    row1->setPosition(Point::ZERO);
-    row2->setPosition(Point::ZERO);
-    row3->setPosition(Point::ZERO);
+    auto row1 = createMenu(back1);
+    auto row2 = createMenu(back2);
+    auto row3 = createMenu(back3);
     Menu *menu = nullptr;
     MenuItemSprite *stage = nullptr;
     auto showAct = ScaleTo::create(0.2, 0.8f);
@@ -357,95 +391,7 @@ void HomeScene::__addSelectStageUI()
         it++;
         idx++;
     }
-}
-/* 选择完模式之后选择 具体的关卡 */
-void HomeScene::__stageSelectHandler(cocos2d::Ref *pSender)
-{
-    /* 隐藏模式选择关卡 */
-    __hideModes();
-    __addSelectSceneUI();
 
-}
-
-
-
-/* 选择大的场景 丛林 墓地 冰川 */
-void HomeScene::__addSelectSceneUI()
-{
-    navStatus = kStatusSelectScene;
-    auto bottomNode = m_pBody->getChildByTag(kBottomNode);
-    auto back2 = bottomNode->getChildByTag(kBackNode2);
-    auto back3 = bottomNode->getChildByTag(kBackNode3);
-    
-    
-    auto createItemFunc = [&](std::string normal,std::string press,std::string disable)-> MenuItemSprite*{
-        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.8f));
-        auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
-        item->setCallback([&](Ref *pSender)->void{
-            __hideScenes();
-            __addSelectStageUI();
-            
-        });
-        item->setEnabled(false);
-        item->setAnchorPoint(Point(0.5f,0.0f));
-        item->setScale(0);
-        item->runAction(easeBackInOut);
-        
-        return item;
-    };
-    
-    auto cl_story = createItemFunc("clstorynormal.png", "clstorypress.png", "clstorydisable.png");
-    auto md_story = createItemFunc("mdstorynormal.png", "mdstorypress.png", "mdstorydisable.png");
-    auto bc_story = createItemFunc("bcstorynormal.png", "bcstorypress.png", "bcstorydisable.png");
-    
-    cl_story->setPosition(Point(300,10));
-    md_story->setPosition(Point(550,100));
-    bc_story->setPosition(Point(800,100));
-    
-    auto cl_battle = createItemFunc("clbattlenormal.png", "clbattlepress.png", "clbattledisable.png");
-    auto md_battle = createItemFunc("mdbattlenormal.png", "mdbattlepress.png", "mdbattledisable.png");
-    auto bc_battle = createItemFunc("bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png");
-    
-    cl_battle->setPosition(Point(200,240));
-    md_battle->setPosition(Point(450,250));
-    bc_battle->setPosition(Point(700,230));
-    
-    auto storyMenu = Menu::create(cl_story,md_story,bc_story,nullptr);
-    auto battleMenu = Menu::create(cl_battle,md_battle,bc_battle,nullptr);
-    storyMenu->setPosition(Point::ZERO);
-    battleMenu->setPosition(Point::ZERO);
-    cl_story->setEnabled(true);
-    back2->addChild(battleMenu);
-    back3->addChild(storyMenu);
-    battleMenu->setTag(kBattleMenu);
-    storyMenu->setTag(kStoryMenu);
-}
-
-void HomeScene::__addBackMenu()
-{
-    auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"));
-    mainMenuItemBack->setPosition(Point(80,80));
-    auto mainMenu = Menu::create(mainMenuItemBack,nullptr);
-    mainMenu->setPosition(Point::ZERO);
-    m_pBody->addChild(mainMenu);
-    mainMenuItemBack->setCallback([&](Ref *pSender)->void{
-        switch (navStatus) {
-            case kStatusSelectRole:
-                __hideRoles();
-                break;
-            case kStatusSelectMode:
-                __hideModes();
-                break;
-            case kStatusSelectScene:
-                __hideScenes();
-                break;
-            case kStatusSelectStage:
-                break;
-            
-            default:
-                break;
-        }
-    });
 }
 
 
@@ -471,7 +417,7 @@ void HomeScene::__hideRoles()
         item->runAction(Sequence::create(delay,move,NULL));
     }
 }
-
+/* 选择玩游戏模式后 隐藏模式选择的UI */
 void HomeScene::__hideModes()
 {
     SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");

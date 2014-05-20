@@ -19,10 +19,11 @@ private:
     int tag2 = 0;
     int tag3 = 0;
     void __startMenuHandler(Ref *pSender);
-    void __selectRole();
-    void __selectMode();
-    void __roleSelectHandler(Ref *pSender);
     
+    void __showRoleSelectMenu();
+    void __showGameModeSelectMenu();
+    void __showSceneSelectMenu();
+    void __showStageSelectMenu();
     
     
     void __hideRoles();
@@ -31,11 +32,6 @@ private:
     void __hideStages();
     void __hideElements(Node *node,float duration);
     
-    void __addSelectModeUI();
-    void __addSelectRoleUI();
-    void __stageSelectHandler(Ref *pSender);
-    void __addSelectStageUI();
-    void __addSelectSceneUI();
     void __addBackMenu();
 public:
     void onTexturesLoaded();
