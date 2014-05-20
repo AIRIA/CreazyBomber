@@ -14,18 +14,13 @@
 class HomeScene:public BaseLayer
 {
 private:
-    std::vector<Point> rolePos;
-    int tag1 = 0;
-    int tag2 = 0;
-    int tag3 = 0;
-    void __startMenuHandler(Ref *pSender);
-    
     void __showRoleSelectMenu();
     void __showGameModeSelectMenu();
     void __showSceneSelectMenu();
     void __showStageSelectMenu();
+    void __showIcons();
     
-    
+    void __hideIcons();
     void __hideRoles();
     void __hideModes();
     void __hideScenes();
