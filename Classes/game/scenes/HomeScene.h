@@ -14,6 +14,10 @@
 class HomeScene:public BaseLayer
 {
 private:
+    void __setBackButtonEnable(bool val,float delay=0.0f);
+    
+    void __delayRun(float dt,std::function<void()> func);
+    
     void __showRoleSelectMenu();
     void __showGameModeSelectMenu();
     void __showSceneSelectMenu();

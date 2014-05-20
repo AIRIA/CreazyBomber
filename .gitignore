@@ -23,3 +23,5 @@
 # Android Bin Files
 proj.android/bin
 proj.android/obj
+bin/
+proj.android/assets

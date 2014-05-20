@@ -35,7 +35,8 @@ enum{
     kStageFront,
     kStageMid,
     kStageBack,
-    kChangePlayerMenu
+    kChangePlayerMenu,
+    kBackButtonMenu
 };
 
 bool HomeScene::init()
@@ -117,36 +118,74 @@ void HomeScene::onTexturesLoaded()
 
 }
 
+void HomeScene::__delayRun(float dt, std::function<void ()> func)
+{
+    auto delayTime = DelayTime::create(dt);
+    auto delayCall = CallFunc::create(func);
+    runAction(Sequence::create(delayTime,delayCall, NULL));
+}
+
 void HomeScene::__addBackMenu()
 {
-    auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"));
+    auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"),SPRITE("back_press.png"));
     mainMenuItemBack->setPosition(Point(80,80));
     auto mainMenu = Menu::create(mainMenuItemBack,nullptr);
     mainMenu->setPosition(Point::ZERO);
+    mainMenu->setTag(kBackButtonMenu);
     m_pBody->addChild(mainMenu);
     mainMenuItemBack->setCallback([&](Ref *pSender)->void{
+        this->__setBackButtonEnable(false);
         switch (navStatus) {
             case kStatusSelectRole:
+                log("hide roles");
                 this->__hideRoles();
-                this->__showIcons();
+                this->__delayRun(0.8f, [&]()->void{
+                    this->__showIcons();
+                });
                 break;
             case kStatusSelectMode:
+                log("hide modes");
                 this->__hideModes();
-                this->__showRoleSelectMenu();
+                this->__delayRun(0.3f, [&]()->void{
+                    this->__showRoleSelectMenu();
+                });
+                
                 break;
             case kStatusSelectScene:
+                log("hide scenes");
                 this->__hideScenes();
-                this->__showGameModeSelectMenu();
+                this->__delayRun(0.3f, [&]()->void{
+                    this->__showGameModeSelectMenu();
+                });
+                
                 break;
             case kStatusSelectStage:
+                log("hide stages");
                 this->__hideStages();
-                this->__showSceneSelectMenu();
+                this->__delayRun(0.3f, [&]()->void{
+                    this->__showSceneSelectMenu();
+                });
                 break;
-                
             default:
                 break;
         }
     });
+}
+
+void HomeScene::__setBackButtonEnable(bool val,float delay)
+{
+    runAction(Sequence::create(DelayTime::create(delay),CallFunc::create([&,val]()->void{
+        if(val)
+        {
+            log("enable");
+        }else{
+            log("disable");
+        }
+        auto backMenu = (Menu*)m_pBody->getChildByTag(kBackButtonMenu);
+        auto item = (MenuItemSprite*)(*backMenu->getChildren().begin());
+        item->setEnabled(val);
+    }), NULL));
+    
 }
 
 /* 显示首页的小图标以及开始游戏的按钮 */
@@ -217,6 +256,7 @@ void HomeScene::__showRoleSelectMenu()
         auto delay = DelayTime::create(i++*0.2f);
         auto moveAct = MoveTo::create(0.4f, pos);
         auto easeInout = EaseBackInOut::create(moveAct);
+        /* pos(x,1000)---->pos(x,y) */
         auto beforeRun = CallFuncN::create([](Ref *pSender)->void{
             auto item = (MenuItemSprite*)pSender;
             item->setPosition(Point(item->getPosition().x,1000));
@@ -237,6 +277,7 @@ void HomeScene::__showRoleSelectMenu()
     selectRole->setPosition(Point::ZERO);
     m_pBody->addChild(selectRole);
     selectRole->setTag(kSelectRoleMenu);
+    this->__setBackButtonEnable(true,1.0f);
 }
 
 void HomeScene::__showGameModeSelectMenu()
@@ -265,6 +306,7 @@ void HomeScene::__showGameModeSelectMenu()
     };
     auto storyMode = createMenuItem("story_normal.png","story_press.png","story_press.png",Point(1.0f,0.0f),Point(950,185));
     auto battleMode = createMenuItem("battle_normal.png","battle_press.png","battle_disable.png",Point::ZERO,Point(30,330));
+    battleMode->setEnabled(false);
     addMenuToNode(storyMode,storyNode);
     addMenuToNode(battleMode,battleNode);
     
@@ -281,7 +323,7 @@ void HomeScene::__showGameModeSelectMenu()
     changeMenu->setPosition(Point::ZERO);
     changeMenu->setTag(kChangePlayerMenu);
     m_pBody->addChild(changeMenu);
-    
+    this->__setBackButtonEnable(true,0.5f);
 }
 
 void HomeScene::__showSceneSelectMenu()
@@ -332,6 +374,7 @@ void HomeScene::__showSceneSelectMenu()
     addMenu(cl_story,md_story,bc_story,back3,kStoryMenu);
     addMenu(cl_battle,md_battle,bc_battle,back2,kBattleMenu);
     cl_story->setEnabled(true);
+    this->__setBackButtonEnable(true,0.5f);
 }
 
 void HomeScene::__showStageSelectMenu()
@@ -393,7 +436,8 @@ void HomeScene::__showStageSelectMenu()
         it++;
         idx++;
     }
-
+    this->__setBackButtonEnable(true,1.0f);
+    
 }
 
 /* 隐藏首页的小图标 */
