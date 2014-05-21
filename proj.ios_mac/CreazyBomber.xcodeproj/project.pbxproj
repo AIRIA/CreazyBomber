@@ -28,6 +28,8 @@
 		41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
 		41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
 		41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
+		4164790A192CB344000FB1B5 /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647908192CB344000FB1B5 /* BattleScene.cpp */; };
+		4164790B192CB344000FB1B5 /* BattleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647908192CB344000FB1B5 /* BattleScene.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -241,6 +243,8 @@
 		41647900192C8D8C000FB1B5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		41647904192C922A000FB1B5 /* PlayerRole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerRole.cpp; sourceTree = "<group>"; };
 		41647905192C922A000FB1B5 /* PlayerRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerRole.h; sourceTree = "<group>"; };
+		41647908192CB344000FB1B5 /* BattleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleScene.cpp; sourceTree = "<group>"; };
+		41647909192CB344000FB1B5 /* BattleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleScene.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -545,6 +549,8 @@
 			children = (
 				8ECFE55C192867EC006C61FC /* HomeScene.cpp */,
 				8ECFE55D192867EC006C61FC /* HomeScene.h */,
+				41647908192CB344000FB1B5 /* BattleScene.cpp */,
+				41647909192CB344000FB1B5 /* BattleScene.h */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -753,6 +759,7 @@
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				4164790A192CB344000FB1B5 /* BattleScene.cpp in Sources */,
 				41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
@@ -775,6 +782,7 @@
 				8ECFE563192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				4164790B192CB344000FB1B5 /* BattleScene.cpp in Sources */,
 				41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,

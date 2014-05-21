@@ -495,6 +495,7 @@ void HomeScene::__showStageSelectMenu()
             menu = row1;
             stage = MenuItemSprite::create(SPRITE(type+"_stage1_normal.png"), SPRITE(type+"_stage1_press.png"),SPRITE(type+"_stage1_disable.png"));
         }
+        stage->setUserData(&idx);
         stage->setPosition(*it);
         stage->setAnchorPoint(Point(0.5,0));
         stage->setScale(0.0f);
@@ -503,6 +504,14 @@ void HomeScene::__showStageSelectMenu()
         }
         auto showSeq = Sequence::create(DelayTime::create(idx*0.15f),easeBackIn->clone(), NULL);
         stage->runAction(showSeq);
+        stage->setCallback([](Ref *pSender)->void{
+            auto item = (MenuItemSprite*)pSender;
+            void *userData = item->getUserData();
+            int idx = *((int*)(userData));
+            log("idx %d",idx);
+            
+            
+        });
         menu->addChild(stage);
         it++;
         idx++;

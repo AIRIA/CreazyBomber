@@ -49,7 +49,7 @@
 		<link>
 			<name>cocos2dx</name>
 			<type>2</type>
-			<location>/Users/PerfectPlan/projects/CreazyBomber/cocos2d</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/cocos2d</locationURI>
 		</link>
 		<link>
 			<name>extensions</name>
