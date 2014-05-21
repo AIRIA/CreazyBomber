@@ -7,6 +7,7 @@
 //
 
 #include "HomeScene.h"
+#include "components/PerfectMenu.h"
 
 #define ICON_ANIMATE_TIME 0.3f
 
@@ -118,7 +119,7 @@ void HomeScene::onTexturesLoaded()
 
 }
 
-void HomeScene::__delayRun(float dt, std::function<void ()> func)
+void HomeScene::__delayRun(float dt,const std::function<void ()> &func)
 {
     auto delayTime = DelayTime::create(dt);
     auto delayCall = CallFunc::create(func);
@@ -129,7 +130,7 @@ void HomeScene::__addBackMenu()
 {
     auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"),SPRITE("back_press.png"));
     mainMenuItemBack->setPosition(Point(80,80));
-    auto mainMenu = Menu::create(mainMenuItemBack,nullptr);
+    auto mainMenu = PerfectMenu::create(mainMenuItemBack,nullptr);
     mainMenu->setPosition(Point::ZERO);
     mainMenu->setTag(kBackButtonMenu);
     m_pBody->addChild(mainMenu);
@@ -138,31 +139,26 @@ void HomeScene::__addBackMenu()
         switch (navStatus) {
             case kStatusSelectRole:
                 log("hide roles");
-                this->__hideRoles();
-                this->__delayRun(0.8f, [&]()->void{
+                this->__hideRoles([&]()->void{
                     this->__showIcons();
                 });
                 break;
             case kStatusSelectMode:
                 log("hide modes");
-                this->__hideModes();
-                this->__delayRun(0.3f, [&]()->void{
+                this->__hideModes([&]()->void{
                     this->__showRoleSelectMenu();
                 });
-                
                 break;
             case kStatusSelectScene:
                 log("hide scenes");
-                this->__hideScenes();
-                this->__delayRun(0.3f, [&]()->void{
+                this->__hideScenes([&]()->void{
                     this->__showGameModeSelectMenu();
                 });
                 
                 break;
             case kStatusSelectStage:
                 log("hide stages");
-                this->__hideStages();
-                this->__delayRun(0.3f, [&]()->void{
+                this->__hideStages([&]()->void{
                     this->__showSceneSelectMenu();
                 });
                 break;
@@ -181,7 +177,7 @@ void HomeScene::__setBackButtonEnable(bool val,float delay)
         }else{
             log("disable");
         }
-        auto backMenu = (Menu*)m_pBody->getChildByTag(kBackButtonMenu);
+        auto backMenu = (PerfectMenu*)m_pBody->getChildByTag(kBackButtonMenu);
         auto item = (MenuItemSprite*)(*backMenu->getChildren().begin());
         item->setEnabled(val);
     }), NULL));
@@ -220,10 +216,12 @@ void HomeScene::__showIcons()
     playBtn->setPosition(Point(480,320));
     playBtn->setCallback([&](Ref *pSender)->void{
         SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_click.mp3");
-        this->__hideIcons();
-        this->__showRoleSelectMenu();
+        this->__hideIcons([&]()->void{
+            this->__showRoleSelectMenu();
+        });
+        
     });
-    auto start = Menu::create(playBtn,nullptr);
+    auto start = PerfectMenu::create(playBtn,nullptr);
     start->setPosition(Point::ZERO);
     start->setTag(kStartMenu);
     bottomNode->addChild(start);
@@ -231,22 +229,17 @@ void HomeScene::__showIcons()
 
 void HomeScene::__showRoleSelectMenu()
 {
+    log("show role select");
     navStatus = kStatusSelectRole;
-    
     int i = 0;
     float roleScale = 0.8f;
     auto createRoleItem = [&](std::string normal,std::string press,Point pos)->MenuItemSprite*{
         /*  */
         auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press));
         item->setCallback([&](Ref *pSender)->void{
-            __hideRoles();
-            auto delay = DelayTime::create(0.8f);
-            auto delayShow = CallFunc::create([&]()->void{
-                __showGameModeSelectMenu();
+            __hideRoles([&]()->void{
+                    __showGameModeSelectMenu();
             });
-            auto delaySeq = Sequence::create(delay,delayShow, NULL);
-            this->runAction(delaySeq);
-            
         });
         item->setPosition(pos);
         item->setScale(roleScale);
@@ -273,11 +266,15 @@ void HomeScene::__showRoleSelectMenu()
     auto zombie = createRoleItem("selectrole_zombie_normal.png","selectrole_zombie_press.png",vampire->getPosition()+Point(roleSize.width+20,-70));
     auto smurf = createRoleItem("selectrole_smurf_normal.png","selectrole_smurf_press.png",zombie->getPosition()+Point(roleSize.width+20,130));
     auto viking = createRoleItem("selectrole_viking_normal.png","selectrole_viking_press.png",smurf->getPosition()+Point(roleSize.width+20,-80));
-    auto selectRole = Menu::create(vampire,zombie,smurf,viking,nullptr);
+    auto selectRole = PerfectMenu::create(vampire,zombie,smurf,viking,nullptr);
     selectRole->setPosition(Point::ZERO);
     m_pBody->addChild(selectRole);
     selectRole->setTag(kSelectRoleMenu);
-    this->__setBackButtonEnable(true,1.0f);
+    selectRole->setEnabled(false);
+    this->__delayRun(1.2f, [selectRole]()->void{
+        selectRole->setEnabled(true);
+    });
+    this->__setBackButtonEnable(true,1.2f);
 }
 
 void HomeScene::__showGameModeSelectMenu()
@@ -294,13 +291,17 @@ void HomeScene::__showGameModeSelectMenu()
         item->setPosition(pos);
         item->setScale(0);
         item->setTag(0);
-        item->runAction(easeBackInOut);
+        item->runAction(Sequence::create(easeBackInOut,CallFunc::create([item]()->void{
+            auto menu = (Menu*)item->getParent();
+            menu->setEnabled(true);
+        }), NULL));
         return item;
     };
     
     auto addMenuToNode = [](MenuItemSprite *item,Node *node)->void{
-        auto menu = Menu::create(item,nullptr);
+        auto menu = PerfectMenu::create(item,nullptr);
         menu->setPosition(Point::ZERO);
+        menu->setEnabled(false);
         menu->setTag(0);
         node->addChild(menu);
     };
@@ -311,14 +312,15 @@ void HomeScene::__showGameModeSelectMenu()
     addMenuToNode(battleMode,battleNode);
     
     storyMode->setCallback([&](Ref *pSender)->void{
-        __hideModes();
-        __showSceneSelectMenu();
+        __hideModes([&]()->void{
+            __showSceneSelectMenu();
+        });
     });
     /* change player menu */
     auto changeNormal = SPRITE("change_role_normal.png");
     auto changePress = SPRITE("change_role_press.png");
     auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
-    auto changeMenu = Menu::create(changePlayerItem,nullptr);
+    auto changeMenu = PerfectMenu::create(changePlayerItem,nullptr);
     changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
     changeMenu->setPosition(Point::ZERO);
     changeMenu->setTag(kChangePlayerMenu);
@@ -335,11 +337,13 @@ void HomeScene::__showSceneSelectMenu()
     
     
     auto createItemFunc = [&](std::string normal,std::string press,std::string disable,Point pos)-> MenuItemSprite*{
-        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.3f, 0.8f));
+        auto easeBackInOut = EaseBackInOut::create(ScaleTo::create(0.5f, 0.8f));
         auto item = MenuItemSprite::create(SPRITE(normal), SPRITE(press),SPRITE(disable));
         item->setCallback([&](Ref *pSender)->void{
-            __hideScenes();
-            __showStageSelectMenu();
+            __hideScenes([&]()->void{
+                __showStageSelectMenu();
+            });
+            
             
         });
         item->setEnabled(false);
@@ -363,12 +367,15 @@ void HomeScene::__showSceneSelectMenu()
     md_battle->setPosition(Point(450,250));
     bc_battle->setPosition(Point(700,230));
     
-    auto addMenu = [](MenuItemSprite *cl,MenuItemSprite *md,MenuItemSprite *bc,Node *node,int tag)->void{
-        auto menu = Menu::create(cl,md,bc,nullptr);
+    auto addMenu = [this](MenuItemSprite *cl,MenuItemSprite *md,MenuItemSprite *bc,Node *node,int tag)->void{
+        auto menu = PerfectMenu::create(cl,md,bc,nullptr);
         menu->setPosition(Point::ZERO);
         menu->setTag(tag);
+        menu->setEnabled(false);
         node->addChild(menu);
-
+        this->__delayRun(0.5f, [menu]()->void{
+            menu->setEnabled(true);
+        });
     };
     
     addMenu(cl_story,md_story,bc_story,back3,kStoryMenu);
@@ -390,8 +397,8 @@ void HomeScene::__showStageSelectMenu()
     
     std::vector<Point> points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330),Point(400,450),Point(560,460),Point(720,450),Point(870,430)};
     
-    auto createMenu = [](Node *parentNode,int tag)->Menu*{
-        auto menu = Menu::create();
+    auto createMenu = [](Node *parentNode,int tag)->PerfectMenu*{
+        auto menu = PerfectMenu::create();
         parentNode->addChild(menu);
         menu->setPosition(Point::ZERO);
         menu->setTag(tag);
@@ -404,7 +411,7 @@ void HomeScene::__showStageSelectMenu()
     auto row1 = createMenu(back1,kStageBack);
     auto row2 = createMenu(back2,kStageMid);
     auto row3 = createMenu(back3,kStageFront);
-    Menu *menu = nullptr;
+    PerfectMenu *menu = nullptr;
     MenuItemSprite *stage = nullptr;
     auto showAct = ScaleTo::create(0.2, 0.8f);
     auto easeBackIn = EaseBackInOut::create(showAct);
@@ -441,8 +448,9 @@ void HomeScene::__showStageSelectMenu()
 }
 
 /* 隐藏首页的小图标 */
-void HomeScene::__hideIcons()
+void HomeScene::__hideIcons(const std::function<void()> &func)
 {
+    this->__setBackButtonEnable(false);
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto removeIcon = [&](int nodeTag)->void{
         auto node = bottomNode->getChildByTag(nodeTag);
@@ -460,17 +468,18 @@ void HomeScene::__hideIcons()
     removeIcon(kBackNode2);
     removeIcon(kBackNode3);
     removeIcon(kBackNode4);
-    auto startMenu = (Menu*)bottomNode->getChildByTag(kStartMenu);
+    auto startMenu = (PerfectMenu*)bottomNode->getChildByTag(kStartMenu);
     __hideElements(startMenu, ICON_ANIMATE_TIME);
-    
+    this->__delayRun(0, func);
 }
 
 
 /* 选择角色后 隐藏角色选择的界面 */
-void HomeScene::__hideRoles()
+void HomeScene::__hideRoles(const std::function<void()> &func)
 {
+    this->__setBackButtonEnable(false);
     SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
-    auto roleMenu = (Menu*)m_pBody->getChildByTag(kSelectRoleMenu);
+    auto roleMenu = (PerfectMenu*)m_pBody->getChildByTag(kSelectRoleMenu);
     roleMenu->setEnabled(false);
     auto children = roleMenu->getChildren();
     int i=0;
@@ -493,25 +502,30 @@ void HomeScene::__hideRoles()
     auto delay = DelayTime::create(delayTime+aniTime);
     auto delayCall = CallFunc::create(CC_CALLBACK_0(Node::removeFromParent, roleMenu));
     roleMenu->runAction(Sequence::create(delay,delayCall,nullptr));
+    this->__delayRun(1.2f, func);
     
 }
 /* 选择玩游戏模式后 隐藏模式选择的UI */
-void HomeScene::__hideModes()
+void HomeScene::__hideModes(const std::function<void()> &func)
 {
+    log("hide modes");
+    this->__setBackButtonEnable(false);
     SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
     auto battleNode = bottomNode->getChildByTag(kBattleModeNode);
-    auto battleMenu = (Menu*)battleNode->getChildByTag(0);
-    auto storyMenu = (Menu*)storyNode->getChildByTag(0);
+    auto battleMenu = (PerfectMenu*)battleNode->getChildByTag(0);
+    auto storyMenu = (PerfectMenu*)storyNode->getChildByTag(0);
 
     m_pBody->getChildByTag(kChangePlayerMenu)->removeFromParent();
     __hideElements(battleMenu, 0.5f);
     __hideElements(storyMenu, 0.5f);
+    this->__delayRun(0.5f, func);
 }
 
-void HomeScene::__hideScenes()
+void HomeScene::__hideScenes(const std::function<void()> &func)
 {
+    this->__setBackButtonEnable(false);
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto back2 = bottomNode->getChildByTag(kBackNode2);
     auto back3 = bottomNode->getChildByTag(kBackNode3);
@@ -519,26 +533,29 @@ void HomeScene::__hideScenes()
     auto battleMenu = back2->getChildByTag(kBattleMenu);
     __hideElements(storyMenu, 0.3f);
     __hideElements(battleMenu, 0.3f);
+    this->__delayRun(0.5f, func);
 }
 
-void HomeScene::__hideStages()
+void HomeScene::__hideStages(const std::function<void()> &func)
 {
+    this->__setBackButtonEnable(false);
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     
     auto hideMenuItem = [&](int nodeTag,int menuTag)->void{
         auto wrapperNode = bottomNode->getChildByTag(nodeTag);
-        auto menu = (Menu*)wrapperNode->getChildByTag(menuTag);
+        auto menu = (PerfectMenu*)wrapperNode->getChildByTag(menuTag);
         __hideElements(menu,0.3f);
     };
     
     hideMenuItem(kBackNode1,kStageBack);
     hideMenuItem(kBackNode2,kStageMid);
     hideMenuItem(kBackNode3,kStageFront);
+    this->__delayRun(0.3f, func);
 }
 
 void HomeScene::__hideElements(cocos2d::Node *node,float duration)
 {
-    auto menu = (Menu*)node;
+    auto menu = (PerfectMenu*)node;
     if(menu!=nullptr)
     {
         menu->setEnabled(false);

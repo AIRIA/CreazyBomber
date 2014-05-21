@@ -11,7 +11,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/base/BaseLayer.cpp \
                    ../../Classes/common/VisibleRect.cpp \
-                   ../../Classes/game/scenes/HomeScene.cpp 
+                   ../../Classes/game/scenes/HomeScene.cpp \
+                   ../../Classes/components/PerfectMenu.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
