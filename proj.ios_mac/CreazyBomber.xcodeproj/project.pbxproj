@@ -24,6 +24,10 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FB192C4671000FB1B5 /* PerfectMenu.cpp */; };
 		416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FB192C4671000FB1B5 /* PerfectMenu.cpp */; };
+		41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
+		41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
+		41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
+		41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -233,6 +237,10 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		416478FB192C4671000FB1B5 /* PerfectMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerfectMenu.cpp; sourceTree = "<group>"; };
 		416478FC192C4671000FB1B5 /* PerfectMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfectMenu.h; sourceTree = "<group>"; };
+		416478FF192C8D8C000FB1B5 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
+		41647900192C8D8C000FB1B5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		41647904192C922A000FB1B5 /* PlayerRole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerRole.cpp; sourceTree = "<group>"; };
+		41647905192C922A000FB1B5 /* PlayerRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerRole.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -435,6 +443,15 @@
 			path = ../Classes/components;
 			sourceTree = "<group>";
 		};
+		41647903192C91FC000FB1B5 /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				41647904192C922A000FB1B5 /* PlayerRole.cpp */,
+				41647905192C922A000FB1B5 /* PlayerRole.h */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
 		503AE0F517EB97AB00D1A890 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,7 +520,10 @@
 		8E87765319285A2700EBCA0C /* game */ = {
 			isa = PBXGroup;
 			children = (
+				41647903192C91FC000FB1B5 /* objects */,
 				8ECFE559192867DA006C61FC /* scenes */,
+				416478FF192C8D8C000FB1B5 /* GameConfig.cpp */,
+				41647900192C8D8C000FB1B5 /* GameConfig.h */,
 			);
 			name = game;
 			path = ../Classes/game;
@@ -733,11 +753,13 @@
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
 				416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8ECFE562192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 			);
@@ -753,7 +775,9 @@
 				8ECFE563192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
