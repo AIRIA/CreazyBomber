@@ -9,6 +9,7 @@
 #include "HomeScene.h"
 #include "components/PerfectMenu.h"
 #include "game/objects/PlayerRole.h"
+#include "game/scenes/BattleScene.h"
 
 #define ICON_ANIMATE_TIME 0.3f
 
@@ -495,7 +496,7 @@ void HomeScene::__showStageSelectMenu()
             menu = row1;
             stage = MenuItemSprite::create(SPRITE(type+"_stage1_normal.png"), SPRITE(type+"_stage1_press.png"),SPRITE(type+"_stage1_disable.png"));
         }
-        stage->setUserData(&idx);
+        stage->setUserData(new int(idx));
         stage->setPosition(*it);
         stage->setAnchorPoint(Point(0.5,0));
         stage->setScale(0.0f);
@@ -507,10 +508,10 @@ void HomeScene::__showStageSelectMenu()
         stage->setCallback([](Ref *pSender)->void{
             auto item = (MenuItemSprite*)pSender;
             void *userData = item->getUserData();
-            int idx = *((int*)(userData));
+            int idx = *static_cast<int*>(userData);
+            auto battleScene = BattleScene::create();
+            battleScene->run();
             log("idx %d",idx);
-            
-            
         });
         menu->addChild(stage);
         it++;
