@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="13" height="11" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="mdmap_skin" tilewidth="40" tileheight="40">
+  <image source="mdmap_skin.png" width="400" height="240"/>
+ </tileset>
+ <layer name="块层 3" width="13" height="11">
+  <data encoding="base64" compression="zlib">
+   eJx1kEsKwCAQQ4V219+qra5addn7368jGghBhQcymMxD5+p5jGgkYzdWY2t3hc85eOcFzXD/R+TmUjzmTga5LJ1L6wo0Kz0XZSbjkE4vGeR6u7AjdfzYMchsp5yXHByzzDiTBo5wQh92RTd2xLvb1f+A00s5dcQ+7i38TX8IjQ==
+  </data>
+ </layer>
+ <layer name="块层 2" width="13" height="11">
+  <data encoding="base64" compression="zlib">
+   eJwzZmBgMCYDmwCxFRHYFEmPBQNxwHpUD8V6zIHYkghsxkBe/IMwAOj2EMs=
+  </data>
+ </layer>
+</map>

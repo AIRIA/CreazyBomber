@@ -78,7 +78,6 @@ bool HomeScene::init()
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     Texture2D::PVRImagesHavePremultipliedAlpha(true);
     /* 预加载的PVR纹理 */
-    textureFiles.push_back("textures/monster");
     textureFiles.push_back("textures/bg");
     textureFiles.push_back("textures/openning");
     textureFiles.push_back("textures/locale_1");

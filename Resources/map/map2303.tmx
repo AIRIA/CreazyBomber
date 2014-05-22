@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="13" height="17" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="bcmap_skin" tilewidth="40" tileheight="40">
+  <image source="bcmap_skin.png" width="200" height="280"/>
+ </tileset>
+ <layer name="块层 1" width="13" height="17">
+  <data encoding="base64" compression="zlib">
+   eJyVUgEKgzAQOxSsOMtkjPr/n27BC4tHq91BKPQSLpc2mVn64uV42q8e3pvlBFbH7niLZnMu+egV5ysvluoWv7viRx1mjR18lu7WW+rxnyoNzWCHZ2Cp9EvlDr6Zf08+g/DxtlNjVmsGkO3IqabjDvwXSTTZzv9J/cA78txlDrONGvZ1vr7ffKGhbhKP+UaTAnSfmMPaAWqp+wCzIAVk
+  </data>
+ </layer>
+ <layer name="块层 2" width="13" height="17">
+  <data encoding="base64" compression="zlib">
+   eJyTYmBgkCIDSwOxIhFYBkmPPANxQGlUz6ieAdIjB8QKRGBZBsw8QSwGAFvQC7k=
+  </data>
+ </layer>
+</map>

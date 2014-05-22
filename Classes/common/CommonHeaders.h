@@ -18,6 +18,8 @@ using namespace cocos2d;
 using namespace cocos2d::extension;
 using namespace CocosDenshion;
 
+#include "game/GameConfig.h"
+
 #define DESIGN_WIDTH 960
 #define DESIGN_HEIGHT 600
 

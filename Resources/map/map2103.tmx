@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="13" height="13" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="clmap_skin" tilewidth="40" tileheight="40">
+  <image source="clmap_skin.png" width="400" height="440"/>
+ </tileset>
+ <layer name="块层 1" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJwTZGBgEARiAyQsSASWY0AFUkTq4wBiEageFRLsBdnHyYAJ9IlwowDUXmS7sekzQNIjxUDYnzA5dD0gbAgVY8cRBjA9KlAxDTz2IGNsYcAONRNf+HGSoBbdf7CwIjaeYADZrYTSByx+0NkgDACx2Qse
+  </data>
+ </layer>
+ <layer name="块层 2" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJxLZWBgSCUDpwFxDhE4HUlPFgNxIHdUz5DRkwnE2UTgDAbS0xgMAwBozSOt
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="13" height="13" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="mdmap_skin" tilewidth="40" tileheight="40">
+  <image source="mdmap_skin.png" width="400" height="240"/>
+ </tileset>
+ <tileset firstgid="61" name="clmap_skin" tilewidth="40" tileheight="40">
+  <image source="clmap_skin.png" width="400" height="440"/>
+ </tileset>
+ <layer name="块层 2" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJyVkb0KgDAMhLOpmw1Otjg5OLbv/3I2kMARUqnDUfLzXUKaiCiB2MVeDC8P8jnIoUfrOh1bPhjxO7ruwT6eNebqWiaYDIyoQjzL2H7ZsdFdbIbst0MPzqvAiB7tjTyxbjnxJtipwJ8Zv2mdoWdVWWycvU1vyoEnOy/0ZGD+6gUy2g5v
+  </data>
+ </layer>
+ <layer name="块层 3" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJxjYKANYAJiZRLUcwOxOJRG1icPxCw49IDkFICYH4c8Nn1MUHu0sOjjhpqJLg4Sk8RhBzY/gszRwaF+IAHI77jCChtAj4uBAgCx0QJH
+  </data>
+ </layer>
+ <layer name="块层 4" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF2EAhEBcBcTkJeqqBuA2Ia0jQMxOI64B4Fgl6RhoAAPXDBIk=
+  </data>
+ </layer>
+ <layer name="块层 2" width="13" height="13">
+  <data encoding="base64" compression="zlib">
+   eJwzZmBgMCYDmwCxFRHYFEmPBQNxwHpUz5DRYw7ElkRgMwbS0xgMAwCTtBJ9
+  </data>
+ </layer>
+</map>
