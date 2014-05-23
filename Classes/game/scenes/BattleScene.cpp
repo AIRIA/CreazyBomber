@@ -62,10 +62,32 @@ void BattleScene::onTexturesLoaded()
         }
     }
     
+    auto backgroundNode = __initBaseTile(mapSize.width, mapSize.height);
+    m_pBody->addChild(backgroundNode);
     m_pBody->addChild(map);
     __initTileSet();
     m_pBody->addChild(__getMapLayer());
     
+    
+}
+
+Node *BattleScene::__initBaseTile(int width,int height)
+{
+    auto baseTile = Sprite::create("map/clmap_base-hd.png");
+    auto node = Node::create();
+    for(auto x=0;x<width;x++)
+    {
+        for(auto y=0;y<height;y++)
+        {
+            auto rect = Rect(TILE_WIDTH*(x%2), TILE_HEIGHT*(y%2), TILE_WIDTH, TILE_HEIGHT);
+            auto tile = Sprite::createWithTexture(baseTile->getTexture(), rect);
+            tile->setPosition(Point(TILE_WIDTH*x,TILE_HEIGHT*y));
+            node->addChild(tile);
+        }
+    }
+    //node->setContentSize(Size(TILE_WIDTH*width,TILE_HEIGHT*height));
+   // node->setAnchorPoint(Point(0.5f,0.5f));
+    return node;
 }
 
 void BattleScene::__initTileSet()
@@ -122,7 +144,9 @@ Node *BattleScene::__getMapLayer()
         }
         cell = cell->NextSiblingElement();
     }
-    
+    map->setContentSize(Size(TILE_WIDTH*12,TILE_HEIGHT*8));
+    map->setAnchorPoint(Point(0.5f,0.5f));
+    map->setPosition(DESIGN_CENTER);
     return map;
 }
 

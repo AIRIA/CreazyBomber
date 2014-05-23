@@ -24,6 +24,7 @@ private:
     ValueMap tiles;
     MapTile *__getTileByName(const std::string &name);
     void __initTileSet();
+    
 public:
     virtual void onTexturesLoaded();
     virtual bool init();
@@ -31,6 +32,7 @@ public:
     
 protected:
     Node *__getMapLayer();
+    Node *__initBaseTile(int width,int height);
     
 };
 
