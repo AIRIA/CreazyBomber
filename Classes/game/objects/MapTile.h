@@ -17,7 +17,9 @@ private:
     int _type;
 public:
     int getType(){return _type;};
-    void setType(int type){ _type = type;};
+    void setType(int type){
+        _type = type;
+    };
     static MapTile *createWithSpriteFrame(SpriteFrame *spriteFrame);
     
     static MapTile *createWithSpriteFrameName(const std::string& spriteFrameName);
