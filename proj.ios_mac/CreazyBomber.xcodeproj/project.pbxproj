@@ -70,6 +70,16 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		8E1ADD29193062B9002A7A34 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD27193062B9002A7A34 /* Monster.cpp */; };
+		8E1ADD2A193062B9002A7A34 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD27193062B9002A7A34 /* Monster.cpp */; };
+		8E1ADD2F1931E856002A7A34 /* MapUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD2D1931E856002A7A34 /* MapUtil.cpp */; };
+		8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD2D1931E856002A7A34 /* MapUtil.cpp */; };
+		8E1ADD331931F83E002A7A34 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD311931F83E002A7A34 /* GameScene.cpp */; };
+		8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD311931F83E002A7A34 /* GameScene.cpp */; };
+		8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD351931FF23002A7A34 /* MapObject.cpp */; };
+		8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD351931FF23002A7A34 /* MapObject.cpp */; };
+		8E32D7AE19305DEA00EC520C /* AnimateObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */; };
+		8E32D7AF19305DEA00EC520C /* AnimateObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */; };
 		8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E87765619285C8300EBCA0C /* BaseLayer.cpp */; };
 		8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E87765619285C8300EBCA0C /* BaseLayer.cpp */; };
 		8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ECFE55C192867EC006C61FC /* HomeScene.cpp */; };
@@ -287,6 +297,16 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		8E1ADD27193062B9002A7A34 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
+		8E1ADD28193062B9002A7A34 /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
+		8E1ADD2D1931E856002A7A34 /* MapUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapUtil.cpp; sourceTree = "<group>"; };
+		8E1ADD2E1931E856002A7A34 /* MapUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapUtil.h; sourceTree = "<group>"; };
+		8E1ADD311931F83E002A7A34 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		8E1ADD321931F83E002A7A34 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		8E1ADD351931FF23002A7A34 /* MapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapObject.cpp; sourceTree = "<group>"; };
+		8E1ADD361931FF23002A7A34 /* MapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapObject.h; sourceTree = "<group>"; };
+		8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimateObject.cpp; sourceTree = "<group>"; };
+		8E32D7AD19305DEA00EC520C /* AnimateObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimateObject.h; sourceTree = "<group>"; };
 		8E87765519285A5300EBCA0C /* CommonHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonHeaders.h; sourceTree = "<group>"; };
 		8E87765619285C8300EBCA0C /* BaseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseLayer.cpp; sourceTree = "<group>"; };
 		8E87765719285C8300EBCA0C /* BaseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseLayer.h; sourceTree = "<group>"; };
@@ -464,6 +484,12 @@
 				41647905192C922A000FB1B5 /* PlayerRole.h */,
 				4198D6E9192DD9C600E29D81 /* MapTile.cpp */,
 				4198D6EA192DD9C600E29D81 /* MapTile.h */,
+				8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */,
+				8E32D7AD19305DEA00EC520C /* AnimateObject.h */,
+				8E1ADD27193062B9002A7A34 /* Monster.cpp */,
+				8E1ADD28193062B9002A7A34 /* Monster.h */,
+				8E1ADD351931FF23002A7A34 /* MapObject.cpp */,
+				8E1ADD361931FF23002A7A34 /* MapObject.h */,
 			);
 			path = objects;
 			sourceTree = "<group>";
@@ -542,6 +568,8 @@
 				8ECFE559192867DA006C61FC /* scenes */,
 				416478FF192C8D8C000FB1B5 /* GameConfig.cpp */,
 				41647900192C8D8C000FB1B5 /* GameConfig.h */,
+				8E1ADD2D1931E856002A7A34 /* MapUtil.cpp */,
+				8E1ADD2E1931E856002A7A34 /* MapUtil.h */,
 			);
 			name = game;
 			path = ../Classes/game;
@@ -565,6 +593,8 @@
 				8ECFE55D192867EC006C61FC /* HomeScene.h */,
 				41647908192CB344000FB1B5 /* BattleScene.cpp */,
 				41647909192CB344000FB1B5 /* BattleScene.h */,
+				8E1ADD311931F83E002A7A34 /* GameScene.cpp */,
+				8E1ADD321931F83E002A7A34 /* GameScene.h */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -777,14 +807,19 @@
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				8E1ADD331931F83E002A7A34 /* GameScene.cpp in Sources */,
 				4164790A192CB344000FB1B5 /* BattleScene.cpp in Sources */,
 				41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
+				8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */,
 				4198D6EB192DD9C600E29D81 /* MapTile.cpp in Sources */,
+				8E1ADD29193062B9002A7A34 /* Monster.cpp in Sources */,
+				8E1ADD2F1931E856002A7A34 /* MapUtil.cpp in Sources */,
 				416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8ECFE562192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				8E32D7AE19305DEA00EC520C /* AnimateObject.cpp in Sources */,
 				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
@@ -798,11 +833,16 @@
 				8ECFE55F192867EC006C61FC /* HomeScene.cpp in Sources */,
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
+				8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */,
 				4198D6EC192DD9C600E29D81 /* MapTile.cpp in Sources */,
+				8E32D7AF19305DEA00EC520C /* AnimateObject.cpp in Sources */,
 				8ECFE563192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */,
 				4164790B192CB344000FB1B5 /* BattleScene.cpp in Sources */,
+				8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */,
+				8E1ADD2A193062B9002A7A34 /* Monster.cpp in Sources */,
 				41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,

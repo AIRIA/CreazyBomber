@@ -17,11 +17,11 @@ bool BattleScene::init()
     if (!BaseLayer::init()) {
         return false;
     }
-    Texture2D::PVRImagesHavePremultipliedAlpha(true);
     textureFiles.push_back("textures/monster");
     textureFiles.push_back("textures/scenetex_small-hd");
     textureFiles.push_back("textures/scenetex_medium");
     textureFiles.push_back("textures/scenetex_big");
+    m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     return true;
 }
 
@@ -63,12 +63,14 @@ void BattleScene::onTexturesLoaded()
     }
     
     auto backgroundNode = __initBaseTile(mapSize.width, mapSize.height);
+    
     m_pBody->addChild(backgroundNode);
     m_pBody->addChild(map);
     __initTileSet();
-    m_pBody->addChild(__getMapLayer());
-    
-    
+    auto groudMapLayer = __getMapLayer();
+    auto groudMapSize = groudMapLayer->getContentSize();
+    backgroundNode->setPosition(Point(DESIGN_WIDTH/2-groudMapSize.width/2,DESIGN_HEIGHT/2-groudMapSize.height/2));
+    m_pBody->addChild(groudMapLayer);
 }
 
 Node *BattleScene::__initBaseTile(int width,int height)
@@ -85,8 +87,6 @@ Node *BattleScene::__initBaseTile(int width,int height)
             node->addChild(tile);
         }
     }
-    //node->setContentSize(Size(TILE_WIDTH*width,TILE_HEIGHT*height));
-   // node->setAnchorPoint(Point(0.5f,0.5f));
     return node;
 }
 
@@ -108,6 +108,7 @@ MapTile *BattleScene::__getTileByName(const std::string &name)
             float anchorY = cell->FloatAttribute("AnchorY");
             int type = cell->IntAttribute("Type");
             auto tile = MapTile::createWithSpriteFrameName(fileName);
+            tile->setFrameName(fileName);
             tile->setType(type);
             tile->setAnchorPoint(Point(anchorX,1-anchorY));
             tile->getTexture()->setAliasTexParameters();
@@ -120,6 +121,20 @@ MapTile *BattleScene::__getTileByName(const std::string &name)
 
 Node *BattleScene::__getMapLayer()
 {
+    /* 获取地图名称 */
+    char mapName[20];
+    int prefix = 1100;
+    if (GameConfig::selectedSceneName=="cl") {
+        prefix = 1100;
+    }else if(GameConfig::selectedSceneName=="bc"){
+        prefix = 2100;
+    }else{
+        prefix = 3100;
+    }
+    prefix += GameConfig::selectedLevel;
+    sprintf(mapName, "%d",prefix);
+    
+    
     GameConfig::selectedStageName = "1101";
     char mapInfoFilePath[100];
     sprintf(mapInfoFilePath, "res/map/map%s.sce",GameConfig::selectedStageName.c_str());
@@ -134,6 +149,7 @@ Node *BattleScene::__getMapLayer()
         std::string name = cell->Attribute("Name");
         auto col = cell->IntAttribute("X");
         auto row = cell->IntAttribute("Y");
+        log(name.c_str());
         if(name!="出生点")
         {
             auto tile = __getTileByName(name);

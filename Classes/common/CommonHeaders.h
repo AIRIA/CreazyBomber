@@ -14,14 +14,19 @@
 #include "SimpleAudioEngine.h"
 #include "VisibleRect.h"
 
+
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 using namespace CocosDenshion;
 
 #include "game/GameConfig.h"
+#include "external/tinyxml2/tinyxml2.h"
+
+using namespace tinyxml2;
 
 #define DESIGN_WIDTH 960
-#define DESIGN_HEIGHT 600
+#define DESIGN_HEIGHT 640
 
 #define DESIGN_CENTER Point(DESIGN_WIDTH/2,DESIGN_HEIGHT/2)
 #define DESIGN_TOP Point(DESIGN_WIDTH/2,DESIGN_HEIGHT)

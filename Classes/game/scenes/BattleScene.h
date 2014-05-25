@@ -10,11 +10,9 @@
 #define __CreazyBomber__BattleScene__
 
 #include "base/BaseLayer.h"
-#include "external/tinyxml2/tinyxml2.h"
 #include "game/objects/MapTile.h"
 
 using namespace std;
-using namespace tinyxml2;
 
 class BattleScene:public BaseLayer
 {

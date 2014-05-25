@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
 #include "game/scenes/HomeScene.h"
-#include "game/scenes/BattleScene.h"
+#include "game/scenes/GameScene.h"
 
 USING_NS_CC;
 
@@ -18,14 +18,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("My Game");
-        glview->setFrameSize(960, 640);
+        glview->setFrameSize(1200, 640);
         director->setOpenGLView(glview);
     }
 
     director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
 //    HomeScene::create()->run();
-    BattleScene::create()->run();
+    GameScene::create()->run();
     return true;
 }
 

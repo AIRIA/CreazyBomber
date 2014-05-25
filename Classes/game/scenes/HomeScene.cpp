@@ -456,7 +456,7 @@ void HomeScene::__showStageSelectMenu()
         default:
             break;
     }
-    
+    GameConfig::selectedSceneName = type;
     
     
     std::vector<Point> points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330),Point(400,450),Point(560,460),Point(720,450),Point(870,430)};
@@ -511,6 +511,7 @@ void HomeScene::__showStageSelectMenu()
             auto battleScene = BattleScene::create();
             battleScene->run();
             log("idx %d",idx);
+            
         });
         menu->addChild(stage);
         it++;

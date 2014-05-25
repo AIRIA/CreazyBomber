@@ -78,9 +78,6 @@ bool BaseLayer::init()
     }
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
-    
-    
-    
     return true;
 }
 
