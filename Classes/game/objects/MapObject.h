@@ -10,17 +10,20 @@
 #define __CreazyBomber__MapObject__
 
 #include "common/CommonHeaders.h"
+#include "game/objects/MapCell.h"
 
 class MapObject : public Sprite
 {
 public:
-    inline void setType(int val){ m_iType = val;};
-    inline int getType(){ return m_iType; };
-protected:
+    virtual void onEnter();
+    
+    CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
+    CC_SYNTHESIZE(int, m_iCol, Col);
+    CC_SYNTHESIZE(int, m_iRow, Row);
     /**
      * 地图对象的类型(比如地图瓦片,出生点,怪物,箱子,树木 等等)
      **/
-    int m_iType;
+    CC_SYNTHESIZE(int, m_iType, Type);
 };
 
 /**

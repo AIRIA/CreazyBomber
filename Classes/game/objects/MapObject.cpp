@@ -7,6 +7,18 @@
 //
 
 #include "MapObject.h"
+#include "game/MapUtil.h"
+
+void MapObject::onEnter()
+{
+    Sprite::onEnter();
+    auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
+    auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
+    setAnchorPoint(anchor);
+    setPosition((getCol()+anchor.x)*80, mapSizeInPixel.height- getRow()*80-80);
+}
+
+#pragma mark ----------------GroundTile-------------------------------------------------
 
 GroundTile *GroundTile::create(std::string name)
 {

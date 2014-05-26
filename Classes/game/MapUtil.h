@@ -11,6 +11,7 @@
 
 #include "common/CommonHeaders.h"
 #include "game/objects/MapObject.h"
+#include "game/objects/MapCell.h"
 
 /**
  * 地图由三层组成:
@@ -22,6 +23,10 @@ class MapUtil
 {
 public:
     static MapUtil *getInstance();
+    /**
+     * 获取所有的地图元素类型
+     */
+    void initMapCells();
     /**
      * 获取最底层的tile层
      */
@@ -46,19 +51,25 @@ public:
     /**
      * 获取tmx地图对应的sec文件路径
      */
-    std::string getSecMapName();
+    std::string getSceMapName();
     /**
      * 获取地图的宽高
      **/
     inline const Size &getMapSize();
+    const Size getMapSizeInPixle();
+    Node *addTileMapBorder();
+protected:
+    
     /**
      *
      */
     std::string getBaseTileFullName();
-protected:
-    MapObject *getMapObject(std::string obj,int type);
+    /**
+     * 根据名称获取对应的地图元素
+     */
+    MapObject *getMapObject(std::string name);
     TMXTiledMap *m_pMap;
-    
+    Vector<MapCell*> m_vMapCells;
     
 };
 
