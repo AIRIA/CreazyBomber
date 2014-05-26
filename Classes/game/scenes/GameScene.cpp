@@ -15,7 +15,7 @@ bool GameScene::init()
     if (!BaseLayer::init()) {
         return false;
     }
-    m_fScaleFactor = 1;
+    m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     textureFiles.push_back("textures/monster_1-hd");
     textureFiles.push_back("textures/scenetex_small-hd");
     textureFiles.push_back("textures/scenetex_medium");
