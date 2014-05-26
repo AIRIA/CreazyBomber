@@ -9,7 +9,6 @@
 #include "HomeScene.h"
 #include "components/PerfectMenu.h"
 #include "game/objects/PlayerRole.h"
-#include "game/scenes/BattleScene.h"
 
 #define ICON_ANIMATE_TIME 0.3f
 
@@ -508,8 +507,6 @@ void HomeScene::__showStageSelectMenu()
             auto item = (MenuItemSprite*)pSender;
             void *userData = item->getUserData();
             int idx = *static_cast<int*>(userData);
-            auto battleScene = BattleScene::create();
-            battleScene->run();
             log("idx %d",idx);
             
         });

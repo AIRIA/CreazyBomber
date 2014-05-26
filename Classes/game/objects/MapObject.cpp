@@ -51,6 +51,7 @@ Monster *Monster::create(std::string name)
     if(monster && monster->initWithMonsterName(name))
     {
         monster->autorelease();
+        monster->walk(kWalkRight);
         return monster;
     }
     CC_SAFE_DELETE(monster);
@@ -69,7 +70,7 @@ bool Monster::initWithMonsterName(std::string name)
     auto monsterRect = monsterFrame->getRect();
     auto textureSize = monsterRect.size;
     auto monsterSize = Size(textureSize.width/frameNum,textureSize.height/4);
-    auto createAnimate = [&monsterRect,name,&frameNum,&texture,&monsterSize](std::string suffix,Point &startPos)->void{
+    auto createAnimate = [&](std::string suffix,Point &startPos)->void{
         char animationName[20];
         sprintf(animationName, "%s_%s",name.c_str(),suffix.c_str());
         auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
@@ -88,7 +89,7 @@ bool Monster::initWithMonsterName(std::string name)
         AnimationCache::getInstance()->addAnimation(animation,animationName);
     };
     
-    std::vector<std::string> suffixVec = {"up","left","right","down"};
+    std::vector<std::string> suffixVec = {"up","right","left","down"};
     auto suffixIt = suffixVec.begin();
     auto idx = 0;
     while (suffixIt!=suffixVec.end()) {

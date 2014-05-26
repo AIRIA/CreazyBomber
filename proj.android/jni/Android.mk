@@ -12,10 +12,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/base/BaseLayer.cpp \
                    ../../Classes/common/VisibleRect.cpp \
                    ../../Classes/game/scenes/HomeScene.cpp \
-                   ../../Classes/game/scenes/BattleScene.cpp \
+                   ../../Classes/game/scenes/GameScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
-                   ../../Classes/game/objects/MapTile.cpp \
-                   ../../Classes/game/GameConfig.cpp 
+                   ../../Classes/game/objects/MapObject.cpp \
+                   ../../Classes/game/objects/MapCell.cpp \
+                   ../../Classes/game/GameConfig.cpp \
+                   ../../Classes/game/MapUtil.cpp 
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
