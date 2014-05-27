@@ -28,7 +28,7 @@ class MapObject : public Sprite
 {
 public:
     virtual void onEnter();
-    
+    bool initWithMapCell(MapCell *mapCell);
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
     CC_SYNTHESIZE(int, m_iCol, Col);
     CC_SYNTHESIZE(int, m_iRow, Row);

@@ -242,7 +242,6 @@ Node *MapUtil::getCommonTileLayer()
 
 MapObject *MapUtil::getMapObject(std::string name)
 {
-    log("%s",name.c_str());
     auto it = m_vMapCells.begin();
     while (it!=m_vMapCells.end()) {
         if((*it)->getCellName()==name)
@@ -266,10 +265,6 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         default:
             break;
-    }
-    if(element)
-    {
-        element->setMapCell(mapCell);
     }
     return element;
 }

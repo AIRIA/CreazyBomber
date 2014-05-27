@@ -21,14 +21,72 @@ void MapObject::onEnter()
     setPosition((getCol()+anchor.x)*80, mapSizeInPixel.height- getRow()*80-80);
 }
 
+bool MapObject::initWithMapCell(MapCell *mapCell)
+{
+    if (!Sprite::init()) {
+        return false;
+    }
+    auto cellFileName = mapCell->getFileName();
+    auto cellFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(cellFileName);
+    auto cellTexture = cellFrame->getTexture();
+    auto cellSourceRect = cellFrame->getRect(); //在PVR文件中的全局位置
+    auto cellSourceSize = cellSourceRect.size;
+    
+    auto createAnimate = [&](CellAnimation *cellAnimation)->void{
+        char animationName[100];
+        sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),cellAnimation->getID());
+        
+        auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
+        if(isExist!=nullptr)
+        {
+            return;
+        }
+        log("cached :%s",animationName);
+        Vector<SpriteFrame*> frameVec;
+        auto frameWidth = cellAnimation->getWidth()*2;
+        auto frameHeight = cellAnimation->getHeight()*2;
+        for(auto i=0;i<cellAnimation->getFrameNum();i++)
+        {
+            auto x = cellSourceRect.origin.x+cellAnimation->getOffsetX()*2+i*frameWidth;
+            auto y = cellSourceRect.origin.y+cellAnimation->getOffsetY()*2;
+            auto rect = Rect(x,y,frameWidth,frameHeight);
+            auto frame = SpriteFrame::createWithTexture(cellTexture, rect);
+            frameVec.pushBack(frame);
+        }
+        auto animation = Animation::createWithSpriteFrames(frameVec);
+        animation->setDelayPerUnit(cellAnimation->getFrameTime());
+        AnimationCache::getInstance()->addAnimation(animation, animationName);
+    };
+    
+    auto animations = mapCell->getAnimations();
+    log("ani num:%zd",animations.size());
+    auto it = animations.begin();
+    auto it_end = animations.end();
+    for (auto i=0;it!=it_end;it++,i++) {
+        
+        auto cellAnimation = *it;
+        createAnimate(cellAnimation);
+    }
+    return true;
+}
+
+
 #pragma mark ----------------GroundTile-------------------------------------------------
 
 GroundTile *GroundTile::create(MapCell *mapCell)
 {
     auto tile = new GroundTile();
-    if(tile&&tile->initWithSpriteFrameName(mapCell->getFileName()))
+    if(tile&&tile->initWithMapCell(mapCell))
     {
         tile->setMapCell(mapCell);
+        char animationName[50];
+        sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID());
+        log("run animation :%s",animationName);
+        auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+        auto animate = Animate::create(animation);
+        auto animateRep = RepeatForever::create(animate);
+        tile->runAction(animateRep);
+
         tile->autorelease();
         return tile;
     }
@@ -89,7 +147,6 @@ bool Monster::initWithMonsterName(std::string name)
             auto frame = SpriteFrame::createWithTexture(texture, rect);
             frameVec.pushBack(frame);
         }
-        log("%s",animationName);
         auto animation = Animation::createWithSpriteFrames(frameVec);
         animation->setDelayPerUnit(0.2f);
         AnimationCache::getInstance()->addAnimation(animation,animationName);
@@ -105,7 +162,6 @@ bool Monster::initWithMonsterName(std::string name)
         idx++;
                     
     }
-    log("%s","create complete");
     return true;
 }
 
