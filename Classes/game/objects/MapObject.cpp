@@ -12,6 +12,9 @@
 void MapObject::onEnter()
 {
     Sprite::onEnter();
+    if (m_pMapCell==nullptr) {
+        return;
+    }
     auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
     auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
     setAnchorPoint(anchor);
@@ -71,7 +74,7 @@ bool Monster::initWithMonsterName(std::string name)
     auto textureSize = monsterRect.size;
     auto monsterSize = Size(textureSize.width/frameNum,textureSize.height/4);
     auto createAnimate = [&](std::string suffix,Point &startPos)->void{
-        char animationName[20];
+        char animationName[50];
         sprintf(animationName, "%s_%s",name.c_str(),suffix.c_str());
         auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
         if(isExist!=nullptr)
@@ -84,6 +87,7 @@ bool Monster::initWithMonsterName(std::string name)
             auto frame = SpriteFrame::createWithTexture(texture, rect);
             frameVec.pushBack(frame);
         }
+        log("%s",animationName);
         auto animation = Animation::createWithSpriteFrames(frameVec);
         animation->setDelayPerUnit(0.2f);
         AnimationCache::getInstance()->addAnimation(animation,animationName);
@@ -99,6 +103,7 @@ bool Monster::initWithMonsterName(std::string name)
         idx++;
                     
     }
+    log("%s","create complete");
     return true;
 }
 
@@ -121,7 +126,7 @@ void Monster::walk(Monster::WalkDirection direc)
         default:
             break;
     }
-    char animateName[20];
+    char animateName[50];
     sprintf(animateName, "%s_%s",m_sName.c_str(),suffix);
     auto animation = AnimationCache::getInstance()->getAnimation(animateName);
     auto walkAct = Animate::create(animation);

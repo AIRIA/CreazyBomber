@@ -32,20 +32,24 @@ void GameScene::onTexturesLoaded()
     auto commonTileLayer = MapUtil::getInstance()->getCommonTileLayer();
     auto borderLayer = MapUtil::getInstance()->addTileMapBorder();
     
+    auto mapSize = MapUtil::getInstance()->getMapSize();
     auto mapSizeInPixle = MapUtil::getInstance()->getMapSizeInPixle();
     mapLayer->setContentSize(mapSizeInPixle);
-    mapLayer->setAnchorPoint(Point(0.5f,0.0f));
-    mapLayer->setPosition(Point(DESIGN_WIDTH/2,DESIGN_HEIGHT-mapSizeInPixle.height+40));
+    
     mapLayer->addChild(baseTileLayer);
     mapLayer->addChild(tmxLayer);
     mapLayer->addChild(borderLayer);
     mapLayer->addChild(commonTileLayer);
     
-    m_pBody->addChild(mapLayer);
-    
-//    auto monster = Monster::create("md_M_kulou.png");
-//    monster->walk(Monster::WalkDirection::kWalkLeft);
-//    monster->setPosition(DESIGN_CENTER);
-//    m_pBody->addChild(monster);
-    
+    /* mapLayer的布局分为两种情况 滚动和非滚动 */
+    if(mapSize.height>9){
+        mapLayer->setAnchorPoint(Point(0.5f,1.0f));
+        mapLayer->setPosition(Point(m_winSize.width/2,m_winSize.height+40*m_fScaleFactor));
+        mapLayer->setScale(m_fScaleFactor);
+        addChild(mapLayer);
+    }else{
+        mapLayer->setAnchorPoint(Point(0.5f,0.5f));
+        mapLayer->setPosition(Point(DESIGN_WIDTH/2,DESIGN_HEIGHT/2));
+        m_pBody->addChild(mapLayer);
+    }
 }
