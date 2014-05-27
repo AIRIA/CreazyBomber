@@ -256,10 +256,10 @@ MapObject *MapUtil::getMapObject(std::string name)
     MapObject *element = nullptr;
     switch (mapCell->getCellType()) {
         case kCellTypeMonster:
-            element = Monster::create(mapCell->getFileName());
+            element = Monster::create(mapCell);
             break;
         case kCellTypeGround:
-            element = GroundTile::create(mapCell->getFileName());
+            element = GroundTile::create(mapCell);
             break;
         case kCellTypeBigBuilding:
             element = BigBuilding::create(mapCell);

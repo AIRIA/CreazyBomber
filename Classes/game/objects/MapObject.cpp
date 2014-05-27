@@ -23,11 +23,12 @@ void MapObject::onEnter()
 
 #pragma mark ----------------GroundTile-------------------------------------------------
 
-GroundTile *GroundTile::create(std::string name)
+GroundTile *GroundTile::create(MapCell *mapCell)
 {
     auto tile = new GroundTile();
-    if(tile&&tile->initWithSpriteFrameName(name))
+    if(tile&&tile->initWithSpriteFrameName(mapCell->getFileName()))
     {
+        tile->setMapCell(mapCell);
         tile->autorelease();
         return tile;
     }
@@ -48,12 +49,13 @@ bool GroundTile::initWithFileName(std::string name)
 #pragma mark -----------Monster-----------------------------------------------------------
 
 
-Monster *Monster::create(std::string name)
+Monster *Monster::create(MapCell *mapCell)
 {
     auto monster = new Monster();
-    if(monster && monster->initWithMonsterName(name))
+    if(monster && monster->initWithMonsterName(mapCell->getFileName()))
     {
         monster->autorelease();
+        monster->setMapCell(mapCell);
         monster->walk(kWalkRight);
         return monster;
     }

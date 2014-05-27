@@ -45,7 +45,7 @@ public:
 class GroundTile:public MapObject
 {
 public:
-    static GroundTile *create(std::string name);
+    static GroundTile *create(MapCell *mapCell);
     bool initWithFileName(std::string name);
 };
 /**
@@ -54,7 +54,7 @@ public:
 class Monster:public MapObject
 {
 public:
-    static Monster *create(std::string name);
+    static Monster *create(MapCell *mapCell);
     
     enum WalkDirection{
         kWalkUp,
