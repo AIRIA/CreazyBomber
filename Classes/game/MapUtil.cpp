@@ -61,10 +61,11 @@ void MapUtil::initMapCells()
         float anchorX = cell->FloatAttribute("AnchorX");
         float anchorY = cell->FloatAttribute("AnchorY");
         auto mapCell = MapCell::create(cellName, fileName, groupId, type,anchorX,anchorY);
-        m_vMapCells.pushBack(mapCell);
+        
         /* 解析Animations */
         auto animations = cell->FirstChildElement("Animations");
         auto animation = animations->FirstChildElement("Animation");
+        Vector<CellAnimation*> cellAnimationVec;
         while (animation!=nullptr) {
             auto id = animation->IntAttribute("ID");
             auto width = animation->IntAttribute("Width");
@@ -74,12 +75,14 @@ void MapUtil::initMapCells()
             auto offsetX = animation->FloatAttribute("offsetX");
             auto offsetY = animation->FloatAttribute("offsetY");
             auto cellAnimation = CellAnimation::create(id, width, height, frameNum, frameTime, offsetX, offsetY);
-            mapCell->getAnimations().pushBack(cellAnimation);
+            cellAnimationVec.pushBack(cellAnimation);
             animation = animation->NextSiblingElement();
         }
+        
         /* 解析Args */
         auto args = cell->FirstChildElement("Args");
         auto arg = args->FirstChildElement("Arg");
+        Vector<CellArg*> cellArgVec;
         while (arg!=nullptr) {
             auto type = arg->Attribute("Type");
             auto val = arg->Attribute("DefaultValue");
@@ -88,9 +91,13 @@ void MapUtil::initMapCells()
                 val = "";
             }
             auto cellArg = CellArg::create(type, val);
-            mapCell->getArgs().pushBack(cellArg);
+            cellArgVec.pushBack(cellArg);
             arg = arg->NextSiblingElement();
         }
+        
+        mapCell->setArgs(cellArgVec);
+        mapCell->setAnimations(cellAnimationVec);
+        m_vMapCells.pushBack(mapCell);
         cell = cell->NextSiblingElement();
     }
 
