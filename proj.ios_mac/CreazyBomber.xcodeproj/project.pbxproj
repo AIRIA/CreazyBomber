@@ -34,6 +34,8 @@
 		4198AF12192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF17192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
 		4198AF18192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
+		41E939C9193494F5002E3F4A /* BigBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939C8193494F5002E3F4A /* BigBuilding.cpp */; };
+		41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939C8193494F5002E3F4A /* BigBuilding.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -259,6 +261,8 @@
 		41647905192C922A000FB1B5 /* PlayerRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerRole.h; sourceTree = "<group>"; };
 		4198AF10192DA31F00E70612 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		4198AF16192DB01F00E70612 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		41E939C7193494F5002E3F4A /* BigBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigBuilding.h; sourceTree = "<group>"; };
+		41E939C8193494F5002E3F4A /* BigBuilding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigBuilding.cpp; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -472,6 +476,8 @@
 		41647903192C91FC000FB1B5 /* objects */ = {
 			isa = PBXGroup;
 			children = (
+				41E939C7193494F5002E3F4A /* BigBuilding.h */,
+				41E939C8193494F5002E3F4A /* BigBuilding.cpp */,
 				41647904192C922A000FB1B5 /* PlayerRole.cpp */,
 				41647905192C922A000FB1B5 /* PlayerRole.h */,
 				8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */,
@@ -809,6 +815,7 @@
 				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
+				41E939C9193494F5002E3F4A /* BigBuilding.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,6 +836,7 @@
 				8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */,
 				41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */,
 				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

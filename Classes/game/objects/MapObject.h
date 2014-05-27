@@ -12,6 +12,18 @@
 #include "common/CommonHeaders.h"
 #include "game/objects/MapCell.h"
 
+#define MAPOBJ_CREATE(CLASS) static CLASS *create(MapCell *mapCell){ \
+auto tile = new CLASS(); \
+if(tile&&tile->initWithSpriteFrameName(mapCell->getFileName())) \
+{ \
+tile->autorelease(); \
+tile->setMapCell(mapCell); \
+return tile; \
+} \
+CC_SAFE_DELETE(tile); \
+return nullptr; \
+}
+
 class MapObject : public Sprite
 {
 public:
