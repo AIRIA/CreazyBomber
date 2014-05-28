@@ -72,8 +72,8 @@ void MapUtil::initMapCells()
             auto height = animation->IntAttribute("Height");
             auto frameNum = animation->IntAttribute("FrameNum");
             auto frameTime = animation->FloatAttribute("FrameTime");
-            auto offsetX = animation->FloatAttribute("offsetX");
-            auto offsetY = animation->FloatAttribute("offsetY");
+            auto offsetX = animation->FloatAttribute("OffsetX");
+            auto offsetY = animation->FloatAttribute("OffsetY");
             auto cellAnimation = CellAnimation::create(id, width, height, frameNum, frameTime, offsetX, offsetY);
             cellAnimationVec.pushBack(cellAnimation);
             animation = animation->NextSiblingElement();
@@ -301,7 +301,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = GroundTile::create(mapCell);
             break;
         case kCellTypeLvDai:
-            element = GroundTile::create(mapCell);
+            element = LvDai::create(mapCell);
             break;
         case kCellTypeShuShou:
             element = GroundTile::create(mapCell);

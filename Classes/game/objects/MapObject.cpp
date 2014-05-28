@@ -19,7 +19,15 @@ void MapObject::onEnter()
     auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*80, mapSizeInPixel.height- getRow()*80-80);
+    run();
 }
+
+void MapObject::run()
+{
+//    doTileAnimation();
+    doTileAttack();
+}
+
 /**
  * 根据MapCell的数据 来创建指定的tile的行为和显示信息
  */
@@ -94,12 +102,12 @@ void MapObject::doTileAnimation()
     auto mapCell = getMapCell();
     
     sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
-    auto delaytime = rand()%3+1;
+    auto delaytime = 0;//rand()%+1;
     auto delayAct = DelayTime::create(delaytime);
     auto animation = AnimationCache::getInstance()->getAnimation(animationName);
     auto animate = Animate::create(animation);
     auto animateCallback = CallFunc::create([&]()->void{
-        this->doTileAttack();
+        this->doTileAnimation();
     });
     auto animateSeq = Sequence::create(delayAct,animate,animateCallback, NULL);
     runAction(animateSeq);
@@ -108,7 +116,7 @@ void MapObject::doTileAnimation()
 void MapObject::doTileDestory()
 {
     char animationName[50];
-    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
+    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusDestory);
     auto animation = AnimationCache::getInstance()->getAnimation(animationName);
     if(animation!=nullptr)
     {
@@ -125,10 +133,11 @@ void MapObject::doTileAttack()
     char animationName[50];
     sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
     auto prepareAnimation = AnimationCache::getInstance()->getAnimation(animationName);
-    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
-    auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName);
+    char animationName2[50];
+    sprintf(animationName2,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
+    auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName2);
     auto callback = CallFunc::create([&]()->void{
-        this->doTileAttack();
+//        this->doTileAttack();
     });
     log("%s",animationName);
     if(prepareAnimation)
@@ -164,7 +173,6 @@ GroundTile *GroundTile::create(MapCell *mapCell)
     if(tile&&tile->initWithMapCell(mapCell))
     {
         tile->setMapCell(mapCell);
-        tile->doTileAnimation();
         tile->autorelease();
         return tile;
     }
@@ -194,11 +202,15 @@ Monster *Monster::create(MapCell *mapCell)
     {
         monster->autorelease();
         monster->setMapCell(mapCell);
-        monster->walk(kWalkRight);
         return monster;
     }
     CC_SAFE_DELETE(monster);
     return nullptr;
+}
+
+void Monster::run()
+{
+    walk(kWalkRight);
 }
 
 bool Monster::initWithMapCell(MapCell *mapCell)
@@ -272,4 +284,17 @@ void Monster::walk(Monster::WalkDirection direc)
     auto animation = AnimationCache::getInstance()->getAnimation(animateName);
     auto walkAct = Animate::create(animation);
     runAction(RepeatForever::create(walkAct));
+}
+
+#pragma mark ----------------履带-------------------
+
+void LvDai::doTileAnimation()
+{
+    char animationName[50];
+    auto mapCell = getMapCell();
+    
+    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
+    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+    auto animate = Animate::create(animation);
+    runAction(RepeatForever::create(animate));
 }
