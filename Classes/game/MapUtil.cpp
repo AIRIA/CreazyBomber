@@ -67,7 +67,7 @@ void MapUtil::initMapCells()
         auto animation = animations->FirstChildElement("Animation");
         Vector<CellAnimation*> cellAnimationVec;
         while (animation!=nullptr) {
-            auto id = animation->IntAttribute("ID");
+            auto id = animation->Attribute("ID");
             auto width = animation->IntAttribute("Width");
             auto height = animation->IntAttribute("Height");
             auto frameNum = animation->IntAttribute("FrameNum");
@@ -113,9 +113,9 @@ std::string MapUtil::getMapName()
     if (GameConfig::selectedSceneName=="cl") {
         prefix = 1100;
     }else if(GameConfig::selectedSceneName=="bc"){
-        prefix = 2100;
+        prefix = 1200;
     }else{
-        prefix = 3100;
+        prefix = 1300;
     }
     prefix += GameConfig::selectedLevel;
     sprintf(mapName, "%d",prefix);
@@ -250,7 +250,7 @@ MapObject *MapUtil::getMapObject(std::string name)
         }
         it++;
     }
-    
+    log("%s",name.c_str());
     auto mapCell = *it;
     MapObject *element = nullptr;
     switch (mapCell->getCellType()) {

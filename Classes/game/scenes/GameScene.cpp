@@ -17,6 +17,7 @@ bool GameScene::init()
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     textureFiles.push_back("textures/monster_1-hd");
+    textureFiles.push_back("textures/monster_2-hd");
     textureFiles.push_back("textures/scenetex_small-hd");
     textureFiles.push_back("textures/scenetex_medium-hd");
     textureFiles.push_back("textures/scenetex_big-hd");
@@ -52,5 +53,5 @@ void GameScene::onTexturesLoaded()
         mapLayer->setPosition(Point(DESIGN_WIDTH/2,DESIGN_HEIGHT/2));
         m_pBody->addChild(mapLayer);
     }
-    mapLayer->setRotation3D(Vertex3F(-30, 0, 0));
+//    mapLayer->setRotation3D(Vertex3F(-30, 0, 0));
 }

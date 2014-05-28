@@ -29,6 +29,8 @@ class MapObject : public Sprite
 public:
     virtual void onEnter();
     bool initWithMapCell(MapCell *mapCell);
+    void createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix="");
+    
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
     CC_SYNTHESIZE(SpriteFrame*, m_pFirstFrame, FirstFrame);
     CC_SYNTHESIZE(int, m_iCol, Col);
@@ -64,15 +66,12 @@ public:
         kWalkRight,
         kWalkDown
     };
-    bool initWithMonsterName(std::string name);
+    bool initWithMapCell(MapCell *mapCell);
     /**
      * 根据传入的方向 执行对应的动画
      * @param direct 
      **/
     void walk(WalkDirection direc);
-    
-protected:
-    std::string m_sName;
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

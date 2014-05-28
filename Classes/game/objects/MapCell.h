@@ -22,8 +22,8 @@ public:
 class CellAnimation:public Ref
 {
 public:
-    static CellAnimation *create(int id,int width,int height,int frameNum,float frameTime,float offsetX,float offsetY);
-    CC_SYNTHESIZE(int, m_iID, ID);
+    static CellAnimation *create(std::string id,int width,int height,int frameNum,float frameTime,float offsetX,float offsetY);
+    CC_SYNTHESIZE(std::string, m_sID, ID);
     CC_SYNTHESIZE(int, m_iWidth, Width);
     CC_SYNTHESIZE(int, m_iHeight, Height);
     CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);

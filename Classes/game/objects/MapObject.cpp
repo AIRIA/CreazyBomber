@@ -34,39 +34,13 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
     auto cellSourceRect = cellFrame->getRect(); //在PVR文件中的全局位置
     auto cellSourceSize = cellSourceRect.size;
     
-    auto createAnimate = [&](CellAnimation *cellAnimation)->void{
-        char animationName[100];
-        sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),cellAnimation->getID());
-        
-        auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
-        if(isExist!=nullptr)
-        {
-            return;
-        }
-        log("cached :%s",animationName);
-        Vector<SpriteFrame*> frameVec;
-        auto frameWidth = cellAnimation->getWidth()*2;
-        auto frameHeight = cellAnimation->getHeight()*2;
-        for(auto i=0;i<cellAnimation->getFrameNum();i++)
-        {
-            auto x = cellSourceRect.origin.x+cellAnimation->getOffsetX()*2+i*frameWidth;
-            auto y = cellSourceRect.origin.y+cellAnimation->getOffsetY()*2;
-            auto rect = Rect(x,y,frameWidth,frameHeight);
-            auto frame = SpriteFrame::createWithTexture(cellTexture, rect);
-            frameVec.pushBack(frame);
-        }
-        auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(cellAnimation->getFrameTime());
-        AnimationCache::getInstance()->addAnimation(animation, animationName);
-    };
-    
     auto animations = mapCell->getAnimations();
     log("ani num:%zd",animations.size());
     auto it = animations.begin();
     auto it_end = animations.end();
     for (auto i=0;it!=it_end;it++,i++) {
         auto cellAnimation = *it;
-        createAnimate(cellAnimation);
+        createAnimation(mapCell,cellAnimation);
         if(i==0){
             auto frameWidth = cellAnimation->getWidth()*2;
             auto frameHeight = cellAnimation->getHeight()*2;
@@ -79,6 +53,39 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
         }
     }
     return true;
+}
+
+void MapObject::createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix)
+{
+    auto cellFileName = mapCell->getFileName();
+    auto cellFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(cellFileName);
+    auto cellTexture = cellFrame->getTexture();
+    auto cellSourceRect = cellFrame->getRect(); //在PVR文件中的全局位置
+    auto cellSourceSize = cellSourceRect.size;
+    char animationName[100];
+    suffix = suffix==""?cellAnimation->getID():suffix;
+    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),suffix.c_str());
+    
+    auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
+    if(isExist!=nullptr)
+    {
+        return;
+    }
+    log("cached :%s",animationName);
+    Vector<SpriteFrame*> frameVec;
+    auto frameWidth = cellAnimation->getWidth()*2;
+    auto frameHeight = cellAnimation->getHeight()*2;
+    for(auto i=0;i<cellAnimation->getFrameNum();i++)
+    {
+        auto x = cellSourceRect.origin.x+cellAnimation->getOffsetX()*2+i*frameWidth;
+        auto y = cellSourceRect.origin.y+cellAnimation->getOffsetY()*2;
+        auto rect = Rect(x,y,frameWidth,frameHeight);
+        auto frame = SpriteFrame::createWithTexture(cellTexture, rect);
+        frameVec.pushBack(frame);
+    }
+    auto animation = Animation::createWithSpriteFrames(frameVec);
+    animation->setDelayPerUnit(cellAnimation->getFrameTime());
+    AnimationCache::getInstance()->addAnimation(animation, animationName);
 }
 
 
@@ -118,7 +125,7 @@ void GroundTile::doAnimation()
 {
     char animationName[50];
     auto mapCell = getMapCell();
-    sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID());
+    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
     auto delaytime = rand()%20+5;
     auto delayAct = DelayTime::create(delaytime);
     auto animation = AnimationCache::getInstance()->getAnimation(animationName);
@@ -136,7 +143,7 @@ void GroundTile::doAnimation()
 Monster *Monster::create(MapCell *mapCell)
 {
     auto monster = new Monster();
-    if(monster && monster->initWithMonsterName(mapCell->getFileName()))
+    if(monster && monster->initWithMapCell(mapCell))
     {
         monster->autorelease();
         monster->setMapCell(mapCell);
@@ -147,21 +154,21 @@ Monster *Monster::create(MapCell *mapCell)
     return nullptr;
 }
 
-bool Monster::initWithMonsterName(std::string name)
+bool Monster::initWithMapCell(MapCell *mapCell)
 {
     if (!MapObject::init()) {
         return false;
     }
-    m_sName = name;
+    auto fileName = mapCell->getFileName();
     int frameNum = 8;
-    auto monsterFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(name);
+    auto monsterFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
     auto texture = monsterFrame->getTexture();
     auto monsterRect = monsterFrame->getRect();
     auto textureSize = monsterRect.size;
     auto monsterSize = Size(textureSize.width/frameNum,textureSize.height/4);
     auto createAnimate = [&](std::string suffix,Point &startPos)->void{
         char animationName[50];
-        sprintf(animationName, "%s_%s",name.c_str(),suffix.c_str());
+        sprintf(animationName, "%s_%s",fileName.c_str(),suffix.c_str());
         auto isExist = AnimationCache::getInstance()->getAnimation(animationName);
         if(isExist!=nullptr)
         {
@@ -211,7 +218,7 @@ void Monster::walk(Monster::WalkDirection direc)
             break;
     }
     char animateName[50];
-    sprintf(animateName, "%s_%s",m_sName.c_str(),suffix);
+    sprintf(animateName, "%s_%s",m_pMapCell->getFileName().c_str(),suffix);
     auto animation = AnimationCache::getInstance()->getAnimation(animateName);
     auto walkAct = Animate::create(animation);
     runAction(RepeatForever::create(walkAct));

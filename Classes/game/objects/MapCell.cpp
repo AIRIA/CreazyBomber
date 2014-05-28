@@ -18,7 +18,7 @@ CellArg *CellArg::create(std::string type, std::string value)
 }
 
 
-CellAnimation *CellAnimation::create(int id, int width, int height, int frameNum, float frameTime, float offsetX, float offsetY)
+CellAnimation *CellAnimation::create(std::string id, int width, int height, int frameNum, float frameTime, float offsetX, float offsetY)
 {
     auto animation = new CellAnimation();
     animation->autorelease();
