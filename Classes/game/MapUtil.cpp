@@ -112,7 +112,7 @@ std::string MapUtil::getMapName()
     int prefix = 1100;
     if (GameConfig::selectedSceneName=="cl") {
         prefix = 1100;
-    }else if(GameConfig::selectedSceneName=="bc"){
+    }else if(GameConfig::selectedSceneName=="md"){
         prefix = 1200;
     }else{
         prefix = 1300;
@@ -254,6 +254,28 @@ MapObject *MapUtil::getMapObject(std::string name)
     auto mapCell = *it;
     MapObject *element = nullptr;
     switch (mapCell->getCellType()) {
+            
+            
+//            kCellTypeBornPlace    = 88,//英雄出生的地方
+//            kCellTypeMonster      = 100,//怪物
+//            kCellTypeGround       = 3,//普通的tile不能穿越 不能被炸坏
+//            kCellTypeTransfer     = 36,//传送门
+//            kCellTypeBigBuilding  = 51,//大型建筑
+//            kCellTypePlant        = 5,//可以晃动的植物
+//            kCellTypeBox          = 9,// 木头箱子 可以推动的
+//            kCellTypeCorpseFlower = 7,//食人花
+//            kCellTypeWanDou       = 55 ,//豌豆 可以发射炮弹
+//            kCellTypeDiCi         = 40,//地刺
+//            kCellTypeLvDai        = 8,//履带 可以让英雄加速或者减速
+//            kCellTypeShuShou      = 38 ,//瘴气
+//            kCellTypeMonsterHome  = 11,//怪物帐篷 可以生成怪物
+//            kCellTypeDiDong       = 44,//地洞 可以生成怪物
+//            kCellTypeFireWall     = 16,//火墙 可以产生火球
+//            kCellTypePengHuoKou   = 15,//喷火口 可以喷火
+//            kCellTypeEvilFire     = 4,// 鬼火 可以移动
+//            kCellTypeWom          = 42,//虫子
+//            kCellTypeSnowBall     = 59,//雪球 可以滚动
+//            kCellTypeIce
         case kCellTypeMonster:
             element = Monster::create(mapCell);
             break;
@@ -272,6 +294,43 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeBox:
             element = GroundTile::create(mapCell);
             break;
+        case kCellTypeWanDou:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeDiCi:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeLvDai:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeShuShou:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeMonsterHome:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeDiDong:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeFireWall:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypePengHuoKou:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeEvilFire:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeWom:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeSnowBall:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeIce:
+            element = GroundTile::create(mapCell);
+            break;
+
         default:
             break;
     }

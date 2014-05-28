@@ -21,6 +21,7 @@ bool GameScene::init()
     textureFiles.push_back("textures/scenetex_small-hd");
     textureFiles.push_back("textures/scenetex_medium-hd");
     textureFiles.push_back("textures/scenetex_big-hd");
+    textureFiles.push_back("textures/scenetex_big1-hd");
     return true;
 }
 

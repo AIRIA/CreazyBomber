@@ -125,6 +125,7 @@ void GroundTile::doAnimation()
 {
     char animationName[50];
     auto mapCell = getMapCell();
+    
     sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
     auto delaytime = rand()%20+5;
     auto delayAct = DelayTime::create(delaytime);
@@ -159,13 +160,16 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     if (!MapObject::init()) {
         return false;
     }
+    auto cellAnimation = mapCell->getAnimations().at(0);
+    auto frameWidth = cellAnimation->getWidth()*2;
+    auto frameHeight = cellAnimation->getHeight()*2;
+    
     auto fileName = mapCell->getFileName();
-    int frameNum = 8;
     auto monsterFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
     auto texture = monsterFrame->getTexture();
     auto monsterRect = monsterFrame->getRect();
-    auto textureSize = monsterRect.size;
-    auto monsterSize = Size(textureSize.width/frameNum,textureSize.height/4);
+    int frameNum = monsterRect.size.width/frameWidth;
+    
     auto createAnimate = [&](std::string suffix,Point &startPos)->void{
         char animationName[50];
         sprintf(animationName, "%s_%s",fileName.c_str(),suffix.c_str());
@@ -176,12 +180,12 @@ bool Monster::initWithMapCell(MapCell *mapCell)
         }
         Vector<SpriteFrame*> frameVec;
         for (auto i=0; i<frameNum; i++) {
-            auto rect = Rect(monsterRect.origin.x+startPos.x+i*monsterSize.width,monsterRect.origin.y+startPos.y,monsterSize.width,monsterSize.height);
+            auto rect = Rect(monsterRect.origin.x+startPos.x+i*frameWidth,monsterRect.origin.y+startPos.y,frameWidth,frameHeight);
             auto frame = SpriteFrame::createWithTexture(texture, rect);
             frameVec.pushBack(frame);
         }
         auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(0.2f);
+        animation->setDelayPerUnit(cellAnimation->getFrameTime());
         AnimationCache::getInstance()->addAnimation(animation,animationName);
     };
     
@@ -189,7 +193,7 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     auto suffixIt = suffixVec.begin();
     auto idx = 0;
     while (suffixIt!=suffixVec.end()) {
-        auto pos = Point(0,monsterSize.height*idx);
+        auto pos = Point(0,frameHeight*idx);
         createAnimate(*suffixIt,pos);
         suffixIt++;
         idx++;

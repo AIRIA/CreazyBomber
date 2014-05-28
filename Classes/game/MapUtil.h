@@ -56,7 +56,7 @@ public:
     /**
      * 获取地图的宽高
      **/
-    inline const Size &getMapSize();
+    const Size &getMapSize();
     const Size getMapSizeInPixle();
     Node *addTileMapBorder();
 protected:

@@ -1,39 +1,39 @@
-<?xml version="1.0" encoding="gb2312"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Project Name="map2108" Width="13" Height="15" CellSize="40" BackgroundSize="1" Background="13plus.png">
-	<Cell Name="Ä¾Ïä" X="8" Y="1" />
-	<Cell Name="³öÉúµã" X="1" Y="2" />
-	<Cell Name="Ê÷" X="2" Y="2" />
-	<Cell Name="¹ÅÒÅ¼£1(´óÐÍ½¨Öþ)" X="3" Y="2" arg0="2" arg1="1" arg2="1,1" />
-	<Cell Name="Ó£ÌÒÊ÷" X="6" Y="2" />
-	<Cell Name="¹ÅÒÅ¼£1(´óÐÍ½¨Öþ)" X="7" Y="2" arg0="2" arg1="1" arg2="1,1" />
-	<Cell Name="Ä¾Ïä" X="11" Y="2" />
-	<Cell Name="Ä¾Ïä" X="1" Y="3" />
-	<Cell Name="Ä¾Ïä" X="2" Y="3" />
-	<Cell Name="Ó£ÌÒÊ÷" X="8" Y="3" />
-	<Cell Name="Ä¾Ïä" X="9" Y="3" />
-	<Cell Name="Ê÷" X="10" Y="3" />
-	<Cell Name="Ê÷" X="9" Y="4" />
-	<Cell Name="Ê³ÈË»¨-ÓÒ" X="10" Y="4" arg0="3" arg1="1.00" />
-	<Cell Name="µØ´Ì" X="1" Y="5" />
-	<Cell Name="Ä¾Ïä" X="3" Y="6" />
-	<Cell Name="¹ÅÒÅ¼£1(´óÐÍ½¨Öþ)" X="4" Y="6" arg0="2" arg1="1" arg2="1,1" />
-	<Cell Name="´ÔÁÖÍ¼ÌÚ1" X="10" Y="6" />
-	<Cell Name="cl-ÕÎÆø" X="4" Y="7" arg0="1.00" arg1="4.0" arg2="1.00" />
-	<Cell Name="Ä¾Ïä" X="10" Y="7" />
-	<Cell Name="Íã¶¹-ÓÒ" X="2" Y="8" arg0="3" arg1="3,0" arg2="3" />
-	<Cell Name="Ô³ÈË-bt" X="6" Y="8" arg0="30" />
-	<Cell Name="Ä¾Ïä" X="9" Y="9" />
-	<Cell Name="¹ÅÒÅ¼£1(´óÐÍ½¨Öþ)" X="3" Y="10" arg0="2" arg1="1" arg2="1,1" />
-	<Cell Name="¹ÅÒÅ¼£1(´óÐÍ½¨Öþ)" X="9" Y="10" arg0="2" arg1="1" arg2="1,1" />
-	<Cell Name="Í¨¹Øµã-1" X="4" Y="11" />
-	<Cell Name="Íã¶¹-×ó" X="9" Y="11" arg0="2" arg1="3,0" arg2="3" />
-	<Cell Name="Ä¾Ïä" X="10" Y="11" />
-	<Cell Name="Ä¾Ïä" X="11" Y="11" />
-	<Cell Name="Ä¾Ïä" X="2" Y="12" />
-	<Cell Name="Ä¾Ïä" X="1" Y="13" />
-	<Cell Name="Ä¾Ïä" X="2" Y="13" />
-	<Cell Name="Ä¾Ïä" X="3" Y="13" />
-	<Cell Name="Ê³ÈË»¨-×ó" X="6" Y="13" arg0="2" arg1="1.00" />
-	<Cell Name="Ä¾Ïä" X="9" Y="13" />
-	<Cell Name="Ä¾Ïä" X="10" Y="13" />
+	<Cell Name="æœ¨ç®±" X="8" Y="1" />
+	<Cell Name="å‡ºç”Ÿç‚¹" X="1" Y="2" />
+	<Cell Name="æ ‘" X="2" Y="2" />
+	<Cell Name="å¤é—è¿¹1(å¤§åž‹å»ºç­‘)" X="3" Y="2" arg0="2" arg1="1" arg2="1,1" />
+	<Cell Name="æ¨±æ¡ƒæ ‘" X="6" Y="2" />
+	<Cell Name="å¤é—è¿¹1(å¤§åž‹å»ºç­‘)" X="7" Y="2" arg0="2" arg1="1" arg2="1,1" />
+	<Cell Name="æœ¨ç®±" X="11" Y="2" />
+	<Cell Name="æœ¨ç®±" X="1" Y="3" />
+	<Cell Name="æœ¨ç®±" X="2" Y="3" />
+	<Cell Name="æ¨±æ¡ƒæ ‘" X="8" Y="3" />
+	<Cell Name="æœ¨ç®±" X="9" Y="3" />
+	<Cell Name="æ ‘" X="10" Y="3" />
+	<Cell Name="æ ‘" X="9" Y="4" />
+	<Cell Name="é£ŸäººèŠ±-å³" X="10" Y="4" arg0="3" arg1="1.00" />
+	<Cell Name="åœ°åˆº" X="1" Y="5" />
+	<Cell Name="æœ¨ç®±" X="3" Y="6" />
+	<Cell Name="å¤é—è¿¹1(å¤§åž‹å»ºç­‘)" X="4" Y="6" arg0="2" arg1="1" arg2="1,1" />
+	<Cell Name="ä¸›æž—å›¾è…¾1" X="10" Y="6" />
+	<Cell Name="cl-ç˜´æ°”" X="4" Y="7" arg0="1.00" arg1="4.0" arg2="1.00" />
+	<Cell Name="æœ¨ç®±" X="10" Y="7" />
+	<Cell Name="è±Œè±†-å³" X="2" Y="8" arg0="3" arg1="3,0" arg2="3" />
+	<Cell Name="çŒ¿äºº-bt" X="6" Y="8" arg0="30" />
+	<Cell Name="æœ¨ç®±" X="9" Y="9" />
+	<Cell Name="å¤é—è¿¹1(å¤§åž‹å»ºç­‘)" X="3" Y="10" arg0="2" arg1="1" arg2="1,1" />
+	<Cell Name="å¤é—è¿¹1(å¤§åž‹å»ºç­‘)" X="9" Y="10" arg0="2" arg1="1" arg2="1,1" />
+	<Cell Name="é€šå…³ç‚¹-1" X="4" Y="11" />
+	<Cell Name="è±Œè±†-å·¦" X="9" Y="11" arg0="2" arg1="3,0" arg2="3" />
+	<Cell Name="æœ¨ç®±" X="10" Y="11" />
+	<Cell Name="æœ¨ç®±" X="11" Y="11" />
+	<Cell Name="æœ¨ç®±" X="2" Y="12" />
+	<Cell Name="æœ¨ç®±" X="1" Y="13" />
+	<Cell Name="æœ¨ç®±" X="2" Y="13" />
+	<Cell Name="æœ¨ç®±" X="3" Y="13" />
+	<Cell Name="é£ŸäººèŠ±-å·¦" X="6" Y="13" arg0="2" arg1="1.00" />
+	<Cell Name="æœ¨ç®±" X="9" Y="13" />
+	<Cell Name="æœ¨ç®±" X="10" Y="13" />
 </Project>
