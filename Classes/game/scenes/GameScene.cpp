@@ -44,15 +44,19 @@ void GameScene::onTexturesLoaded()
     mapLayer->addChild(commonTileLayer);
     
     /* mapLayer的布局分为两种情况 滚动和非滚动 */
-    if(mapSize.height>9){
+    if(mapSize.height>9&&mapSize.width>13){
+        mapLayer->setAnchorPoint(Point(0.0f,1.0f));
+        mapLayer->setPosition(Point(40*m_fScaleFactor,m_winSize.height+40*m_fScaleFactor));
+        mapLayer->setScale(m_fScaleFactor);
+        
+    }if(mapSize.height>9&&mapSize.width==13){
         mapLayer->setAnchorPoint(Point(0.5f,1.0f));
         mapLayer->setPosition(Point(m_winSize.width/2,m_winSize.height+40*m_fScaleFactor));
         mapLayer->setScale(m_fScaleFactor);
-        addChild(mapLayer);
     }else{
         mapLayer->setAnchorPoint(Point(0.5f,0.5f));
         mapLayer->setPosition(Point(DESIGN_WIDTH/2,DESIGN_HEIGHT/2));
-        m_pBody->addChild(mapLayer);
     }
+    addChild(mapLayer);
 //    mapLayer->setRotation3D(Vertex3F(-30, 0, 0));
 }
