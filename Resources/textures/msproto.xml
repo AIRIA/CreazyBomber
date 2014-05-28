@@ -1,0 +1,239 @@
+<coder name="msproto" version="1" >
+    <!-- Master | Slave -->
+	<defines>
+        <define name="MAX_PLAYER_NUM" value="6"/>
+        <define name="MAX_APPEAR_COUNT" value="20"/>
+        <define name="MAX_PLAYER_NAME" value="32"/>
+
+        <!-- 道具ID -->
+        <define name="ITEM_ID_BOMB"         value="0"/>
+        <define name="ITEM_ID_ZHEN"         value="1"/>
+        <define name="ITEM_ID_DINGSHILEI"   value="2"/>
+        <define name="ITEM_ID_KICKBOMB"     value="3"/>
+	</defines>
+	
+	<types>
+        <!-- 从机连接上之后发送Welcome -->
+	    <type name="SM_WELCOME_REQ">
+	    </type>
+	    
+        <type name="SPlayerInfo">
+            <!-- 玩家ID -->
+	        <item name="PlayerID" type="byte" />
+	        <item name="PlayerName" type="string" count="MAX_PLAYER_NAME"/>
+            <!-- 所选角色 -->
+	        <item name="RoleType" type="byte" />
+            <!-- 阵营 -->
+            <item name="Group" type="byte"/>
+	        <item name="BombCnt" type="byte" />
+	        <item name="WeiLi" type="byte" />
+	        <item name="Speed" type="byte" />
+        </type>
+
+        <!-- 主机收到WelcomeReq之后发送WelcomeAck(并发送地图ID等信息) -->
+	    <type name="MS_WELCOME_ACK">
+	        <item name="MapID" type="int" />
+            <!-- 战斗方式(混战还是组队) -->
+	        <item name="BattleType" type="byte" />
+	        <item name="PlayerCnt" type="byte" />
+	        <item name="Players" type="SPlayerInfo" count="MAX_PLAYER_NUM" refer="PlayerCnt"/>
+	    </type>
+	    
+        <!-- 从机报告加载进度 -->
+	    <type name="SM_LOAD_PROCESS_RPT">
+	        <item name="Process" type="int" />
+	    </type>
+
+        <!-- 主机通知加载进度 -->
+	    <type name="MS_ENTER_PROCESS_NTF">
+	        <item name="PlayerID" type="int" />
+	        <item name="Process" type="int" />
+	    </type>
+
+        <!-- 出生点位置 -->
+        <type name="SPlayerBorn">
+            <!-- 玩家ID -->
+	        <item name="PlayerID" type="byte" />
+            <!-- 出生点 -->
+	        <item name="BornX" type="word" />
+            <item name="BornY" type="word"/>
+        </type>
+
+        <!-- 主机通知游戏开始(并回复出生点位置) -->
+	    <type name="MS_GAME_START_NTF">
+            <!-- 倒计时秒数 -->
+	        <item name="CountDownSec" type="byte" />
+	        <item name="PlayerCnt" type="byte" />
+	        <item name="Players" type="SPlayerBorn" count="MAX_PLAYER_NUM" refer="PlayerCnt"/>
+	    </type>
+
+        <!-- 从机发送的移动包 -->
+	    <type name="SM_MOVE_RPT">
+	        <item name="X" type="float" />
+	        <item name="Y" type="float" />
+	        <item name="Direction" type="byte" />
+	    </type>
+
+        <!-- 主机通知的移动包 -->
+	    <type name="MS_MOVE_NTF">
+	        <item name="PlayerID" type="byte" />
+	        <item name="X" type="float" />
+	        <item name="Y" type="float" />
+	        <item name="Direction" type="byte" />
+	    </type>
+
+        <!-- 主机通知的移动调整包 -->
+	    <type name="MS_MOVE_ADJUST_NTF">
+	        <item name="PlayerID" type="byte" />
+	        <item name="X" type="float" />
+	        <item name="Y" type="float" />
+	        <item name="Direction" type="byte" />
+	    </type>
+
+        <!-- 不同道具的数据 -->
+        <type name="SBomb_Data">
+        </type>
+
+        <type name="SZhen_Data">
+        </type>
+
+        <type name="SDingShiLei_Data">
+        </type>
+
+        <type name="SKickBomb_Data">
+        </type>
+
+        <!-- 不同道具的数据(Union) -->
+        <type name="UnUseItemData" class="union">
+            <item name="Bomb"       type="SBomb_Data"           id="ITEM_ID_BOMB" />
+            <item name="Zhen"       type="SZhen_Data"           id="ITEM_ID_ZHEN" />
+            <item name="DingShiLei" type="SDingShiLei_Data"     id="ITEM_ID_DINGSHILEI" />
+            <item name="KickBomb"       type="SKickBomb_Data"       id="ITEM_ID_KICKBOMB" />
+        </type>
+
+        <!-- 从机的使用道具报告 -->
+	    <type name="SM_USE_ITEM_RPT">
+	        <item name="PlayerID" type="byte" />
+            <item name="ItemID" type="word"/>
+            <item name="ItemData" type="UnUseItemData" select="ItemID" />
+	    </type>
+
+        <!-- 主机通知使用道具 -->
+	    <type name="MS_USE_ITEM_NTF">
+	        <item name="PlayerID" type="byte" />
+            <item name="ItemID" type="word"/>
+            <item name="ItemData" type="UnUseItemData" select="ItemID" />
+	    </type>
+
+        <type name="SZhen_Useup_Data">
+        </type>
+        <!-- 不同道具使用结束的数据(Union) -->
+        <type name="UnUseUpData" class="union">
+            <item name="Zhen"       type="SZhen_Useup_Data"           id="ITEM_ID_ZHEN" />
+        </type>
+
+        <!-- 道具使用结束(比如针到达位置消失、以后或许有骑着的道具也会消失) -->
+	    <type name="MS_ITEM_USEUP_NTF">
+            <!-- 哪种道具 -->
+            <item name="ItemID" type="word"/>
+            <!-- 场景中的哪个 -->
+            <item name="ItemNum" type="word"/>
+            <item name="UseUpData" type="UnUseUpData" select="ItemID" />
+	    </type>
+
+        <!-- 主机通知爆炸 -->
+	    <type name="MS_BOMB_NTF">
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+            <!-- 爆炸长度 -->
+            <item name="Length" type="word"/>
+	    </type>
+
+        <!-- 主机通知物件被毁 -->
+	    <type name="MS_DESTROY_NTF">
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+	    </type>
+
+	    <type name="SAppearData">
+            <item name="ItemID" type="word"/>
+            <!-- 出现方式 -->
+            <item name="AppearType" type="byte"/>
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+	    </type>
+
+        <!-- 主机通知道具或者其他物件出现 -->
+	    <type name="MS_APPEAR_NTF">
+            <item name="AppearCnt" type="byte"/>
+            <item name="AppearItems" type="SAppearData" count="MAX_APPEAR_COUNT" refer="AppearCnt"/>
+	    </type>
+
+        <!-- 主机通知道具或者其他物件消失(只需要坐标，因为道具不会动) -->
+        <type name="MS_DISAPPEAR_NTF">
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+	    </type>
+
+        <!-- 主机通知道具被获取 -->
+	    <type name="MS_TAKE_TOOL_NTF">
+            <item name="PlayerID" type="byte"/>
+            <item name="ItemID" type="word"/>
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+            <!-- 使用道具之后该玩家的参数变化 -->
+	        <item name="BombCnt" type="byte" />
+	        <item name="WeiLi" type="byte" />
+	        <item name="Speed" type="byte" />
+	    </type>
+
+        <!-- 主机通知物件被推动(某人把某位置的物件推向某方向) -->
+	    <type name="MS_PUSH_OBJECT_NTF">
+            <item name="PlayerID" type="byte"/>
+            <item name="X" type="word"/>
+            <item name="Y" type="word"/>
+            <item name="Direction" type="byte"/>
+	    </type>
+
+        <!-- 角色状态变化 -->
+	    <type name="MS_PLAYER_STATE_NTF">
+            <item name="PlayerID" type="byte"/>
+            <item name="State" type="byte"/>
+	    </type>
+
+        <!-- 游戏结束 -->
+	    <type name="MS_GAME_OVER_NTF">
+	        <item name="BattleType" type="byte" />
+            <!-- 胜利者可能是阵营，可能是角色ID -->
+            <item name="Winner" type="byte"/>
+	    </type>
+    </types>
+
+	<messages>
+        <!-- 初始阶段(1~100) -->
+	    <message name="SMID_WELCOME_REQ"        id="1" type="SM_WELCOME_REQ" />
+	    <message name="MSID_WELCOME_ACK"        id="2" type="MS_WELCOME_ACK" />
+	    <message name="SMID_LOAD_PROCESS_RPT"   id="3" type="SM_LOAD_PROCESS_RPT" />
+	    <message name="MSID_ENTER_PROCESS_NTF"  id="4" type="MS_ENTER_PROCESS_NTF" />
+	    <message name="MSID_GAME_START_NTF"     id="5" type="MS_GAME_START_NTF" />
+
+        <!-- 游戏阶段(101~1000) -->
+	    <message name="SMID_MOVE_RPT"           id="101" type="SM_MOVE_RPT" />
+	    <message name="MSID_MOVE_NTF"           id="102" type="MS_MOVE_NTF" />
+	    <message name="MSID_MOVE_ADJUST_NTF"    id="103" type="MS_MOVE_ADJUST_NTF" />
+	    <message name="SMID_USE_ITEM_RPT"       id="104" type="SM_USE_ITEM_RPT" />
+	    <message name="MSID_USE_ITEM_NTF"       id="105" type="MS_USE_ITEM_NTF" />
+	    <message name="MSID_ITEM_USEUP_NTF"     id="106" type="MS_ITEM_USEUP_NTF" />
+	    <message name="MSID_BOMB_NTF"           id="107" type="MS_BOMB_NTF" />
+	    <message name="MSID_DESTROY_NTF"        id="108" type="MS_DESTROY_NTF" />
+	    <message name="MSID_APPEAR_NTF"         id="109" type="MS_APPEAR_NTF" />
+	    <message name="MSID_DISAPPEAR_NTF"      id="110" type="MS_DISAPPEAR_NTF" />
+	    <message name="MSID_TAKE_TOOL_NTF"      id="111" type="MS_TAKE_TOOL_NTF" />
+	    <message name="MSID_PUSH_OBJECT_NTF"    id="112" type="MS_PUSH_OBJECT_NTF" />
+	    <message name="MSID_PLAYER_STATE_NTF"   id="113" type="MS_PLAYER_STATE_NTF" />
+
+
+        <!-- 游戏结束(1001~1100) -->
+	    <message name="MSID_GAME_OVER_NTF"      id="1001" type="MS_GAME_OVER_NTF" />
+	</messages>
+</coder>

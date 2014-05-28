@@ -1,0 +1,63 @@
+﻿<coder name="dataproto" version="1" >
+    <!-- 玩家数据结构定义 -->
+	<defines>
+        <define name="SERIES_NUM" value="10"/>
+        <define name="MAX_STAGES_NUM" value="100"/>
+        <define name="MAX_ITEM_NUM" value="20"/>
+	</defines>
+	
+	<types>
+        <type name="SStageData">
+            <!-- 地图ID -->
+	        <item name="MapId" type="int" />
+            <!-- 是否解锁 -->
+	        <item name="Unlock" type="byte" />
+            <!-- 分数 -->
+	        <item name="Score" type="int" />
+            <!-- 评级 -->
+	        <item name="Rate" type="byte" />
+        </type>
+
+        <type name="SItemData">
+	        <item name="ItemId" type="int" />
+	        <item name="Count" type="int" />
+        </type>
+
+        <!--  保存信息 -->
+        <type name="SAVE_DATA">
+            <item name="Version" = type="int"/>
+
+            <!-- 所选角色 -->
+	        <item name="RoleType" type="byte" />
+
+            <!-- 设置 -->
+	        <item name="Music" type="byte" />
+	        <item name="Sound" type="byte" />
+
+            <!-- 金币 -->
+	        <item name="Gold" type="int" />
+            <!-- 物品 -->
+	        <item name="ItemCnt" type="int"/>
+	        <item name="Items" type="SItemData" count="MAX_ITEM_NUM" refer="ItemCnt"/>
+
+            <!-- 故事模式关卡信息 -->
+	        <item name="MapId" type="int" />
+
+            <!-- 大关卡加锁信息 -->
+            <item name="UnlockedSeries" type="byte" count="SERIES_NUM"/>
+
+            <!-- 小关卡评分 -->
+	        <item name="StageCnt" type="int"/>
+	        <item name="Stages" type="SStageData" count="MAX_STAGES_NUM" refer="StageCnt"/>
+		<!-- 漫画是否播放 -->
+            <item name="CartoonPlayed" type="byte"/>
+		<!-- 复活时引导 -->
+            <item name="ReviveGuide" type="byte"/>
+        </type>
+
+    </types>
+
+	<messages>
+         <message name="ID_SAVE_DATA"   id="1" type="SAVE_DATA" />
+	</messages>
+</coder>

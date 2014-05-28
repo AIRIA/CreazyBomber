@@ -263,6 +263,15 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeBigBuilding:
             element = BigBuilding::create(mapCell);
             break;
+        case kCellTypePlant:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeCorpseFlower:
+            element = GroundTile::create(mapCell);
+            break;
+        case kCellTypeBox:
+            element = GroundTile::create(mapCell);
+            break;
         default:
             break;
     }

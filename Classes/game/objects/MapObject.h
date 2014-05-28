@@ -30,6 +30,7 @@ public:
     virtual void onEnter();
     bool initWithMapCell(MapCell *mapCell);
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
+    CC_SYNTHESIZE(SpriteFrame*, m_pFirstFrame, FirstFrame);
     CC_SYNTHESIZE(int, m_iCol, Col);
     CC_SYNTHESIZE(int, m_iRow, Row);
     /**
@@ -47,6 +48,7 @@ class GroundTile:public MapObject
 public:
     static GroundTile *create(MapCell *mapCell);
     bool initWithFileName(std::string name);
+    void doAnimation();
 };
 /**
  * monster类型的tile 可以攻击英雄

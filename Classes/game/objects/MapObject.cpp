@@ -20,7 +20,9 @@ void MapObject::onEnter()
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*80, mapSizeInPixel.height- getRow()*80-80);
 }
-
+/**
+ * 根据MapCell的数据 来创建指定的tile的行为和显示信息
+ */
 bool MapObject::initWithMapCell(MapCell *mapCell)
 {
     if (!Sprite::init()) {
@@ -63,9 +65,18 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
     auto it = animations.begin();
     auto it_end = animations.end();
     for (auto i=0;it!=it_end;it++,i++) {
-        
         auto cellAnimation = *it;
         createAnimate(cellAnimation);
+        if(i==0){
+            auto frameWidth = cellAnimation->getWidth()*2;
+            auto frameHeight = cellAnimation->getHeight()*2;
+            auto x = cellSourceRect.origin.x+cellAnimation->getOffsetX()*2+i*frameWidth;
+            auto y = cellSourceRect.origin.y+cellAnimation->getOffsetY()*2;
+            auto rect = Rect(x,y,frameWidth,frameHeight);
+            auto frame = SpriteFrame::createWithTexture(cellTexture, rect);
+            setFirstFrame(frame);
+            setSpriteFrame(frame);
+        }
     }
     return true;
 }
@@ -73,20 +84,19 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
 
 #pragma mark ----------------GroundTile-------------------------------------------------
 
+enum AnimationType{
+    kTileDoNormal,
+    kTileDoDestory,
+    kTileDoAttack
+};
+
 GroundTile *GroundTile::create(MapCell *mapCell)
 {
     auto tile = new GroundTile();
     if(tile&&tile->initWithMapCell(mapCell))
     {
         tile->setMapCell(mapCell);
-        char animationName[50];
-        sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID());
-        log("run animation :%s",animationName);
-        auto animation = AnimationCache::getInstance()->getAnimation(animationName);
-        auto animate = Animate::create(animation);
-        auto animateRep = RepeatForever::create(animate);
-        tile->runAction(animateRep);
-
+        tile->doAnimation();
         tile->autorelease();
         return tile;
     }
@@ -102,6 +112,22 @@ bool GroundTile::initWithFileName(std::string name)
     }
     
     return true;
+}
+
+void GroundTile::doAnimation()
+{
+    char animationName[50];
+    auto mapCell = getMapCell();
+    sprintf(animationName, "%s_%d",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID());
+    auto delaytime = rand()%20+5;
+    auto delayAct = DelayTime::create(delaytime);
+    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+    auto animate = Animate::create(animation);
+    auto animateCallback = CallFunc::create([&]()->void{
+        this->doAnimation();
+    });
+    auto animateSeq = Sequence::create(delayAct,animate,animateCallback, NULL);
+    runAction(animateSeq);
 }
 
 #pragma mark -----------Monster-----------------------------------------------------------

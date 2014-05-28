@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>md_MB_kulouwang.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{0,0},{1920,1800}}</string>
+			<key>offset</key>
+			<string>{0,0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0,0},{1920,1800}}</string>
+			<key>sourceSize</key>
+			<string>{1920,1800}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>2</integer>
+		<key>realTextureFileName</key>
+		<string>monster_md_boss-hd.pvr.ccz</string>
+		<key>size</key>
+		<string>{2048,2048}</string>
+		<key>smartupdate</key>
+		<string>$TexturePacker:SmartUpdate:8430167705784d5b1f170df199739987$</string>
+		<key>textureFileName</key>
+		<string>monster_md_boss-hd.pvr.ccz</string>
+	</dict>
+</dict>
+</plist>

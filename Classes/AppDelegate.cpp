@@ -18,10 +18,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("My Game");
-        glview->setFrameSize(800, 480);
+        glview->setFrameSize(960, 640);
         director->setOpenGLView(glview);
     }
-
+    srand(time(NULL));
     director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
 //    HomeScene::create()->run();
