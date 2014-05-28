@@ -24,12 +24,32 @@ CC_SAFE_DELETE(tile); \
 return nullptr; \
 }
 
+enum TileStatusType{
+    kTileStatusNormal = 0,
+    kTileStatusDestory = 2,
+    kTileStatusPrepare = 4,
+    kTileStatusAttack = 6
+};
+
 class MapObject : public Sprite
 {
 public:
     virtual void onEnter();
     bool initWithMapCell(MapCell *mapCell);
     void createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix="");
+    /**
+     * 被炮弹炸掉以后 执行此方法
+     */
+    void doTileDestory();
+    
+    /**
+     * 随机的时间发起攻击
+     */
+    void doTileAttack();
+    /**
+     * tile正常状态动画
+     */
+    void doTileAnimation();
     
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
     CC_SYNTHESIZE(SpriteFrame*, m_pFirstFrame, FirstFrame);
@@ -50,7 +70,7 @@ class GroundTile:public MapObject
 public:
     static GroundTile *create(MapCell *mapCell);
     bool initWithFileName(std::string name);
-    void doAnimation();
+    
 };
 /**
  * monster类型的tile 可以攻击英雄

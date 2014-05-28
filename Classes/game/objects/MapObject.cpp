@@ -88,6 +88,67 @@ void MapObject::createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,st
     AnimationCache::getInstance()->addAnimation(animation, animationName);
 }
 
+void MapObject::doTileAnimation()
+{
+    char animationName[50];
+    auto mapCell = getMapCell();
+    
+    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
+    auto delaytime = rand()%3+1;
+    auto delayAct = DelayTime::create(delaytime);
+    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+    auto animate = Animate::create(animation);
+    auto animateCallback = CallFunc::create([&]()->void{
+        this->doTileAttack();
+    });
+    auto animateSeq = Sequence::create(delayAct,animate,animateCallback, NULL);
+    runAction(animateSeq);
+}
+
+void MapObject::doTileDestory()
+{
+    char animationName[50];
+    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
+    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+    if(animation!=nullptr)
+    {
+        auto animate = Animate::create(animation);
+        auto animateCallback = CallFunc::create([&]()->void{
+            this->removeFromParent();
+        });
+        runAction(Sequence::create(animate,animateCallback, NULL));
+    }
+}
+
+void MapObject::doTileAttack()
+{
+    char animationName[50];
+    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
+    auto prepareAnimation = AnimationCache::getInstance()->getAnimation(animationName);
+    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
+    auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName);
+    auto callback = CallFunc::create([&]()->void{
+        this->doTileAttack();
+    });
+    log("%s",animationName);
+    if(prepareAnimation)
+    {
+        
+        if(attackAnimation)
+        {
+            log("%s","prepare && attack");
+            runAction(Sequence::create(Animate::create(prepareAnimation),Animate::create(attackAnimation),callback, NULL));
+        }else{
+            log("%s","attack");
+            runAction(Sequence::create(Animate::create(prepareAnimation),callback, NULL));
+        }
+    }
+    else if(attackAnimation)
+    {
+        runAction(Sequence::create(Animate::create(attackAnimation),callback, NULL));
+    }
+}
+
 
 #pragma mark ----------------GroundTile-------------------------------------------------
 
@@ -103,7 +164,7 @@ GroundTile *GroundTile::create(MapCell *mapCell)
     if(tile&&tile->initWithMapCell(mapCell))
     {
         tile->setMapCell(mapCell);
-        tile->doAnimation();
+        tile->doTileAnimation();
         tile->autorelease();
         return tile;
     }
@@ -121,22 +182,7 @@ bool GroundTile::initWithFileName(std::string name)
     return true;
 }
 
-void GroundTile::doAnimation()
-{
-    char animationName[50];
-    auto mapCell = getMapCell();
-    
-    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
-    auto delaytime = rand()%20+5;
-    auto delayAct = DelayTime::create(delaytime);
-    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
-    auto animate = Animate::create(animation);
-    auto animateCallback = CallFunc::create([&]()->void{
-        this->doAnimation();
-    });
-    auto animateSeq = Sequence::create(delayAct,animate,animateCallback, NULL);
-    runAction(animateSeq);
-}
+
 
 #pragma mark -----------Monster-----------------------------------------------------------
 
