@@ -24,8 +24,7 @@ void MapObject::onEnter()
 
 void MapObject::run()
 {
-//    doTileAnimation();
-    doTileAttack();
+    doAnimationWithAttack();
 }
 
 /**
@@ -96,20 +95,40 @@ void MapObject::createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,st
     AnimationCache::getInstance()->addAnimation(animation, animationName);
 }
 
-void MapObject::doTileAnimation()
+Animate *MapObject::getDefaultAnimate()
 {
     char animationName[50];
     auto mapCell = getMapCell();
-    
     sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
-    auto delaytime = 0;//rand()%+1;
-    auto delayAct = DelayTime::create(delaytime);
     auto animation = AnimationCache::getInstance()->getAnimation(animationName);
     auto animate = Animate::create(animation);
+    return animate;
+}
+
+void MapObject::doTileAnimation()
+{
+    auto delaytime = rand()%15+5;
+    auto delayAct = DelayTime::create(delaytime);
     auto animateCallback = CallFunc::create([&]()->void{
         this->doTileAnimation();
     });
-    auto animateSeq = Sequence::create(delayAct,animate,animateCallback, NULL);
+    auto animateSeq = Sequence::create(delayAct,getDefaultAnimate(),animateCallback, NULL);
+    runAction(animateSeq);
+}
+
+void MapObject::doAnimationWithAttack()
+{
+    auto animateCallback = CallFunc::create([&]()->void{
+        /* 在此处生成随机行为 来判断是否要进行攻击 */
+        int randNum = rand()%4;
+        if(randNum==0)
+        {
+            this->doTileAttack();
+        }else{
+            this->doAnimationWithAttack();
+        }
+    });
+    auto animateSeq = Sequence::create(getDefaultAnimate(),animateCallback, NULL);
     runAction(animateSeq);
 }
 
@@ -137,18 +156,15 @@ void MapObject::doTileAttack()
     sprintf(animationName2,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
     auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName2);
     auto callback = CallFunc::create([&]()->void{
-//        this->doTileAttack();
+        this->doAnimationWithAttack();
     });
-    log("%s",animationName);
+    /* 如果存在攻击前的准备行为 则调用准备行为后调用攻击动作 攻击完成后 继续执行正常的动作 如果没有准备行为 那么准备行为就是攻击行为 如果两者都没有则进行默认的正常动作 */
     if(prepareAnimation)
     {
-        
         if(attackAnimation)
         {
-            log("%s","prepare && attack");
             runAction(Sequence::create(Animate::create(prepareAnimation),Animate::create(attackAnimation),callback, NULL));
         }else{
-            log("%s","attack");
             runAction(Sequence::create(Animate::create(prepareAnimation),callback, NULL));
         }
     }
@@ -156,6 +172,16 @@ void MapObject::doTileAttack()
     {
         runAction(Sequence::create(Animate::create(attackAnimation),callback, NULL));
     }
+    else
+    {
+        this->doTileAnimation();
+    }
+}
+#pragma mark----------------通用的tile-------------------------------
+
+void CommonTile::run()
+{
+    this->doTileAnimation();
 }
 
 
@@ -290,11 +316,22 @@ void Monster::walk(Monster::WalkDirection direc)
 
 void LvDai::doTileAnimation()
 {
-    char animationName[50];
-    auto mapCell = getMapCell();
-    
-    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
-    auto animation = AnimationCache::getInstance()->getAnimation(animationName);
-    auto animate = Animate::create(animation);
-    runAction(RepeatForever::create(animate));
+    runAction(RepeatForever::create(getDefaultAnimate()));
+}
+#pragma mark ----------------鬼火-------------------
+void GuiHuo::run()
+{
+    runAction(RepeatForever::create(getDefaultAnimate()));
+}
+
+#pragma mark ----------------食人类的物种------------------
+
+void ManEater::run()
+{
+    this->doAnimationWithAttack();
+}
+
+void SnowBallMan::run()
+{
+    this->doAnimationWithAttack();
 }

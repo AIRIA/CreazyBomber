@@ -53,6 +53,14 @@ public:
      */
     virtual void doTileAnimation();
     
+    /**
+     * 如果tile具有攻击行为的话 调用此方法来执行动作
+     */
+    virtual void doAnimationWithAttack();
+    
+    Animate *getDefaultAnimate();
+    
+#pragma mark ------------getter/setter-----------------
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
     CC_SYNTHESIZE(SpriteFrame*, m_pFirstFrame, FirstFrame);
     CC_SYNTHESIZE(int, m_iCol, Col);
@@ -73,6 +81,17 @@ public:
     static GroundTile *create(MapCell *mapCell);
     bool initWithFileName(std::string name);
 };
+
+/**
+ * 可以缓动的背景 但是没有攻击能力的tile对象
+ */
+class CommonTile:public MapObject
+{
+public:
+    MAPOBJ_CREATE(CommonTile);
+    virtual void run();
+};
+
 /**
  * monster类型的tile 可以攻击英雄
  */
@@ -104,6 +123,37 @@ class LvDai:public MapObject
 public:
     MAPOBJ_CREATE(LvDai);
     virtual void doTileAnimation();
+};
+
+/**
+ * 鬼灯 可以移动
+ */
+class GuiHuo:public MapObject
+{
+public:
+    MAPOBJ_CREATE(GuiHuo);
+    virtual void run();
+};
+
+/**
+ * 食人鱼 食人花 幽灵 吃人的建筑
+ */
+class ManEater:public MapObject
+{
+public:
+    MAPOBJ_CREATE(ManEater);
+    virtual void run();
+};
+
+/**
+ *
+ * 张嘴吐雪球的人
+ */
+class SnowBallMan:public MapObject
+{
+public:
+    MAPOBJ_CREATE(SnowBallMan);
+    virtual void run();
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

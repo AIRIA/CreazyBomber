@@ -286,10 +286,10 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = BigBuilding::create(mapCell);
             break;
         case kCellTypePlant:
-            element = GroundTile::create(mapCell);
+            element = CommonTile::create(mapCell);
             break;
         case kCellTypeCorpseFlower:
-            element = GroundTile::create(mapCell);
+            element = ManEater::create(mapCell);
             break;
         case kCellTypeBox:
             element = GroundTile::create(mapCell);
@@ -319,7 +319,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = GroundTile::create(mapCell);
             break;
         case kCellTypeEvilFire:
-            element = GroundTile::create(mapCell);
+            element = GuiHuo::create(mapCell);
             break;
         case kCellTypeWom:
             element = GroundTile::create(mapCell);
