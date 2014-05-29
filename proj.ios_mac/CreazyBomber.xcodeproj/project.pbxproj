@@ -28,14 +28,14 @@
 		416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FB192C4671000FB1B5 /* PerfectMenu.cpp */; };
 		41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
 		41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
-		41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
-		41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41647904192C922A000FB1B5 /* PlayerRole.cpp */; };
 		4198AF11192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF12192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF17192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
 		4198AF18192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
 		41E939C9193494F5002E3F4A /* BigBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939C8193494F5002E3F4A /* BigBuilding.cpp */; };
 		41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939C8193494F5002E3F4A /* BigBuilding.cpp */; };
+		41E939D01936F1AB002E3F4A /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939CE1936F1AA002E3F4A /* Player.cpp */; };
+		41E939D11936F1AB002E3F4A /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41E939CE1936F1AA002E3F4A /* Player.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -76,8 +76,6 @@
 		8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD311931F83E002A7A34 /* GameScene.cpp */; };
 		8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD351931FF23002A7A34 /* MapObject.cpp */; };
 		8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1ADD351931FF23002A7A34 /* MapObject.cpp */; };
-		8E32D7AE19305DEA00EC520C /* AnimateObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */; };
-		8E32D7AF19305DEA00EC520C /* AnimateObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */; };
 		8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E87765619285C8300EBCA0C /* BaseLayer.cpp */; };
 		8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E87765619285C8300EBCA0C /* BaseLayer.cpp */; };
 		8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ECFE55C192867EC006C61FC /* HomeScene.cpp */; };
@@ -257,12 +255,12 @@
 		416478FC192C4671000FB1B5 /* PerfectMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfectMenu.h; sourceTree = "<group>"; };
 		416478FF192C8D8C000FB1B5 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		41647900192C8D8C000FB1B5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
-		41647904192C922A000FB1B5 /* PlayerRole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerRole.cpp; sourceTree = "<group>"; };
-		41647905192C922A000FB1B5 /* PlayerRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerRole.h; sourceTree = "<group>"; };
 		4198AF10192DA31F00E70612 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		4198AF16192DB01F00E70612 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		41E939C7193494F5002E3F4A /* BigBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigBuilding.h; sourceTree = "<group>"; };
 		41E939C8193494F5002E3F4A /* BigBuilding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BigBuilding.cpp; sourceTree = "<group>"; };
+		41E939CE1936F1AA002E3F4A /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		41E939CF1936F1AB002E3F4A /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -301,8 +299,6 @@
 		8E1ADD321931F83E002A7A34 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		8E1ADD351931FF23002A7A34 /* MapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapObject.cpp; sourceTree = "<group>"; };
 		8E1ADD361931FF23002A7A34 /* MapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapObject.h; sourceTree = "<group>"; };
-		8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimateObject.cpp; sourceTree = "<group>"; };
-		8E32D7AD19305DEA00EC520C /* AnimateObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimateObject.h; sourceTree = "<group>"; };
 		8E87765519285A5300EBCA0C /* CommonHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonHeaders.h; sourceTree = "<group>"; };
 		8E87765619285C8300EBCA0C /* BaseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseLayer.cpp; sourceTree = "<group>"; };
 		8E87765719285C8300EBCA0C /* BaseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseLayer.h; sourceTree = "<group>"; };
@@ -478,14 +474,12 @@
 			children = (
 				41E939C7193494F5002E3F4A /* BigBuilding.h */,
 				41E939C8193494F5002E3F4A /* BigBuilding.cpp */,
-				41647904192C922A000FB1B5 /* PlayerRole.cpp */,
-				41647905192C922A000FB1B5 /* PlayerRole.h */,
-				8E32D7AC19305DEA00EC520C /* AnimateObject.cpp */,
-				8E32D7AD19305DEA00EC520C /* AnimateObject.h */,
 				8E1ADD351931FF23002A7A34 /* MapObject.cpp */,
 				8E1ADD361931FF23002A7A34 /* MapObject.h */,
 				415ECBDC1932DA6000582393 /* MapCell.cpp */,
 				415ECBDD1932DA6000582393 /* MapCell.h */,
+				41E939CE1936F1AA002E3F4A /* Player.cpp */,
+				41E939CF1936F1AB002E3F4A /* Player.h */,
 			);
 			path = objects;
 			sourceTree = "<group>";
@@ -801,8 +795,8 @@
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				41E939D01936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E1ADD331931F83E002A7A34 /* GameScene.cpp in Sources */,
-				41647906192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
 				8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */,
@@ -811,7 +805,6 @@
 				416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8ECFE562192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
-				8E32D7AE19305DEA00EC520C /* AnimateObject.cpp in Sources */,
 				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
@@ -828,13 +821,12 @@
 				416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */,
 				415ECBDF1932DA6000582393 /* MapCell.cpp in Sources */,
-				8E32D7AF19305DEA00EC520C /* AnimateObject.cpp in Sources */,
 				8ECFE563192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
+				41E939D11936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */,
 				8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */,
-				41647907192C922A000FB1B5 /* PlayerRole.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */,
 				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,

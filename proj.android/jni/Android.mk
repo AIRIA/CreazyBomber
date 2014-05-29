@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
                    ../../Classes/game/objects/MapObject.cpp \
                    ../../Classes/game/objects/MapCell.cpp \
+				   ../../Classes/game/objects/Player.cpp \
                    ../../Classes/game/GameConfig.cpp \
                    ../../Classes/game/MapUtil.cpp 
                    

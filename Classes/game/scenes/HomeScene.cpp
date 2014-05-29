@@ -8,7 +8,6 @@
 
 #include "HomeScene.h"
 #include "components/PerfectMenu.h"
-#include "game/objects/PlayerRole.h"
 
 #define ICON_ANIMATE_TIME 0.3f
 

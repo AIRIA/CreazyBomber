@@ -22,6 +22,12 @@ bool GameScene::init()
     textureFiles.push_back("textures/scenetex_medium-hd");
     textureFiles.push_back("textures/scenetex_big-hd");
     textureFiles.push_back("textures/scenetex_big1-hd");
+    textureFiles.push_back("textures/player_huxi-hd");
+    
+    char playerTextureName[50];
+    sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::selectedRoleName.c_str());
+    textureFiles.push_back(playerTextureName);
+    
     return true;
 }
 
@@ -59,4 +65,8 @@ void GameScene::onTexturesLoaded()
     }
     addChild(mapLayer);
 //    mapLayer->setRotation3D(Vertex3F(-30, 0, 0));
+//    std::thread t1([]()->void{
+//        SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_game_bc.mp3");
+//    });
+//    t1.detach();
 }

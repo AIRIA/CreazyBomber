@@ -13,6 +13,7 @@
 #include "game/objects/MapObject.h"
 #include "game/objects/MapCell.h"
 #include "game/objects/BigBuilding.h"
+#include "game/objects/Player.h"
 
 /**
  * 地图由三层组成:
