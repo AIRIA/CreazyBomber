@@ -19,7 +19,8 @@ public:
         kWalkUp,
         kWalkLeft,
         kWalkRight,
-        kWalkDown
+        kWalkDown,
+        kWalkStand
     };
     /**
      * 根据用户选择的角色名字 来创建对应的角色

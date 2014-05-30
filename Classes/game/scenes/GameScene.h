@@ -17,6 +17,8 @@ public:
     virtual void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(GameScene);
+protected:
+    void addUIComponents();
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

@@ -22,12 +22,18 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		410E2072193876E1006A28B6 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 410E2070193876E1006A28B6 /* GameManager.cpp */; };
+		410E2073193876E1006A28B6 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 410E2070193876E1006A28B6 /* GameManager.cpp */; };
+		415C357619383B08005ADF8E /* DirectionButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415C357419383B08005ADF8E /* DirectionButton.cpp */; };
+		415C357719383B08005ADF8E /* DirectionButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415C357419383B08005ADF8E /* DirectionButton.cpp */; };
 		415ECBDE1932DA6000582393 /* MapCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415ECBDC1932DA6000582393 /* MapCell.cpp */; };
 		415ECBDF1932DA6000582393 /* MapCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415ECBDC1932DA6000582393 /* MapCell.cpp */; };
 		416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FB192C4671000FB1B5 /* PerfectMenu.cpp */; };
 		416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FB192C4671000FB1B5 /* PerfectMenu.cpp */; };
 		41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
 		41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
+		416EB5BE1938269700BA5409 /* BomberButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416EB5BC1938269700BA5409 /* BomberButton.cpp */; };
+		416EB5BF1938269700BA5409 /* BomberButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416EB5BC1938269700BA5409 /* BomberButton.cpp */; };
 		4198AF11192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF12192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF17192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
@@ -251,12 +257,18 @@
 		1D6058910D05DD3D006BFB54 /* CreazyBomber iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CreazyBomber iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		410E2070193876E1006A28B6 /* GameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameManager.cpp; sourceTree = "<group>"; };
+		410E2071193876E1006A28B6 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
+		415C357419383B08005ADF8E /* DirectionButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectionButton.cpp; sourceTree = "<group>"; };
+		415C357519383B08005ADF8E /* DirectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionButton.h; sourceTree = "<group>"; };
 		415ECBDC1932DA6000582393 /* MapCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapCell.cpp; sourceTree = "<group>"; };
 		415ECBDD1932DA6000582393 /* MapCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapCell.h; sourceTree = "<group>"; };
 		416478FB192C4671000FB1B5 /* PerfectMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerfectMenu.cpp; sourceTree = "<group>"; };
 		416478FC192C4671000FB1B5 /* PerfectMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfectMenu.h; sourceTree = "<group>"; };
 		416478FF192C8D8C000FB1B5 /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		41647900192C8D8C000FB1B5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		416EB5BC1938269700BA5409 /* BomberButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BomberButton.cpp; sourceTree = "<group>"; };
+		416EB5BD1938269700BA5409 /* BomberButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BomberButton.h; sourceTree = "<group>"; };
 		4198AF10192DA31F00E70612 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		4198AF16192DB01F00E70612 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		41E939C7193494F5002E3F4A /* BigBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigBuilding.h; sourceTree = "<group>"; };
@@ -470,6 +482,10 @@
 				416478FC192C4671000FB1B5 /* PerfectMenu.h */,
 				41E939D219374A12002E3F4A /* MainUILayer.cpp */,
 				41E939D319374A13002E3F4A /* MainUILayer.h */,
+				416EB5BC1938269700BA5409 /* BomberButton.cpp */,
+				416EB5BD1938269700BA5409 /* BomberButton.h */,
+				415C357419383B08005ADF8E /* DirectionButton.cpp */,
+				415C357519383B08005ADF8E /* DirectionButton.h */,
 			);
 			name = components;
 			path = ../Classes/components;
@@ -566,6 +582,8 @@
 				41647900192C8D8C000FB1B5 /* GameConfig.h */,
 				8E1ADD2D1931E856002A7A34 /* MapUtil.cpp */,
 				8E1ADD2E1931E856002A7A34 /* MapUtil.h */,
+				410E2070193876E1006A28B6 /* GameManager.cpp */,
+				410E2071193876E1006A28B6 /* GameManager.h */,
 			);
 			name = game;
 			path = ../Classes/game;
@@ -800,14 +818,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				410E2072193876E1006A28B6 /* GameManager.cpp in Sources */,
 				41E939D419374A13002E3F4A /* MainUILayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				41E939D01936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E1ADD331931F83E002A7A34 /* GameScene.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
+				416EB5BE1938269700BA5409 /* BomberButton.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
 				8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */,
 				8E1ADD2F1931E856002A7A34 /* MapUtil.cpp in Sources */,
+				415C357619383B08005ADF8E /* DirectionButton.cpp in Sources */,
 				415ECBDE1932DA6000582393 /* MapCell.cpp in Sources */,
 				416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8ECFE562192868C3006C61FC /* VisibleRect.cpp in Sources */,
@@ -827,13 +848,16 @@
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */,
+				416EB5BF1938269700BA5409 /* BomberButton.cpp in Sources */,
 				415ECBDF1932DA6000582393 /* MapCell.cpp in Sources */,
 				8ECFE563192868C3006C61FC /* VisibleRect.cpp in Sources */,
 				41E939D519374A13002E3F4A /* MainUILayer.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				41E939D11936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				415C357719383B08005ADF8E /* DirectionButton.cpp in Sources */,
 				8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */,
+				410E2073193876E1006A28B6 /* GameManager.cpp in Sources */,
 				8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */,

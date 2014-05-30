@@ -11,6 +11,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/base/BaseLayer.cpp \
                    ../../Classes/common/VisibleRect.cpp \
+                   ../../Classes/components/BomberButton.cpp \
+                   ../../Classes/components/DirectionButton.cpp \
                    ../../Classes/game/scenes/HomeScene.cpp \
                    ../../Classes/game/scenes/GameScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \

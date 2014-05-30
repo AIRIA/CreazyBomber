@@ -9,6 +9,8 @@
 #include "GameScene.h"
 #include "game/MapUtil.h"
 #include "game/objects/MapObject.h"
+#include "components/BomberButton.h"
+#include "components/DirectionButton.h"
 
 bool GameScene::init()
 {
@@ -16,6 +18,8 @@ bool GameScene::init()
         return false;
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
+    
+    textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
     textureFiles.push_back("textures/monster_2-hd");
     textureFiles.push_back("textures/scenetex_small-hd");
@@ -69,4 +73,18 @@ void GameScene::onTexturesLoaded()
 //        SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_game_bc.mp3");
 //    });
 //    t1.detach();
+    addUIComponents();
 }
+
+void GameScene::addUIComponents()
+{
+    auto bombBtn = BomberButton::create();
+    bombBtn->setScale(m_fScaleFactor);
+    addChild(bombBtn);
+    
+    auto direc = DirectionButton::create();
+    direc->setScale(m_fScaleFactor);
+    addChild(direc);
+    
+}
+
