@@ -110,15 +110,15 @@ void HomeScene::onTexturesLoaded()
     BlendFunc blend = {GL_DST_COLOR, GL_ONE};
     cloud->setBlendFunc(blend);
     
-//    auto sun = Sprite::create("textures/sun-hd.png");
-//    sun->setPosition(Point(300,DESIGN_HEIGHT-60));
-//    sun->setScale(0.7);
-//    ActionInterval *rotate = RotateBy::create(0.5f, 5);
-//    sun->runAction(RepeatForever::create(rotate));
+    auto sun = Sprite::create("images/sun-hd.png");
+    sun->setPosition(Point(300,DESIGN_HEIGHT-60));
+    sun->setScale(0.7);
+    ActionInterval *rotate = RotateBy::create(0.5f, 5);
+    sun->runAction(RepeatForever::create(rotate));
     auto bottomNode = Node::create();
     
     m_pBody->addChild(bg);
-//    m_pBody->addChild(sun);
+    m_pBody->addChild(sun);
     /* kBackNode1 2 3 用来存放关卡选择的UI */
     bottomNode->addChild(Node::create(),0,kBackNode1);
     bottomNode->addChild(bg0);

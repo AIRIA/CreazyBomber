@@ -28,6 +28,8 @@
 		41201466193D78B800640867 /* GameUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41201463193D78B800640867 /* GameUILayer.cpp */; };
 		4120146C193DBDE300640867 /* Bomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4120146A193DBDE300640867 /* Bomb.cpp */; };
 		4120146D193DBDE400640867 /* Bomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4120146A193DBDE300640867 /* Bomb.cpp */; };
+		4120146F193DDF4D00640867 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 4120146E193DDF4D00640867 /* images */; };
+		41201470193DDF4D00640867 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 4120146E193DDF4D00640867 /* images */; };
 		415C357619383B08005ADF8E /* DirectionButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415C357419383B08005ADF8E /* DirectionButton.cpp */; };
 		415C357719383B08005ADF8E /* DirectionButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415C357419383B08005ADF8E /* DirectionButton.cpp */; };
 		415ECBDE1932DA6000582393 /* MapCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 415ECBDC1932DA6000582393 /* MapCell.cpp */; };
@@ -267,6 +269,7 @@
 		41201464193D78B800640867 /* GameUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUILayer.h; sourceTree = "<group>"; };
 		4120146A193DBDE300640867 /* Bomb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bomb.cpp; sourceTree = "<group>"; };
 		4120146B193DBDE300640867 /* Bomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bomb.h; sourceTree = "<group>"; };
+		4120146E193DDF4D00640867 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		415C357419383B08005ADF8E /* DirectionButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectionButton.cpp; sourceTree = "<group>"; };
 		415C357519383B08005ADF8E /* DirectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionButton.h; sourceTree = "<group>"; };
 		415ECBDC1932DA6000582393 /* MapCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapCell.cpp; sourceTree = "<group>"; };
@@ -566,6 +569,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4120146E193DDF4D00640867 /* images */,
 				4198AF16192DB01F00E70612 /* res */,
 				4198AF10192DA31F00E70612 /* map */,
 				8ECFE56E19289E0C006C61FC /* music */,
@@ -799,6 +803,7 @@
 				8ECFE56C1928835C006C61FC /* textures in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				4120146F193DDF4D00640867 /* images in Resources */,
 				8ECFE56F19289E0C006C61FC /* music in Resources */,
 				4198AF17192DB01F00E70612 /* res in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
@@ -814,6 +819,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41201470193DDF4D00640867 /* images in Resources */,
 				8ECFE57019289E0C006C61FC /* music in Resources */,
 				4198AF12192DA31F00E70612 /* map in Resources */,
 				8ECFE56D1928835C006C61FC /* textures in Resources */,
