@@ -396,7 +396,7 @@ void HomeScene::__showSceneSelectMenu()
             
             
         });
-        item->setEnabled(false);
+//        item->setEnabled(false);
         item->setPosition(pos);
         item->setAnchorPoint(Point(0.5f,0.0f));
         item->setScale(0);
@@ -421,7 +421,7 @@ void HomeScene::__showSceneSelectMenu()
         auto menu = PerfectMenu::create(cl,md,bc,nullptr);
         menu->setPosition(Point::ZERO);
         menu->setTag(tag);
-        menu->setEnabled(false);
+//        menu->setEnabled(false);
         node->addChild(menu);
         this->__delayRun(0.5f, [menu]()->void{
             menu->setEnabled(true);
@@ -501,7 +501,7 @@ void HomeScene::__showStageSelectMenu()
         stage->setAnchorPoint(Point(0.5,0));
         stage->setScale(0.0f);
         if(idx!=0){
-            stage->setEnabled(false);
+//            stage->setEnabled(false);
         }
         auto showSeq = Sequence::create(DelayTime::create(idx*0.15f),easeBackIn->clone(), NULL);
         stage->runAction(showSeq);

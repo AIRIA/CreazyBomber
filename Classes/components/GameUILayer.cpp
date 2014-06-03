@@ -14,7 +14,7 @@ bool GameUILayer::init()
     {
         return false;
     }
-    
+    m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     return true;
 }
 
