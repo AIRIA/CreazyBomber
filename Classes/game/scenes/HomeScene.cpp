@@ -8,6 +8,7 @@
 
 #include "HomeScene.h"
 #include "components/PerfectMenu.h"
+#include "GameScene.h"
 
 #define ICON_ANIMATE_TIME 0.3f
 
@@ -67,7 +68,7 @@ bool HomeScene::init()
         return false;
     }
     /* 预加载音频文件 */
-    SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_game_bg.mp3");
+    SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_main_bg.mp3");
     SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_click.mp3");
     SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_item_in.mp3");
     SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_item_out.mp3");
@@ -76,13 +77,15 @@ bool HomeScene::init()
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     Texture2D::PVRImagesHavePremultipliedAlpha(true);
     /* 预加载的PVR纹理 */
-    textureFiles.push_back("textures/bg");
-    textureFiles.push_back("textures/openning");
-    textureFiles.push_back("textures/locale_1");
-    textureFiles.push_back("textures/locale_2");
-    textureFiles.push_back("textures/locale_3");
-    textureFiles.push_back("textures/selectstage");
-    textureFiles.push_back("textures/button");
+    textureFiles.push_back("textures/bg-hd");
+    textureFiles.push_back("textures/opening-hd");
+    textureFiles.push_back("textures/zh_cn/locale_1-hd");
+    textureFiles.push_back("textures/zh_cn/locale_2-hd");
+    textureFiles.push_back("textures/zh_cn/locale_3-hd");
+    textureFiles.push_back("textures/zh_cn/locale_4-hd");
+    textureFiles.push_back("textures/selectstage-hd");
+    textureFiles.push_back("textures/button-hd");
+    textureFiles.push_back("textures/medium2-hd");
     return true;
 }
 
@@ -107,15 +110,15 @@ void HomeScene::onTexturesLoaded()
     BlendFunc blend = {GL_DST_COLOR, GL_ONE};
     cloud->setBlendFunc(blend);
     
-    auto sun = Sprite::create("textures/sun-hd.png");
-    sun->setPosition(Point(300,DESIGN_HEIGHT-60));
-    sun->setScale(0.7);
-    ActionInterval *rotate = RotateBy::create(0.5f, 5);
-    sun->runAction(RepeatForever::create(rotate));
+//    auto sun = Sprite::create("textures/sun-hd.png");
+//    sun->setPosition(Point(300,DESIGN_HEIGHT-60));
+//    sun->setScale(0.7);
+//    ActionInterval *rotate = RotateBy::create(0.5f, 5);
+//    sun->runAction(RepeatForever::create(rotate));
     auto bottomNode = Node::create();
     
     m_pBody->addChild(bg);
-    m_pBody->addChild(sun);
+//    m_pBody->addChild(sun);
     /* kBackNode1 2 3 用来存放关卡选择的UI */
     bottomNode->addChild(Node::create(),0,kBackNode1);
     bottomNode->addChild(bg0);
@@ -362,8 +365,8 @@ void HomeScene::__showGameModeSelectMenu()
         });
     });
     /* change player menu */
-    auto changeNormal = SPRITE("change_role_normal.png");
-    auto changePress = SPRITE("change_role_press.png");
+    auto changeNormal = SPRITE("change_role.png");
+    auto changePress = SPRITE("change_role.png");
     auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
     auto changeMenu = PerfectMenu::create(changePlayerItem,nullptr);
     changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
@@ -506,8 +509,9 @@ void HomeScene::__showStageSelectMenu()
             auto item = (MenuItemSprite*)pSender;
             void *userData = item->getUserData();
             int idx = *static_cast<int*>(userData);
+            GameConfig::selectedLevel = idx+1;
             log("idx %d",idx);
-            
+            GameScene::create()->run();
         });
         menu->addChild(stage);
         it++;

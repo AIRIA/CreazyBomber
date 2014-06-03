@@ -12,6 +12,8 @@
 #include "components/BomberButton.h"
 #include "components/DirectionButton.h"
 #include "components/GameUILayer.h"
+#include "game/GameManager.h"
+#include "game/objects/Bomb.h"
 
 
 bool GameScene::init()
@@ -20,7 +22,7 @@ bool GameScene::init()
         return false;
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
-    
+    GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
     textureFiles.push_back("textures/monster_2-hd");
@@ -81,6 +83,10 @@ void GameScene::addUIComponents()
     auto direc = DirectionButton::create();
     direc->setScale(m_fScaleFactor);
     addChild(direc);
+    
+    auto bomb = Bomb::create(Bomb::kBombNormal);
+    bomb->setPosition(500,300);
+    addChild(bomb);
     
 }
 

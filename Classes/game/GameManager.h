@@ -21,6 +21,7 @@ public:
     CC_SYNTHESIZE(Player::WalkDirection, m_currentWalkDirection, CurrentWalkDirection);
     CC_SYNTHESIZE(Point, m_pSpeed, Speed);
     CC_SYNTHESIZE(Player::WalkDirection, m_prevWalkDirection, PrevWalkDirection);
+    CC_SYNTHESIZE(float, m_fScaleFactor, ScaleFactor);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */
