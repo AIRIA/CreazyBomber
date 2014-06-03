@@ -17,6 +17,10 @@ class GameManager
 public:
     static GameManager *getInstance();
     CC_SYNTHESIZE(Player::WalkDirection, m_WalkDirection, WalkDirection);
+    CC_SYNTHESIZE(Player *, m_pPlayer, Player);
+    CC_SYNTHESIZE(Player::WalkDirection, m_currentWalkDirection, CurrentWalkDirection);
+    CC_SYNTHESIZE(Point, m_pSpeed, Speed);
+    CC_SYNTHESIZE(Player::WalkDirection, m_prevWalkDirection, PrevWalkDirection);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

@@ -13,6 +13,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/common/VisibleRect.cpp \
                    ../../Classes/components/BomberButton.cpp \
                    ../../Classes/components/DirectionButton.cpp \
+                   ../../Classes/components/GameUILayer.cpp \
                    ../../Classes/game/scenes/HomeScene.cpp \
                    ../../Classes/game/scenes/GameScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
@@ -20,7 +21,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/game/objects/MapCell.cpp \
 				   ../../Classes/game/objects/Player.cpp \
                    ../../Classes/game/GameConfig.cpp \
-                   ../../Classes/game/MapUtil.cpp 
+                   ../../Classes/game/MapUtil.cpp \
+                   ../../Classes/game/GameManager.cpp 
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

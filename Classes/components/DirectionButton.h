@@ -16,6 +16,8 @@ class DirectionButton:public Node
 public:
     virtual bool init();
     CREATE_FUNC(DirectionButton);
+    void walk();
+    void stand();
 protected:
     Vector<Sprite*> m_vArrows;
     EventListenerTouchOneByOne *getInnerEventListener();

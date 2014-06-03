@@ -11,6 +11,8 @@
 #include "game/objects/MapObject.h"
 #include "components/BomberButton.h"
 #include "components/DirectionButton.h"
+#include "components/GameUILayer.h"
+
 
 bool GameScene::init()
 {
@@ -27,6 +29,7 @@ bool GameScene::init()
     textureFiles.push_back("textures/scenetex_big-hd");
     textureFiles.push_back("textures/scenetex_big1-hd");
     textureFiles.push_back("textures/player_huxi-hd");
+    textureFiles.push_back("textures/ingame-hd");
     
     char playerTextureName[50];
     sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::selectedRoleName.c_str());
@@ -53,31 +56,24 @@ void GameScene::onTexturesLoaded()
     mapLayer->addChild(borderLayer);
     mapLayer->addChild(commonTileLayer);
     
-    /* mapLayer的布局分为两种情况 滚动和非滚动 */
-    if(mapSize.height>9&&mapSize.width>13){
-        mapLayer->setAnchorPoint(Point(0.0f,1.0f));
-        mapLayer->setPosition(Point(40*m_fScaleFactor,m_winSize.height+40*m_fScaleFactor));
-        mapLayer->setScale(m_fScaleFactor);
-        
-    }if(mapSize.height>9&&mapSize.width==13){
-        mapLayer->setAnchorPoint(Point(0.5f,1.0f));
-        mapLayer->setPosition(Point(m_winSize.width/2,m_winSize.height+40*m_fScaleFactor));
-        mapLayer->setScale(m_fScaleFactor);
-    }else{
-        mapLayer->setAnchorPoint(Point(0.5f,0.5f));
-        mapLayer->setPosition(Point(DESIGN_WIDTH/2,DESIGN_HEIGHT/2));
+    mapLayer->setAnchorPoint(Point(0.0f,1.0f));
+    mapLayer->setPosition(Point(-40*m_fScaleFactor,m_winSize.height+40*m_fScaleFactor));
+    if(mapSize.height==9)
+    {
+        mapLayer->setAnchorPoint(Point(0.0f,0.5f));
+        mapLayer->setPositionY(m_winSize.height/2);
     }
+    
+    mapLayer->setScale(m_fScaleFactor);
     addChild(mapLayer);
-//    mapLayer->setRotation3D(Vertex3F(-30, 0, 0));
-//    std::thread t1([]()->void{
-//        SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_game_bc.mp3");
-//    });
-//    t1.detach();
     addUIComponents();
 }
 
 void GameScene::addUIComponents()
 {
+    auto uiLayer = GameUILayer::create();
+    addChild(uiLayer);
+    
     auto bombBtn = BomberButton::create();
     bombBtn->setScale(m_fScaleFactor);
     addChild(bombBtn);

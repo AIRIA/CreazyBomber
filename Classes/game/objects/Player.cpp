@@ -7,6 +7,7 @@
 //
 
 #include "Player.h"
+#include "game/GameManager.h"
 
 struct RoleProperty{
     std::string suffix;
@@ -22,6 +23,8 @@ Player *Player::create(MapCell *mapCell)
     {
         player->autorelease();
         player->setMapCell(mapCell);
+        GameManager::getInstance()->setPlayer(player);
+        GameManager::getInstance()->setWalkDirection(kWalkDown);
         return player;
     }
     CC_SAFE_FREE(player);
@@ -98,7 +101,7 @@ bool Player::init()
         {"up",0,8},
         {"right",frameHeight,8},
         {"left",frameHeight*2,8},
-        {"down_0",frameHeight*3,8},
+        {"down",frameHeight*3,8},
         
     };
     
@@ -129,6 +132,8 @@ bool Player::init()
     
     registAnimation(walkVec);
     
+    scheduleUpdate();
+    
     return true;
 }
 
@@ -147,3 +152,34 @@ void Player::run()
     }), NULL);
     runAction(huxiSeq);
 }
+
+std::string Player::getDirectionStr()
+{
+    Player::WalkDirection direct = GameManager::getInstance()->getPrevWalkDirection();
+    std::string directionStr;
+    switch (direct) {
+        case Player::WalkDirection::kWalkUp:
+            directionStr = "up";
+            break;
+        case Player::WalkDirection::kWalkLeft:
+            directionStr = "left";
+            break;
+        case Player::WalkDirection::kWalkRight:
+            directionStr = "right";
+            break;
+        case Player::WalkDirection::kWalkDown:
+            directionStr = "down";
+            break;
+        default:
+            directionStr = "";
+            break;
+    }
+    return directionStr;
+}
+
+void Player::update(float delta)
+{
+    setPosition(getPosition()+GameManager::getInstance()->getSpeed());
+}
+
+

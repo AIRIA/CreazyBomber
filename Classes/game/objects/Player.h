@@ -26,10 +26,14 @@ public:
      * 根据用户选择的角色名字 来创建对应的角色
      */
     static Player *create(MapCell *mapCell);
+    
+    std::string getDirectionStr();
+    
     virtual bool init();
     virtual void run();
     void born();
     void walk(WalkDirection direction);
+    void update(float delta);
 };
 
 #endif /* defined(__CreazyBomber__Player__) */

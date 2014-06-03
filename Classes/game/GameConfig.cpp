@@ -8,10 +8,10 @@
 
 #include "GameConfig.h"
 
-std::string GameConfig::selectedRoleName = "vampire";
+std::string GameConfig::selectedRoleName = "zombie";
 std::string GameConfig::selectedSceneName = "md";
 std::string GameConfig::selectedStageName = "";
-int GameConfig::selectedLevel = 2;
+int GameConfig::selectedLevel = 1;
 
 void GameConfig::setSelectScene(SceneType type)
 {
