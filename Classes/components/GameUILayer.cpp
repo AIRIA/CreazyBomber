@@ -20,6 +20,9 @@ bool GameUILayer::init()
 
 void GameUILayer::onTexturesLoaded()
 {
+    m_pLeft->setAnchorPoint(Point(0.0f,1.0f));
+    m_pLeft->setPosition(VisibleRect::leftTop());
+    
     //玩家控制的角色的头像
     auto playerIcon = SPRITE(GameConfig::selectedRoleName+"_icon_big.png");
     m_pLeft->addChild(playerIcon);
@@ -36,16 +39,19 @@ void GameUILayer::onTexturesLoaded()
     m_pLeft->addChild(hpBg);
     m_pLeft->addChild(hp);
     //玩家的装备信息
+    auto infoNode = Node::create();
+    infoNode->setScale(m_fScaleFactor);
     auto playerInfo = SPRITE("role_info_bg.png");
     playerInfo->setAnchorPoint(Point(0.5f,1.0f));
-    playerInfo->setPosition(DESIGN_WIDTH/2,DESIGN_HEIGHT-10);
-    m_pBody->addChild(playerInfo);
+    infoNode->addChild(playerInfo);
+    infoNode->setPosition(VisibleRect::top()-Point(0,10));
+    addChild(infoNode);
     
     //定时器 血瓶
     auto hpMenuItem = MenuItemSprite::create(SPRITE("hp_icon_normal.png"), SPRITE("hp_icon_press.png"),SPRITE("hp_icon_disable.png"));
     auto timerBombItem = MenuItemSprite::create(SPRITE("timer_bomb_normal.png"), SPRITE("timer_bomb_press.png"),SPRITE("timer_bomb_disable.png"));
     hpMenuItem->setAnchorPoint(Point(1.0f,0.5f));
-    hpMenuItem->setPosition(DESIGN_WIDTH-10,DESIGN_HEIGHT/2+30);
+    hpMenuItem->setPosition(DESIGN_WIDTH-20,DESIGN_HEIGHT/2+30);
     timerBombItem->setAnchorPoint(hpMenuItem->getAnchorPoint());
     timerBombItem->setPosition(DESIGN_WIDTH-10,hpMenuItem->getPosition().y - hpMenuItem->getContentSize().height/2-40);
     auto menu = Menu::create(hpMenuItem,timerBombItem,nullptr);

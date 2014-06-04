@@ -48,7 +48,7 @@ enum GameMode{
 
 enum Role{
     kRoleVampire,
-    kRoleZumbie,
+    kRoleZombie,
     kRoleSmurf,
     kRoleViking
 } selectRole;
@@ -263,6 +263,22 @@ void HomeScene::__showRoleSelectMenu()
         /* callback lambda  */
         item->setCallback([&,role](Ref *pSender)->void{
             selectRole = role;
+            switch(role){
+                case kRoleSmurf:
+                    GameConfig::selectedRoleName = "smurf";
+                    break;
+                case kRoleViking:
+                    GameConfig::selectedRoleName = "viking";
+                    break;
+                case kRoleZombie:
+                    GameConfig::selectedRoleName = "zombie";
+                    break;
+                case kRoleVampire:
+                    GameConfig::selectedRoleName = "vampire";
+                    break;
+                default:
+                    break;
+            }
             auto menuItem = (MenuItemSprite*)pSender;
             auto menu = (PerfectMenu*)menuItem->getParent();
             auto children = menu->getChildren();
@@ -311,7 +327,7 @@ void HomeScene::__showRoleSelectMenu()
     auto vampire = createRoleItem(kRoleVampire,"selectrole_vampire_normal.png","selectrole_vampire_press.png",Point(160,320));
     auto roleSize = vampire->getContentSize();
     roleSize = Size(roleSize.width*roleScale,roleSize.height*roleScale);
-    auto zombie = createRoleItem(kRoleZumbie,"selectrole_zombie_normal.png","selectrole_zombie_press.png",vampire->getPosition()+Point(roleSize.width+20,-70));
+    auto zombie = createRoleItem(kRoleZombie,"selectrole_zombie_normal.png","selectrole_zombie_press.png",vampire->getPosition()+Point(roleSize.width+20,-70));
     auto smurf = createRoleItem(kRoleSmurf,"selectrole_smurf_normal.png","selectrole_smurf_press.png",zombie->getPosition()+Point(roleSize.width+20,130));
     auto viking = createRoleItem(kRoleViking,"selectrole_viking_normal.png","selectrole_viking_press.png",smurf->getPosition()+Point(roleSize.width+20,-80));
     auto selectRole = PerfectMenu::create(vampire,zombie,smurf,viking,nullptr);
