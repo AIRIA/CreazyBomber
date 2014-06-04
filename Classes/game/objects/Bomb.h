@@ -11,7 +11,7 @@
 
 #include "game/objects/MapObject.h"
 
-class Bomb:public Sprite
+class Bomb:public MapObject
 {
 public:
     enum BombType{

@@ -230,6 +230,7 @@ Node *MapUtil::getCommonTileLayer()
         auto mapObj = getMapObject(name);
         if(mapObj==nullptr)
         {
+            log("get %s mapObj failed ",name.c_str());
             continue;
         }
         mapObj->setRow(row);

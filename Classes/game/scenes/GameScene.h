@@ -14,11 +14,14 @@
 class GameScene:public BaseLayer
 {
 public:
+    virtual void onEnter();
+    virtual void onExit();
     virtual void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(GameScene);
 protected:
     void addUIComponents();
+    void normalBombHandler(Ref *pSender);
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

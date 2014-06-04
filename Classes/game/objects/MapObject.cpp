@@ -9,6 +9,9 @@
 #include "MapObject.h"
 #include "game/MapUtil.h"
 
+#define TILE_WIDTH 80
+#define TILE_HEIGHT 80
+
 void MapObject::onEnter()
 {
     Sprite::onEnter();
@@ -17,8 +20,10 @@ void MapObject::onEnter()
     }
     auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
     auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
+    setMapSizeInPixle(mapSizeInPixel);
     setAnchorPoint(anchor);
-    setPosition((getCol()+anchor.x)*80, mapSizeInPixel.height- getRow()*80-80);
+    setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- getRow()*TILE_HEIGHT-TILE_HEIGHT);
+    setZOrder(getRow());
     run();
 }
 
@@ -177,6 +182,27 @@ void MapObject::doTileAttack()
         this->doTileAnimation();
     }
 }
+
+Point MapObject::getCurrentCoordinate()
+{
+    auto pos = getPosition();
+        
+    float col = (pos.x - getAnchorPoint().x*TILE_WIDTH)/TILE_WIDTH;
+    float row = (getMapSizeInPixle().height-pos.y-TILE_HEIGHT)/TILE_HEIGHT;
+    setZOrder(row);
+    log("x:%f  y:%f colL:%f,row:%f",pos.x,pos.y,col,row);
+    return Point(col, row);
+}
+
+Point MapObject::convertCoordinate2Point(const cocos2d::Point &coordinate)
+{
+    auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
+    setMapSizeInPixle(mapSizeInPixel);
+    return Point((coordinate.x+0.5)*TILE_WIDTH, mapSizeInPixel.height- coordinate.y*TILE_HEIGHT-TILE_HEIGHT);
+}
+
+
+
 #pragma mark----------------通用的tile-------------------------------
 
 void CommonTile::run()
@@ -318,6 +344,13 @@ void LvDai::doTileAnimation()
 {
     runAction(RepeatForever::create(getDefaultAnimate()));
 }
+
+void LvDai::onEnter()
+{
+    MapObject::onEnter();
+    setZOrder(-1);
+}
+
 #pragma mark ----------------鬼火-------------------
 void GuiHuo::run()
 {

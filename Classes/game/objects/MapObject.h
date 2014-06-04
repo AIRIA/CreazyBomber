@@ -59,12 +59,18 @@ public:
     virtual void doAnimationWithAttack();
     
     Animate *getDefaultAnimate();
+    /**
+     * 根据当前的坐标获取所在的行列信息
+     */
+    Point getCurrentCoordinate();
+    Point convertCoordinate2Point(const Point &coordinate);
     
 #pragma mark ------------getter/setter-----------------
     CC_SYNTHESIZE(MapCell*, m_pMapCell, MapCell);
     CC_SYNTHESIZE(SpriteFrame*, m_pFirstFrame, FirstFrame);
     CC_SYNTHESIZE(int, m_iCol, Col);
     CC_SYNTHESIZE(int, m_iRow, Row);
+    CC_SYNTHESIZE(Size, m_MapSizeInPixle, MapSizeInPixle);
     /**
      * 地图对象的类型(比如地图瓦片,出生点,怪物,箱子,树木 等等)
      **/
@@ -121,6 +127,7 @@ public:
 class LvDai:public MapObject
 {
 public:
+    virtual void onEnter();
     MAPOBJ_CREATE(LvDai);
     virtual void doTileAnimation();
 };

@@ -180,6 +180,7 @@ std::string Player::getDirectionStr()
 void Player::update(float delta)
 {
     setPosition(getPosition()+GameManager::getInstance()->getSpeed());
+    getCurrentCoordinate();
 }
 
 

@@ -34,4 +34,7 @@ using namespace tinyxml2;
 
 #define SPRITE(name) Sprite::createWithSpriteFrameName(name)
 
+//--------Notifications---------------------------------------------
+#define ADD_NORMAL_BOMB "add_normal_bomb"
+#define ADD_TIMER_BOMB "add_timer_bomb"
 #endif

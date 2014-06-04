@@ -135,9 +135,9 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
         auto setDirection = [&](Player::WalkDirection playerDirection,DirectionButtonTag tag,const Point &speed)->void{
             GameManager::getInstance()->setWalkDirection(playerDirection);
             this->setCurrentDirectionArrow(wrapper->getChildByTag(tag));
-            GameManager::getInstance()->setSpeed(speed*GameManager::getInstance()->getScaleFactor());
+            GameManager::getInstance()->setSpeed(speed);
         };
-        float speed = 2.0;
+        float speed = 3.0;
         if(degree>=-135&&degree<-45)
         {
             setDirection(Player::WalkDirection::kWalkDown,kDirectionDown,Point(0,-speed));

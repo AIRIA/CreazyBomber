@@ -15,6 +15,17 @@
 #include "game/GameManager.h"
 #include "game/objects/Bomb.h"
 
+void GameScene::onEnter()
+{
+    BaseLayer::onEnter();
+    NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
+}
+
+void GameScene::onExit()
+{
+    BaseLayer::onExit();
+    NotificationCenter::getInstance()->removeObserver(this, ADD_NORMAL_BOMB);
+}
 
 bool GameScene::init()
 {
@@ -57,6 +68,7 @@ void GameScene::onTexturesLoaded()
     mapLayer->addChild(tmxLayer);
     mapLayer->addChild(borderLayer);
     mapLayer->addChild(commonTileLayer);
+    GameManager::getInstance()->setMapTileLayer(commonTileLayer);
     
     mapLayer->setAnchorPoint(Point(0.0f,1.0f));
     mapLayer->setPosition(Point(-40*m_fScaleFactor,m_winSize.height+40*m_fScaleFactor));
@@ -83,10 +95,25 @@ void GameScene::addUIComponents()
     auto direc = DirectionButton::create();
     direc->setScale(m_fScaleFactor);
     addChild(direc);
-    
-    auto bomb = Bomb::create(Bomb::kBombNormal);
-    bomb->setPosition(500,300);
-    addChild(bomb);
-    
 }
 
+void GameScene::normalBombHandler(cocos2d::Ref *pSender)
+{
+    auto bomb = Bomb::create(Bomb::kBombNormal);
+    auto coordinate = GameManager::getInstance()->getPlayer()->getCurrentCoordinate();
+    int row = coordinate.y;
+    int col = coordinate.x;
+    if(row<coordinate.y-0.5)
+    {
+        row++;
+    }
+    if(col<coordinate.x-0.5)
+    {
+        col++;
+    }
+    bomb->setZOrder(row);
+    bomb->setAnchorPoint(Point(0.5f,0.0f));
+    auto bombCoordinate = GameManager::getInstance()->getPlayer()->convertCoordinate2Point(Point(col,row));
+    bomb->setPosition(bombCoordinate);
+    GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
+}
