@@ -235,10 +235,10 @@ Node *MapUtil::getCommonTileLayer()
         }
         mapObj->setRow(row);
         mapObj->setCol(col);
+        m_vMapObjects.pushBack(mapObj);
         mapCellNode->addChild(mapObj);
     }
     return mapCellNode;
-
 }
 
 MapObject *MapUtil::getMapObject(std::string name)
@@ -312,8 +312,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = GroundTile::create(mapCell);
             break;
         case kCellTypeTransfer:
-            element = CommonTile::create(mapCell);
-            element->setLocalZOrder(-1);
+            element = TransferDoor::create(mapCell);
             break;
         default:
             break;
@@ -373,4 +372,17 @@ Node *MapUtil::addTileMapBorder()
         createDibian(dibian_shang,Point(mapSizeInPixle.width,TILE_HEIGHT*row),1);
     }
     return borderNode;
+}
+
+MapObject *MapUtil::getMapObjectByCoordinate(const cocos2d::Point &coordinate)
+{
+    auto it = m_vMapObjects.begin();
+    while(it!=m_vMapObjects.end())
+    {
+        auto obj = *it;
+        if(obj->getRow()==coordinate.y && obj->getCol()==coordinate.x)
+        {
+            return obj;
+        }
+    }
 }

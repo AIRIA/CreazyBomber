@@ -98,6 +98,14 @@ public:
     virtual void run();
 };
 
+
+class TransferDoor:public MapObject
+{
+public:
+    MAPOBJ_CREATE(TransferDoor);
+    virtual void onEnter();
+};
+
 /**
  * monster类型的tile 可以攻击英雄
  */

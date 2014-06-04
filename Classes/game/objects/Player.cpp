@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "game/GameManager.h"
 
+
 struct RoleProperty{
     std::string suffix;
     float offsetY;
@@ -23,6 +24,7 @@ Player *Player::create(MapCell *mapCell)
     {
         player->autorelease();
         player->setMapCell(mapCell);
+        player->loadPlayerInfo();
         GameManager::getInstance()->setPlayer(player);
         GameManager::getInstance()->setWalkDirection(kWalkDown);
         return player;
@@ -177,10 +179,40 @@ std::string Player::getDirectionStr()
     return directionStr;
 }
 
+void Player::loadPlayerInfo()
+{
+    auto filePath = FileUtils::getInstance()->fullPathForFilename("res/players.bin");
+    auto data = FileUtils::getInstance()->getStringFromFile(filePath);
+    rapidjson::Document playerInfoDoc;
+    playerInfoDoc.Parse<0>(data.c_str());
+    rapidjson::Value &player = playerInfoDoc[GameConfig::selectedRoleName.c_str()];
+    this->setWidth(player["width"].GetInt());
+    this->setHeight(player["height"].GetInt());
+    this->setSpeed(player["speed"].GetInt());
+    this->setFootPos(player["foot_pos"].GetInt());
+}
+
 void Player::update(float delta)
 {
-    setPosition(getPosition()+GameManager::getInstance()->getSpeed());
     getCurrentCoordinate();
+    auto direction = GameManager::getInstance()->getCurrentWalkDirection();
+    //判断两个Rect是否相交
+    bool res = false;
+    switch (direction) {
+        case kWalkUp:
+            break;
+        case kWalkDown:
+            break;
+        case kWalkLeft:
+            break;
+        case kWalkRight:
+            break;
+        default:
+            break;
+    }
+    if (!res) {
+        setPosition(getPosition()+GameManager::getInstance()->getSpeed());
+    }
 }
 
 

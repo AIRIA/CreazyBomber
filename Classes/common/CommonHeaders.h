@@ -22,8 +22,11 @@ using namespace CocosDenshion;
 
 #include "game/GameConfig.h"
 #include "external/tinyxml2/tinyxml2.h"
+#include "external/json/rapidjson.h"
+#include "external/json/document.h"
 
 using namespace tinyxml2;
+using namespace rapidjson;
 
 #define DESIGN_WIDTH 960
 #define DESIGN_HEIGHT 640

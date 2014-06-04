@@ -15,6 +15,7 @@
 #include "game/objects/BigBuilding.h"
 #include "game/objects/Player.h"
 
+
 /**
  * 地图由三层组成:
  * 1.每个模式的常规背景 包括三种:丛林 冰川 墓地
@@ -58,7 +59,11 @@ public:
      * 获取地图的宽高
      **/
     const Size &getMapSize();
+    
     const Size getMapSizeInPixle();
+    
+    MapObject *getMapObjectByCoordinate(const Point &coordinate);
+    
     Node *addTileMapBorder();
 protected:
     
@@ -72,6 +77,7 @@ protected:
     MapObject *getMapObject(std::string name);
     TMXTiledMap *m_pMap;
     Vector<MapCell*> m_vMapCells;
+    Vector<MapObject*> m_vMapObjects;
     
 };
 

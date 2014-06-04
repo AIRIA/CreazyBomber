@@ -34,6 +34,11 @@ public:
     void born();
     void walk(WalkDirection direction);
     void update(float delta);
+    void loadPlayerInfo();
+    CC_SYNTHESIZE(float, m_fWidth, Width);
+    CC_SYNTHESIZE(float, m_fHeight, Height);
+    CC_SYNTHESIZE(float, m_fSpeed, Speed);
+    CC_SYNTHESIZE(float, m_fFootPos, FootPos);
 };
 
 #endif /* defined(__CreazyBomber__Player__) */

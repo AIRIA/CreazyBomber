@@ -210,6 +210,12 @@ void CommonTile::run()
     this->doTileAnimation();
 }
 
+#pragma mark-----------------传送门----------------------------------
+void TransferDoor::onEnter()
+{
+    MapObject::onEnter();
+    setZOrder(-1);
+}
 
 #pragma mark ----------------GroundTile-------------------------------------------------
 

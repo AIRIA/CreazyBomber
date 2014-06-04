@@ -1,0 +1,34 @@
+    {
+      "smurf" : {
+        "foot_pos" : 6,
+        "height" : 65,
+        "hp" : 99,
+        "power" : 50,
+        "speed" : 3,
+        "width" : 50
+      },
+      "vampire" : {
+        "foot_pos" : 8,
+        "height" : 65,
+        "hp" : 99,
+        "power" : 50,
+        "speed" : 3,
+        "width" : 45
+      },
+      "viking" : {
+        "foot_pos" : 6,
+        "height" : 60,
+        "hp" : 99,
+        "power" : 50,
+        "speed" : 3,
+        "width" : 45
+      },
+      "zombie" : {
+        "foot_pos" : 12,
+        "height" : 55,
+        "hp" : 99,
+        "power" : 50,
+        "speed" : 3,
+        "width" : 45
+      }
+    }

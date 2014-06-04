@@ -127,6 +127,7 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
         target->setPosition(pos);
         if(distance<30)
         {
+            stand();
             return;
         }
         
