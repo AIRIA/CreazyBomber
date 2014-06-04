@@ -121,6 +121,14 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
             
             return Point(x,y);
         };
+        /* 设置方向球的位置 */
+        auto pos = limitPos(offset);
+        float distance = pos.getDistance(Point::ZERO);
+        target->setPosition(pos);
+        if(distance<30)
+        {
+            return;
+        }
         
         auto arrowIt = m_vArrows.begin();
         while(arrowIt!=m_vArrows.end())
@@ -155,7 +163,6 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
             setDirection(Player::WalkDirection::kWalkLeft,kDirectionLeft,Point(-speed,0));
         }
         this->getCurrentDirectionArrow()->setOpacity(255);
-        target->setPosition(limitPos(offset));
         walk();
     };
     
