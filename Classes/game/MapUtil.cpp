@@ -384,5 +384,7 @@ MapObject *MapUtil::getMapObjectByCoordinate(const cocos2d::Point &coordinate)
         {
             return obj;
         }
+        it++;
     }
+    return nullptr;
 }
