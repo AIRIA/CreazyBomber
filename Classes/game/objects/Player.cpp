@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "game/GameManager.h"
+#include "game/MapUtil.h"
 
 
 struct RoleProperty{
@@ -186,30 +187,93 @@ void Player::loadPlayerInfo()
     rapidjson::Document playerInfoDoc;
     playerInfoDoc.Parse<0>(data.c_str());
     rapidjson::Value &player = playerInfoDoc[GameConfig::selectedRoleName.c_str()];
-    this->setWidth(player["width"].GetInt());
-    this->setHeight(player["height"].GetInt());
-    this->setSpeed(player["speed"].GetInt());
-    this->setFootPos(player["foot_pos"].GetInt());
+    this->setWidth(player["width"].GetInt()*2);
+    this->setHeight(player["height"].GetInt()*2);
+    this->setSpeed(player["speed"].GetInt()*2);
+    this->setFootPos(player["foot_pos"].GetInt()*2);
 }
 
 void Player::update(float delta)
 {
-    getCurrentCoordinate();
+    auto rect = getBoundingBox();
+    auto coordinate = getCurrentCoordinate();
+    int row = coordinate.y;
+    int col = coordinate.x;
     auto direction = GameManager::getInstance()->getCurrentWalkDirection();
+    MapObject *mapObj = nullptr;
     //判断两个Rect是否相交
     bool res = false;
+    
+    float block = 20;
+    
     switch (direction) {
         case kWalkUp:
+            rect.origin = Point(rect.origin.x,rect.origin.y+getFootPos());
+            rect.size = Size(getWidth(),block);
+            
+            if(col<coordinate.x-0.5)
+            {
+                col++;
+            }
+            if(row==coordinate.y)
+            {
+                row--;
+            }
+            if(coordinate.y-row<0.5)
+            {
+                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
+            }
             break;
         case kWalkDown:
+            rect.origin = Point(rect.origin.x,rect.origin.y);
+            rect.size = Size(getWidth(),1);
+            if(col<coordinate.x-0.5)
+            {
+                col++;
+            }
+            if(coordinate.y-row>0.5)
+            {
+                row++;
+                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
+            }
             break;
         case kWalkLeft:
+            rect.origin = Point(rect.origin.x,rect.origin.y);
+            rect.size = Size(getWidth(),block);
+            if (row<coordinate.y-0.5) {
+                row++;
+            }
+            if(coordinate.x==col)
+            {
+                col--;
+            }
+            if(coordinate.x-col>0.5)
+            {
+                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
+            }
             break;
         case kWalkRight:
+            rect.origin = Point(rect.origin.x,rect.origin.y);
+            rect.size = Size(getWidth(),block);
+            if (row<coordinate.y-0.5) {
+                row++;
+            }
+            if(coordinate.x-col<0.5)
+            {
+                col++; 
+            }
+            mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
             break;
         default:
             break;
     }
+    
+    if(mapObj&&mapObj!=this)
+    {
+        auto cellRect = mapObj->getBoundingBox();
+        res = cellRect.intersectsRect(rect);
+    }
+    
     if (!res) {
         setPosition(getPosition()+GameManager::getInstance()->getSpeed());
     }
