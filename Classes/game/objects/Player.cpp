@@ -236,6 +236,7 @@ void Player::update(float delta)
             log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
             break;
         case kWalkDown:
+            rect.origin = Point(rect.origin.x+20,rect.origin.y);
             neighborCol++;
             neighborRow++;
             row++;
@@ -263,7 +264,7 @@ void Player::update(float delta)
         if(mapObj&&mapObj!=this)
         {
             auto cellRect = mapObj->getBoundingBox();
-            cellRect.size.height = cellRect.size.height-20;
+            cellRect.size.height = cellRect.size.height-19;
             return cellRect.intersectsRect(rect);
         }
         return false;

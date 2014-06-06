@@ -12,13 +12,16 @@
          contextName = "Player::update(float):Player.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "col">
+               value = "row">
             </PersistentString>
             <PersistentString
                value = "coordinate">
             </PersistentString>
             <PersistentString
-               value = "row">
+               value = "rect.origin.y">
+            </PersistentString>
+            <PersistentString
+               value = "col">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
