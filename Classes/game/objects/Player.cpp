@@ -195,83 +195,82 @@ void Player::loadPlayerInfo()
 
 void Player::update(float delta)
 {
-    auto rect = getBoundingBox();
-    auto coordinate = getCurrentCoordinate();
-    int row = coordinate.y;
-    int col = coordinate.x;
-    auto direction = GameManager::getInstance()->getCurrentWalkDirection();
-    MapObject *mapObj = nullptr;
+    float block = 20;
     //判断两个Rect是否相交
     bool res = false;
+    auto rect = getBoundingBox();
+    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2);
+    rect.size = Size(getWidth()-40,block*2);
+    auto convert2Coordinate = [&](Point &pos)->Point{
+        float col = pos.x/TILE_WIDTH-1;
+        float row = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT-1;
+        setZOrder(row);
+        return Point(col, row);
+    };
     
-    float block = 20;
+    auto targetPos = getPosition()+GameManager::getInstance()->getSpeed();
+    auto coordiPos = targetPos + Point(0,this->getFootPos()*2);
+    auto coordinate = convert2Coordinate(coordiPos);
+    int row = coordinate.y;
+    int col = coordinate.x;
+    if(col<=coordinate.x-rect.size.width/getWidth()/2)
+    {
+        col++;
+    }
+   
+    if(row<coordinate.y-block/TILE_HEIGHT)
+    {
+        row++;
+    }
+    int neighborRow = row;
+    int neighborCol = col;
     
+    
+    //根据方向进行不同逻辑的碰撞检测
+    auto direction = GameManager::getInstance()->getCurrentWalkDirection();
     switch (direction) {
         case kWalkUp:
-            rect.origin = Point(rect.origin.x,rect.origin.y+getFootPos());
-            rect.size = Size(getWidth(),block);
-            
-            if(col<coordinate.x-0.5)
-            {
-                col++;
-            }
-            if(row==coordinate.y)
-            {
-                row--;
-            }
-            if(coordinate.y-row<0.5)
-            {
-                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
-            }
+            neighborCol++;
+            neighborRow--;
+            row--;
+            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
             break;
         case kWalkDown:
-            rect.origin = Point(rect.origin.x,rect.origin.y);
-            rect.size = Size(getWidth(),1);
-            if(col<coordinate.x-0.5)
-            {
-                col++;
-            }
-            if(coordinate.y-row>0.5)
-            {
-                row++;
-                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
-            }
+            neighborCol++;
+            neighborRow++;
+            row++;
+            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
             break;
         case kWalkLeft:
-            rect.origin = Point(rect.origin.x,rect.origin.y);
-            rect.size = Size(getWidth(),block);
-            if (row<coordinate.y-0.5) {
-                row++;
-            }
-            if(coordinate.x==col)
-            {
-                col--;
-            }
-            if(coordinate.x-col>0.5)
-            {
-                mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
-            }
+            neighborRow++;
+            neighborCol--;
+            col--;
+            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
             break;
         case kWalkRight:
-            rect.origin = Point(rect.origin.x,rect.origin.y);
-            rect.size = Size(getWidth(),block);
-            if (row<coordinate.y-0.5) {
-                row++;
-            }
-            if(coordinate.x-col<0.5)
-            {
-                col++; 
-            }
-            mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(Point(col,row));
+            neighborRow++;
+            neighborCol++;
+            col++;
+            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
             break;
         default:
             break;
     }
     
-    if(mapObj&&mapObj!=this)
+    
+    auto testIntersets = [&](const Point &coordinate)->bool{
+        auto mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(coordinate);
+        if(mapObj&&mapObj!=this)
+        {
+            auto cellRect = mapObj->getBoundingBox();
+            cellRect.size.height = cellRect.size.height-45;
+            return cellRect.intersectsRect(rect);
+        }
+        return false;
+    };
+    if(testIntersets(Point(col,row)) || testIntersets(Point(neighborCol,neighborRow)))
     {
-        auto cellRect = mapObj->getBoundingBox();
-        res = cellRect.intersectsRect(rect);
+        res = true;
     }
     
     if (!res) {

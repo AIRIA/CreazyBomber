@@ -9,9 +9,6 @@
 #include "MapObject.h"
 #include "game/MapUtil.h"
 
-#define TILE_WIDTH 80
-#define TILE_HEIGHT 80
-
 void MapObject::onEnter()
 {
     Sprite::onEnter();
@@ -22,7 +19,7 @@ void MapObject::onEnter()
     auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
     setMapSizeInPixle(mapSizeInPixel);
     setAnchorPoint(anchor);
-    setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- getRow()*TILE_HEIGHT-TILE_HEIGHT);
+    setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
     setZOrder(getRow());
     run();
 }
@@ -190,7 +187,6 @@ Point MapObject::getCurrentCoordinate()
     float col = (pos.x - getAnchorPoint().x*TILE_WIDTH)/TILE_WIDTH;
     float row = (getMapSizeInPixle().height-pos.y-TILE_HEIGHT)/TILE_HEIGHT;
     setZOrder(row);
-    log("x:%f  y:%f colL:%f,row:%f",pos.x,pos.y,col,row);
     return Point(col, row);
 }
 

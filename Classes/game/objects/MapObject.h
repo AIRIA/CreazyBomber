@@ -12,6 +12,9 @@
 #include "common/CommonHeaders.h"
 #include "game/objects/MapCell.h"
 
+#define TILE_WIDTH 80
+#define TILE_HEIGHT 80
+
 #define MAPOBJ_CREATE(CLASS) static CLASS *create(MapCell *mapCell){ \
 auto tile = new CLASS(); \
 if(tile&&tile->initWithMapCell(mapCell)) \
