@@ -199,8 +199,8 @@ void Player::update(float delta)
     //判断两个Rect是否相交
     bool res = false;
     auto rect = getBoundingBox();
-    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2);
-    rect.size = Size(getWidth()-40,block*2);
+    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos());
+    rect.size = Size(getWidth()-40,getFootPos()*2);
     auto convert2Coordinate = [&](Point &pos)->Point{
         float col = pos.x/TILE_WIDTH-1;
         float row = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT-1;
@@ -209,7 +209,7 @@ void Player::update(float delta)
     };
     
     auto targetPos = getPosition()+GameManager::getInstance()->getSpeed();
-    auto coordiPos = targetPos + Point(0,this->getFootPos()*2);
+    auto coordiPos = targetPos + Point(0,this->getFootPos());
     auto coordinate = convert2Coordinate(coordiPos);
     int row = coordinate.y;
     int col = coordinate.x;
@@ -218,7 +218,7 @@ void Player::update(float delta)
         col++;
     }
    
-    if(row<coordinate.y-block/TILE_HEIGHT)
+    if(row<coordinate.y)
     {
         row++;
     }
@@ -263,7 +263,7 @@ void Player::update(float delta)
         if(mapObj&&mapObj!=this)
         {
             auto cellRect = mapObj->getBoundingBox();
-            cellRect.size.height = cellRect.size.height-45;
+            cellRect.size.height = cellRect.size.height-20;
             return cellRect.intersectsRect(rect);
         }
         return false;
