@@ -61,6 +61,8 @@ public:
      */
     virtual void doAnimationWithAttack();
     
+    virtual void update(float delta);
+    
     Animate *getDefaultAnimate();
     /**
      * 根据当前的坐标获取所在的行列信息
@@ -107,6 +109,7 @@ class TransferDoor:public MapObject
 public:
     MAPOBJ_CREATE(TransferDoor);
     virtual void onEnter();
+    virtual void update(float delta);
 };
 
 /**

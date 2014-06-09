@@ -23,6 +23,7 @@ public:
     CC_SYNTHESIZE(Player::WalkDirection, m_prevWalkDirection, PrevWalkDirection);
     CC_SYNTHESIZE(float, m_fScaleFactor, ScaleFactor);
     CC_SYNTHESIZE(Node *, m_pMapTileLayer, MapTileLayer);
+    CC_SYNTHESIZE(bool, m_bIsConllision, IsCollision);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

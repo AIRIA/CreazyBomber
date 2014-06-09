@@ -18,6 +18,12 @@ struct RoleProperty{
     std::string textureFileName;
 };
 
+void Player::onEnter()
+{
+    MapObject::onEnter();
+    scheduleUpdateWithPriority(10);
+}
+
 Player *Player::create(MapCell *mapCell)
 {
     auto player = new Player();
@@ -135,8 +141,6 @@ bool Player::init()
     
     registAnimation(walkVec);
     
-    scheduleUpdate();
-    
     return true;
 }
 
@@ -187,95 +191,31 @@ void Player::loadPlayerInfo()
     rapidjson::Document playerInfoDoc;
     playerInfoDoc.Parse<0>(data.c_str());
     rapidjson::Value &player = playerInfoDoc[GameConfig::selectedRoleName.c_str()];
-    this->setWidth(player["width"].GetInt()*2);
-    this->setHeight(player["height"].GetInt()*2);
+    this->setWidth(player["width"].GetInt());
+    this->setHeight(player["height"].GetInt());
     this->setSpeed(player["speed"].GetInt()*2);
     this->setFootPos(player["foot_pos"].GetInt()*2);
 }
 
+Rect Player::getBoundingBox() const
+{
+    auto rect = Node::getBoundingBox();
+    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos())+GameManager::getInstance()->getSpeed();
+    rect.size = Size(getWidth(),getFootPos()*2);
+    return rect;
+}
+
 void Player::update(float delta)
 {
-    float block = 20;
-    //判断两个Rect是否相交
-    bool res = false;
-    auto rect = getBoundingBox();
-    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos());
-    rect.size = Size(getWidth()-40,getFootPos()*2);
-    auto convert2Coordinate = [&](Point &pos)->Point{
-        float col = pos.x/TILE_WIDTH-1;
-        float row = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT-1;
-        setZOrder(row);
-        return Point(col, row);
-    };
-    
-    auto targetPos = getPosition()+GameManager::getInstance()->getSpeed();
-    auto coordiPos = targetPos + Point(0,this->getFootPos());
-    auto coordinate = convert2Coordinate(coordiPos);
-    int row = coordinate.y;
-    int col = coordinate.x;
-    if(col<=coordinate.x-rect.size.width/getWidth()/2)
+    auto isCollision = GameManager::getInstance()->getIsCollision();
+    if(isCollision)
     {
-        col++;
+        GameManager::getInstance()->setIsCollision(false);
     }
-   
-    if(row<coordinate.y)
+    else
     {
-        row++;
-    }
-    int neighborRow = row;
-    int neighborCol = col;
-    
-    
-    //根据方向进行不同逻辑的碰撞检测
-    auto direction = GameManager::getInstance()->getCurrentWalkDirection();
-    switch (direction) {
-        case kWalkUp:
-            neighborCol++;
-            neighborRow--;
-            row--;
-            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
-            break;
-        case kWalkDown:
-            rect.origin = Point(rect.origin.x+20,rect.origin.y);
-            neighborCol++;
-            neighborRow++;
-            row++;
-            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
-            break;
-        case kWalkLeft:
-            neighborRow++;
-            neighborCol--;
-            col--;
-            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
-            break;
-        case kWalkRight:
-            neighborRow++;
-            neighborCol++;
-            col++;
-            log("coordinate.x:%f,coordinate.y:%f,row:%d,neighborRow:%d,col:%d,neighborCol:%d",coordinate.x,coordinate.y,row,neighborRow,col,neighborCol);
-            break;
-        default:
-            break;
-    }
-    
-    
-    auto testIntersets = [&](const Point &coordinate)->bool{
-        auto mapObj = MapUtil::getInstance()->getMapObjectByCoordinate(coordinate);
-        if(mapObj&&mapObj!=this)
-        {
-            auto cellRect = mapObj->getBoundingBox();
-            cellRect.size.height = cellRect.size.height-19;
-            return cellRect.intersectsRect(rect);
-        }
-        return false;
-    };
-    if(testIntersets(Point(col,row)) || testIntersets(Point(neighborCol,neighborRow)))
-    {
-        res = true;
-    }
-    
-    if (!res) {
-        setPosition(getPosition()+GameManager::getInstance()->getSpeed());
+        auto targetPosition = getPosition()+GameManager::getInstance()->getSpeed();
+        setPosition(targetPosition);
     }
 }
 

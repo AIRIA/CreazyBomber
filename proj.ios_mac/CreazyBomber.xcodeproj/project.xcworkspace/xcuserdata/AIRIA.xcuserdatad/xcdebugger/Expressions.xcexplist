@@ -3,10 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "cocos2d::Node::setUserData(void*):CCNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "cocos2d::Node::getPosition() const:CCNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "operator():HomeScene.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
+      </ContextState>
+      <ContextState
          contextName = "operator():DirectionButton.cpp">
       </ContextState>
       <ContextState
-         contextName = "cocos2d::Node::setUserData(void*):CCNode.cpp">
+         contextName = "Player::loadPlayerInfo():Player.cpp">
       </ContextState>
       <ContextState
          contextName = "Player::update(float):Player.cpp">
@@ -21,9 +36,18 @@
                value = "rect.origin.y">
             </PersistentString>
             <PersistentString
+               value = "this">
+            </PersistentString>
+            <PersistentString
                value = "col">
             </PersistentString>
+            <PersistentString
+               value = "GameManager::getInstance()-&gt;getSpeed()">
+            </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapObject::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():Player.cpp">
@@ -37,16 +61,7 @@
          contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
       </ContextState>
       <ContextState
-         contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "operator():HomeScene.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "Player::loadPlayerInfo():Player.cpp">
+         contextName = "GameManager::getInstance():GameManager.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

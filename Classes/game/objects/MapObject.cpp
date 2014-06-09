@@ -8,6 +8,7 @@
 
 #include "MapObject.h"
 #include "game/MapUtil.h"
+#include "game/GameManager.h"
 
 void MapObject::onEnter()
 {
@@ -21,6 +22,10 @@ void MapObject::onEnter()
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
     setZOrder(getRow());
+    if(getMapCell()->getCellType()!=88)
+    {
+        scheduleUpdateWithPriority(-1);
+    }
     run();
 }
 
@@ -197,6 +202,18 @@ Point MapObject::convertCoordinate2Point(const cocos2d::Point &coordinate)
     return Point((coordinate.x+0.5)*TILE_WIDTH, mapSizeInPixel.height- coordinate.y*TILE_HEIGHT-TILE_HEIGHT);
 }
 
+void MapObject::update(float delta)
+{
+    auto rect = getBoundingBox();
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+    auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+    auto isCollision = playerRect.intersectsRect(rect);
+    if(isCollision)
+    {
+        GameManager::getInstance()->setIsCollision(isCollision);
+    }
+}
+
 
 
 #pragma mark----------------通用的tile-------------------------------
@@ -212,6 +229,12 @@ void TransferDoor::onEnter()
     MapObject::onEnter();
     setZOrder(-1);
 }
+
+void TransferDoor::update(float delta)
+{
+    
+}
+
 
 #pragma mark ----------------GroundTile-------------------------------------------------
 

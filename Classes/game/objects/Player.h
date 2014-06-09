@@ -22,6 +22,9 @@ public:
         kWalkDown,
         kWalkStand
     };
+    
+    virtual Rect getBoundingBox() const;
+    
     /**
      * 根据用户选择的角色名字 来创建对应的角色
      */
@@ -29,6 +32,7 @@ public:
     
     std::string getDirectionStr();
     
+    virtual void onEnter();
     virtual bool init();
     virtual void run();
     void born();
