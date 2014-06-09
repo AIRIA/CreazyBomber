@@ -20,10 +20,16 @@ public:
     };
     static Bomb *create(BombType type);
     virtual bool init();
-    CC_SYNTHESIZE(BombType, m_BombType, BombType);
     void onEnter();
     void initBombAnimations();
     void bomb();
+    
+    CC_SYNTHESIZE(BombType, m_BombType, BombType);
+    CC_SYNTHESIZE(int , m_iRow, Row);
+    CC_SYNTHESIZE(int , m_iCol, Col);
+    CC_SYNTHESIZE(int , m_iPower, Power);
+    CC_SYNTHESIZE(float , m_iBombTime, BombTime);
+    
 };
 
 #endif /* defined(__CreazyBomber__Bomb__) */

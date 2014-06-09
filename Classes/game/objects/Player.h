@@ -30,6 +30,7 @@ public:
      */
     static Player *create(MapCell *mapCell);
     
+    const Point &getCoordinate();
     std::string getDirectionStr();
     
     virtual void onEnter();
@@ -39,6 +40,10 @@ public:
     void walk(WalkDirection direction);
     void update(float delta);
     void loadPlayerInfo();
+    
+protected:
+    Point _coordinate;
+    
     CC_SYNTHESIZE(float, m_fWidth, Width);
     CC_SYNTHESIZE(float, m_fHeight, Height);
     CC_SYNTHESIZE(float, m_fSpeed, Speed);

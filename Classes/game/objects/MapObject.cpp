@@ -21,7 +21,7 @@ void MapObject::onEnter()
     setMapSizeInPixle(mapSizeInPixel);
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
-    setZOrder(getRow());
+    setZOrder(getRow()*10);
     if(getMapCell()->getCellType()!=88)
     {
         scheduleUpdateWithPriority(-1);
@@ -187,8 +187,7 @@ void MapObject::doTileAttack()
 
 Point MapObject::getCurrentCoordinate()
 {
-    auto pos = getPosition();
-        
+    auto pos = getPosition();    
     float col = (pos.x - getAnchorPoint().x*TILE_WIDTH)/TILE_WIDTH;
     float row = (getMapSizeInPixle().height-pos.y-TILE_HEIGHT)/TILE_HEIGHT;
     setZOrder(row);
@@ -200,18 +199,23 @@ Point MapObject::convertCoordinate2Point(const cocos2d::Point &coordinate)
     auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
     setMapSizeInPixle(mapSizeInPixel);
     return Point((coordinate.x+0.5)*TILE_WIDTH, mapSizeInPixel.height- coordinate.y*TILE_HEIGHT-TILE_HEIGHT);
-}
+ }
 
 void MapObject::update(float delta)
 {
-    auto rect = getBoundingBox();
-    rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
-    auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
-    auto isCollision = playerRect.intersectsRect(rect);
-    if(isCollision)
+    auto status = GameManager::getInstance()->getWalkDirection();
+    if(status!=Player::kWalkStand)
     {
-        GameManager::getInstance()->setIsCollision(isCollision);
+        auto rect = getBoundingBox();
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+        auto isCollision = playerRect.intersectsRect(rect);
+        if(isCollision)
+        {
+            GameManager::getInstance()->setIsCollision(isCollision);
+        }
     }
+    
 }
 
 

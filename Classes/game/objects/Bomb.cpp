@@ -7,6 +7,8 @@
 //
 
 #include "Bomb.h"
+#include "game/GameManager.h"
+#include "game/MapUtil.h"
 
 void Bomb::onEnter()
 {
@@ -20,7 +22,10 @@ void Bomb::onEnter()
         sprintf(animationName, "%s-zd.png",GameConfig::selectedRoleName.c_str());
     }
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
-    runAction(RepeatForever::create(animate));
+    auto animateCall = CallFunc::create([&]()->void{
+        this->bomb();
+    });
+    runAction(Sequence::create(Repeat::create(animate, 5),animateCall, NULL));
 }
 
 Bomb *Bomb::create(Bomb::BombType type)
@@ -80,6 +85,58 @@ void Bomb::initBombAnimations()
         char name[50];
         sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),i);
         createBombAnimation(name,9);
+    }
+}
+
+void Bomb::bomb()
+{
+    removeFromParent();
+    auto getAnimateByName = [](std::string animationName)->Animate*{
+        auto animation = AnimationCache::getInstance()->getAnimation(animationName);
+        return Animate::create(animation);
+    };
+    auto removeHandler = CallFuncN::create([](Ref *pSender)->void{
+        auto node = static_cast<Node*>(pSender);
+        node->removeFromParent();
+    });
+    auto center = Sprite::create();
+    center->runAction(Sequence::create(getAnimateByName((GameConfig::selectedRoleName+"-zd01.png").c_str()),removeHandler,NULL));
+    center->setPosition(getPosition());
+    center->setAnchorPoint(getAnchorPoint());
+    GameManager::getInstance()->getMapTileLayer()->addChild(center);
+    
+    std::vector<Point> directions = {Point(-1,0),Point(0,-1),Point(+1,0),Point(0,+1)};
+    for(auto i=0;i<directions.size();i++)
+    {
+        for(auto j=1;j<=m_iPower;j++)
+        {
+            char name[50];
+            if(j==m_iPower)
+            {
+                sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),2*(i+1));
+            }
+            else
+            {
+                sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),2*(i+1)+1);
+            }
+            
+            auto targetCoordiante = Point(getCol(),getRow())+directions[i]*j;
+            log("row:%f,col:%f",targetCoordiante.x,targetCoordiante.y);
+            auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(targetCoordiante);
+            if(tile&&tile!=GameManager::getInstance()->getPlayer())
+            {
+                tile->doTileDestory();
+                break;
+            }
+            auto bombFire = Sprite::create();
+            
+            bombFire->setAnchorPoint(getAnchorPoint());
+            bombFire->setPosition(GameManager::getInstance()->getPlayer()->convertCoordinate2Point(targetCoordiante));
+            bombFire->runAction(Sequence::create(getAnimateByName(name),removeHandler->clone(), NULL));
+            bombFire->setZOrder(getZOrder());
+            GameManager::getInstance()->getMapTileLayer()->addChild(bombFire);
+            
+        }
     }
 }
 

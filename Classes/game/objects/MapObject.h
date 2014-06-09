@@ -68,6 +68,7 @@ public:
      * 根据当前的坐标获取所在的行列信息
      */
     Point getCurrentCoordinate();
+    
     Point convertCoordinate2Point(const Point &coordinate);
     
 #pragma mark ------------getter/setter-----------------

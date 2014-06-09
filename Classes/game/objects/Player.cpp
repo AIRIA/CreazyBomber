@@ -205,6 +205,29 @@ Rect Player::getBoundingBox() const
     return rect;
 }
 
+const Point &Player::getCoordinate()
+{
+    auto pos = getBoundingBox().origin+Point(20,getFootPos());
+    float fCol = pos.x / TILE_WIDTH;
+    float fRow = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT;
+    int col = fCol;
+    int row = fRow;
+    col = col<fCol?col++:col;
+    row = row<fRow?row++:row;
+    _coordinate = Point(col, row);
+    if(row<fRow-0.7)
+    {
+        setZOrder(row*10+2);
+    }
+    else
+    {
+        setZOrder(row*10);
+    }
+    
+    return _coordinate;
+}
+
+
 void Player::update(float delta)
 {
     auto isCollision = GameManager::getInstance()->getIsCollision();
@@ -215,6 +238,7 @@ void Player::update(float delta)
     else
     {
         auto targetPosition = getPosition()+GameManager::getInstance()->getSpeed();
+        auto coordinate = getCoordinate();
         setPosition(targetPosition);
     }
 }

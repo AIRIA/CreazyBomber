@@ -24,6 +24,7 @@ public:
     CC_SYNTHESIZE(float, m_fScaleFactor, ScaleFactor);
     CC_SYNTHESIZE(Node *, m_pMapTileLayer, MapTileLayer);
     CC_SYNTHESIZE(bool, m_bIsConllision, IsCollision);
+    CC_SYNTHESIZE(int, m_bBombPower, BombPower);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

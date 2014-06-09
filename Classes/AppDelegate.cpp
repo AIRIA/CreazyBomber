@@ -24,7 +24,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     srand(time(NULL));
     director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
-    GameScene::create()->run();
+    HomeScene::create()->run();
     
     return true;
 }

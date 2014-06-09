@@ -25,3 +25,6 @@ proj.android/bin
 proj.android/obj
 bin/
 proj.android/assets
+# Mac Build Files
+cocos2d/build/build/
+proj.ios_mac/build

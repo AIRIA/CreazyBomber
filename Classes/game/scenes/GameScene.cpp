@@ -34,6 +34,8 @@ bool GameScene::init()
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
+    GameManager::getInstance()->setBombPower(1);
+    
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
     textureFiles.push_back("textures/monster_2-hd");
@@ -99,21 +101,14 @@ void GameScene::addUIComponents()
 
 void GameScene::normalBombHandler(cocos2d::Ref *pSender)
 {
+    auto player = GameManager::getInstance()->getPlayer();
     auto bomb = Bomb::create(Bomb::kBombNormal);
-    auto coordinate = GameManager::getInstance()->getPlayer()->getCurrentCoordinate();
-    int row = coordinate.y;
-    int col = coordinate.x;
-    if(row<coordinate.y-0.5)
-    {
-        row++;
-    }
-    if(col<coordinate.x-0.5)
-    {
-        col++;
-    }
-    bomb->setZOrder(row);
+    auto coordinate = player->getCoordinate();
+    bomb->setZOrder((coordinate.y)*10+1);
+    bomb->setCol(coordinate.x);
+    bomb->setRow(coordinate.y);
+    bomb->setPower(GameManager::getInstance()->getBombPower());
     bomb->setAnchorPoint(Point(0.5f,0.0f));
-    auto bombCoordinate = GameManager::getInstance()->getPlayer()->convertCoordinate2Point(Point(col,row));
-    bomb->setPosition(bombCoordinate);
+    bomb->setPosition(player->convertCoordinate2Point(coordinate));
     GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
 }
