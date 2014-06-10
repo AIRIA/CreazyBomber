@@ -18,6 +18,14 @@
          contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
       </ContextState>
       <ContextState
+         contextName = "MapObject::onEnter():MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapObjects()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "operator():DirectionButton.cpp">
       </ContextState>
       <ContextState
@@ -48,6 +56,14 @@
       </ContextState>
       <ContextState
          contextName = "MapObject::update(float):MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Bomb::bomb():Bomb.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapObjects()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "operator():Player.cpp">

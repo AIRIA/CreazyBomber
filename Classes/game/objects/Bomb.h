@@ -20,16 +20,26 @@ public:
     };
     static Bomb *create(BombType type);
     virtual bool init();
-    void onEnter();
+    virtual void onEnter();
     void initBombAnimations();
     void bomb();
-    
+    virtual void doTileDestory();
+
+protected:
+    bool _isBombed;
     CC_SYNTHESIZE(BombType, m_BombType, BombType);
     CC_SYNTHESIZE(int , m_iRow, Row);
     CC_SYNTHESIZE(int , m_iCol, Col);
     CC_SYNTHESIZE(int , m_iPower, Power);
     CC_SYNTHESIZE(float , m_iBombTime, BombTime);
     
+    
+};
+
+class BombFire:public MapObject
+{
+public:
+    static BombFire *create();
 };
 
 #endif /* defined(__CreazyBomber__Bomb__) */

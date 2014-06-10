@@ -235,7 +235,6 @@ Node *MapUtil::getCommonTileLayer()
         }
         mapObj->setRow(row);
         mapObj->setCol(col);
-        m_vMapObjects.pushBack(mapObj);
         mapCellNode->addChild(mapObj);
     }
     return mapCellNode;
@@ -387,4 +386,9 @@ MapObject *MapUtil::getMapObjectByCoordinate(const cocos2d::Point &coordinate)
         it++;
     }
     return nullptr;
+}
+
+void MapUtil::removeMapObject(MapObject *mapObj)
+{
+    m_vMapObjects.eraseObject(mapObj);
 }

@@ -25,8 +25,11 @@ void Bomb::onEnter()
     auto animateCall = CallFunc::create([&]()->void{
         this->bomb();
     });
-    runAction(Sequence::create(Repeat::create(animate, 5),animateCall, NULL));
+    //scheduleUpdateWithPriority(-1);
+    MapUtil::getInstance()->getMapObjects().pushBack(this);
+    runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
 }
+
 
 Bomb *Bomb::create(Bomb::BombType type)
 {
@@ -47,8 +50,17 @@ bool Bomb::init()
     {
         return false;
     }
+    _isBombed = false;
     initBombAnimations();
     return true;
+}
+
+void Bomb::doTileDestory()
+{
+    if (!_isBombed) {
+        _isBombed = true;
+        bomb();
+    }
 }
 
 void Bomb::initBombAnimations()
@@ -99,7 +111,11 @@ void Bomb::bomb()
         auto node = static_cast<Node*>(pSender);
         node->removeFromParent();
     });
-    auto center = Sprite::create();
+    
+    
+    auto center = BombFire::create();
+    center->setRow(getRow());
+    center->setCol(getCol());
     center->runAction(Sequence::create(getAnimateByName((GameConfig::selectedRoleName+"-zd01.png").c_str()),removeHandler,NULL));
     center->setPosition(getPosition());
     center->setAnchorPoint(getAnchorPoint());
@@ -121,15 +137,15 @@ void Bomb::bomb()
             }
             
             auto targetCoordiante = Point(getCol(),getRow())+directions[i]*j;
-            log("row:%f,col:%f",targetCoordiante.x,targetCoordiante.y);
             auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(targetCoordiante);
             if(tile&&tile!=GameManager::getInstance()->getPlayer())
             {
                 tile->doTileDestory();
                 break;
             }
-            auto bombFire = Sprite::create();
-            
+            auto bombFire = BombFire::create();
+            bombFire->setRow(targetCoordiante.y);
+            bombFire->setCol(targetCoordiante.x);
             bombFire->setAnchorPoint(getAnchorPoint());
             bombFire->setPosition(GameManager::getInstance()->getPlayer()->convertCoordinate2Point(targetCoordiante));
             bombFire->runAction(Sequence::create(getAnimateByName(name),removeHandler->clone(), NULL));
@@ -139,4 +155,25 @@ void Bomb::bomb()
         }
     }
 }
+
+#pragma mark ------------------------BombFire---------------------------
+
+BombFire *BombFire::create()
+{
+    auto bf = new BombFire();
+    if(bf&&bf->init())
+    {
+        bf->autorelease();
+        return bf;
+    }
+    CC_SAFE_DELETE(bf);
+    return nullptr;
+}
+
+
+
+
+
+
+
 

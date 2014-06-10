@@ -65,6 +65,11 @@ public:
     MapObject *getMapObjectByCoordinate(const Point &coordinate);
     
     Node *addTileMapBorder();
+    
+    void removeMapObject(MapObject *mapObj);
+    
+    Vector<MapObject*> &getMapObjects(){ return m_vMapObjects;};
+    
 protected:
     
     /**
@@ -78,6 +83,7 @@ protected:
     TMXTiledMap *m_pMap;
     Vector<MapCell*> m_vMapCells;
     Vector<MapObject*> m_vMapObjects;
+    
     
 };
 

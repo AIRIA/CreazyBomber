@@ -11,7 +11,7 @@
 std::string GameConfig::selectedRoleName = "smurf";
 std::string GameConfig::selectedSceneName = "cl";
 std::string GameConfig::selectedStageName = "";
-int GameConfig::selectedLevel = 4;
+int GameConfig::selectedLevel = 7;
 
 void GameConfig::setSelectScene(SceneType type)
 {

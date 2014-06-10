@@ -38,6 +38,7 @@ class MapObject : public Sprite
 {
 public:
     virtual void onEnter();
+    virtual void onExit();
     bool initWithMapCell(MapCell *mapCell);
     void createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix="");
     virtual void run();
