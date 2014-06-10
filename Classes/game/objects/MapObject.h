@@ -179,4 +179,16 @@ public:
     virtual void run();
 };
 
+/**
+ * 地图的边界元素
+ *
+ */
+class MapBorder:public MapObject
+{
+public:
+    static MapBorder *createWithSpriteFrameName(const std::string &name);
+    static MapBorder *createWithSpriteFrame(SpriteFrame *frame);
+    virtual void onEnter();
+};
+
 #endif /* defined(__CreazyBomber__MapObject__) */

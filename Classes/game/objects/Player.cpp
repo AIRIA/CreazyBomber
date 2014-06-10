@@ -199,9 +199,24 @@ void Player::loadPlayerInfo()
 
 Rect Player::getBoundingBox() const
 {
+    //每个角色的碰撞检测区域都有差别
     auto rect = Node::getBoundingBox();
-    rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos())+GameManager::getInstance()->getSpeed();
-    rect.size = Size(getWidth(),getFootPos()*2);
+    if(GameConfig::selectedRoleName==std::string("zombie"))
+    {
+        rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
+        rect.size = Size(getWidth(),40);
+    }
+    else if(GameConfig::selectedRoleName==std::string("viking"))
+    {
+        rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
+        rect.size = Size(getWidth(),50);
+    }
+    else
+    {
+        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos())+GameManager::getInstance()->getSpeed();
+        rect.size = Size(getWidth(),40);
+    }
+    
     return rect;
 }
 
@@ -209,7 +224,7 @@ const Point &Player::getCoordinate()
 {
     auto pos = getBoundingBox().origin+Point(20,getFootPos());
     float fCol = pos.x / TILE_WIDTH;
-    float fRow = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT;
+    float fRow = (getMapSizeInPixle().height-pos.y-getFootPos())/TILE_HEIGHT;
     int col = fCol;
     int row = fRow;
     col = col<fCol?col++:col;

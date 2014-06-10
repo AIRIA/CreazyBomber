@@ -65,7 +65,7 @@ void Bomb::doTileDestory()
 
 void Bomb::initBombAnimations()
 {
-    auto createBombAnimation = [](std::string fileName,int frameNum)->void{
+    auto createBombAnimation = [](std::string fileName,int frameNum,float delay=0.2f)->void{
         if(AnimationCache::getInstance()->getAnimation(fileName))
         {
             return;
@@ -77,7 +77,7 @@ void Bomb::initBombAnimations()
         auto size = rect.size;
         auto frameWidth = size.width/frameNum;
         auto frameHeight = size.height;
-        
+        frameNum = frameNum>5?5:frameNum;
         Vector<SpriteFrame*> frameVec;
         for(auto i=0;i<frameNum;i++)
         {
@@ -87,7 +87,7 @@ void Bomb::initBombAnimations()
         }
         
         auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(0.2f);
+        animation->setDelayPerUnit(delay);
         AnimationCache::getInstance()->addAnimation(animation, fileName);
     };
     
@@ -96,13 +96,21 @@ void Bomb::initBombAnimations()
     for (auto i=1; i<=9; i++) {
         char name[50];
         sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),i);
-        createBombAnimation(name,9);
+        if(GameConfig::selectedRoleName==std::string("viking"))
+        {
+            createBombAnimation(name,8,0.1f);
+        }
+        else
+        {
+            createBombAnimation(name,9,0.1f);
+        }
+        
     }
 }
 
 void Bomb::bomb()
 {
-    removeFromParent();
+    
     auto getAnimateByName = [](std::string animationName)->Animate*{
         auto animation = AnimationCache::getInstance()->getAnimation(animationName);
         return Animate::create(animation);
@@ -154,6 +162,7 @@ void Bomb::bomb()
             
         }
     }
+    removeFromParent();
 }
 
 #pragma mark ------------------------BombFire---------------------------

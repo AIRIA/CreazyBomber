@@ -11,29 +11,6 @@
 #define TILE_WIDTH 80
 #define TILE_HEIGHT 80
 
-enum CellType{
-    kCellTypeBornPlace    = 88,//英雄出生的地方
-    kCellTypeMonster      = 100,//怪物
-    kCellTypeGround       = 3,//普通的tile不能穿越 不能被炸坏
-    kCellTypeTransfer     = 36,//传送门
-    kCellTypeBigBuilding  = 51,//大型建筑
-    kCellTypePlant        = 5,//可以晃动的植物
-    kCellTypeBox          = 9,// 木头箱子 可以推动的
-    kCellTypeCorpseFlower = 7,//食人花
-    kCellTypeWanDou       = 55 ,//豌豆 可以发射炮弹
-    kCellTypeDiCi         = 40,//地刺
-    kCellTypeLvDai        = 8,//履带 可以让英雄加速或者减速
-    kCellTypeShuShou      = 38 ,//瘴气
-    kCellTypeMonsterHome  = 11,//怪物帐篷 可以生成怪物
-    kCellTypeDiDong       = 44,//地洞 可以生成怪物
-    kCellTypeFireWall     = 16,//火墙 可以产生火球
-    kCellTypePengHuoKou   = 15,//喷火口 可以喷火
-    kCellTypeEvilFire     = 4,// 鬼火 可以移动
-    kCellTypeWom          = 42,//虫子
-    kCellTypeSnowBall     = 59,//雪球 可以滚动
-    kCellTypeIce          = 12,//冰面
-};
-
 MapUtil *MapUtil::getInstance()
 {
     static MapUtil *instance = nullptr;
@@ -346,7 +323,7 @@ Node *MapUtil::addTileMapBorder()
     endRow = endRow*3;
     
     auto createDibian = [&borderNode](std::string name,Point startPos,int direction)->void{
-        auto dibian = Sprite::createWithSpriteFrameName(name);
+        auto dibian = MapBorder::createWithSpriteFrameName(name);
         auto size = dibian->getContentSize();
         if (direction==0) {
             //横向

@@ -56,7 +56,7 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
     auto cellSourceSize = cellSourceRect.size;
     
     auto animations = mapCell->getAnimations();
-    log("ani num:%zd",animations.size());
+
     auto it = animations.begin();
     auto it_end = animations.end();
     for (auto i=0;it!=it_end;it++,i++) {
@@ -92,7 +92,7 @@ void MapObject::createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,st
     {
         return;
     }
-    log("cached :%s",animationName);
+
     Vector<SpriteFrame*> frameVec;
     auto frameWidth = cellAnimation->getWidth()*2;
     auto frameHeight = cellAnimation->getHeight()*2;
@@ -157,6 +157,7 @@ void MapObject::doTileDestory()
         auto animateCallback = CallFunc::create([&]()->void{
             this->removeFromParent();
         });
+        stopAllActions();
         runAction(Sequence::create(animate,animateCallback, NULL));
     }
 }
@@ -214,7 +215,10 @@ void MapObject::update(float delta)
     if(status!=Player::kWalkStand)
     {
         auto rect = getBoundingBox();
-        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        if(getType()!=kCellBorder)
+        {
+            rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        }
         auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
         auto isCollision = playerRect.intersectsRect(rect);
         if(isCollision)
@@ -403,4 +407,38 @@ void ManEater::run()
 void SnowBallMan::run()
 {
     this->doAnimationWithAttack();
+}
+
+auto MapBorder::createWithSpriteFrame(cocos2d::SpriteFrame *frame) -> MapBorder*
+{
+    auto mb = new MapBorder();
+    if(mb&&mb->initWithSpriteFrame(frame))
+    {
+        mb->autorelease();
+        mb->setType(kCellBorder);
+        return mb;
+    }
+    CC_SAFE_FREE(mb);
+    return nullptr;
+}
+
+MapBorder* MapBorder::createWithSpriteFrameName(const std::string& spriteFrameName)
+{
+    SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
+    
+#if COCOS2D_DEBUG > 0
+    char msg[256] = {0};
+    sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
+    CCASSERT(frame != nullptr, msg);
+#endif
+    
+    return createWithSpriteFrame(frame);
+}
+
+void MapBorder::onEnter()
+{
+    Sprite::onEnter();
+    scheduleUpdateWithPriority(-1);
+    MapUtil::getInstance()->getMapObjects().pushBack(this);
+    log("border show");
 }
