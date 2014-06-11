@@ -35,7 +35,7 @@ bool GameScene::init()
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
-    GameManager::getInstance()->setBombPower(1);
+    GameManager::getInstance()->setBombPower(4);
     
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");

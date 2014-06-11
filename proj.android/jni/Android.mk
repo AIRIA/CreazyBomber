@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/game/scenes/GameScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
                    ../../Classes/game/objects/MapObject.cpp \
+		   ../../Classes/game/objects/BigBuilding.cpp \
                    ../../Classes/game/objects/MapCell.cpp \
 				   ../../Classes/game/objects/Player.cpp \
 				   ../../Classes/game/objects/Bomb.cpp \
