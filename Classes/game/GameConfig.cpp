@@ -9,7 +9,7 @@
 #include "GameConfig.h"
 
 std::string GameConfig::selectedRoleName = "viking";
-std::string GameConfig::selectedSceneName = "cl";
+std::string GameConfig::selectedSceneName = "bc";
 std::string GameConfig::selectedStageName = "";
 int GameConfig::selectedLevel = 7;
 

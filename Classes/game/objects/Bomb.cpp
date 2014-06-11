@@ -113,7 +113,8 @@ void Bomb::bomb()
     
     auto getAnimateByName = [](std::string animationName)->Animate*{
         auto animation = AnimationCache::getInstance()->getAnimation(animationName);
-        return Animate::create(animation);
+        auto animate = Animate::create(animation);
+        return animate;
     };
     auto removeHandler = CallFuncN::create([](Ref *pSender)->void{
         auto node = static_cast<Node*>(pSender);

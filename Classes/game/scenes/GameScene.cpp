@@ -14,6 +14,7 @@
 #include "components/GameUILayer.h"
 #include "game/GameManager.h"
 #include "game/objects/Bomb.h"
+#include "components/MapLayer.h"
 
 void GameScene::onEnter()
 {
@@ -56,7 +57,7 @@ bool GameScene::init()
 void GameScene::onTexturesLoaded()
 {
     
-    auto mapLayer = Node::create();
+    auto mapLayer = MapLayer::create();
     auto baseTileLayer = MapUtil::getInstance()->getBaseTileLayer();
     auto tmxLayer = MapUtil::getInstance()->getTmxTileLayer();
     auto commonTileLayer = MapUtil::getInstance()->getCommonTileLayer();
@@ -73,7 +74,7 @@ void GameScene::onTexturesLoaded()
     GameManager::getInstance()->setMapTileLayer(commonTileLayer);
     
     mapLayer->setAnchorPoint(Point(0.0f,1.0f));
-    mapLayer->setPosition(Point(-40*m_fScaleFactor,m_winSize.height+40*m_fScaleFactor));
+    mapLayer->setPosition(Point(-TILE_WIDTH/2*m_fScaleFactor,m_winSize.height+TILE_HEIGHT/2*m_fScaleFactor));
     if(mapSize.height==9)
     {
         mapLayer->setAnchorPoint(Point(0.0f,0.5f));
@@ -110,5 +111,6 @@ void GameScene::normalBombHandler(cocos2d::Ref *pSender)
     bomb->setPower(GameManager::getInstance()->getBombPower());
     bomb->setAnchorPoint(Point(0.5f,0.0f));
     bomb->setPosition(player->convertCoordinate2Point(coordinate));
+    
     GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
 }
