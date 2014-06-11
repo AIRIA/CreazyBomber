@@ -105,7 +105,9 @@ public:
     virtual void run();
 };
 
-
+/**
+ * 传送门
+ */
 class TransferDoor:public MapObject
 {
 public:
@@ -189,6 +191,16 @@ public:
     static MapBorder *createWithSpriteFrameName(const std::string &name);
     static MapBorder *createWithSpriteFrame(SpriteFrame *frame);
     virtual void onEnter();
+};
+
+#pragma mark ----------木箱子--------------------------------------------
+class WoodBox:public MapObject
+{
+public:
+    MAPOBJ_CREATE(WoodBox);
+    virtual void update(float delta);
+protected:
+    bool _isMoving = false;
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

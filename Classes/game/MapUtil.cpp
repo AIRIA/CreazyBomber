@@ -249,7 +249,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = ManEater::create(mapCell);
             break;
         case kCellTypeBox:
-            element = GroundTile::create(mapCell);
+            element = WoodBox::create(mapCell);
             break;
         case kCellTypeWanDou:
             element = GroundTile::create(mapCell);

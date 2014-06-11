@@ -58,7 +58,7 @@ void MapLayer::update(float delta)
     auto pos = player->getPosition();
     auto worldPos = player->getParent()->convertToWorldSpace(pos);
     auto direction = GameManager::getInstance()->getWalkDirection();
-    log("wx:%f , wy:%f",worldPos.x,worldPos.y);
+//    log("wx:%f , wy:%f",worldPos.x,worldPos.y);
     auto range = 20;
     if(GameManager::getInstance()->getIsCollision()==false)
     {
@@ -72,7 +72,7 @@ void MapLayer::update(float delta)
                 _offset.x = _offset.x>_rangeWidth?_rangeWidth:_offset.x;
                 break;
             case Player::kWalkLeft:
-                if(_offset.x < VisibleRect::center().x-range)
+                if(worldPos.x < VisibleRect::center().x-range)
                     _offset += speed;
                 _offset.x = _offset.x<0?0:_offset.x;
                 break;

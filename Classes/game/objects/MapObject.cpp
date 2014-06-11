@@ -442,3 +442,64 @@ void MapBorder::onEnter()
     MapUtil::getInstance()->getMapObjects().pushBack(this);
     log("border show");
 }
+
+#pragma mark ----------木箱子--------------------------------------------
+
+void WoodBox::update(float delta)
+{
+    if(_isMoving)
+    {
+        return;
+    }
+    auto status = GameManager::getInstance()->getWalkDirection();
+    if(status!=Player::kWalkStand)
+    {
+        auto rect = getBoundingBox();
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+        auto isCollision = playerRect.intersectsRect(rect);
+        if(isCollision)
+        {
+            GameManager::getInstance()->setIsCollision(isCollision);
+            /* 根据行走碰撞的方向 执行不同的操作 */
+            auto direction = GameManager::getInstance()->getWalkDirection();
+            auto nextCoordinate = Point(getCol(),getRow());
+            auto offset = Point::ZERO;
+            switch (direction) {
+                case Player::kWalkUp:
+                    offset = Point(0,-1);
+                    break;
+                case Player::kWalkDown:
+                    offset = Point(0,1);
+                    break;
+                case Player::kWalkLeft:
+                    offset = Point(-1,0);
+                    break;
+                case Player::kWalkRight:
+                    offset = Point(1,0);
+                    break;
+                default:
+                    break;
+            }
+            nextCoordinate += offset;
+            if(nextCoordinate.x==0)
+            {
+                return;
+            }
+            offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
+            auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(nextCoordinate);
+            if(tile==nullptr)
+            {
+                _isMoving = true;
+                setCol(nextCoordinate.x);
+                setRow(nextCoordinate.y);
+                auto moveAct = MoveBy::create(0.2,offset);
+                auto moveCall = CallFunc::create([&]()->void{
+                    _isMoving = false;
+                });
+                runAction(Sequence::create(moveAct,moveCall, NULL));
+            }
+            
+        }
+    }
+}
