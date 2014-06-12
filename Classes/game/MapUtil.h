@@ -39,7 +39,25 @@ enum CellType{
     kCellBorder
 };
 
-
+class MonsterProperty:public Ref
+{
+    CC_SYNTHESIZE(std::string, m_sMonsterName, MonsterName);
+    CC_SYNTHESIZE(int, m_iHP, HP);
+    CC_SYNTHESIZE(int, m_iPower, Power);
+    CC_SYNTHESIZE(int, m_iReward, Reward);
+    CC_SYNTHESIZE(std::string, m_sFileName, FileName);
+    CC_SYNTHESIZE(std::string, m_sImageFileName, ImageFileName);
+    CC_SYNTHESIZE(int,m_iShiYe, ShiYe);
+    CC_SYNTHESIZE(int, m_iZhuiZong, ZhuiZong);
+    CC_SYNTHESIZE(int, m_iWidth, Width);
+    CC_SYNTHESIZE(int, m_iHeight, Height);
+    CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);
+    CC_SYNTHESIZE(int, m_iFootPos, FootPos);
+    CC_SYNTHESIZE(int, m_iSpeed, Speed);
+    CC_SYNTHESIZE(int, m_iAi, Ai);
+    CC_SYNTHESIZE(int, m_iWuDi, WuDi);
+    CC_SYNTHESIZE(std::string,m_sSkills,Skills);
+};
 
 /**
  * 地图由三层组成:
@@ -95,7 +113,7 @@ public:
     
     Vector<MapObject*> &getMapObjects(){ return m_vMapObjects;};
     
-    Vector<MonsterProperty*> &getMonsterProperteis{ return m_vMonsterProperteis};
+    Vector<MonsterProperty*> &getMonsterProperteis(){ return m_vMonsterProperteis;};
     
     void getMonsterInfos();
     
@@ -113,28 +131,8 @@ protected:
     Vector<MapCell*> m_vMapCells;
     Vector<MapObject*> m_vMapObjects;
     Vector<MonsterProperty*> m_vMonsterProperteis;
-    
-    
 };
 
-class MonsterProperty:public Ref
-{
-    CC_SYNTHESIZE(std::string, m_sMonsterName, MonsterName);
-    CC_SYNTHESIZE(int, m_iHP, HP);
-    CC_SYNTHESIZE(int, m_iPower, Power);
-    CC_SYNTHESIZE(int, m_iReward, Reward);
-    CC_SYNTHESIZE(std::string, m_sFileName, FileName);
-    CC_SYNTHESIZE(std::string, m_sImageFileName, ImageFileName);
-    CC_SYNTHESIZE(int,m_iShiYe, ShiYe);
-    CC_SYNTHESIZE(int, m_iZhuiZong, ZhuiZong);
-    CC_SYNTHESIZE(int, m_iWidth, Width);
-    CC_SYNTHESIZE(int, m_iHeight, Height);
-    CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);
-    CC_SYNTHESIZE(int, m_iFootPos, FootPos);
-    CC_SYNTHESIZE(int, m_iSpeed, Speed);
-    CC_SYNTHESIZE(int, m_iAi, Ai);
-    CC_SYNTHESIZE(int, m_iWuDi, WuDi);
-    CC_SYNTHESIZE(std::string,m_sSkills,Skills);
-};
+
 
 #endif /* defined(__CreazyBomber__MapUtil__) */
