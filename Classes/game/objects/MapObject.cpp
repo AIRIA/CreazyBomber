@@ -404,6 +404,7 @@ void ManEater::run()
     this->doAnimationWithAttack();
 }
 
+
 void SnowBallMan::run()
 {
     this->doAnimationWithAttack();
@@ -493,7 +494,7 @@ void WoodBox::update(float delta)
                 _isMoving = true;
                 setCol(nextCoordinate.x);
                 setRow(nextCoordinate.y);
-                auto moveAct = MoveBy::create(0.2,offset);
+                auto moveAct = MoveBy::create(0.4,offset);
                 auto moveCall = CallFunc::create([&]()->void{
                     _isMoving = false;
                 });

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "game/GameManager.h"
 #include "game/MapUtil.h"
+#include "components/PlayerArrow.h"
 
 
 struct RoleProperty{
@@ -158,6 +159,10 @@ void Player::run()
         this->runAction(RepeatForever::create(huxi_down));
     }), NULL);
     runAction(huxiSeq);
+    auto arrow = PlayerArrow::getInstance();
+    arrow->setAnchorPoint(Point(0.5,0));
+    arrow->setPosition(getWidth(),getHeight()*2);
+    addChild(arrow);
 }
 
 std::string Player::getDirectionStr()
