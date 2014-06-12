@@ -369,3 +369,20 @@ void MapUtil::removeMapObject(MapObject *mapObj)
 {
     m_vMapObjects.eraseObject(mapObj);
 }
+
+void MapUtil::getMonsterInfos()
+{
+    auto data = FileUtils::getInstance()->getStringFromFile("res/monster.txt");
+}
+
+
+
+
+
+
+
+
+
+
+
+
