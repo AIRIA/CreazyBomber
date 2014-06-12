@@ -42,6 +42,7 @@ public:
     bool initWithMapCell(MapCell *mapCell);
     void createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix="");
     virtual void run();
+    virtual void onAttack(){};
     /**
      * 被炮弹炸掉以后 执行此方法
      */
@@ -168,6 +169,8 @@ class ManEater:public MapObject
 public:
     MAPOBJ_CREATE(ManEater);
     virtual void run();
+    virtual void update(float delta);
+    virtual void onAttack();
 };
 
 /**

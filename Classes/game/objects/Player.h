@@ -40,9 +40,26 @@ public:
     void walk(WalkDirection direction);
     void update(float delta);
     void loadPlayerInfo();
+    void stopWalkAction();
+    /**
+     * 玩家被攻击啊后 调用
+     * @param heart 伤害值
+     */
+    void beAttack(float heart);
     
 protected:
     Point _coordinate;
+    /**
+     * 是否处于可以被攻击的状态
+     */
+    bool _isCanBeAttack = true;
+    
+    /**
+     * 闪烁
+     */
+    void blink(float delta);
+
+    int _blinkTime = 0;
     
     CC_SYNTHESIZE(float, m_fWidth, Width);
     CC_SYNTHESIZE(float, m_fHeight, Height);

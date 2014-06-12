@@ -171,21 +171,31 @@ void MapObject::doTileAttack()
     sprintf(animationName2,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
     auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName2);
     auto callback = CallFunc::create([&]()->void{
+        
         this->doAnimationWithAttack();
     });
+    
+    auto attackCallback = CallFunc::create([&]()->void{
+        auto delay = DelayTime::create(0.05f);
+        auto delayCall = CallFunc::create([&]()->void{
+            this->onAttack();
+        });
+        this->runAction(Sequence::create(delay,delayCall, NULL));
+    });
+    
     /* 如果存在攻击前的准备行为 则调用准备行为后调用攻击动作 攻击完成后 继续执行正常的动作 如果没有准备行为 那么准备行为就是攻击行为 如果两者都没有则进行默认的正常动作 */
     if(prepareAnimation)
     {
         if(attackAnimation)
         {
-            runAction(Sequence::create(Animate::create(prepareAnimation),Animate::create(attackAnimation),callback, NULL));
+            runAction(Sequence::create(Animate::create(prepareAnimation),attackCallback,Animate::create(attackAnimation),callback, NULL));
         }else{
-            runAction(Sequence::create(Animate::create(prepareAnimation),callback, NULL));
+            runAction(Sequence::create(attackCallback,Animate::create(prepareAnimation),callback, NULL));
         }
     }
     else if(attackAnimation)
     {
-        runAction(Sequence::create(Animate::create(attackAnimation),callback, NULL));
+        runAction(Sequence::create(attackCallback,Animate::create(attackAnimation),callback, NULL));
     }
     else
     {
@@ -404,6 +414,57 @@ void ManEater::run()
     this->doAnimationWithAttack();
 }
 
+void ManEater::update(float delta)
+{
+    auto status = GameManager::getInstance()->getWalkDirection();
+    if(status!=Player::kWalkStand)
+    {
+        auto direc = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
+        auto rect = getBoundingBox();
+        /* 根据食人鱼的方向来进行碰撞检测 */
+        if(direc==2) //left
+        {
+            rect.origin.x += TILE_WIDTH;
+            rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        }
+        else if(direc==3) //right
+        {
+            rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+        }
+        
+        auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+        auto isCollision = playerRect.intersectsRect(rect);
+        if(isCollision)
+        {
+            GameManager::getInstance()->setIsCollision(isCollision);
+        }
+    }
+}
+
+void ManEater::onAttack()
+{
+    auto direc = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
+    auto rect = getBoundingBox();
+    /* 根据食人鱼的方向来进行碰撞检测 */
+    if(direc==2) //left
+    {
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-30);
+    }
+    else if(direc==3) //right
+    {
+        rect.origin.x += TILE_WIDTH;
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-30);
+    }
+    
+    auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+    auto isCollision = playerRect.intersectsRect(rect);
+    if(isCollision)
+    {
+        GameManager::getInstance()->getPlayer()->beAttack(33);
+    }
+}
+
+#pragma mark ----------------吐雪球的建筑------------------
 
 void SnowBallMan::run()
 {

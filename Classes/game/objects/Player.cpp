@@ -158,10 +158,19 @@ void Player::run()
         auto huxi_down = getAnimate("huxi_down");
         this->runAction(RepeatForever::create(huxi_down));
     }), NULL);
+    
     runAction(huxiSeq);
     auto arrow = PlayerArrow::getInstance();
     arrow->setAnchorPoint(Point(0.5,0));
-    arrow->setPosition(getWidth(),getHeight()*2);
+    if(GameConfig::selectedRoleName==std::string("zombie"))
+    {
+        arrow->setPosition(getWidth(),130);
+    }
+    else
+    {
+        arrow->setPosition(getWidth(),getHeight()*2);
+    }
+
     addChild(arrow);
 }
 
@@ -247,6 +256,25 @@ const Point &Player::getCoordinate()
     return _coordinate;
 }
 
+void Player::beAttack(float heart)
+{
+    if(_isCanBeAttack)
+    {
+        schedule(schedule_selector(Player::blink), 0.1, 5, 0);
+    }
+}
+
+void Player::blink(float delta)
+{
+    auto visible = isVisible();
+    setVisible(!visible);
+    _blinkTime++;
+    _blinkTime = _blinkTime/4;
+    if(_blinkTime==0)
+    {
+        _isCanBeAttack = true;
+    }
+}
 
 void Player::update(float delta)
 {
@@ -263,4 +291,7 @@ void Player::update(float delta)
     }
 }
 
-
+void Player::stopWalkAction()
+{
+    
+}
