@@ -310,6 +310,20 @@ Monster *Monster::create(MapCell *mapCell)
     return nullptr;
 }
 
+void Monster::onEnter()
+{
+    MapObject::onEnter();
+    auto id = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
+    auto pro = MapUtil::getInstance()->getMonsterProperyById(id);
+    if(pro==nullptr)
+    {
+        log("can't find target monster property :%s",getMapCell()->getCellName().c_str());
+        return;
+    }
+    setMonsterProperty(pro);
+    
+}
+
 void Monster::run()
 {
     walk(kWalkRight);
@@ -387,6 +401,8 @@ void Monster::walk(Monster::WalkDirection direc)
     auto walkAct = Animate::create(animation);
     runAction(RepeatForever::create(walkAct));
 }
+
+
 
 #pragma mark ----------------履带-------------------
 

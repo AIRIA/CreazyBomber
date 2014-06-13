@@ -34,6 +34,31 @@ enum TileStatusType{
     kTileStatusAttack = 6
 };
 
+
+class MonsterProperty:public Ref
+{
+public:
+    virtual bool init(){return true;};
+    CREATE_FUNC(MonsterProperty);
+    CC_SYNTHESIZE(int, m_iID, ID);
+    CC_SYNTHESIZE(std::string, m_sMonsterName, MonsterName);
+    CC_SYNTHESIZE(int, m_iHP, HP);
+    CC_SYNTHESIZE(int, m_iPower, Power);
+    CC_SYNTHESIZE(int, m_iReward, Reward);
+    CC_SYNTHESIZE(std::string, m_sFileName, FileName);
+    CC_SYNTHESIZE(std::string, m_sImageFileName, ImageFileName);
+    CC_SYNTHESIZE(int,m_iShiYe, ShiYe);
+    CC_SYNTHESIZE(int, m_iZhuiZong, ZhuiZong);
+    CC_SYNTHESIZE(int, m_iWidth, Width);
+    CC_SYNTHESIZE(int, m_iHeight, Height);
+    CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);
+    CC_SYNTHESIZE(int, m_iFootPos, FootPos);
+    CC_SYNTHESIZE(int, m_iSpeed, Speed);
+    CC_SYNTHESIZE(int, m_iAi, Ai);
+    CC_SYNTHESIZE(int, m_iWuDi, WuDi);
+    CC_SYNTHESIZE(std::string,m_sSkills,Skills);
+};
+
 class MapObject : public Sprite
 {
 public:
@@ -125,7 +150,7 @@ class Monster:public MapObject
 public:
     static Monster *create(MapCell *mapCell);
     virtual void run();
-    
+    virtual void onEnter();
     enum WalkDirection{
         kWalkUp,
         kWalkLeft,
@@ -138,6 +163,7 @@ public:
      * @param direct 
      **/
     void walk(WalkDirection direc);
+    CC_SYNTHESIZE(MonsterProperty*, m_pMonsterProperty, MonsterProperty);
 };
 
 /**

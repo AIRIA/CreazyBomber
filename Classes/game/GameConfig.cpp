@@ -9,9 +9,9 @@
 #include "GameConfig.h"
 
 std::string GameConfig::selectedRoleName = "viking";
-std::string GameConfig::selectedSceneName = "bc";
+std::string GameConfig::selectedSceneName = "cl";
 std::string GameConfig::selectedStageName = "";
-int GameConfig::selectedLevel = 5;
+int GameConfig::selectedLevel = 1;
 
 void GameConfig::setSelectScene(SceneType type)
 {

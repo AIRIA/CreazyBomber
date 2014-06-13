@@ -382,6 +382,7 @@ void MapUtil::getMonsterInfos()
         {
             const rapidjson::Value &monster = monsters[i];
             auto mp = MonsterProperty::create();
+            mp->setID(monster["id"].GetInt());
             mp->setMonsterName(monster["name"].GetString());
             mp->setHP(monster["hp"].GetInt());
 //            mp->setAi(monster["ai"].GetInt());
@@ -395,8 +396,23 @@ void MapUtil::getMonsterInfos()
             mp->setHeight(monster["height"].GetInt());
             mp->setFootPos(monster["foot_pos"].GetInt());
             mp->setReward(monster["reward"].GetInt());
+            m_vMonsterProperteis.pushBack(mp);
         }
     }
+}
+
+MonsterProperty *MapUtil::getMonsterProperyById(int id)
+{
+    auto it = getMonsterProperteis().begin();
+    while (it!=getMonsterProperteis().end()) {
+        auto pro = *it;
+        if(pro->getID()==id)
+        {
+            return pro;
+        }
+        it++;
+    }
+    return nullptr;
 }
 
 

@@ -39,29 +39,6 @@ enum CellType{
     kCellBorder
 };
 
-class MonsterProperty:public Ref
-{
-public:
-    virtual bool init(){return true;};
-    CREATE_FUNC(MonsterProperty);
-    CC_SYNTHESIZE(std::string, m_sMonsterName, MonsterName);
-    CC_SYNTHESIZE(int, m_iHP, HP);
-    CC_SYNTHESIZE(int, m_iPower, Power);
-    CC_SYNTHESIZE(int, m_iReward, Reward);
-    CC_SYNTHESIZE(std::string, m_sFileName, FileName);
-    CC_SYNTHESIZE(std::string, m_sImageFileName, ImageFileName);
-    CC_SYNTHESIZE(int,m_iShiYe, ShiYe);
-    CC_SYNTHESIZE(int, m_iZhuiZong, ZhuiZong);
-    CC_SYNTHESIZE(int, m_iWidth, Width);
-    CC_SYNTHESIZE(int, m_iHeight, Height);
-    CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);
-    CC_SYNTHESIZE(int, m_iFootPos, FootPos);
-    CC_SYNTHESIZE(int, m_iSpeed, Speed);
-    CC_SYNTHESIZE(int, m_iAi, Ai);
-    CC_SYNTHESIZE(int, m_iWuDi, WuDi);
-    CC_SYNTHESIZE(std::string,m_sSkills,Skills);
-};
-
 /**
  * 地图由三层组成:
  * 1.每个模式的常规背景 包括三种:丛林 冰川 墓地
@@ -119,6 +96,8 @@ public:
     Vector<MonsterProperty*> &getMonsterProperteis(){ return m_vMonsterProperteis;};
     
     void getMonsterInfos();
+    
+    MonsterProperty *getMonsterProperyById(int id);
     
 protected:
     
