@@ -151,6 +151,7 @@ public:
     static Monster *create(MapCell *mapCell);
     virtual void run();
     virtual void onEnter();
+    virtual void update(float delta);
     enum WalkDirection{
         kWalkUp,
         kWalkLeft,
@@ -164,6 +165,11 @@ public:
      **/
     void walk(WalkDirection direc);
     CC_SYNTHESIZE(MonsterProperty*, m_pMonsterProperty, MonsterProperty);
+    CC_SYNTHESIZE(bool , m_bIsCollision, IsCollison);
+    CC_SYNTHESIZE(Point, m_VecSpeed, VecSpeed);
+    CC_SYNTHESIZE(Point, m_CornerPoint, CornerPoint);
+    CC_SYNTHESIZE(WalkDirection, m_eDirection, Direction);
+    CC_SYNTHESIZE(Point, m_nextCoordinate, NextCoordinate);
 };
 
 /**

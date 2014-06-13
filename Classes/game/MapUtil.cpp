@@ -125,6 +125,8 @@ const Size MapUtil::getMapSizeInPixle()
 {
     auto mapSize = getMapSize();
     auto sizeInPixle = Size(mapSize.width*TILE_WIDTH,mapSize.height*TILE_HEIGHT);
+    setMapWidthInPixle(sizeInPixle.width);
+    setMapHeightInPixle(sizeInPixle.height);
     return sizeInPixle;
 }
 

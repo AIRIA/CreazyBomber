@@ -321,12 +321,110 @@ void Monster::onEnter()
         return;
     }
     setMonsterProperty(pro);
-    
+    /* 刚开始的时候设定成已经碰撞的状态 开始执行方向的选择操作 */
+    setIsCollison(true);
 }
 
 void Monster::run()
 {
     walk(kWalkRight);
+}
+
+/* 在这里执行NPC的AI逻辑 */
+void Monster::update(float delta)
+{
+    if(getIsCollison())
+    {
+        auto getRandomDirection = [&]()->MapObject*{
+            auto coordiante = Point(getCol(),getRow());
+            m_eDirection = (WalkDirection)(rand()%4);
+            switch (m_eDirection) {
+                case kWalkUp:
+                    setVecSpeed(Point(0,1));
+                    coordiante -= getVecSpeed();
+                    break;
+                case kWalkDown:
+                    setVecSpeed(Point(0,-1));
+                    coordiante -= getVecSpeed();
+                    break;
+                case kWalkLeft:
+                    setVecSpeed(Point(-1,0));
+                    coordiante += getVecSpeed();
+                    break;
+                case kWalkRight:
+                    setVecSpeed(Point(1,0));
+                    coordiante += getVecSpeed();
+                    break;
+                default:
+                    break;
+            }
+            auto cornerX = TILE_WIDTH*(coordiante.x+0.5);
+            auto cornerY = MapUtil::getInstance()->getMapHeightInPixle()-TILE_HEIGHT*(coordiante.y+0.5);
+            setCornerPoint(Point(cornerX,cornerY));
+            setNextCoordinate(coordiante);
+            return MapUtil::getInstance()->getMapObjectByCoordinate(coordiante);
+        };
+        
+        //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
+        auto tile = getRandomDirection();
+        while(tile!=nullptr)
+        {
+            tile = getRandomDirection();
+        }
+        walk(m_eDirection);
+        setIsCollison(false);
+    }
+    
+//    auto speed = getMonsterProperty()->getSpeed();
+    setVecSpeed(getVecSpeed()*1);
+    auto nextPosition = getPosition()+getVecSpeed();
+    //需要检测即将到底的位置是不是到达了需要判断方向的地方
+    switch (m_eDirection) {
+        case kWalkRight:
+            if(nextPosition.x>=m_CornerPoint.x)
+            {
+                nextPosition.x = m_CornerPoint.x;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkLeft:
+            if(nextPosition.x<=m_CornerPoint.x)
+            {
+                nextPosition.x = m_CornerPoint.x;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkUp:
+            if(nextPosition.y+TILE_HEIGHT/2>=m_CornerPoint.y)
+            {
+                nextPosition.y = m_CornerPoint.y-TILE_HEIGHT/2;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkDown:
+            if(nextPosition.y+TILE_HEIGHT/2<=m_CornerPoint.y)
+            {
+                nextPosition.y = m_CornerPoint.y-TILE_HEIGHT/2;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+            
+        default:
+            break;
+    }
+    setPosition(nextPosition);
 }
 
 bool Monster::initWithMapCell(MapCell *mapCell)
@@ -378,6 +476,7 @@ bool Monster::initWithMapCell(MapCell *mapCell)
 
 void Monster::walk(Monster::WalkDirection direc)
 {
+    stopAllActions();
     auto suffix = "up";
     switch (direc) {
         case kWalkUp:

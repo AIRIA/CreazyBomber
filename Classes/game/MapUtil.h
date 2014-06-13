@@ -113,6 +113,8 @@ protected:
     Vector<MapCell*> m_vMapCells;
     Vector<MapObject*> m_vMapObjects;
     Vector<MonsterProperty*> m_vMonsterProperteis;
+    CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
+    CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
 };
 
 

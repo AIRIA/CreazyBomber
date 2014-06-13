@@ -59,11 +59,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "424328318.357984"
+            timestampString = "424349255.081301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "535"
-            endingLineNumber = "535"
+            startingLineNumber = "634"
+            endingLineNumber = "634"
             landmarkName = "WoodBox::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -75,11 +75,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "424328318.357984"
+            timestampString = "424349255.081301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "567"
-            endingLineNumber = "567"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "WoodBox::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -91,11 +91,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "424328318.357984"
+            timestampString = "424349255.081301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "ManEater::onAttack()"
             landmarkType = "5">
          </BreakpointContent>
@@ -107,11 +107,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "424328318.357984"
+            timestampString = "424349255.081301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "578"
+            endingLineNumber = "578"
             landmarkName = "ManEater::onAttack()"
             landmarkType = "5">
          </BreakpointContent>
@@ -119,7 +119,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
@@ -135,15 +135,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/MapUtil.cpp"
-            timestampString = "424328489.236575"
+            timestampString = "424347702.053258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "MapUtil::getMonsterProperyById(int id)"
             landmarkType = "5">
          </BreakpointContent>
@@ -151,16 +151,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/MapUtil.cpp"
-            timestampString = "424328531.575596"
+            timestampString = "424347702.053258"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
             landmarkName = "MapUtil::getMonsterInfos()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/game/objects/MapObject.cpp"
+            timestampString = "424347622.02229"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
+            landmarkName = "Monster::update(float delta)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/game/objects/MapObject.cpp"
+            timestampString = "424347752.508863"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
+            landmarkName = "Monster::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
