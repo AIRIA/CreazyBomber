@@ -41,6 +41,9 @@ enum CellType{
 
 class MonsterProperty:public Ref
 {
+public:
+    virtual bool init(){return true;};
+    CREATE_FUNC(MonsterProperty);
     CC_SYNTHESIZE(std::string, m_sMonsterName, MonsterName);
     CC_SYNTHESIZE(int, m_iHP, HP);
     CC_SYNTHESIZE(int, m_iPower, Power);

@@ -23,7 +23,11 @@ void Bomb::onEnter()
     }
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     auto animateCall = CallFunc::create([&]()->void{
+        auto start = time(nullptr);
+
         this->bomb();
+        auto end = time(nullptr);
+        log("bomb time:%ld",end-start);
     });
     //scheduleUpdateWithPriority(-1);
     MapUtil::getInstance()->getMapObjects().pushBack(this);

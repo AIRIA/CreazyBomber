@@ -18,6 +18,7 @@ MapUtil *MapUtil::getInstance()
     {
         instance = new MapUtil();
         instance->initMapCells();
+        instance->getMonsterInfos();
     }
     return instance;
 }
@@ -372,7 +373,30 @@ void MapUtil::removeMapObject(MapObject *mapObj)
 
 void MapUtil::getMonsterInfos()
 {
-    auto data = FileUtils::getInstance()->getStringFromFile("res/monster.txt");
+    auto data = FileUtils::getInstance()->getStringFromFile("res/monsters.bin");
+    rapidjson::Document monstersInfo;
+    if(monstersInfo.Parse<0>(data.c_str()).HasParseError()==false)
+    {
+        const rapidjson::Value &monsters = monstersInfo["monsters"];
+        for(rapidjson::SizeType i=0;i<monsters.Size();i++)
+        {
+            const rapidjson::Value &monster = monsters[i];
+            auto mp = MonsterProperty::create();
+            mp->setMonsterName(monster["name"].GetString());
+            mp->setHP(monster["hp"].GetInt());
+//            mp->setAi(monster["ai"].GetInt());
+            mp->setWuDi(monster["wudi"].GetInt());
+            mp->setPower(monster["attack"].GetInt());
+            mp->setShiYe(monster["shiye"].GetInt());
+            mp->setZhuiZong(monster["zhuizong"].GetInt());
+            mp->setSpeed(monster["speed"].GetInt());
+            mp->setSkills(monster["skills"].GetString());
+            mp->setWidth(monster["width"].GetInt());
+            mp->setHeight(monster["height"].GetInt());
+            mp->setFootPos(monster["foot_pos"].GetInt());
+            mp->setReward(monster["reward"].GetInt());
+        }
+    }
 }
 
 
