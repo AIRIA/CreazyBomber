@@ -139,7 +139,11 @@ class TransferDoor:public MapObject
 public:
     MAPOBJ_CREATE(TransferDoor);
     virtual void onEnter();
+    virtual void onExit();
+    virtual void run();
     virtual void update(float delta);
+protected:
+    void _enableTransfor(Ref *pSender);
 };
 
 /**
@@ -152,6 +156,7 @@ public:
     virtual void run();
     virtual void onEnter();
     virtual void update(float delta);
+    virtual void doTileDestory();
     enum WalkDirection{
         kWalkUp,
         kWalkLeft,

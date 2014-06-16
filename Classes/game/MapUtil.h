@@ -14,6 +14,7 @@
 #include "game/objects/MapCell.h"
 #include "game/objects/BigBuilding.h"
 #include "game/objects/Player.h"
+#include "game/objects/Bomb.h"
 
 enum CellType{
     kCellTypeBornPlace    = 88,//英雄出生的地方
@@ -86,6 +87,7 @@ public:
     const Size getMapSizeInPixle();
     
     MapObject *getMapObjectByCoordinate(const Point &coordinate);
+    Monster *getMonsterByCoordinate(const Point &coordiante);
     
     Node *addTileMapBorder();
     
@@ -94,6 +96,10 @@ public:
     Vector<MapObject*> &getMapObjects(){ return m_vMapObjects;};
     
     Vector<MonsterProperty*> &getMonsterProperteis(){ return m_vMonsterProperteis;};
+    
+    Vector<Monster*> &getMonsters(){ return m_vMonsters;};
+    
+    Vector<BombFire*> &getBombFires(){ return m_vFires;};
     
     void getMonsterInfos();
     
@@ -113,6 +119,9 @@ protected:
     Vector<MapCell*> m_vMapCells;
     Vector<MapObject*> m_vMapObjects;
     Vector<MonsterProperty*> m_vMonsterProperteis;
+    Vector<Monster*> m_vMonsters;
+    Vector<BombFire*> m_vFires;
+    
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
     CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
 };

@@ -40,4 +40,8 @@ using namespace rapidjson;
 //--------Notifications---------------------------------------------
 #define ADD_NORMAL_BOMB "add_normal_bomb"
 #define ADD_TIMER_BOMB "add_timer_bomb"
+#define GAME_PASS "game_pass"
+#define GAME_OVER "game_over"
+#define GAME_RESULT "game_result"
+
 #endif

@@ -56,7 +56,6 @@ bool GameScene::init()
 
 void GameScene::onTexturesLoaded()
 {
-    
     auto mapLayer = MapLayer::create();
     auto baseTileLayer = MapUtil::getInstance()->getBaseTileLayer();
     auto tmxLayer = MapUtil::getInstance()->getTmxTileLayer();

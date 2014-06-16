@@ -78,8 +78,6 @@ void MapUtil::initMapCells()
         m_vMapCells.pushBack(mapCell);
         cell = cell->NextSiblingElement();
     }
-
-    
 }
 
 
@@ -238,6 +236,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         case kCellTypeMonster:
             element = Monster::create(mapCell);
+            m_vMonsters.pushBack(static_cast<Monster*>(element));
             break;
         case kCellTypeGround:
             element = GroundTile::create(mapCell);
@@ -357,6 +356,21 @@ MapObject *MapUtil::getMapObjectByCoordinate(const cocos2d::Point &coordinate)
 {
     auto it = m_vMapObjects.begin();
     while(it!=m_vMapObjects.end())
+    {
+        auto obj = *it;
+        if(obj->getRow()==coordinate.y && obj->getCol()==coordinate.x)
+        {
+            return obj;
+        }
+        it++;
+    }
+    return nullptr;
+}
+
+Monster *MapUtil::getMonsterByCoordinate(const cocos2d::Point &coordinate)
+{
+    auto it = m_vMonsters.begin();
+    while(it!=m_vMonsters.end())
     {
         auto obj = *it;
         if(obj->getRow()==coordinate.y && obj->getCol()==coordinate.x)

@@ -253,11 +253,50 @@ void TransferDoor::onEnter()
 {
     MapObject::onEnter();
     setZOrder(-1);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(TransferDoor::_enableTransfor), GAME_PASS, nullptr);
+    unscheduleUpdate();
+}
+
+void TransferDoor::onExit()
+{
+    MapObject::onExit();
+    NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
+void TransferDoor::run()
+{
+    auto animate = getDefaultAnimate();
+    runAction(RepeatForever::create(animate));
+}
+
+void TransferDoor::_enableTransfor(cocos2d::Ref *pSender)
+{
+    stopAllActions();
+    char animationName[50];
+    sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),4);
+    auto prepareAnimation = AnimationCache::getInstance()->getAnimation(animationName);
+    runAction(RepeatForever::create(Animate::create(prepareAnimation)));
+    scheduleUpdate();
 }
 
 void TransferDoor::update(float delta)
 {
-    
+    auto rect = getBoundingBox();
+    auto playerRect = GameManager::getInstance()->getPlayer()->Node::getBoundingBox();
+    playerRect.origin.x = playerRect.origin.x+playerRect.size.width/2;
+    playerRect.origin.y = playerRect.origin.y+playerRect.size.height/2;
+    playerRect.size = Size(1,1);
+    auto isCollision = playerRect.intersectsRect(rect);
+    if(isCollision)
+    {
+        unscheduleUpdate();
+        GameManager::getInstance()->getPlayer()->unscheduleUpdate();
+        auto scaleAct = ScaleTo::create(0.5f, 0.0f);
+        auto scaleHandler = CallFunc::create([]()->void{
+            
+        });
+        GameManager::getInstance()->getPlayer()->runAction(Sequence::create(scaleAct,scaleHandler, NULL));
+    }
 }
 
 
@@ -333,6 +372,19 @@ void Monster::run()
 /* 在这里执行NPC的AI逻辑 */
 void Monster::update(float delta)
 {
+    /* 监测和炸弹的碰撞 */
+    auto monsterRect = getBoundingBox();
+    auto it = MapUtil::getInstance()->getBombFires().begin();
+    while(it!=MapUtil::getInstance()->getBombFires().end())
+    {
+        auto rect = (*it)->boundingBox();
+        if(monsterRect.intersectsRect(rect))
+        {
+            doTileDestory();
+            return;
+        }
+        it++;
+    }
     if(getIsCollison())
     {
         auto getRandomDirection = [&]()->MapObject*{
@@ -373,6 +425,8 @@ void Monster::update(float delta)
         }
         walk(m_eDirection);
         setIsCollison(false);
+        
+       
     }
     
 //    auto speed = getMonsterProperty()->getSpeed();
@@ -499,6 +553,22 @@ void Monster::walk(Monster::WalkDirection direc)
     auto animation = AnimationCache::getInstance()->getAnimation(animateName);
     auto walkAct = Animate::create(animation);
     runAction(RepeatForever::create(walkAct));
+}
+
+void Monster::doTileDestory()
+{
+    stopAllActions();
+    unscheduleUpdate();
+    auto blink = Blink::create(1, 5);
+    auto blinkHandler = CallFunc::create([&]()->void{
+        this->removeFromParent();
+        MapUtil::getInstance()->getMonsters().eraseObject(this);
+        if(MapUtil::getInstance()->getMonsters().size()==0)
+        {
+            NotificationCenter::getInstance()->postNotification(GAME_PASS);
+        }
+    });
+    runAction(Sequence::create(blink,blinkHandler, NULL));
 }
 
 

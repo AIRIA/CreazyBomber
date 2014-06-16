@@ -40,6 +40,8 @@ class BombFire:public MapObject
 {
 public:
     static BombFire *create();
+    virtual void onEnter();
+    virtual void onExit();
 };
 
 #endif /* defined(__CreazyBomber__Bomb__) */

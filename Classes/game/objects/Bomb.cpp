@@ -154,15 +154,19 @@ void Bomb::bomb()
             if(tile&&tile!=GameManager::getInstance()->getPlayer())
             {
                 tile->doTileDestory();
-                break;
+                if(tile->getMapCell()->getCellType()!=kCellTypeMonster)
+                {
+                    break;
+                }
             }
+ 
             auto bombFire = BombFire::create();
             bombFire->setRow(targetCoordiante.y);
             bombFire->setCol(targetCoordiante.x);
             bombFire->setAnchorPoint(getAnchorPoint());
             bombFire->setPosition(GameManager::getInstance()->getPlayer()->convertCoordinate2Point(targetCoordiante));
             bombFire->runAction(Sequence::create(getAnimateByName(name),removeHandler->clone(), NULL));
-            bombFire->setZOrder(getZOrder());
+            bombFire->setZOrder(getZOrder()-2);
             GameManager::getInstance()->getMapTileLayer()->addChild(bombFire);
             
         }
@@ -184,8 +188,17 @@ BombFire *BombFire::create()
     return nullptr;
 }
 
+void BombFire::onEnter()
+{
+    MapObject::onEnter();
+    MapUtil::getInstance()->getBombFires().pushBack(this);
+}
 
-
+void BombFire::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getBombFires().eraseObject(this);
+}
 
 
 
