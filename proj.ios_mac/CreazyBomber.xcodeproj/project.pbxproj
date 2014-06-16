@@ -44,6 +44,10 @@
 		41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416478FF192C8D8C000FB1B5 /* GameConfig.cpp */; };
 		416EB5BE1938269700BA5409 /* BomberButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416EB5BC1938269700BA5409 /* BomberButton.cpp */; };
 		416EB5BF1938269700BA5409 /* BomberButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 416EB5BC1938269700BA5409 /* BomberButton.cpp */; };
+		4174D9D3194EADDA00B27DE1 /* ResultLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */; };
+		4174D9D4194EADDA00B27DE1 /* ResultLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */; };
+		4174D9D9194EF44700B27DE1 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 4174D9D8194EF44700B27DE1 /* font */; };
+		4174D9DA194EF44700B27DE1 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 4174D9D8194EF44700B27DE1 /* font */; };
 		4198AF11192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF12192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF17192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
@@ -288,6 +292,9 @@
 		41647900192C8D8C000FB1B5 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		416EB5BC1938269700BA5409 /* BomberButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BomberButton.cpp; sourceTree = "<group>"; };
 		416EB5BD1938269700BA5409 /* BomberButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BomberButton.h; sourceTree = "<group>"; };
+		4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResultLayer.cpp; sourceTree = "<group>"; };
+		4174D9D2194EADDA00B27DE1 /* ResultLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultLayer.h; sourceTree = "<group>"; };
+		4174D9D8194EF44700B27DE1 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
 		4198AF10192DA31F00E70612 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		4198AF16192DB01F00E70612 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		41E939C7193494F5002E3F4A /* BigBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigBuilding.h; sourceTree = "<group>"; };
@@ -511,6 +518,8 @@
 				414CED7219471965004FF658 /* MapLayer.h */,
 				414CEDD6194950D4004FF658 /* PlayerArrow.cpp */,
 				414CEDD7194950D4004FF658 /* PlayerArrow.h */,
+				4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */,
+				4174D9D2194EADDA00B27DE1 /* ResultLayer.h */,
 			);
 			name = components;
 			path = ../Classes/components;
@@ -581,6 +590,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4174D9D8194EF44700B27DE1 /* font */,
 				4120146E193DDF4D00640867 /* images */,
 				4198AF16192DB01F00E70612 /* res */,
 				4198AF10192DA31F00E70612 /* map */,
@@ -820,6 +830,7 @@
 				4198AF17192DB01F00E70612 /* res in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				4198AF11192DA31F00E70612 /* map in Resources */,
+				4174D9D9194EF44700B27DE1 /* font in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
@@ -835,6 +846,7 @@
 				8ECFE57019289E0C006C61FC /* music in Resources */,
 				4198AF12192DA31F00E70612 /* map in Resources */,
 				8ECFE56D1928835C006C61FC /* textures in Resources */,
+				4174D9DA194EF44700B27DE1 /* font in Resources */,
 				4198AF18192DB01F00E70612 /* res in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 			);
@@ -858,6 +870,7 @@
 				41201465193D78B800640867 /* GameUILayer.cpp in Sources */,
 				4120146C193DBDE300640867 /* Bomb.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
+				4174D9D3194EADDA00B27DE1 /* ResultLayer.cpp in Sources */,
 				416EB5BE1938269700BA5409 /* BomberButton.cpp in Sources */,
 				8ECFE55E192867EC006C61FC /* HomeScene.cpp in Sources */,
 				8E1ADD371931FF23002A7A34 /* MapObject.cpp in Sources */,
@@ -899,6 +912,7 @@
 				8E1ADD341931F83E002A7A34 /* GameScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				41E939CA193494F5002E3F4A /* BigBuilding.cpp in Sources */,
+				4174D9D4194EADDA00B27DE1 /* ResultLayer.cpp in Sources */,
 				41647902192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

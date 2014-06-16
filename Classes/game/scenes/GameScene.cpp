@@ -15,11 +15,13 @@
 #include "game/GameManager.h"
 #include "game/objects/Bomb.h"
 #include "components/MapLayer.h"
+#include "components/ResultLayer.h"
 
 void GameScene::onEnter()
 {
     BaseLayer::onEnter();
     NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
+    GameManager::getInstance()->setIsGameOver(false);
 }
 
 void GameScene::onExit()
@@ -34,7 +36,14 @@ bool GameScene::init()
         return false;
     }
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
-    GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
+    auto scaleH = m_winSize.height/DESIGN_HEIGHT;
+    if(scaleH>m_fScaleFactor)
+    {
+        GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
+    }else{
+        GameManager::getInstance()->setScaleFactor(scaleH);
+    }
+    
     GameManager::getInstance()->setBombPower(3);
     
     textureFiles.push_back("textures/medium-hd");
@@ -46,6 +55,12 @@ bool GameScene::init()
     textureFiles.push_back("textures/scenetex_big1-hd");
     textureFiles.push_back("textures/player_huxi-hd");
     textureFiles.push_back("textures/ingame-hd");
+    textureFiles.push_back("textures/other_1-hd");
+    textureFiles.push_back("textures/other-hd");
+    textureFiles.push_back("textures/button-hd");
+    
+    textureFiles.push_back("textures/zh_cn/locale_3-hd");
+    
     
     char playerTextureName[50];
     sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::selectedRoleName.c_str());
@@ -83,6 +98,8 @@ void GameScene::onTexturesLoaded()
     mapLayer->setScale(m_fScaleFactor);
     addChild(mapLayer);
     addUIComponents();
+    addChild(ResultLayer::create());
+    
 }
 
 void GameScene::addUIComponents()

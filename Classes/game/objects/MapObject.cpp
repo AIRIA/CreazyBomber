@@ -290,10 +290,11 @@ void TransferDoor::update(float delta)
     if(isCollision)
     {
         unscheduleUpdate();
+        GameManager::getInstance()->setIsGameOver(true);
         GameManager::getInstance()->getPlayer()->unscheduleUpdate();
         auto scaleAct = ScaleTo::create(0.5f, 0.0f);
         auto scaleHandler = CallFunc::create([]()->void{
-            
+            NotificationCenter::getInstance()->postNotification(GAME_RESULT);
         });
         GameManager::getInstance()->getPlayer()->runAction(Sequence::create(scaleAct,scaleHandler, NULL));
     }

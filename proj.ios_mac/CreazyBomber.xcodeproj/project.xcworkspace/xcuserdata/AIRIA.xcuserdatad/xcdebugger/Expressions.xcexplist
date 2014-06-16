@@ -26,10 +26,10 @@
          contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
       </ContextState>
       <ContextState
-         contextName = "Player::loadPlayerInfo():Player.cpp">
+         contextName = "operator():DirectionButton.cpp">
       </ContextState>
       <ContextState
-         contextName = "operator():DirectionButton.cpp">
+         contextName = "Player::loadPlayerInfo():Player.cpp">
       </ContextState>
       <ContextState
          contextName = "Player::update(float):Player.cpp">
@@ -70,6 +70,14 @@
          <PersistentStrings>
             <PersistentString
                value = "MapUtil::getInstance()-&gt;getMapSize()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "operator():ResultLayer.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "wrapper">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

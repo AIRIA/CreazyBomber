@@ -28,5 +28,37 @@ package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.view.KeyEvent;
+
 public class AppActivity extends Cocos2dxActivity {
+	private AlertDialog exitDialog;
+
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode==KeyEvent.KEYCODE_BACK)
+		{
+			exitDialog = new AlertDialog.Builder(this).setTitle("提示")
+					.setMessage("真的要退出游戏吗?")
+					.setPositiveButton("继续玩", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							exitDialog.dismiss();
+						}
+					}).setNegativeButton("退出", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							android.os.Process.killProcess(android.os.Process
+									.myPid());
+						}
+					}).show();
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+	
 }

@@ -172,6 +172,10 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
 
 void DirectionButton::walk()
 {
+    if(GameManager::getInstance()->getIsGameOver())
+    {
+        return;
+    }
     Player::WalkDirection direct = GameManager::getInstance()->getWalkDirection();
     auto player = GameManager::getInstance()->getPlayer();
     if(GameManager::getInstance()->getCurrentWalkDirection()==direct)
@@ -198,6 +202,10 @@ void DirectionButton::walk()
 
 void DirectionButton::stand()
 {
+    if(GameManager::getInstance()->getIsGameOver())
+    {
+        return;
+    }
     GameManager::getInstance()->setSpeed(Point::ZERO);
     auto player = GameManager::getInstance()->getPlayer();
     player->stopAllActions();

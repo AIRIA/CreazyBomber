@@ -14,16 +14,17 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/components/BomberButton.cpp \
                    ../../Classes/components/DirectionButton.cpp \
                    ../../Classes/components/GameUILayer.cpp \
-		   ../../Classes/components/PlayerArrow.cpp \
+		   		   ../../Classes/components/PlayerArrow.cpp \
+		   		   ../../Classes/components/ResultLayer.cpp \
                    ../../Classes/game/scenes/HomeScene.cpp \
                    ../../Classes/game/scenes/GameScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
                    ../../Classes/game/objects/MapObject.cpp \
-		   ../../Classes/game/objects/BigBuilding.cpp \
+		   		   ../../Classes/game/objects/BigBuilding.cpp \
                    ../../Classes/game/objects/MapCell.cpp \
 				   ../../Classes/game/objects/Player.cpp \
 				   ../../Classes/game/objects/Bomb.cpp \
-		   ../../Classes/components/MapLayer.cpp \
+		   		   ../../Classes/components/MapLayer.cpp \
                    ../../Classes/game/GameConfig.cpp \
                    ../../Classes/game/MapUtil.cpp \
                    ../../Classes/game/GameManager.cpp 
