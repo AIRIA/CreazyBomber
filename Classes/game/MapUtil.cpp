@@ -23,6 +23,13 @@ MapUtil *MapUtil::getInstance()
     return instance;
 }
 
+void MapUtil::clearMap()
+{
+    m_vFires.clear();
+    m_vMapCells.clear();
+    m_vMonsters.clear();
+}
+
 void MapUtil::initMapCells()
 {
     XMLDocument doc;
@@ -238,14 +245,15 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = Monster::create(mapCell);
             m_vMonsters.pushBack(static_cast<Monster*>(element));
             break;
-        case kCellTypeGround:
-            element = GroundTile::create(mapCell);
-            break;
+//        case kCellTypeGround:
+//            element = GroundTile::create(mapCell);
+//            break;
         case kCellTypeBigBuilding:
             element = BigBuilding::create(mapCell);
             break;
         case kCellTypePlant:
             element = CommonTile::create(mapCell);
+            m_vCommonTiles.pushBack(element);
             break;
         case kCellTypeCorpseFlower:
             element = ManEater::create(mapCell);
@@ -253,46 +261,48 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeBox:
             element = WoodBox::create(mapCell);
             break;
-        case kCellTypeWanDou:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeDiCi:
-            element = GroundTile::create(mapCell);
-            break;
+//        case kCellTypeWanDou:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeDiCi:
+//            element = GroundTile::create(mapCell);
+//            break;
         case kCellTypeLvDai:
             element = LvDai::create(mapCell);
             break;
-        case kCellTypeShuShou:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeMonsterHome:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeDiDong:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeFireWall:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypePengHuoKou:
-            element = GroundTile::create(mapCell);
-            break;
+//        case kCellTypeShuShou:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeMonsterHome:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeDiDong:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeFireWall:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypePengHuoKou:
+//            element = GroundTile::create(mapCell);
+//            break;
         case kCellTypeEvilFire:
             element = GuiHuo::create(mapCell);
             break;
-        case kCellTypeWom:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeSnowBall:
-            element = GroundTile::create(mapCell);
-            break;
-        case kCellTypeIce:
-            element = GroundTile::create(mapCell);
-            break;
+//        case kCellTypeWom:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeSnowBall:
+//            element = GroundTile::create(mapCell);
+//            break;
+//        case kCellTypeIce:
+//            element = GroundTile::create(mapCell);
+//            break;
         case kCellTypeTransfer:
             element = TransferDoor::create(mapCell);
             break;
         default:
+            element = GroundTile::create(mapCell);
+            m_vCommonTiles.pushBack(element);
             break;
     }
     return element;
@@ -431,8 +441,20 @@ MonsterProperty *MapUtil::getMonsterProperyById(int id)
     return nullptr;
 }
 
-
-
+MapObject *MapUtil::getMapObjectFromVectorByCoordinate(Vector<MapObject *> mapObjs, const cocos2d::Point &coordiante)
+{
+    auto it = mapObjs.begin();
+    while(it!=mapObjs.end())
+    {
+        auto obj = *it;
+        if(obj->getCol()==coordiante.x&&obj->getRow()==coordiante.y)
+        {
+            return obj;
+        }
+        it++;
+    }
+    return nullptr;
+}
 
 
 

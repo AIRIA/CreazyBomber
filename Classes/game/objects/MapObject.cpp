@@ -248,6 +248,12 @@ void CommonTile::run()
     this->doTileAnimation();
 }
 
+void CommonTile::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getCommonTiles().eraseObject(this);
+}
+
 #pragma mark-----------------传送门----------------------------------
 void TransferDoor::onEnter()
 {
@@ -328,10 +334,14 @@ bool GroundTile::initWithFileName(std::string name)
     if (!MapObject::init()) {
         return false;
     }
-    
     return true;
 }
 
+void GroundTile::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getCommonTiles().eraseObject(this);
+}
 
 
 #pragma mark -----------Monster-----------------------------------------------------------
@@ -375,8 +385,7 @@ void Monster::update(float delta)
 {
     /* 监测和炸弹的碰撞 */
     auto monsterRect = getBoundingBox();
-    monsterRect.origin.y = getMonsterProperty()->getFootPos();
-    monsterRect.size = Size(getMonsterProperty()->getWidth(),getMonsterProperty()->getHeight());
+    monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     auto it = MapUtil::getInstance()->getBombFires().begin();
     while(it!=MapUtil::getInstance()->getBombFires().end())
     {

@@ -21,6 +21,8 @@ public:
     static Bomb *create(BombType type);
     virtual bool init();
     virtual void onEnter();
+    virtual void onExit();
+    
     void initBombAnimations();
     void bomb();
     virtual void doTileDestory();

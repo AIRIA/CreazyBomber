@@ -29,6 +29,7 @@ void GameScene::onExit()
 {
     BaseLayer::onExit();
     NotificationCenter::getInstance()->removeObserver(this, ADD_NORMAL_BOMB);
+    NotificationCenter::getInstance()->removeObserver(this, GAME_NEXT);
 }
 
 void GameScene::nextLevel(cocos2d::Ref *pSender)

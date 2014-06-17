@@ -119,16 +119,18 @@ class GroundTile:public MapObject
 public:
     static GroundTile *create(MapCell *mapCell);
     bool initWithFileName(std::string name);
+    virtual void onExit();
 };
 
 /**
- * 可以缓动的背景 但是没有攻击能力的tile对象
+ * 可以晃动的背景 但是没有攻击能力的tile对象
  */
 class CommonTile:public MapObject
 {
 public:
     MAPOBJ_CREATE(CommonTile);
     virtual void run();
+    virtual void onExit();
 };
 
 /**

@@ -29,9 +29,14 @@ void Bomb::onEnter()
         auto end = time(nullptr);
         log("bomb time:%ld",end-start);
     });
-    //scheduleUpdateWithPriority(-1);
-    MapUtil::getInstance()->getMapObjects().pushBack(this);
+    MapUtil::getInstance()->getCommonTiles().pushBack(this);
     runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
+}
+
+void Bomb::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getCommonTiles().eraseObject(this);
 }
 
 
@@ -150,14 +155,19 @@ void Bomb::bomb()
             }
             
             auto targetCoordiante = Point(getCol(),getRow())+directions[i]*j;
-            auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(targetCoordiante);
+            auto mapUtil = MapUtil::getInstance();
+            auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), targetCoordiante);
+            if(tile==nullptr)
+            {
+                tile = mapUtil->getMapObjectFromBombFireVector(mapUtil->getBombFires(), targetCoordiante);
+            }
             if(tile&&tile!=GameManager::getInstance()->getPlayer())
             {
-                tile->doTileDestory();
-                if(tile->getMapCell()->getCellType()!=kCellTypeMonster)
+                if(tile->getType()!=kCellTypeBombFire)
                 {
-                    break;
+                    tile->doTileDestory();
                 }
+                break;
             }
  
             auto bombFire = BombFire::create();
@@ -182,6 +192,7 @@ BombFire *BombFire::create()
     if(bf&&bf->init())
     {
         bf->autorelease();
+        bf->setType(kCellTypeBombFire);
         return bf;
     }
     CC_SAFE_DELETE(bf);

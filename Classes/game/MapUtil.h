@@ -37,8 +37,26 @@ enum CellType{
     kCellTypeWom          = 42,//虫子
     kCellTypeSnowBall     = 59,//雪球 可以滚动
     kCellTypeIce          = 12,//冰面
-    kCellBorder
+    kCellBorder ,
+    kCellTypeBomb,
+    kCellTypeBombFire
 };
+
+
+#define GET_MAPOBJECT_FROM(vec,type) MapObject *getMapObjectFrom##vec(Vector< type *> mapObjs, const cocos2d::Point &coordiante) \
+{ \
+    auto it = mapObjs.begin(); \
+    while(it!=mapObjs.end()) \
+    { \
+        auto obj = *it; \
+        if(obj->getCol()==coordiante.x&&obj->getRow()==coordiante.y) \
+        { \
+            return obj; \
+        } \
+        it++; \
+    } \
+    return nullptr; \
+} \
 
 /**
  * 地图由三层组成:
@@ -49,6 +67,7 @@ enum CellType{
 class MapUtil
 {
 public:
+    void clearMap();
     static MapUtil *getInstance();
     /**
      * 获取所有的地图元素类型
@@ -86,6 +105,14 @@ public:
     
     const Size getMapSizeInPixle();
     
+    /**
+     * 从指定的Vector集合中 获取到指定坐标的地图对象
+     */
+    GET_MAPOBJECT_FROM(MapObjectVector,MapObject);
+    GET_MAPOBJECT_FROM(BombFireVector, BombFire);
+    
+    MapObject *getMapObjectFromVectorByCoordinate(Vector<MapObject*> mapObjs,const Point &coordiante);
+    
     MapObject *getMapObjectByCoordinate(const Point &coordinate);
     Monster *getMonsterByCoordinate(const Point &coordiante);
     
@@ -99,7 +126,12 @@ public:
     
     Vector<Monster*> &getMonsters(){ return m_vMonsters;};
     
+    /**
+     * 获取当前状态下显示的炸弹的火焰集合
+     */
     Vector<BombFire*> &getBombFires(){ return m_vFires;};
+    
+    Vector<MapObject*> &getCommonTiles(){ return m_vCommonTiles; };
     
     void getMonsterInfos();
     
@@ -121,7 +153,8 @@ protected:
     Vector<MonsterProperty*> m_vMonsterProperteis;
     Vector<Monster*> m_vMonsters;
     Vector<BombFire*> m_vFires;
-    
+    /* 普通建筑 不具有任何攻击力和伤害的 可以阻挡穿透 */
+    Vector<MapObject*> m_vCommonTiles;
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
     CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
     CC_SYNTHESIZE(Size, m_MapSize, MapSize);
