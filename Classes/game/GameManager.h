@@ -26,6 +26,7 @@ public:
     CC_SYNTHESIZE(bool, m_bIsConllision, IsCollision);
     CC_SYNTHESIZE(int, m_iBombPower, BombPower);
     CC_SYNTHESIZE(bool,m_bIsGameOver,IsGameOver);
+    CC_SYNTHESIZE(int, m_iGameScore, GameScore);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

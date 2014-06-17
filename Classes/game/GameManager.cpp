@@ -14,6 +14,7 @@ GameManager *GameManager::getInstance()
     if(_instance==nullptr)
     {
         _instance = new GameManager();
+        _instance->setGameScore(345);
     }
     return _instance;
 }

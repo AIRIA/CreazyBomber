@@ -420,7 +420,7 @@ void Monster::update(float delta)
         
         //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
         auto tile = getRandomDirection();
-        while(tile!=nullptr)
+        while(tile!=nullptr&&tile->getMapCell()!=nullptr&&tile->getMapCell()->getCellType()!=kCellTypeTransfer)
         {
             tile = getRandomDirection();
         }

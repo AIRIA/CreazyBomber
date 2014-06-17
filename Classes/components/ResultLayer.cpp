@@ -110,9 +110,26 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
 
 void ResultLayer::_scoreAnimateSelector(float delta)
 {
-    auto node = getChildByTag(kTagWrapper)->getChildByTag(kTagGameScore);
+    auto wrapper = getChildByTag(kTagWrapper);
+    auto node = wrapper->getChildByTag(kTagGameScore);
     auto score = static_cast<Label*>(node);
-    auto number = atoi(score->getString().c_str())+2;
+    auto number = atoi(score->getString().c_str())+15;
+    if(number>=GameManager::getInstance()->getGameScore())
+    {
+        number = GameManager::getInstance()->getGameScore();
+        unscheduleAllSelectors();
+        /* 添加是不是创纪录 */
+        auto record = SPRITE("new_record.png");
+        wrapper->addChild(record);
+        record->setPosition(-125,225);
+        record->setScale(5);
+        record->setOpacity(0);
+        auto scaleAct = ScaleTo::create(0.3f, 1.0f);
+        auto fadeAct = FadeTo::create(0.3f, 255);
+        auto easeScale = EaseBackOut::create(scaleAct);
+        auto spawn = Spawn::create(scaleAct,fadeAct, NULL);
+        record->runAction(spawn);
+    }
     char newScore[20];
     sprintf(newScore, "%d",number);
     score->setString(newScore);

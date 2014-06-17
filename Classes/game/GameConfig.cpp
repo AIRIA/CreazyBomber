@@ -11,7 +11,7 @@
 std::string GameConfig::selectedRoleName = "viking";
 std::string GameConfig::selectedSceneName = "cl";
 std::string GameConfig::selectedStageName = "";
-int GameConfig::selectedLevel = 1;
+int GameConfig::selectedLevel = 2;
 
 void GameConfig::setSelectScene(SceneType type)
 {
