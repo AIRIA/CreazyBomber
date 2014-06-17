@@ -82,7 +82,7 @@ public:
     /**
      * 获取地图的宽高
      **/
-    const Size &getMapSize();
+    void initMapSize();
     
     const Size getMapSizeInPixle();
     
@@ -124,6 +124,7 @@ protected:
     
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
     CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
+    CC_SYNTHESIZE(Size, m_MapSize, MapSize);
 };
 
 

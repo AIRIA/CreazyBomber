@@ -128,10 +128,10 @@ const Size MapUtil::getMapSizeInPixle()
     return sizeInPixle;
 }
 
-const Size &MapUtil::getMapSize()
+void MapUtil::initMapSize()
 {
     auto map = TMXTiledMap::create(getTmxMapName());
-    return map->getMapSize();
+    setMapSize(map->getMapSize());
 }
 
 /* 需要根据地图的宽高来显示指定数量的背景图 */

@@ -53,7 +53,7 @@ bool GameScene::init()
         GameManager::getInstance()->setScaleFactor(scaleH);
     }
     
-    GameManager::getInstance()->setBombPower(1);
+    GameManager::getInstance()->setBombPower(3);
     
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
@@ -80,6 +80,8 @@ bool GameScene::init()
 
 void GameScene::onTexturesLoaded()
 {
+    MapUtil::getInstance()->initMapSize();
+    
     auto mapLayer = MapLayer::create();
     auto baseTileLayer = MapUtil::getInstance()->getBaseTileLayer();
     auto tmxLayer = MapUtil::getInstance()->getTmxTileLayer();

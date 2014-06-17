@@ -390,46 +390,55 @@ void Monster::update(float delta)
     }
     if(getIsCollison())
     {
+        auto coordinate = Point::ZERO;
         auto getRandomDirection = [&]()->MapObject*{
-            auto coordiante = Point(getCol(),getRow());
+            coordinate = Point(getCol(),getRow());
             m_eDirection = (WalkDirection)(rand()%4);
             switch (m_eDirection) {
                 case kWalkUp:
                     setVecSpeed(Point(0,1));
-                    coordiante -= getVecSpeed();
+                    coordinate -= getVecSpeed();
                     break;
                 case kWalkDown:
                     setVecSpeed(Point(0,-1));
-                    coordiante -= getVecSpeed();
+                    coordinate -= getVecSpeed();
                     break;
                 case kWalkLeft:
                     setVecSpeed(Point(-1,0));
-                    coordiante += getVecSpeed();
+                    coordinate += getVecSpeed();
                     break;
                 case kWalkRight:
                     setVecSpeed(Point(1,0));
-                    coordiante += getVecSpeed();
+                    coordinate += getVecSpeed();
                     break;
                 default:
                     break;
             }
-            auto cornerX = TILE_WIDTH*(coordiante.x+0.5);
-            auto cornerY = MapUtil::getInstance()->getMapHeightInPixle()-TILE_HEIGHT*(coordiante.y+0.5);
+            auto cornerX = TILE_WIDTH*(coordinate.x+0.5);
+            auto cornerY = MapUtil::getInstance()->getMapHeightInPixle()-TILE_HEIGHT*(coordinate.y+0.5);
             setCornerPoint(Point(cornerX,cornerY));
-            setNextCoordinate(coordiante);
-            return MapUtil::getInstance()->getMapObjectByCoordinate(coordiante);
+            setNextCoordinate(coordinate);
+            return MapUtil::getInstance()->getMapObjectByCoordinate(coordinate);
         };
         
         //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
         auto tile = getRandomDirection();
-        while(tile!=nullptr&&tile->getMapCell()!=nullptr&&tile->getMapCell()->getCellType()!=kCellTypeTransfer)
+//
+        bool flag = true;
+        while(flag)
         {
-            tile = getRandomDirection();
+            if(tile!=nullptr&&tile->getMapCell()!=nullptr&&tile->getMapCell()->getCellType()!=kCellTypeTransfer)
+            {
+                tile = getRandomDirection();
+                continue;
+            }else if(coordinate.x==0||coordinate.x==MapUtil::getInstance()->getMapSize().width-1||coordinate.y==0||coordinate.y==MapUtil::getInstance()->getMapSize().height-1){
+                tile = getRandomDirection();
+                continue;
+            }
+            flag = false;
         }
         walk(m_eDirection);
         setIsCollison(false);
-        
-       
     }
     
 //    auto speed = getMonsterProperty()->getSpeed();
