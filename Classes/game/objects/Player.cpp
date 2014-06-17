@@ -161,6 +161,7 @@ void Player::run()
     
     runAction(huxiSeq);
     auto arrow = PlayerArrow::getInstance();
+    arrow->retain();
     arrow->setAnchorPoint(Point(0.5,0));
     if(GameConfig::selectedRoleName==std::string("zombie"))
     {

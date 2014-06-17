@@ -21,6 +21,7 @@ void GameScene::onEnter()
 {
     BaseLayer::onEnter();
     NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::nextLevel), GAME_NEXT, nullptr);
     GameManager::getInstance()->setIsGameOver(false);
 }
 
@@ -28,6 +29,14 @@ void GameScene::onExit()
 {
     BaseLayer::onExit();
     NotificationCenter::getInstance()->removeObserver(this, ADD_NORMAL_BOMB);
+}
+
+void GameScene::nextLevel(cocos2d::Ref *pSender)
+{
+    GameConfig::selectedLevel += 1;
+    GameManager::getInstance()->setSpeed(Point::ZERO);
+    GameManager::getInstance()->setPlayer(nullptr);
+    GameScene::create()->run();
 }
 
 bool GameScene::init()
@@ -44,7 +53,7 @@ bool GameScene::init()
         GameManager::getInstance()->setScaleFactor(scaleH);
     }
     
-    GameManager::getInstance()->setBombPower(3);
+    GameManager::getInstance()->setBombPower(1);
     
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
@@ -99,7 +108,6 @@ void GameScene::onTexturesLoaded()
     addChild(mapLayer);
     addUIComponents();
     addChild(ResultLayer::create());
-    
 }
 
 void GameScene::addUIComponents()

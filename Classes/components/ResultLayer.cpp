@@ -81,6 +81,9 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
     auto exit = MenuItemSprite::create(SPRITE("exit_normal.png"), SPRITE("exit_press.png"));
     auto retry = MenuItemSprite::create(SPRITE("restart_normal.png"), SPRITE("restart_press.png"));
     auto next = MenuItemSprite::create(SPRITE("next_normal.png"), SPRITE("next_press.png"));
+    next->setCallback([](Ref *pSender)->void{
+        NotificationCenter::getInstance()->postNotification(GAME_NEXT);
+    });
     exit->setPosition(Point(-150,-200));
     retry->setPosition(Point(0,-200));
     next->setPosition(Point(150,-200));
@@ -126,7 +129,6 @@ void ResultLayer::_scoreAnimateSelector(float delta)
         record->setOpacity(0);
         auto scaleAct = ScaleTo::create(0.3f, 1.0f);
         auto fadeAct = FadeTo::create(0.3f, 255);
-        auto easeScale = EaseBackOut::create(scaleAct);
         auto spawn = Spawn::create(scaleAct,fadeAct, NULL);
         record->runAction(spawn);
     }

@@ -43,5 +43,8 @@ using namespace rapidjson;
 #define GAME_PASS "game_pass"
 #define GAME_OVER "game_over"
 #define GAME_RESULT "game_result"
+#define GAME_NEXT "game_next"
+#define GAME_RETRY "game_retry"
+#define GAME_EXIT "game_exit"
 
 #endif

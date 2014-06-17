@@ -22,6 +22,7 @@ public:
 protected:
     void addUIComponents();
     void normalBombHandler(Ref *pSender);
+    void nextLevel(Ref *pSender);
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

@@ -375,6 +375,8 @@ void Monster::update(float delta)
 {
     /* 监测和炸弹的碰撞 */
     auto monsterRect = getBoundingBox();
+    monsterRect.origin.y = getMonsterProperty()->getFootPos();
+    monsterRect.size = Size(getMonsterProperty()->getWidth(),getMonsterProperty()->getHeight());
     auto it = MapUtil::getInstance()->getBombFires().begin();
     while(it!=MapUtil::getInstance()->getBombFires().end())
     {
