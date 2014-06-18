@@ -22,6 +22,7 @@ public:
     
 protected:
     void _updateHpHandler(Ref *pSender);
+    void _onMonsterDestroy(Ref *pSender);
     ProgressTimer *hpBar;
 };
 

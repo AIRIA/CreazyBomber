@@ -106,11 +106,12 @@ void GameScene::onTexturesLoaded()
         mapLayer->setAnchorPoint(Point(0.0f,0.5f));
         mapLayer->setPositionY(m_winSize.height/2);
     }
-    
+    GameManager::getInstance()->setMonsterCount(MapUtil::getInstance()->getMonsters().size());
     mapLayer->setScale(m_fScaleFactor);
     addChild(mapLayer);
     addUIComponents();
     addChild(ResultLayer::create());
+    
 }
 
 void GameScene::addUIComponents()

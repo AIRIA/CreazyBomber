@@ -112,6 +112,17 @@
          contextName = "GameManager::getInstance():GameManager.cpp">
       </ContextState>
       <ContextState
+         contextName = "GameScene::onTexturesLoaded():GameScene.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMonsters().size()">
+            </PersistentString>
+            <PersistentString
+               value = "GameManager::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "operator():Player.cpp">
          <PersistentStrings>
             <PersistentString

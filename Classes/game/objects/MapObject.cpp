@@ -583,6 +583,7 @@ void Monster::doTileDestory()
     auto blinkHandler = CallFunc::create([&]()->void{
         this->removeFromParent();
         MapUtil::getInstance()->getMonsters().eraseObject(this);
+        NotificationCenter::getInstance()->postNotification(MONSTER_DESTROY);
         if(MapUtil::getInstance()->getMonsters().size()==0)
         {
             NotificationCenter::getInstance()->postNotification(GAME_PASS);

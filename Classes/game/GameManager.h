@@ -27,6 +27,7 @@ public:
     CC_SYNTHESIZE(int, m_iBombPower, BombPower);
     CC_SYNTHESIZE(bool,m_bIsGameOver,IsGameOver);
     CC_SYNTHESIZE(int, m_iGameScore, GameScore);
+    CC_SYNTHESIZE(int, m_iMonsterCount, MonsterCount);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

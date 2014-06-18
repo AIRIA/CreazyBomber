@@ -48,5 +48,6 @@ using namespace rapidjson;
 #define GAME_EXIT "game_exit"
 
 #define UPDATE_HP "update_hp"
+#define MONSTER_DESTROY "monster_destroy"
 
 #endif
