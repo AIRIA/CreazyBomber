@@ -103,6 +103,9 @@
             <PersistentString
                value = "MapUtil::getInstance()-&gt;getMapSize()">
             </PersistentString>
+            <PersistentString
+               value = "getVecSpeed()">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState

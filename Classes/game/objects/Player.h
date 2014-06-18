@@ -47,6 +47,8 @@ public:
      */
     void beAttack(float heart);
     
+    void die();
+    
 protected:
     Point _coordinate;
     /**
@@ -65,6 +67,7 @@ protected:
     CC_SYNTHESIZE(float, m_fHeight, Height);
     CC_SYNTHESIZE(float, m_fSpeed, Speed);
     CC_SYNTHESIZE(float, m_fFootPos, FootPos);
+    CC_SYNTHESIZE(float, m_fHP, HP);
 };
 
 #endif /* defined(__CreazyBomber__Player__) */

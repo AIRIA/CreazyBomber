@@ -53,7 +53,7 @@ public:
     CC_SYNTHESIZE(int, m_iHeight, Height);
     CC_SYNTHESIZE(int, m_iFrameNum, FrameNum);
     CC_SYNTHESIZE(int, m_iFootPos, FootPos);
-    CC_SYNTHESIZE(int, m_iSpeed, Speed);
+    CC_SYNTHESIZE(float, m_fSpeed, Speed);
     CC_SYNTHESIZE(int, m_iAi, Ai);
     CC_SYNTHESIZE(int, m_iWuDi, WuDi);
     CC_SYNTHESIZE(std::string,m_sSkills,Skills);

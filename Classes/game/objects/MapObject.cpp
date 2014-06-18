@@ -427,12 +427,11 @@ void Monster::update(float delta)
             auto cornerY = MapUtil::getInstance()->getMapHeightInPixle()-TILE_HEIGHT*(coordinate.y+0.5);
             setCornerPoint(Point(cornerX,cornerY));
             setNextCoordinate(coordinate);
-            return MapUtil::getInstance()->getMapObjectByCoordinate(coordinate);
+            return MapUtil::getInstance()->getMapObjectFromMapObjectVector(MapUtil::getInstance()->getCommonTiles(), coordinate);
         };
         
         //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
         auto tile = getRandomDirection();
-//
         bool flag = true;
         while(flag)
         {
@@ -450,9 +449,9 @@ void Monster::update(float delta)
         setIsCollison(false);
     }
     
-//    auto speed = getMonsterProperty()->getSpeed();
+//    float speed = getMonsterProperty()->getSpeed()/30.0f;
     setVecSpeed(getVecSpeed()*1);
-    auto nextPosition = getPosition()+getVecSpeed();
+    Point nextPosition = getPosition()+getVecSpeed();
     //需要检测即将到底的位置是不是到达了需要判断方向的地方
     switch (m_eDirection) {
         case kWalkRight:
@@ -755,7 +754,8 @@ void WoodBox::update(float delta)
                 return;
             }
             offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
-            auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(nextCoordinate);
+            auto tile = MapUtil::getInstance()->getMapObjectFromMapObjectVector(MapUtil::getInstance()->getCommonTiles(), nextCoordinate);
+            
             if(tile==nullptr)
             {
                 _isMoving = true;

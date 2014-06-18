@@ -112,9 +112,6 @@ public:
     GET_MAPOBJECT_FROM(BombFireVector, BombFire);
     GET_MAPOBJECT_FROM(BombVector, Bomb);
     
-    MapObject *getMapObjectFromVectorByCoordinate(Vector<MapObject*> mapObjs,const Point &coordiante);
-    
-    MapObject *getMapObjectByCoordinate(const Point &coordinate);
     Monster *getMonsterByCoordinate(const Point &coordiante);
     
     Node *addTileMapBorder();

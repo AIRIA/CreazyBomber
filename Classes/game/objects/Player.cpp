@@ -111,8 +111,7 @@ bool Player::init()
         {"up",0,8},
         {"right",frameHeight,8},
         {"left",frameHeight*2,8},
-        {"down",frameHeight*3,8},
-        
+        {"down",frameHeight*3,8}
     };
     
     if(GameConfig::selectedRoleName=="vampire")
@@ -143,6 +142,23 @@ bool Player::init()
     registAnimation(walkVec);
     
     return true;
+}
+
+void Player::die()
+{
+    auto animation1 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_1");
+    auto animation2 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_2");
+    auto die1 = Animate::create(animation1);
+   
+    Sequence *dieSeq = nullptr;
+    if(animation2)
+    {
+        auto die2 = Animate::create(animation2);
+        dieSeq = Sequence::create(die1,die2, NULL);
+    }else{
+        dieSeq = Sequence::create(die1, NULL);
+    }
+    runAction(dieSeq);
 }
 
 void Player::run()
@@ -210,6 +226,7 @@ void Player::loadPlayerInfo()
     this->setHeight(player["height"].GetInt());
     this->setSpeed(player["speed"].GetInt()*2);
     this->setFootPos(player["foot_pos"].GetInt()*2);
+    this->setHP(99);
 }
 
 Rect Player::getBoundingBox() const
@@ -261,7 +278,21 @@ void Player::beAttack(float heart)
 {
     if(_isCanBeAttack)
     {
-        schedule(schedule_selector(Player::blink), 0.1, 5, 0);
+        _isCanBeAttack = false;
+        setHP(getHP()-heart);
+        if(getHP()<=0)
+        {
+            unscheduleUpdate();
+            stopAllActions();
+            die();
+            NotificationCenter::getInstance()->postNotification(GAME_OVER);
+            return;
+        }
+        schedule(schedule_selector(Player::blink), 0.1, 11, 0);
+        auto delayCall = CallFunc::create([&]()->void{
+            this->_isCanBeAttack = true;
+        });
+        runAction(Sequence::create(DelayTime::create(2),delayCall,NULL));
     }
 }
 
@@ -269,16 +300,27 @@ void Player::blink(float delta)
 {
     auto visible = isVisible();
     setVisible(!visible);
-    _blinkTime++;
-    _blinkTime = _blinkTime/4;
-    if(_blinkTime==0)
-    {
-        _isCanBeAttack = true;
-    }
 }
 
 void Player::update(float delta)
 {
+    /* 判断是否被炸弹伤害到 */
+    if(_isCanBeAttack)
+    {
+        auto fires = MapUtil::getInstance()->getBombFires();
+        auto it = fires.begin();
+        while (it!=fires.end()) {
+            if(getBoundingBox().intersectsRect((*it)->getBoundingBox()))
+            {
+                beAttack(50);
+                break;
+            }
+            it++;
+        }
+    }
+    
+    
+    /* 判断是否有阻挡 */
     auto isCollision = GameManager::getInstance()->getIsCollision();
     if(isCollision)
     {

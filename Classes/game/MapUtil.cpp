@@ -260,6 +260,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         case kCellTypeBox:
             element = WoodBox::create(mapCell);
+            m_vCommonTiles.pushBack(element);
             break;
 //        case kCellTypeWanDou:
 //            element = GroundTile::create(mapCell);
@@ -362,21 +363,6 @@ Node *MapUtil::addTileMapBorder()
     return borderNode;
 }
 
-MapObject *MapUtil::getMapObjectByCoordinate(const cocos2d::Point &coordinate)
-{
-    auto it = m_vMapObjects.begin();
-    while(it!=m_vMapObjects.end())
-    {
-        auto obj = *it;
-        if(obj->getRow()==coordinate.y && obj->getCol()==coordinate.x)
-        {
-            return obj;
-        }
-        it++;
-    }
-    return nullptr;
-}
-
 Monster *MapUtil::getMonsterByCoordinate(const cocos2d::Point &coordinate)
 {
     auto it = m_vMonsters.begin();
@@ -441,20 +427,6 @@ MonsterProperty *MapUtil::getMonsterProperyById(int id)
     return nullptr;
 }
 
-MapObject *MapUtil::getMapObjectFromVectorByCoordinate(Vector<MapObject *> mapObjs, const cocos2d::Point &coordiante)
-{
-    auto it = mapObjs.begin();
-    while(it!=mapObjs.end())
-    {
-        auto obj = *it;
-        if(obj->getCol()==coordiante.x&&obj->getRow()==coordiante.y)
-        {
-            return obj;
-        }
-        it++;
-    }
-    return nullptr;
-}
 
 
 
