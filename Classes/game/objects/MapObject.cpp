@@ -26,14 +26,14 @@ void MapObject::onEnter()
     {
         scheduleUpdateWithPriority(-1);
     }
-    MapUtil::getInstance()->getMapObjects().pushBack(this);
+//    MapUtil::getInstance()->getMapObjects().pushBack(this);
     run();
 }
 
 void MapObject::onExit()
 {
     Sprite::onExit();
-    MapUtil::getInstance()->getMapObjects().eraseObject(this);
+//    MapUtil::getInstance()->getMapObjects().eraseObject(this);
 }
 
 void MapObject::run()

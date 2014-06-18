@@ -47,6 +47,7 @@ Bomb *Bomb::create(Bomb::BombType type)
     {
         bomb->autorelease();
         bomb->setBombType(type);
+        MapUtil::getInstance()->getBomb().pushBack(bomb);
         return bomb;
     }
     CC_SAFE_FREE(bomb);
@@ -119,7 +120,6 @@ void Bomb::initBombAnimations()
 
 void Bomb::bomb()
 {
-    
     auto getAnimateByName = [](std::string animationName)->Animate*{
         auto animation = AnimationCache::getInstance()->getAnimation(animationName);
         auto animate = Animate::create(animation);
@@ -182,6 +182,7 @@ void Bomb::bomb()
         }
     }
     removeFromParent();
+    MapUtil::getInstance()->getBomb().eraseObject(this);
 }
 
 #pragma mark ------------------------BombFire---------------------------

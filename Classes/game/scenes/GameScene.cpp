@@ -131,13 +131,12 @@ void GameScene::normalBombHandler(cocos2d::Ref *pSender)
 {
     auto player = GameManager::getInstance()->getPlayer();
     auto coordinate = player->getCoordinate();
-    auto tile = MapUtil::getInstance()->getMapObjectByCoordinate(coordinate);
+    auto tile = MapUtil::getInstance()->getMapObjectFromBombVector(MapUtil::getInstance()->getBomb(), coordinate);
     if(tile&&dynamic_cast<Bomb*>(tile))
     {
         return;
     }
     auto bomb = Bomb::create(Bomb::kBombNormal);
-    
     bomb->setZOrder((coordinate.y)*10+1);
     bomb->setCol(coordinate.x);
     bomb->setRow(coordinate.y);

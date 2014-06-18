@@ -110,6 +110,7 @@ public:
      */
     GET_MAPOBJECT_FROM(MapObjectVector,MapObject);
     GET_MAPOBJECT_FROM(BombFireVector, BombFire);
+    GET_MAPOBJECT_FROM(BombVector, Bomb);
     
     MapObject *getMapObjectFromVectorByCoordinate(Vector<MapObject*> mapObjs,const Point &coordiante);
     
@@ -125,6 +126,8 @@ public:
     Vector<MonsterProperty*> &getMonsterProperteis(){ return m_vMonsterProperteis;};
     
     Vector<Monster*> &getMonsters(){ return m_vMonsters;};
+    
+    Vector<Bomb*> &getBomb(){return m_vBombs;};
     
     /**
      * 获取当前状态下显示的炸弹的火焰集合
@@ -153,6 +156,7 @@ protected:
     Vector<MonsterProperty*> m_vMonsterProperteis;
     Vector<Monster*> m_vMonsters;
     Vector<BombFire*> m_vFires;
+    Vector<Bomb*> m_vBombs;
     /* 普通建筑 不具有任何攻击力和伤害的 可以阻挡穿透 */
     Vector<MapObject*> m_vCommonTiles;
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
