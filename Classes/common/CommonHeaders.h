@@ -47,4 +47,6 @@ using namespace rapidjson;
 #define GAME_RETRY "game_retry"
 #define GAME_EXIT "game_exit"
 
+#define UPDATE_HP "update_hp"
+
 #endif

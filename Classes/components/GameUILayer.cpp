@@ -7,6 +7,7 @@
 //
 
 #include "GameUILayer.h"
+#include "game/GameManager.h"
 
 bool GameUILayer::init()
 {
@@ -34,10 +35,16 @@ void GameUILayer::onTexturesLoaded()
     hpBg->setAnchorPoint(Point(0.0f,1.0f));
     hpBg->setPosition(10,DESIGN_HEIGHT - playerIcon->getContentSize().height - 20);
     
-    hp->setAnchorPoint(hpBg->getAnchorPoint());
-    hp->setPosition(hpBg->getPosition());
+    hpBar = ProgressTimer::create(hp);
+    hpBar->setAnchorPoint(Point(0.0f,1.0f));
+    hpBar->setType(ProgressTimer::Type::BAR);
+    hpBar->setMidpoint(Point::ZERO);
+    hpBar->setBarChangeRate(Point(0,1));
+    hpBar->setPercentage(100);
+    hpBar->setPosition(hpBg->getPosition());
     m_pLeft->addChild(hpBg);
-    m_pLeft->addChild(hp);
+//    m_pLeft->addChild(hp);
+    m_pLeft->addChild(hpBar);
     //玩家的装备信息
     auto infoNode = Node::create();
     infoNode->setScale(m_fScaleFactor);
@@ -62,9 +69,19 @@ void GameUILayer::onTexturesLoaded()
 void GameUILayer::onEnter()
 {
     BaseLayer::onEnter();
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateHpHandler), UPDATE_HP, nullptr);
 }
 
 void GameUILayer::onExit()
 {
     BaseLayer::onExit();
+    NotificationCenter::getInstance()->removeObserver(this, UPDATE_HP);
+}
+
+void GameUILayer::_updateHpHandler(cocos2d::Ref *pSender)
+{
+    auto player = GameManager::getInstance()->getPlayer();
+    int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
+    auto progressTo = ProgressFromTo::create(1.0f, player->getHP()+*hurt, player->getHP());
+    hpBar->runAction(progressTo);
 }

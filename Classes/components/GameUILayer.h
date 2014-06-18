@@ -19,6 +19,10 @@ public:
     virtual void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(GameUILayer);
+    
+protected:
+    void _updateHpHandler(Ref *pSender);
+    ProgressTimer *hpBar;
 };
 
 #endif /* defined(__CreazyBomber__GameUILayer__) */

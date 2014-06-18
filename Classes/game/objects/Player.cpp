@@ -280,6 +280,9 @@ void Player::beAttack(float heart)
     {
         _isCanBeAttack = false;
         setHP(getHP()-heart);
+        auto data = Node::create();
+        data->setUserData(new int(heart));
+        NotificationCenter::getInstance()->postNotification(UPDATE_HP,data);
         if(getHP()<=0)
         {
             unscheduleUpdate();
@@ -289,11 +292,13 @@ void Player::beAttack(float heart)
             return;
         }
         schedule(schedule_selector(Player::blink), 0.1, 11, 0);
-        auto delayCall = CallFunc::create([&]()->void{
-            this->_isCanBeAttack = true;
-        });
-        runAction(Sequence::create(DelayTime::create(2),delayCall,NULL));
+        scheduleOnce(schedule_selector(Player::_afterAttack), 2);
     }
+}
+
+void Player::_afterAttack(float delta)
+{
+    _isCanBeAttack = true;
 }
 
 void Player::blink(float delta)

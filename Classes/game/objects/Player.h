@@ -62,6 +62,7 @@ protected:
     void blink(float delta);
 
     int _blinkTime = 0;
+    void _afterAttack(float delta);
     
     CC_SYNTHESIZE(float, m_fWidth, Width);
     CC_SYNTHESIZE(float, m_fHeight, Height);
