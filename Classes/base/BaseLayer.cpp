@@ -59,7 +59,7 @@ void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
 
 void BaseLayer::onTexturesLoaded()
 {
-    removeAllChildren();
+    getChildByTag(kTagWrapper)->removeFromParent();
 }
 
 void BaseLayer::__loadAssets()
