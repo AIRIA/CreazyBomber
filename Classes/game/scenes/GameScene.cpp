@@ -37,6 +37,7 @@ void GameScene::nextLevel(cocos2d::Ref *pSender)
     GameConfig::selectedLevel += 1;
     GameManager::getInstance()->setSpeed(Point::ZERO);
     GameManager::getInstance()->setPlayer(nullptr);
+    removeAllChildren();
     GameScene::create()->run();
 }
 
@@ -49,9 +50,9 @@ bool GameScene::init()
     auto scaleH = m_winSize.height/DESIGN_HEIGHT;
     if(scaleH>m_fScaleFactor)
     {
-        GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
-    }else{
         GameManager::getInstance()->setScaleFactor(scaleH);
+    }else{
+        GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
     }
     
     GameManager::getInstance()->setBombPower(3);
@@ -107,7 +108,7 @@ void GameScene::onTexturesLoaded()
         mapLayer->setPositionY(m_winSize.height/2);
     }
     GameManager::getInstance()->setMonsterCount(MapUtil::getInstance()->getMonsters().size());
-    mapLayer->setScale(m_fScaleFactor);
+    mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
     addChild(mapLayer);
     addUIComponents();
     addChild(ResultLayer::create());

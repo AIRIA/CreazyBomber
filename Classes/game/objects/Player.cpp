@@ -158,6 +158,9 @@ void Player::die()
     }else{
         dieSeq = Sequence::create(die1, NULL);
     }
+    stopAllActions();
+    unscheduleUpdate();
+    unscheduleAllSelectors();
     runAction(dieSeq);
 }
 

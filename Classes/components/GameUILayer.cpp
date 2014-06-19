@@ -27,7 +27,7 @@ bool GameUILayer::init()
     {
         return false;
     }
-    m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
+    m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
     return true;
 }
 
@@ -55,30 +55,8 @@ void GameUILayer::onTexturesLoaded()
     hpBar->setPercentage(100);
     hpBar->setPosition(hpBg->getPosition());
     m_pLeft->addChild(hpBg);
-//    m_pLeft->addChild(hp);
     m_pLeft->addChild(hpBar);
-    //玩家的装备信息
-    auto infoNode = Node::create();
-    infoNode->setScale(m_fScaleFactor);
-    auto playerInfo = SPRITE("role_info_bg.png");
-    playerInfo->setAnchorPoint(Point(0.5f,1.0f));
-    infoNode->addChild(playerInfo);
-    infoNode->setPosition(VisibleRect::top()-Point(100,10));
-    auto shoe = Label::createWithBMFont("font/font_02.fnt", "0");
-    auto bomb = Label::createWithBMFont("font/font_02.fnt", "0");
-    auto power = Label::createWithBMFont("font/font_02.fnt", "0");
-    auto coin = Label::createWithBMFont("font/font_02.fnt", "000000");
-    shoe->setPosition(playerInfo->getContentSize().width/2*-1+50,-20);
-    auto pad = 80;
-    bomb->setPosition(shoe->getPosition().x+pad,shoe->getPosition().y);
-    power->setPosition(bomb->getPosition().x+pad,shoe->getPosition().y);
-    coin->setPosition(power->getPosition().x+pad,shoe->getPosition().y);
-    coin->setAnchorPoint(Point(0,0.5));
-    infoNode->addChild(shoe);
-    infoNode->addChild(bomb);
-    infoNode->addChild(power);
-    infoNode->addChild(coin);
-    addChild(infoNode);
+    
     
     //定时器 血瓶
     auto hpMenuItem = MenuItemSprite::create(SPRITE("hp_icon_normal.png"), SPRITE("hp_icon_press.png"),SPRITE("hp_icon_disable.png"));
@@ -92,23 +70,45 @@ void GameUILayer::onTexturesLoaded()
     menu->setPosition(Point::ZERO);
     
     
+    //玩家的装备信息
+    auto infoNode = Node::create();
+    infoNode->setScale(m_fScaleFactor);
+    auto playerInfo = SPRITE("role_info_bg.png");
+    playerInfo->setAnchorPoint(Point(0.5f,1.0f));
+    infoNode->addChild(playerInfo);
+
+    auto shoe = Label::createWithBMFont("font/font_02.fnt", "0");
+    auto bomb = Label::createWithBMFont("font/font_02.fnt", "0");
+    auto power = Label::createWithBMFont("font/font_02.fnt", "0");
+    auto coin = Label::createWithBMFont("font/font_02.fnt", "000000");
+    shoe->setPosition(playerInfo->getContentSize().width/2*-1+40,-20);
+    auto pad = 70;
+    power->setPosition(shoe->getPosition().x+pad,shoe->getPosition().y);
+    bomb->setPosition(power->getPosition().x+pad+10,shoe->getPosition().y);
+    coin->setPosition(bomb->getPosition().x+pad+10,shoe->getPosition().y);
+    coin->setAnchorPoint(Point(0,0.5));
+    infoNode->addChild(shoe);
+    infoNode->addChild(bomb);
+    infoNode->addChild(power);
+    infoNode->addChild(coin);
+    addChild(infoNode);
     //选择的模式以及关卡
-    auto padding = 50;
-    auto wrapper = Node::create();
     auto mode = SPRITE(GameConfig::selectedSceneName+"_main_sign.png");
     auto levelLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d",GameConfig::selectedLevel)->getCString());
     auto monstersLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d/%d",0,GameManager::getInstance()->getMonsterCount())->getCString());
+    mode->setPosition(coin->getPosition().x+coin->getContentSize().width+pad,shoe->getPosition().y);
     levelLabel->setPosition(mode->getPosition().x+mode->getContentSize().width+5,mode->getPosition().y);
+    auto padding = 50;
     monstersLabel->setPosition(levelLabel->getPosition().x+levelLabel->getContentSize().width+padding,mode->getPosition().y);
     monstersLabel->setTag(kTagMonsterCountLabel);
     levelLabel->setTag(kTagLevelLabel);
-    wrapper->setTag(kTagWraper);
-    wrapper->addChild(mode);
-    wrapper->addChild(levelLabel);
-    wrapper->addChild(monstersLabel);
-    wrapper->setScale(m_fScaleFactor);
-    wrapper->setPosition(playerInfo->getContentSize().width/2+120+infoNode->getPosition().x,VisibleRect::top().y-30);
-    addChild(wrapper);
+    infoNode->setTag(kTagWraper);
+    infoNode->addChild(mode);
+    infoNode->addChild(levelLabel);
+    infoNode->addChild(monstersLabel);
+    infoNode->setContentSize(Size(monstersLabel->getContentSize().width+monstersLabel->getPosition().x,1));
+    infoNode->setAnchorPoint(Point(0.5,1));
+    infoNode->setPosition(VisibleRect::top());
 }
 
 void GameUILayer::onEnter()

@@ -386,10 +386,14 @@ void Monster::update(float delta)
     /* 监测和炸弹的碰撞 */
     auto monsterRect = getBoundingBox();
     monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
-    auto it = MapUtil::getInstance()->getBombFires().begin();
-    while(it!=MapUtil::getInstance()->getBombFires().end())
+    auto util = MapUtil::getInstance();
+    auto it = util->getBombFires().begin();
+    while(it!=util->getBombFires().end())
     {
-        auto rect = (*it)->boundingBox();
+        auto fire = *it;
+        auto rect = fire->boundingBox();
+        rect.origin = Point(fire->getPosition()-Point(TILE_WIDTH,TILE_HEIGHT)/2);
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
         if(monsterRect.intersectsRect(rect))
         {
             doTileDestory();
@@ -771,4 +775,10 @@ void WoodBox::update(float delta)
             
         }
     }
+}
+
+void WoodBox::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getCommonTiles().eraseObject(this);
 }

@@ -241,6 +241,7 @@ class WoodBox:public MapObject
 public:
     MAPOBJ_CREATE(WoodBox);
     virtual void update(float delta);
+    virtual void onExit();
 protected:
     bool _isMoving = false;
 };
