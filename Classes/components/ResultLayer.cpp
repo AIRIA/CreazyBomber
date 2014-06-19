@@ -8,6 +8,7 @@
 
 #include "ResultLayer.h"
 #include "game/GameManager.h"
+#include "game/scenes/HomeScene.h"
 
 enum Tags{
     kTagWrapper = 100,
@@ -85,7 +86,14 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         NotificationCenter::getInstance()->postNotification(GAME_NEXT);
     });
     exit->setPosition(Point(-150,-200));
+    exit->setCallback([](Ref *pSender)->void{
+        GameManager::getInstance()->setSpeed(Point::ZERO);
+        HomeScene::create()->run();
+    });
     retry->setPosition(Point(0,-200));
+    retry->setCallback([](Ref *pSender)->void{
+        NotificationCenter::getInstance()->postNotification(GAME_RETRY);
+    });
     next->setPosition(Point(150,-200));
     
     auto menu = Menu::create(exit,retry,next,nullptr);

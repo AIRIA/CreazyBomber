@@ -146,6 +146,7 @@ bool Player::init()
 
 void Player::die()
 {
+    GameManager::getInstance()->setIsGameOver(true);
     auto animation1 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_1");
     auto animation2 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_2");
     auto die1 = Animate::create(animation1);

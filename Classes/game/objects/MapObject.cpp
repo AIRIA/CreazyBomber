@@ -407,6 +407,7 @@ void Monster::update(float delta)
         auto getRandomDirection = [&]()->MapObject*{
             coordinate = Point(getCol(),getRow());
             m_eDirection = (WalkDirection)(rand()%4);
+
             switch (m_eDirection) {
                 case kWalkUp:
                     setVecSpeed(Point(0,1));
@@ -439,6 +440,7 @@ void Monster::update(float delta)
         bool flag = true;
         while(flag)
         {
+            
             if(tile!=nullptr&&tile->getMapCell()!=nullptr&&tile->getMapCell()->getCellType()!=kCellTypeTransfer)
             {
                 tile = getRandomDirection();
@@ -447,6 +449,7 @@ void Monster::update(float delta)
                 tile = getRandomDirection();
                 continue;
             }
+            testDirections.clear();
             flag = false;
         }
         walk(m_eDirection);
@@ -457,6 +460,7 @@ void Monster::update(float delta)
     setVecSpeed(getVecSpeed()*1);
     Point nextPosition = getPosition()+getVecSpeed();
     //需要检测即将到底的位置是不是到达了需要判断方向的地方
+    
     switch (m_eDirection) {
         case kWalkRight:
             if(nextPosition.x>=m_CornerPoint.x)

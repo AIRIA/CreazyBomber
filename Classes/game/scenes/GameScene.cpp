@@ -22,6 +22,7 @@ void GameScene::onEnter()
     BaseLayer::onEnter();
     NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::nextLevel), GAME_NEXT, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::retry), GAME_RETRY, nullptr);
     GameManager::getInstance()->setIsGameOver(false);
 }
 
@@ -35,6 +36,14 @@ void GameScene::onExit()
 void GameScene::nextLevel(cocos2d::Ref *pSender)
 {
     GameConfig::selectedLevel += 1;
+    GameManager::getInstance()->setSpeed(Point::ZERO);
+    GameManager::getInstance()->setPlayer(nullptr);
+    removeAllChildren();
+    GameScene::create()->run();
+}
+
+void GameScene::retry(cocos2d::Ref *pSender)
+{
     GameManager::getInstance()->setSpeed(Point::ZERO);
     GameManager::getInstance()->setPlayer(nullptr);
     removeAllChildren();
