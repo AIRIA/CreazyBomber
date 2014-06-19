@@ -91,6 +91,7 @@ bool GameScene::init()
 
 void GameScene::onTexturesLoaded()
 {
+    BaseLayer::onTexturesLoaded();
     MapUtil::getInstance()->initMapSize();
     
     auto mapLayer = MapLayer::create();

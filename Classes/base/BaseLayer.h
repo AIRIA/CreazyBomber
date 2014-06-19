@@ -39,6 +39,7 @@ private:
     static void __loadedHandler(Texture2D *texture);
     int loadedNum = 0;
     void __loadedNotificationHander(Ref *pObj);
+    void __updateLoadingBar();
 };
 
 #endif /* defined(__CreazyBomber__BaseLayer__) */

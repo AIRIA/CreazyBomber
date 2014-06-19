@@ -10,6 +10,12 @@
 
 #define EVENT_ASSET_LOADED "event_asset_loaded"
 
+enum Tags
+{
+    kTagWrapper,
+    kTagLoading
+};
+
 void BaseLayer::onEnter()
 {
     m_pLeft = __createScaleLayer(Point(0.0f,0.5f), VisibleRect::left());
@@ -32,6 +38,7 @@ void BaseLayer::onExit()
 void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
 {
     loadedNum++;
+    __updateLoadingBar();
     if(loadedNum==textureFiles.size())
     {
         auto it = textureFiles.begin();
@@ -42,7 +49,9 @@ void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
             SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fileName+".plist",texture);
             it++;
         }
-        onTexturesLoaded();
+        runAction(Sequence::create(DelayTime::create(0.5f),CallFunc::create([&]()->void{
+            onTexturesLoaded();
+        }), NULL));
         return;
     }
     
@@ -50,7 +59,7 @@ void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
 
 void BaseLayer::onTexturesLoaded()
 {
-    //TODO
+    removeAllChildren();
 }
 
 void BaseLayer::__loadAssets()
@@ -76,9 +85,58 @@ bool BaseLayer::init()
     if (!Layer::init()) {
         return false;
     }
+    
+
+    SpriteFrameCache::getInstance()->removeUnusedSpriteFrames();
+    SpriteFrameCache::getInstance()->destroyInstance();
+    
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
+    auto wrapper = Layer::create();
+    wrapper->ignoreAnchorPointForPosition(false);
+    wrapper->setContentSize(Size(DESIGN_WIDTH,DESIGN_HEIGHT));
+    wrapper->setPosition(VisibleRect::center());
+    wrapper->setAnchorPoint(Point(0.5f,0.5f));
+    wrapper->setScale(m_fScaleFactor);
+    auto bg = Sprite::create("images/bg.png");
+    bg->setPosition(DESIGN_CENTER);
+    wrapper->addChild(bg);
+    auto logo = Sprite::create("images/logo.png");
+    auto copyright = Sprite::create("images/copyright.png");
+    logo->setPosition(DESIGN_CENTER);
+    logo->setAnchorPoint(Point(0.5f,0.0f));
+    
+    copyright->setAnchorPoint(Point(0.5f,0.0f));
+    copyright->setPosition(Point(DESIGN_WIDTH/2,0)+Point(0,20));
+    wrapper->addChild(logo);
+    wrapper->addChild(copyright);
+    
+    auto loadingBg = Sprite::create("images/loading_bg.png");
+    loadingBg->setPosition(Point(DESIGN_WIDTH/2,0)+Point(0,80));
+    wrapper->addChild(loadingBg);
+    
+    auto loading = Sprite::create("images/loading.png");
+    auto loadingProgress = ProgressTimer::create(loading);
+    loadingProgress->setPosition(Point(DESIGN_WIDTH/2,0)+Point(0,80));
+    loadingProgress->setType(ProgressTimer::Type::BAR);
+    loadingProgress->setMidpoint(Point::ZERO);
+    loadingProgress->setBarChangeRate(Point(1,0));
+    loadingProgress->setPercentage(0);
+    
+    wrapper->setTag(kTagWrapper);
+    wrapper->addChild(loadingProgress);
+    loadingProgress->setTag(kTagLoading);
+    addChild(wrapper);
     return true;
+}
+
+void BaseLayer::__updateLoadingBar()
+{
+    float current = float(loadedNum-1)/float(textureFiles.size())*100;
+    float next = float(loadedNum)/float(textureFiles.size())*100;
+    auto progress = static_cast<ProgressTimer*>(getChildByTag(kTagWrapper)->getChildByTag(kTagLoading));
+    auto progressFromTo = ProgressFromTo::create(0.1, current, next);
+    progress->runAction(progressFromTo);
 }
 
 void BaseLayer::run()

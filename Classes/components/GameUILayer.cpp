@@ -23,10 +23,11 @@ enum Tags
 
 bool GameUILayer::init()
 {
-    if(!BaseLayer::init())
+    if(!Layer::init())
     {
         return false;
     }
+    m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
     return true;
 }
