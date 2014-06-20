@@ -11,6 +11,7 @@
 
 #include "common/CommonHeaders.h"
 #include "game/objects/Player.h"
+#include "components/MapLayer.h"
 
 class GameManager
 {
@@ -28,6 +29,7 @@ public:
     CC_SYNTHESIZE(bool,m_bIsGameOver,IsGameOver);
     CC_SYNTHESIZE(int, m_iGameScore, GameScore);
     CC_SYNTHESIZE(int, m_iMonsterCount, MonsterCount);
+    CC_SYNTHESIZE(MapLayer*, m_pMapLayer,MapLayer);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

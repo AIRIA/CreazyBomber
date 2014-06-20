@@ -59,15 +59,29 @@ void GameUILayer::onTexturesLoaded()
     m_pLeft->addChild(hpBar);
     
     
-    //定时器 血瓶
+    //定时器 血瓶 设置
     auto hpMenuItem = MenuItemSprite::create(SPRITE("hp_icon_normal.png"), SPRITE("hp_icon_press.png"),SPRITE("hp_icon_disable.png"));
     auto timerBombItem = MenuItemSprite::create(SPRITE("timer_bomb_normal.png"), SPRITE("timer_bomb_press.png"),SPRITE("timer_bomb_disable.png"));
-    hpMenuItem->setAnchorPoint(Point(1.0f,0.5f));
-    hpMenuItem->setPosition(DESIGN_WIDTH-20,DESIGN_HEIGHT/2+30);
+    auto settingItem = MenuItemSprite::create(SPRITE("setting_normal.png"), SPRITE("setting_press.png"));
+    settingItem->setAnchorPoint(Point(1.0f,1.0f));
+    settingItem->setPosition(VisibleRect::rightTop()-Point(20,20));
+    settingItem->setCallback([](Ref *pSender)->void{
+        NotificationCenter::getInstance()->postNotification(SHOW_PAUSE);
+    });
+    
+    hpMenuItem->setAnchorPoint(Point(1.0f,1.0f));
+    hpMenuItem->setPosition(VisibleRect::right()+Point(-20,200));
     timerBombItem->setAnchorPoint(hpMenuItem->getAnchorPoint());
-    timerBombItem->setPosition(DESIGN_WIDTH-10,hpMenuItem->getPosition().y - hpMenuItem->getContentSize().height/2-40);
-    auto menu = Menu::create(hpMenuItem,timerBombItem,nullptr);
-    m_pRight->addChild(menu);
+    timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,180));
+    
+    timerBombItem->setScale(m_fScaleFactor);
+    hpMenuItem->setScale(m_fScaleFactor);
+    settingItem->setScale(m_fScaleFactor);
+    
+    auto menu = Menu::create(settingItem,hpMenuItem,timerBombItem,nullptr);
+    addChild(menu);
+    menu->ignoreAnchorPointForPosition(false);
+    menu->setAnchorPoint(Point::ZERO);
     menu->setPosition(Point::ZERO);
     
     

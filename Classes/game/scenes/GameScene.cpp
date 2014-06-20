@@ -16,6 +16,7 @@
 #include "game/objects/Bomb.h"
 #include "components/MapLayer.h"
 #include "components/ResultLayer.h"
+#include "components/SettingLayer.h"
 
 void GameScene::onEnter()
 {
@@ -80,6 +81,7 @@ bool GameScene::init()
     textureFiles.push_back("textures/button-hd");
     
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
+    textureFiles.push_back("textures/zh_cn/locale_4-hd");
     
     
     char playerTextureName[50];
@@ -120,7 +122,9 @@ void GameScene::onTexturesLoaded()
     GameManager::getInstance()->setMonsterCount(MapUtil::getInstance()->getMonsters().size());
     mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
     addChild(mapLayer);
+    GameManager::getInstance()->setMapLayer(mapLayer);
     addUIComponents();
+    addChild(SettingLayer::getInstance());
     addChild(ResultLayer::create());
     
 }

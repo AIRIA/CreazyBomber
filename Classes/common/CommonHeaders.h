@@ -49,5 +49,7 @@ using namespace rapidjson;
 
 #define UPDATE_HP "update_hp"
 #define MONSTER_DESTROY "monster_destroy"
+#define SHOW_PAUSE "show_pause"
+#define SHOW_SETTING "show_setting"
 
 #endif
