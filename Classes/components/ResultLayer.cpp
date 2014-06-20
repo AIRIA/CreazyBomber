@@ -59,6 +59,30 @@ void ResultLayer::_changeBgColor()
 void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 {
     _changeBgColor();
+    auto wrapper = Node::create();
+    wrapper->setScale(GameManager::getInstance()->getScaleFactor());
+    wrapper->setPosition(VisibleRect::center()+VisibleRect::leftTop());
+    
+    auto bg = SPRITE("story_lost_bg.png");
+    wrapper->addChild(bg);
+    
+    auto charge = MenuItemSprite::create(SPRITE("shop_charge_btn_normal.png"), SPRITE("shop_charge_btn_press.png"));
+    auto revice = MenuItemSprite::create(SPRITE("revive_normal.png"), SPRITE("revive_press.png"));
+    revice->setPosition(Point(0,20));
+    charge->setPosition(Point(0,-150));
+    
+    auto menu = Menu::create(revice,charge,nullptr);
+    menu->ignoreAnchorPointForPosition(false);
+    wrapper->addChild(menu);
+    
+    auto moveAct = MoveTo::create(0.4f, VisibleRect::center());
+    auto easeAct = EaseBackOut::create(moveAct);
+    auto score = SPRITE("score.png");
+    score->setPosition(-30,-200);
+    wrapper->addChild(score);
+    wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,NULL));
+    addChild(wrapper);
+    
 }
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)

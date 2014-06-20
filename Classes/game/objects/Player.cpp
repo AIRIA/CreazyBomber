@@ -326,6 +326,21 @@ void Player::update(float delta)
             }
             it++;
         }
+        /* 是否和怪物有碰撞 */
+        auto monsters = MapUtil::getInstance()->getMonsters();
+        auto monsterIt = monsters.begin();
+        while (monsterIt!=monsters.end()) {
+            auto monster = *monsterIt;
+            auto monsterRect = monster->getBoundingBox();
+            monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+            if(getBoundingBox().intersectsRect(monsterRect))
+            {
+                beAttack(monster->getMonsterProperty()->getPower());
+                break;
+            }
+            monsterIt++;
+        }
+        
     }
     
     
@@ -341,6 +356,9 @@ void Player::update(float delta)
         auto coordinate = getCoordinate();
         setPosition(targetPosition);
     }
+    
+    
+    
 }
 
 void Player::stopWalkAction()

@@ -89,6 +89,7 @@ bool BaseLayer::init()
 
     SpriteFrameCache::getInstance()->removeUnusedSpriteFrames();
     SpriteFrameCache::getInstance()->destroyInstance();
+    Director::getInstance()->purgeCachedData();
     
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
