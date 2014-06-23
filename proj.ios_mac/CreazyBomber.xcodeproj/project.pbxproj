@@ -26,6 +26,10 @@
 		410E2073193876E1006A28B6 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 410E2070193876E1006A28B6 /* GameManager.cpp */; };
 		411672F419540EF500D70261 /* SettingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411672F219540EF500D70261 /* SettingLayer.cpp */; };
 		411672F519540EF500D70261 /* SettingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 411672F219540EF500D70261 /* SettingLayer.cpp */; };
+		41178A9E1957D33600FAAAE8 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178A9C1957D33600FAAAE8 /* Util.cpp */; };
+		41178A9F1957D33600FAAAE8 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178A9C1957D33600FAAAE8 /* Util.cpp */; };
+		41178AA31957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */; };
+		41178AA41957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */; };
 		41201465193D78B800640867 /* GameUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41201463193D78B800640867 /* GameUILayer.cpp */; };
 		41201466193D78B800640867 /* GameUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41201463193D78B800640867 /* GameUILayer.cpp */; };
 		4120146C193DBDE300640867 /* Bomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4120146A193DBDE300640867 /* Bomb.cpp */; };
@@ -277,6 +281,10 @@
 		410E2071193876E1006A28B6 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		411672F219540EF500D70261 /* SettingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingLayer.cpp; sourceTree = "<group>"; };
 		411672F319540EF500D70261 /* SettingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingLayer.h; sourceTree = "<group>"; };
+		41178A9C1957D33600FAAAE8 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Util.cpp; path = utils/Util.cpp; sourceTree = "<group>"; };
+		41178A9D1957D33600FAAAE8 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = utils/Util.h; sourceTree = "<group>"; };
+		41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerInfoParam.cpp; path = data/PlayerInfoParam.cpp; sourceTree = "<group>"; };
+		41178AA21957D90F00FAAAE8 /* PlayerInfoParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerInfoParam.h; path = data/PlayerInfoParam.h; sourceTree = "<group>"; };
 		41201463193D78B800640867 /* GameUILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUILayer.cpp; sourceTree = "<group>"; };
 		41201464193D78B800640867 /* GameUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUILayer.h; sourceTree = "<group>"; };
 		4120146A193DBDE300640867 /* Bomb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bomb.cpp; sourceTree = "<group>"; };
@@ -505,6 +513,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		41178A991957D31100FAAAE8 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				41178A9C1957D33600FAAAE8 /* Util.cpp */,
+				41178A9D1957D33600FAAAE8 /* Util.h */,
+			);
+			name = utils;
+			sourceTree = "<group>";
+		};
+		41178AA01957D8CD00FAAAE8 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */,
+				41178AA21957D90F00FAAAE8 /* PlayerInfoParam.h */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
 		416478F8192C4626000FB1B5 /* components */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +646,8 @@
 		8E87765319285A2700EBCA0C /* game */ = {
 			isa = PBXGroup;
 			children = (
+				41178AA01957D8CD00FAAAE8 /* data */,
+				41178A991957D31100FAAAE8 /* utils */,
 				41647903192C91FC000FB1B5 /* objects */,
 				8ECFE559192867DA006C61FC /* scenes */,
 				416478FF192C8D8C000FB1B5 /* GameConfig.cpp */,
@@ -865,6 +893,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41178A9E1957D33600FAAAE8 /* Util.cpp in Sources */,
 				414CEDD8194950D4004FF658 /* PlayerArrow.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				411672F419540EF500D70261 /* SettingLayer.cpp in Sources */,
@@ -886,6 +915,7 @@
 				415ECBDE1932DA6000582393 /* MapCell.cpp in Sources */,
 				416478FD192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8ECFE562192868C3006C61FC /* VisibleRect.cpp in Sources */,
+				41178AA31957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
@@ -902,6 +932,7 @@
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				416478FE192C4671000FB1B5 /* PerfectMenu.cpp in Sources */,
 				8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */,
+				41178A9F1957D33600FAAAE8 /* Util.cpp in Sources */,
 				411672F519540EF500D70261 /* SettingLayer.cpp in Sources */,
 				41201466193D78B800640867 /* GameUILayer.cpp in Sources */,
 				416EB5BF1938269700BA5409 /* BomberButton.cpp in Sources */,
@@ -913,6 +944,7 @@
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				41E939D11936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				41178AA41957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */,
 				415C357719383B08005ADF8E /* DirectionButton.cpp in Sources */,
 				8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */,
 				410E2073193876E1006A28B6 /* GameManager.cpp in Sources */,

@@ -18,6 +18,7 @@
 #include "components/ResultLayer.h"
 #include "components/SettingLayer.h"
 
+
 void GameScene::onEnter()
 {
     BaseLayer::onEnter();
@@ -145,7 +146,12 @@ void GameScene::addUIComponents()
 
 void GameScene::normalBombHandler(cocos2d::Ref *pSender)
 {
-    auto player = GameManager::getInstance()->getPlayer();
+    auto manager = GameManager::getInstance();
+    if(manager->getBombNum()==0)
+    {
+        return;
+    }
+    auto player = manager->getPlayer();
     auto coordinate = player->getCoordinate();
     auto tile = MapUtil::getInstance()->getMapObjectFromBombVector(MapUtil::getInstance()->getBomb(), coordinate);
     if(tile&&dynamic_cast<Bomb*>(tile))
@@ -153,12 +159,11 @@ void GameScene::normalBombHandler(cocos2d::Ref *pSender)
         return;
     }
     auto bomb = Bomb::create(Bomb::kBombNormal);
-    bomb->setZOrder((coordinate.y)*10+1);
+    bomb->setZOrder(0);
     bomb->setCol(coordinate.x);
     bomb->setRow(coordinate.y);
-    bomb->setPower(GameManager::getInstance()->getBombPower());
+    bomb->setPower(manager->getBombPower());
     bomb->setAnchorPoint(Point(0.5f,0.0f));
     bomb->setPosition(player->convertCoordinate2Point(coordinate));
-    
     GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
 }

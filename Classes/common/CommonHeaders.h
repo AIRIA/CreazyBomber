@@ -51,5 +51,6 @@ using namespace rapidjson;
 #define MONSTER_DESTROY "monster_destroy"
 #define SHOW_PAUSE "show_pause"
 #define SHOW_SETTING "show_setting"
+#define UPDATE_PLAYER_INFO "update_player_info" 
 
 #endif

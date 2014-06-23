@@ -15,6 +15,7 @@ GameManager *GameManager::getInstance()
     {
         _instance = new GameManager();
         _instance->setGameScore(345);
+        _instance->setBombNum(1);
     }
     return _instance;
 }

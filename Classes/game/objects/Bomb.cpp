@@ -9,6 +9,7 @@
 #include "Bomb.h"
 #include "game/GameManager.h"
 #include "game/MapUtil.h"
+#include "game/data/PlayerInfoParam.h"
 
 void Bomb::onEnter()
 {
@@ -33,6 +34,14 @@ void Bomb::onEnter()
     runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
 }
 
+void Bomb::updateBombnum()
+{
+    auto data = PlayerInfoParam::create();
+    data->setType(PlayerInfoParam::kTypeBomb);
+    data->setValue(GameManager::getInstance()->getBombNum());
+    NotificationCenter::getInstance()->postNotification(UPDATE_PLAYER_INFO,data);
+}
+
 void Bomb::onExit()
 {
     MapObject::onExit();
@@ -48,6 +57,9 @@ Bomb *Bomb::create(Bomb::BombType type)
         bomb->autorelease();
         bomb->setBombType(type);
         MapUtil::getInstance()->getBomb().pushBack(bomb);
+        auto manager = GameManager::getInstance();
+        manager->setBombNum(manager->getBombNum()-1);
+        bomb->updateBombnum();
         return bomb;
     }
     CC_SAFE_FREE(bomb);
@@ -120,6 +132,10 @@ void Bomb::initBombAnimations()
 
 void Bomb::bomb()
 {
+    auto manager = GameManager::getInstance();
+    manager->setBombNum(manager->getBombNum()+1);
+    updateBombnum();
+    
     auto getAnimateByName = [](std::string animationName)->Animate*{
         auto animation = AnimationCache::getInstance()->getAnimation(animationName);
         auto animate = Animate::create(animation);

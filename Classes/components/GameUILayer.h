@@ -23,6 +23,7 @@ public:
 protected:
     void _updateHpHandler(Ref *pSender);
     void _onMonsterDestroy(Ref *pSender);
+    void _updatePlayerInfoHandler(Ref *pSender);
     ProgressTimer *hpBar;
 };
 

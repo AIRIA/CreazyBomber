@@ -30,6 +30,10 @@ public:
     CC_SYNTHESIZE(int, m_iGameScore, GameScore);
     CC_SYNTHESIZE(int, m_iMonsterCount, MonsterCount);
     CC_SYNTHESIZE(MapLayer*, m_pMapLayer,MapLayer);
+    /**
+     * 可以放置的炸弹的数量
+     */
+    CC_SYNTHESIZE(int, m_iBombNum, BombNum);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

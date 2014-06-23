@@ -26,6 +26,10 @@ public:
     void initBombAnimations();
     void bomb();
     virtual void doTileDestory();
+    /**
+     * 更新UI层可以使用的炸弹的数量
+     */
+    void updateBombnum();
 
 protected:
     bool _isBombed;

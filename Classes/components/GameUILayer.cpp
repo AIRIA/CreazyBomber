@@ -9,16 +9,14 @@
 #include "GameUILayer.h"
 #include "game/GameManager.h"
 #include "game/MapUtil.h"
+#include "game/utils/Util.h"
+#include "game/data/PlayerInfoParam.h"
 
 enum Tags
 {
     kTagWraper,
     kTagLevelLabel,
-    kTagMonsterCountLabel,
-    kTagCoinLabel,
-    kTagSpeedShoe,
-    kTagBombLabel,
-    kTagPowerLabel
+    kTagMonsterCountLabel
 };
 
 bool GameUILayer::init()
@@ -93,7 +91,7 @@ void GameUILayer::onTexturesLoaded()
     infoNode->addChild(playerInfo);
 
     auto shoe = Label::createWithBMFont("font/font_02.fnt", "0");
-    auto bomb = Label::createWithBMFont("font/font_02.fnt", "0");
+    auto bomb = Label::createWithBMFont("font/font_02.fnt", Util::itoa(GameManager::getInstance()->getBombNum()));
     auto power = Label::createWithBMFont("font/font_02.fnt", "0");
     auto coin = Label::createWithBMFont("font/font_02.fnt", "000000");
     shoe->setPosition(playerInfo->getContentSize().width/2*-1+40,-20);
@@ -124,6 +122,11 @@ void GameUILayer::onTexturesLoaded()
     infoNode->setContentSize(Size(monstersLabel->getContentSize().width+monstersLabel->getPosition().x,1));
     infoNode->setAnchorPoint(Point(0.5,1));
     infoNode->setPosition(VisibleRect::top());
+    
+    shoe->setTag(PlayerInfoParam::kTypeShoe);
+    bomb->setTag(PlayerInfoParam::kTypeBomb);
+    power->setTag(PlayerInfoParam::kTypePower);
+    coin->setTag(PlayerInfoParam::kTypeCoin);
 }
 
 void GameUILayer::onEnter()
@@ -131,6 +134,7 @@ void GameUILayer::onEnter()
     BaseLayer::onEnter();
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateHpHandler), UPDATE_HP, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_onMonsterDestroy), MONSTER_DESTROY, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updatePlayerInfoHandler), UPDATE_PLAYER_INFO, nullptr);
 }
 
 void GameUILayer::onExit()
@@ -138,6 +142,7 @@ void GameUILayer::onExit()
     BaseLayer::onExit();
     NotificationCenter::getInstance()->removeObserver(this, UPDATE_HP);
     NotificationCenter::getInstance()->removeObserver(this, MONSTER_DESTROY);
+    NotificationCenter::getInstance()->removeObserver(this, UPDATE_PLAYER_INFO);
 }
 
 void GameUILayer::_updateHpHandler(cocos2d::Ref *pSender)
@@ -152,4 +157,33 @@ void GameUILayer::_onMonsterDestroy(cocos2d::Ref *pSender)
 {
     auto monsterCountLabel = static_cast<Label*>(getChildByTag(kTagWraper)->getChildByTag(kTagMonsterCountLabel));
     monsterCountLabel->setString(__String::createWithFormat("%ld/%d",GameManager::getInstance()->getMonsterCount()-MapUtil::getInstance()->getMonsters().size(),GameManager::getInstance()->getMonsterCount())->getCString());
+}
+
+void GameUILayer::_updatePlayerInfoHandler(cocos2d::Ref *pSender)
+{
+    auto param = static_cast<PlayerInfoParam*>(pSender);
+    auto wrapper = getChildByTag(kTagWraper);
+    auto label = static_cast<Label*>(wrapper->getChildByTag(param->getType()));
+    
+    auto action = label->getActionByTag(100);
+    if(param->getValue()==0)
+    {
+        label->stopAllActions();
+        label->setScale(1.0f);
+    }else if(action==nullptr){
+        auto scaleBig = ScaleBy::create(0.4f, 1.5f);
+        auto scaleSmall = scaleBig->reverse();
+        auto seq = Sequence::create(scaleBig,scaleSmall, NULL);
+        auto rep = RepeatForever::create(seq);
+        rep->setTag(100);
+        label->runAction(rep);
+    }
+    if(param->getType()==PlayerInfoParam::kTypeCoin)
+    {
+        char buffer[50];
+        sprintf(buffer, "%06d",param->getValue());
+        label->setString(buffer);
+    }else{
+        label->setString(Util::itoa(param->getValue()));
+    }
 }
