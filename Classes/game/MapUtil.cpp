@@ -427,6 +427,12 @@ MonsterProperty *MapUtil::getMonsterProperyById(int id)
     return nullptr;
 }
 
+bool MapUtil::isBorder(const cocos2d::Point &coordinate)
+{
+    if(coordinate.x==0||coordinate.x==MapUtil::getInstance()->getMapSize().width-1||coordinate.y==0||coordinate.y==MapUtil::getInstance()->getMapSize().height-1)
+        return true;
+    return false;
+}
 
 
 

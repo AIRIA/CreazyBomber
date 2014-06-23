@@ -155,6 +155,10 @@ void Bomb::bomb()
             }
             
             auto targetCoordiante = Point(getCol(),getRow())+directions[i]*j;
+            if(MapUtil::getInstance()->isBorder(targetCoordiante))
+            {
+                break;
+            }
             auto mapUtil = MapUtil::getInstance();
             auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), targetCoordiante);
             if(tile==nullptr)

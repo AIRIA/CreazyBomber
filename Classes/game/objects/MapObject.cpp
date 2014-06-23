@@ -445,7 +445,7 @@ void Monster::update(float delta)
             {
                 tile = getRandomDirection();
                 continue;
-            }else if(coordinate.x==0||coordinate.x==MapUtil::getInstance()->getMapSize().width-1||coordinate.y==0||coordinate.y==MapUtil::getInstance()->getMapSize().height-1){
+            }else if(util->isBorder(coordinate)){
                 tile = getRandomDirection();
                 continue;
             }
@@ -758,7 +758,7 @@ void WoodBox::update(float delta)
                     break;
             }
             nextCoordinate += offset;
-            if(nextCoordinate.x==0)
+            if(MapUtil::getInstance()->isBorder(nextCoordinate))
             {
                 return;
             }

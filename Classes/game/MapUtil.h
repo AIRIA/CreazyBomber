@@ -119,24 +119,34 @@ public:
     void removeMapObject(MapObject *mapObj);
     
     Vector<MapObject*> &getMapObjects(){ return m_vMapObjects;};
-    
+    /**
+     * 所有怪物的全部属性
+     */
     Vector<MonsterProperty*> &getMonsterProperteis(){ return m_vMonsterProperteis;};
-    
+    /**
+     * 当前全部的怪物集合
+     */
     Vector<Monster*> &getMonsters(){ return m_vMonsters;};
-    
+    /**
+     * 获取当前放置的全部炸弹
+     */
     Vector<Bomb*> &getBomb(){return m_vBombs;};
-    
     /**
      * 获取当前状态下显示的炸弹的火焰集合
      */
     Vector<BombFire*> &getBombFires(){ return m_vFires;};
-    
+    /**
+     * 获取普通的 阻挡模块 包括 围墙--树木--木箱子
+     */
     Vector<MapObject*> &getCommonTiles(){ return m_vCommonTiles; };
     
     void getMonsterInfos();
     
     MonsterProperty *getMonsterProperyById(int id);
-    
+    /**
+     * 判断指定的坐标是不是地图的边界位置
+     */
+    bool isBorder(const Point &coordinate);
 protected:
     
     /**
