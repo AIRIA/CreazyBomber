@@ -17,6 +17,7 @@
 #include "components/MapLayer.h"
 #include "components/ResultLayer.h"
 #include "components/SettingLayer.h"
+#include "game/objects/PlayerItem.h"
 
 
 void GameScene::onEnter()
@@ -25,14 +26,15 @@ void GameScene::onEnter()
     NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::nextLevel), GAME_NEXT, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::retry), GAME_RETRY, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::createPlayerItem), CREATE_PLAYER_ITEM, nullptr);
+    
     GameManager::getInstance()->setIsGameOver(false);
 }
 
 void GameScene::onExit()
 {
     BaseLayer::onExit();
-    NotificationCenter::getInstance()->removeObserver(this, ADD_NORMAL_BOMB);
-    NotificationCenter::getInstance()->removeObserver(this, GAME_NEXT);
+    NotificationCenter::getInstance()->removeAllObservers(this);
 }
 
 void GameScene::nextLevel(cocos2d::Ref *pSender)
@@ -66,8 +68,6 @@ bool GameScene::init()
         GameManager::getInstance()->setScaleFactor(m_fScaleFactor);
     }
     
-    GameManager::getInstance()->setBombPower(3);
-    
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
     textureFiles.push_back("textures/monster_2-hd");
@@ -80,6 +80,7 @@ bool GameScene::init()
     textureFiles.push_back("textures/other_1-hd");
     textureFiles.push_back("textures/other-hd");
     textureFiles.push_back("textures/button-hd");
+    textureFiles.push_back("textures/item-hd");
     
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
     textureFiles.push_back("textures/zh_cn/locale_4-hd");
@@ -96,7 +97,20 @@ void GameScene::onTexturesLoaded()
 {
     BaseLayer::onTexturesLoaded();
     MapUtil::getInstance()->initMapSize();
-    
+    /* 初始化道具的动画 */
+    std::vector<PlayerItemType> items = {{"coin0.png","coin_small",0.1f,PlayerInfoParam::kTypeCoin},
+        {"coin1.png","coin_big",0.1f,PlayerInfoParam::kTypeCoin},
+        {"speed.png","speed",0.3f,PlayerInfoParam::kTypeShoe},
+        {"power.png","power",0.2f,PlayerInfoParam::kTypePower},
+        {"bomb.png","bomb",0.2f,PlayerInfoParam::kTypeBomb}};
+    GameManager::getInstance()->setPlayerItems(items);
+    auto it = items.begin();
+    while(it!=items.end())
+    {
+        GameManager::getInstance()->initPlayerItemAnimations(it->frameName, it->animationName,it->perFrameDelay);
+        it++;
+    }
+    /* 添加地图元素和UI元素到界面 */
     auto mapLayer = MapLayer::create();
     auto baseTileLayer = MapUtil::getInstance()->getBaseTileLayer();
     auto tmxLayer = MapUtil::getInstance()->getTmxTileLayer();
@@ -162,8 +176,24 @@ void GameScene::normalBombHandler(cocos2d::Ref *pSender)
     bomb->setZOrder(0);
     bomb->setCol(coordinate.x);
     bomb->setRow(coordinate.y);
-    bomb->setPower(manager->getBombPower());
     bomb->setAnchorPoint(Point(0.5f,0.0f));
     bomb->setPosition(player->convertCoordinate2Point(coordinate));
     GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
+}
+
+void GameScene::createPlayerItem(cocos2d::Ref *pSender)
+{
+    auto mapObj = static_cast<MapObject*>(pSender);
+    auto row = mapObj->getRow(),col = mapObj->getCol();
+    //mapObj->release();
+    auto itemId = rand()%20;
+    if(itemId<5)
+    {
+        auto playerItemType = GameManager::getInstance()->getPlayerItems().at(itemId);
+        auto item = PlayerItem::create();
+        item->setItemType(playerItemType);
+        item->setIdx(itemId);
+        item->setPosition(mapObj->convertCoordinate2Point(Point(col,row)));
+        GameManager::getInstance()->getMapTileLayer()->addChild(item);
+    }
 }

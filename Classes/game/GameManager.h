@@ -12,6 +12,8 @@
 #include "common/CommonHeaders.h"
 #include "game/objects/Player.h"
 #include "components/MapLayer.h"
+#include "game/scenes/GameScene.h"
+#include "game/objects/PlayerItem.h"
 
 class GameManager
 {
@@ -25,7 +27,7 @@ public:
     CC_SYNTHESIZE(float, m_fScaleFactor, ScaleFactor);
     CC_SYNTHESIZE(Node *, m_pMapTileLayer, MapTileLayer);
     CC_SYNTHESIZE(bool, m_bIsConllision, IsCollision);
-    CC_SYNTHESIZE(int, m_iBombPower, BombPower);
+    
     CC_SYNTHESIZE(bool,m_bIsGameOver,IsGameOver);
     CC_SYNTHESIZE(int, m_iGameScore, GameScore);
     CC_SYNTHESIZE(int, m_iMonsterCount, MonsterCount);
@@ -34,6 +36,16 @@ public:
      * 可以放置的炸弹的数量
      */
     CC_SYNTHESIZE(int, m_iBombNum, BombNum);
+    CC_SYNTHESIZE(int, m_iBombPower, BombPower);
+    CC_SYNTHESIZE(int, m_iShoe, Shoe);
+    CC_SYNTHESIZE(int, m_iCoin,Coin);
+    CC_SYNTHESIZE(std::vector<PlayerItemType>, m_vPlayerItems, PlayerItems);
+    
+public:
+    /**
+     * 解析游戏道具的动画
+     */
+    void initPlayerItemAnimations(std::string name,std::string aniName,float delta = 0.1f);
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */

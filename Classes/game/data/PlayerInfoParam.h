@@ -22,7 +22,6 @@ public:
         kTypePower,
         kTypeCoin
     };
-    
     CC_SYNTHESIZE(TYPE, m_eType, Type);
     CC_SYNTHESIZE(int, m_iValue, Value);
 };

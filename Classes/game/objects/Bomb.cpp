@@ -54,10 +54,11 @@ Bomb *Bomb::create(Bomb::BombType type)
     auto bomb = new Bomb();
     if(bomb&&bomb->init())
     {
+        auto manager = GameManager::getInstance();
         bomb->autorelease();
         bomb->setBombType(type);
+        bomb->setPower(manager->getBombPower());
         MapUtil::getInstance()->getBomb().pushBack(bomb);
-        auto manager = GameManager::getInstance();
         manager->setBombNum(manager->getBombNum()-1);
         bomb->updateBombnum();
         return bomb;

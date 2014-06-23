@@ -30,6 +30,8 @@
 		41178A9F1957D33600FAAAE8 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178A9C1957D33600FAAAE8 /* Util.cpp */; };
 		41178AA31957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */; };
 		41178AA41957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */; };
+		41178AA81957EBA100FAAAE8 /* PlayerItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA61957EBA100FAAAE8 /* PlayerItem.cpp */; };
+		41178AA91957EBA100FAAAE8 /* PlayerItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41178AA61957EBA100FAAAE8 /* PlayerItem.cpp */; };
 		41201465193D78B800640867 /* GameUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41201463193D78B800640867 /* GameUILayer.cpp */; };
 		41201466193D78B800640867 /* GameUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41201463193D78B800640867 /* GameUILayer.cpp */; };
 		4120146C193DBDE300640867 /* Bomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4120146A193DBDE300640867 /* Bomb.cpp */; };
@@ -285,6 +287,8 @@
 		41178A9D1957D33600FAAAE8 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = utils/Util.h; sourceTree = "<group>"; };
 		41178AA11957D90F00FAAAE8 /* PlayerInfoParam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayerInfoParam.cpp; path = data/PlayerInfoParam.cpp; sourceTree = "<group>"; };
 		41178AA21957D90F00FAAAE8 /* PlayerInfoParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerInfoParam.h; path = data/PlayerInfoParam.h; sourceTree = "<group>"; };
+		41178AA61957EBA100FAAAE8 /* PlayerItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerItem.cpp; sourceTree = "<group>"; };
+		41178AA71957EBA100FAAAE8 /* PlayerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerItem.h; sourceTree = "<group>"; };
 		41201463193D78B800640867 /* GameUILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUILayer.cpp; sourceTree = "<group>"; };
 		41201464193D78B800640867 /* GameUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUILayer.h; sourceTree = "<group>"; };
 		4120146A193DBDE300640867 /* Bomb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bomb.cpp; sourceTree = "<group>"; };
@@ -570,6 +574,8 @@
 				41E939CF1936F1AB002E3F4A /* Player.h */,
 				4120146A193DBDE300640867 /* Bomb.cpp */,
 				4120146B193DBDE300640867 /* Bomb.h */,
+				41178AA61957EBA100FAAAE8 /* PlayerItem.cpp */,
+				41178AA71957EBA100FAAAE8 /* PlayerItem.h */,
 			);
 			path = objects;
 			sourceTree = "<group>";
@@ -901,6 +907,7 @@
 				410E2072193876E1006A28B6 /* GameManager.cpp in Sources */,
 				41E939D419374A13002E3F4A /* MainUILayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				41178AA81957EBA100FAAAE8 /* PlayerItem.cpp in Sources */,
 				41E939D01936F1AB002E3F4A /* Player.cpp in Sources */,
 				8E1ADD331931F83E002A7A34 /* GameScene.cpp in Sources */,
 				41201465193D78B800640867 /* GameUILayer.cpp in Sources */,
@@ -934,6 +941,7 @@
 				8E1ADD381931FF23002A7A34 /* MapObject.cpp in Sources */,
 				41178A9F1957D33600FAAAE8 /* Util.cpp in Sources */,
 				411672F519540EF500D70261 /* SettingLayer.cpp in Sources */,
+				41178AA91957EBA100FAAAE8 /* PlayerItem.cpp in Sources */,
 				41201466193D78B800640867 /* GameUILayer.cpp in Sources */,
 				416EB5BF1938269700BA5409 /* BomberButton.cpp in Sources */,
 				415ECBDF1932DA6000582393 /* MapCell.cpp in Sources */,

@@ -26,14 +26,12 @@ void MapObject::onEnter()
     {
         scheduleUpdateWithPriority(-1);
     }
-//    MapUtil::getInstance()->getMapObjects().pushBack(this);
     run();
 }
 
 void MapObject::onExit()
 {
     Sprite::onExit();
-//    MapUtil::getInstance()->getMapObjects().eraseObject(this);
 }
 
 void MapObject::run()
@@ -251,7 +249,9 @@ void CommonTile::run()
 void CommonTile::onExit()
 {
     MapObject::onExit();
+    retain();
     MapUtil::getInstance()->getCommonTiles().eraseObject(this);
+    NotificationCenter::getInstance()->postNotification(CREATE_PLAYER_ITEM, this);
 }
 
 #pragma mark-----------------传送门----------------------------------
@@ -784,5 +784,7 @@ void WoodBox::update(float delta)
 void WoodBox::onExit()
 {
     MapObject::onExit();
+    retain();
     MapUtil::getInstance()->getCommonTiles().eraseObject(this);
+    NotificationCenter::getInstance()->postNotification(CREATE_PLAYER_ITEM, this);
 }

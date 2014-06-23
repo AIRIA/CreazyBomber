@@ -28,7 +28,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 		   		   ../../Classes/components/MapLayer.cpp \
                    ../../Classes/game/GameConfig.cpp \
                    ../../Classes/game/MapUtil.cpp \
-                   ../../Classes/game/GameManager.cpp 
+                   ../../Classes/game/GameManager.cpp \
+                   ../../Classes/game/data/PlayerInfoParam.cpp \
+                   ../../Classes/game/objects/PlayerItem.cpp \
+                   ../../Classes/game/utils/Util.cpp 
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

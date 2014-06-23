@@ -41,7 +41,7 @@ public class AppActivity extends Cocos2dxActivity {
 		// TODO Auto-generated method stub
 		if(keyCode==KeyEvent.KEYCODE_BACK)
 		{
-			exitDialog = new AlertDialog.Builder(this).setTitle("提示")
+			exitDialog = new AlertDialog.Builder(this).setTitle("疯狂炸弹人")
 					.setMessage("真的要退出游戏吗?")
 					.setPositiveButton("继续玩", new OnClickListener() {
 

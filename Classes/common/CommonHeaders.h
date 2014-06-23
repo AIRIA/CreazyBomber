@@ -52,5 +52,6 @@ using namespace rapidjson;
 #define SHOW_PAUSE "show_pause"
 #define SHOW_SETTING "show_setting"
 #define UPDATE_PLAYER_INFO "update_player_info" 
+#define CREATE_PLAYER_ITEM "create_player_item" //在木头或者植物被炸掉以后 添加
 
 #endif

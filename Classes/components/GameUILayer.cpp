@@ -14,7 +14,7 @@
 
 enum Tags
 {
-    kTagWraper,
+    kTagWraper=100,
     kTagLevelLabel,
     kTagMonsterCountLabel
 };

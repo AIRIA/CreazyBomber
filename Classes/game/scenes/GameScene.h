@@ -10,6 +10,7 @@
 #define __CreazyBomber__GameScene__
 
 #include "base/BaseLayer.h"
+#include "game/data/PlayerInfoParam.h"
 
 class GameScene:public BaseLayer
 {
@@ -24,6 +25,7 @@ protected:
     void normalBombHandler(Ref *pSender);
     void nextLevel(Ref *pSender);
     void retry(Ref *pSender);
+    void createPlayerItem(Ref *pSender);
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

@@ -17,14 +17,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLView::create("完美计划");
+        glview = GLView::create("Crazy Bomber");
         glview->setFrameSize(960, 640);
         director->setOpenGLView(glview);
     }
     srand(time(NULL));
     director->setDisplayStats(false);
     director->setAnimationInterval(1.0 / 60);
-    GameScene::create()->run();
+    HomeScene::create()->run();
     
     return true;
 }
