@@ -174,7 +174,7 @@ public:
 protected:
     std::vector<WalkDirection> testDirections;
     CC_SYNTHESIZE(MonsterProperty*, m_pMonsterProperty, MonsterProperty);
-    CC_SYNTHESIZE(bool , m_bIsCollision, IsCollison);
+//    CC_SYNTHESIZE(bool , m_bIsCollision, IsCollison);
     CC_SYNTHESIZE(Point, m_VecSpeed, VecSpeed);
     CC_SYNTHESIZE(Point, m_CornerPoint, CornerPoint);
     CC_SYNTHESIZE(WalkDirection, m_eDirection, Direction);

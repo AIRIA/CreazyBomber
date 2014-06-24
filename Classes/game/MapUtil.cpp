@@ -337,6 +337,7 @@ Node *MapUtil::addTileMapBorder()
     
     auto createDibian = [&borderNode](std::string name,Point startPos,int direction)->void{
         auto dibian = MapBorder::createWithSpriteFrameName(name);
+        MapUtil::getInstance()->getMapBorders().pushBack(dibian);
         auto size = dibian->getContentSize();
         if (direction==0) {
             //横向

@@ -140,6 +140,8 @@ public:
      */
     Vector<MapObject*> &getCommonTiles(){ return m_vCommonTiles; };
     
+    Vector<MapBorder*> &getMapBorders(){return m_vMapBorders;};
+    
     void getMonsterInfos();
     
     MonsterProperty *getMonsterProperyById(int id);
@@ -166,6 +168,8 @@ protected:
     Vector<Bomb*> m_vBombs;
     /* 普通建筑 不具有任何攻击力和伤害的 可以阻挡穿透 */
     Vector<MapObject*> m_vCommonTiles;
+    /* 边界 */
+    Vector<MapBorder*> m_vMapBorders;
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
     CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
     CC_SYNTHESIZE(Size, m_MapSize, MapSize);
