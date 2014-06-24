@@ -92,7 +92,7 @@ void GameUILayer::onTexturesLoaded()
 
     auto shoe = Label::createWithBMFont("font/font_02.fnt", "0");
     auto bomb = Label::createWithBMFont("font/font_02.fnt", Util::itoa(GameManager::getInstance()->getBombNum()));
-    auto power = Label::createWithBMFont("font/font_02.fnt", "0");
+    auto power = Label::createWithBMFont("font/font_02.fnt", "1");
     auto coin = Label::createWithBMFont("font/font_02.fnt", "000000");
     shoe->setPosition(playerInfo->getContentSize().width/2*-1+40,-20);
     auto pad = 70;
