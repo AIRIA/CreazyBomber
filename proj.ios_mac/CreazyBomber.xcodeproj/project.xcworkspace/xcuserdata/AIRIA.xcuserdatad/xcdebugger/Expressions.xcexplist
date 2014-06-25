@@ -98,20 +98,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Monster::update(float):MapObject.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMapSize()">
-            </PersistentString>
-            <PersistentString
-               value = "getVecSpeed()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "GameManager::getInstance():GameManager.cpp">
-      </ContextState>
-      <ContextState
          contextName = "GameScene::onTexturesLoaded():GameScene.cpp">
          <PersistentStrings>
             <PersistentString
@@ -121,6 +107,23 @@
                value = "GameManager::getInstance()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Monster::update(float):MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapSize()">
+            </PersistentString>
+            <PersistentString
+               value = "m_iBombCollisionFrames">
+            </PersistentString>
+            <PersistentString
+               value = "getVecSpeed()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GameManager::getInstance():GameManager.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():Player.cpp">

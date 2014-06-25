@@ -18,6 +18,10 @@ enum Tags
 
 void BaseLayer::onEnter()
 {
+    Director::getInstance()->getTextureCache()->removeAllTextures();
+
+    log("%s\n", Director::getInstance()->getTextureCache()->getCachedTextureInfo().c_str());
+    Layer::onEnter();
     m_pLeft = __createScaleLayer(Point(0.0f,0.5f), VisibleRect::left());
     m_pBody = __createScaleLayer(Point(0.5f,0.5f), VisibleRect::center());
     m_pRight = __createScaleLayer(Point(1.0f,0.5f), VisibleRect::right());
@@ -25,11 +29,11 @@ void BaseLayer::onEnter()
     auto loadingNode = Node::create();
     this->addChild(loadingNode);
     __loadAssets();
-    Layer::onEnter();
 }
 
 void BaseLayer::onExit()
 {
+    
     textureFiles.clear();
     NotificationCenter::getInstance()->removeObserver(this, EVENT_ASSET_LOADED);
     Layer::onExit();
@@ -60,6 +64,7 @@ void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
 void BaseLayer::onTexturesLoaded()
 {
     getChildByTag(kTagWrapper)->removeFromParent();
+    log("%s\n", Director::getInstance()->getTextureCache()->getCachedTextureInfo().c_str());
 }
 
 void BaseLayer::__loadAssets()
@@ -85,11 +90,6 @@ bool BaseLayer::init()
     if (!Layer::init()) {
         return false;
     }
-    
-
-    SpriteFrameCache::getInstance()->removeUnusedSpriteFrames();
-    SpriteFrameCache::getInstance()->destroyInstance();
-    Director::getInstance()->purgeCachedData();
     
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;

@@ -31,7 +31,7 @@ void Bomb::onEnter()
         log("bomb time:%ld",end-start);
     });
     MapUtil::getInstance()->getCommonTiles().pushBack(this);
-    runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
+    runAction(Sequence::create(Repeat::create(animate, 58),animateCall, NULL));
 }
 
 void Bomb::updateBombnum()
@@ -57,6 +57,7 @@ Bomb *Bomb::create(Bomb::BombType type)
         auto manager = GameManager::getInstance();
         bomb->autorelease();
         bomb->setBombType(type);
+        bomb->setType(kCellTypeBomb);
         bomb->setPower(manager->getBombPower());
         MapUtil::getInstance()->getBomb().pushBack(bomb);
         manager->setBombNum(manager->getBombNum()-1);

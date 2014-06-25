@@ -306,6 +306,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             m_vCommonTiles.pushBack(element);
             break;
     }
+    element->setType(mapCell->getCellType());
     return element;
 }
 
@@ -335,7 +336,7 @@ Node *MapUtil::addTileMapBorder()
     }
     endRow = endRow*3;
     
-    auto createDibian = [&borderNode](std::string name,Point startPos,int direction)->void{
+    auto createDibian = [&](std::string name,Point startPos,int direction)->void{
         auto dibian = MapBorder::createWithSpriteFrameName(name);
         MapUtil::getInstance()->getMapBorders().pushBack(dibian);
         auto size = dibian->getContentSize();

@@ -371,8 +371,9 @@ void Monster::onEnter()
         return;
     }
     setMonsterProperty(pro);
-    setDirection((WalkDirection)(rand()%4));
-    walk(getDirection());
+    setIsCollison(true);
+    float speed = getMonsterProperty()->getSpeed()/30.0f;
+    setVecSpeed(getVecSpeed()*speed);
 }
 
 void Monster::run()
@@ -385,8 +386,7 @@ void Monster::update(float delta)
 {
     /* 监测和炸弹的碰撞 */
     auto monsterRect = getBoundingBox();
-    monsterRect.origin = Point(getPosition().x-TILE_WIDTH/2+1,getPosition().y+getMonsterProperty()->getFootPos());
-    monsterRect.size = Size(TILE_WIDTH-2,TILE_HEIGHT-20);
+    monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     auto util = MapUtil::getInstance();
     auto it = util->getBombFires().begin();
     while(it!=util->getBombFires().end())
@@ -402,72 +402,106 @@ void Monster::update(float delta)
         }
         it++;
     }
-    /* 获取一个随机的方向 */
-    auto getRandomDirection = [&]()->WalkDirection{
-        auto direction = (WalkDirection)(rand()%4);
-        while (direction==getDirection()) {
-            direction = (WalkDirection)(rand()%4);
-        }
-        walk(direction);
-        this->setDirection(direction);
-        return direction;
-    };
-    
-    /* 根据行走方向设定速度向量 */
-    auto initVecSpeed = [&](WalkDirection direction)->void{
-        switch (direction) {
-            case kWalkUp:
-                setVecSpeed(Point(0,1));
-                break;
-            case kWalkDown:
-                setVecSpeed(Point(0,-1));
-                break;
-            case kWalkLeft:
-                setVecSpeed(Point(-1,0));
-                break;
-            case kWalkRight:
-                setVecSpeed(Point(1,0));
-                break;
-            default:
-                break;
-        }
-    };
-    initVecSpeed(getDirection());
-    float speed = getMonsterProperty()->getSpeed()/30.0f;
-    setVecSpeed(getVecSpeed()*1);
-    monsterRect.origin = monsterRect.origin+getVecSpeed();
-    /* 检测和边缘的碰撞 */
-    auto borderIt = util->getMapBorders().begin();
-    while (borderIt!=util->getMapBorders().end()) {
-        auto border = *borderIt;
-        auto borderRect = border->getBoundingBox();
-        if(borderRect.intersectsRect(monsterRect))
+    if(getIsCollison())
+    {
+        auto coordinate = Point::ZERO;
+        auto getRandomDirection = [&]()->MapObject*{
+            auto mapUtil = MapUtil::getInstance();
+            coordinate = Point(getCol(),getRow());
+            m_eDirection = (WalkDirection)(rand()%4);
+            
+            switch (m_eDirection) {
+                case kWalkUp:
+                    setVecSpeed(Point(0,1));
+                    coordinate -= getVecSpeed();
+                    break;
+                case kWalkDown:
+                    setVecSpeed(Point(0,-1));
+                    coordinate -= getVecSpeed();
+                    break;
+                case kWalkLeft:
+                    setVecSpeed(Point(-1,0));
+                    coordinate += getVecSpeed();
+                    break;
+                case kWalkRight:
+                    setVecSpeed(Point(1,0));
+                    coordinate += getVecSpeed();
+                    break;
+                default:
+                    break;
+            }
+            auto cornerX = TILE_WIDTH*(coordinate.x+0.5);
+            auto cornerY = mapUtil->getMapHeightInPixle()-TILE_HEIGHT*(coordinate.y+0.5);
+            setCornerPoint(Point(cornerX,cornerY));
+            setNextCoordinate(coordinate);
+            auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), coordinate);
+            if(tile==nullptr)
+            {
+                tile = mapUtil->getMapObjectFromBombVector(mapUtil->getBomb(), coordinate);
+            }
+            return tile;
+        };
+        
+        //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
+        auto tile = getRandomDirection();
+        if((tile!=nullptr&&tile->getType()!=kCellTypeTransfer)||util->isBorder(coordinate))
         {
-            //检测到了碰撞 重新寻找有效的方向 改变方向 等待下一帧的监测
-            setDirection(getRandomDirection());
             return;
         }
-        borderIt++;
+        walk(m_eDirection);
+        setIsCollison(false);
     }
     
-    /* 检测和建筑以及树木的碰撞 */
+    Point nextPosition = getPosition()+getVecSpeed();
+    //需要检测即将到底的位置是不是到达了需要判断方向的地方
     
-    auto tileIt = util->getCommonTiles().begin();
-    while (tileIt!=util->getCommonTiles().end()) {
-        auto tile = *tileIt;
-        auto tileRect = tile->getBoundingBox();
-        tileRect.origin = Point(tile->getPosition()-Point(TILE_WIDTH/2,0));
-        tileRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
-        if(tileRect.intersectsRect(monsterRect))
-        {
-            //检测到了碰撞 重新寻找有效的方向 改变方向 等待下一帧的监测
-            setDirection(getRandomDirection());
-            return;
-        }
-        tileIt++;
+    switch (m_eDirection) {
+        case kWalkRight:
+            if(nextPosition.x>=m_CornerPoint.x)
+            {
+                nextPosition.x = m_CornerPoint.x;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkLeft:
+            if(nextPosition.x<=m_CornerPoint.x)
+            {
+                nextPosition.x = m_CornerPoint.x;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkUp:
+            if(nextPosition.y+TILE_HEIGHT/2>=m_CornerPoint.y)
+            {
+                nextPosition.y = m_CornerPoint.y-TILE_HEIGHT/2;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+        case kWalkDown:
+            if(nextPosition.y+TILE_HEIGHT/2<=m_CornerPoint.y)
+            {
+                nextPosition.y = m_CornerPoint.y-TILE_HEIGHT/2;
+                setIsCollison(true);
+                setCol(getNextCoordinate().x);
+                setRow(getNextCoordinate().y);
+                setZOrder(getRow()*10);
+            }
+            break;
+            
+        default:
+            break;
     }
-    auto nextPosition = getPosition()+getVecSpeed();
     setPosition(nextPosition);
+    
 }
 
 bool Monster::initWithMapCell(MapCell *mapCell)
@@ -677,7 +711,6 @@ void MapBorder::onEnter()
     Sprite::onEnter();
     scheduleUpdateWithPriority(-1);
     MapUtil::getInstance()->getMapObjects().pushBack(this);
-    log("border show");
 }
 
 #pragma mark ----------木箱子--------------------------------------------

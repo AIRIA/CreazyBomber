@@ -171,10 +171,19 @@ public:
      * @param direct 
      **/
     void walk(WalkDirection direc);
+    
+    /**
+     * 怪物走过的路径 保存怪物的巡逻范围
+     */
+    std::vector<Point> &getRoutePoint(){return m_vRoutePoint;};
+    
 protected:
     std::vector<WalkDirection> testDirections;
+    std::vector<Point> m_vRoutePoint;
+    int m_iBombCollisionFrames = 0;
+    
     CC_SYNTHESIZE(MonsterProperty*, m_pMonsterProperty, MonsterProperty);
-//    CC_SYNTHESIZE(bool , m_bIsCollision, IsCollison);
+    CC_SYNTHESIZE(bool , m_bIsCollision, IsCollison);
     CC_SYNTHESIZE(Point, m_VecSpeed, VecSpeed);
     CC_SYNTHESIZE(Point, m_CornerPoint, CornerPoint);
     CC_SYNTHESIZE(WalkDirection, m_eDirection, Direction);
