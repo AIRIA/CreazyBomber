@@ -747,6 +747,7 @@ void MapBorder::onEnter()
 
 void WoodBox::update(float delta)
 {
+    
     if(_isMoving)
     {
         return;
@@ -762,6 +763,9 @@ void WoodBox::update(float delta)
         if(isCollision)
         {
             GameManager::getInstance()->setIsCollision(isCollision);
+            if (GameConfig::selectedLevel==11&&GameConfig::selectedSceneName=="cl") {
+                return;
+            }
             /* 根据行走碰撞的方向 执行不同的操作 */
             auto direction = GameManager::getInstance()->getWalkDirection();
             setMovingDirection(direction);
@@ -800,22 +804,6 @@ void WoodBox::update(float delta)
             }
             offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
             auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), nextCoordinate);
-            if(tile==nullptr)
-            {
-                tile = mapUtil->getMapObjectFromMonsterVector(mapUtil->getMonsters(), nextCoordinate);
-                if(tile)
-                {
-                    auto size = tile->getContentSize();
-                    auto anchor = tile->getAnchorPoint();
-                    tile->unscheduleUpdate();
-                    auto instance = m_Anchor-tile->getAnchorPoint();
-                    tile->setAnchorPoint(m_Anchor);
-                    tile->setPosition(tile->getPosition()+Point(size.width*instance.x,size.height*instance.y));
-                    tile->runAction(Sequence::create(ScaleTo::create(0.3f, m_Scale.x, m_Scale.y),CallFunc::create([&,tile]()->void{
-                        tile->removeFromParent();
-                    }), NULL));
-                }
-            }
             if(tile==nullptr||tile->getType()==kCellTypeMonster)
             {
                 _isMoving = true;
@@ -840,4 +828,9 @@ void WoodBox::onExit()
     retain();
     MapUtil::getInstance()->getCommonTiles().eraseObject(this);
     NotificationCenter::getInstance()->postNotification(CREATE_PLAYER_ITEM, this);
+}
+
+void EmptyObject::doTileDestory()
+{
+    
 }

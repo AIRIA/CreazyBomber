@@ -170,7 +170,7 @@ void GameUILayer::_updatePlayerInfoHandler(cocos2d::Ref *pSender)
     {
         label->stopAllActions();
         label->setScale(1.0f);
-    }else if(action==nullptr){
+    }else if(action==nullptr&&param->getType()!=PlayerInfoParam::kTypeCoin){
         auto scaleBig = ScaleBy::create(0.4f, 1.5f);
         auto scaleSmall = scaleBig->reverse();
         auto seq = Sequence::create(scaleBig,scaleSmall, NULL);

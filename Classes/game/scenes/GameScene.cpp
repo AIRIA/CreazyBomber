@@ -96,7 +96,7 @@ bool GameScene::init()
     textureFiles.push_back(playerTextureName);
     
     manager->setBombNum(1);
-    manager->setBombPower(1);
+    manager->setBombPower(2);
     
     return true;
 }

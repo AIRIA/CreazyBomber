@@ -262,4 +262,10 @@ public:
     Point m_Anchor;
 };
 
+class EmptyObject:public MapObject
+{
+public:
+    virtual void doTileDestory();
+};
+
 #endif /* defined(__CreazyBomber__MapObject__) */

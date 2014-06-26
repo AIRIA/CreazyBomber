@@ -17,6 +17,8 @@ class BigBuilding:public MapObject
 public:
     MAPOBJ_CREATE(BigBuilding);
     virtual void update(float delta);
+    virtual void onEnter();
+    virtual void onExit();
 };
 
 #endif /* defined(__CreazyBomber__BigBuilding__) */
