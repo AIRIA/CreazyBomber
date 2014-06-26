@@ -66,22 +66,22 @@ void MapLayer::update(float delta)
         
         
         switch (direction) {
-            case Player::kWalkRight:
+            case kWalkRight:
                 if(worldPos.x>VisibleRect::center().x+range)
                     _offset += speed;
                 _offset.x = _offset.x>_rangeWidth?_rangeWidth:_offset.x;
                 break;
-            case Player::kWalkLeft:
+            case kWalkLeft:
                 if(worldPos.x < VisibleRect::center().x-range)
                     _offset += speed;
                 _offset.x = _offset.x<0?0:_offset.x;
                 break;
-            case Player::kWalkUp:
+            case kWalkUp:
                 if(worldPos.y>VisibleRect::center().y+range)
                     _offset += speed;
                 _offset.y = _offset.y>0?0:_offset.y;
                 break;
-            case Player::kWalkDown:
+            case kWalkDown:
                 
                 if(worldPos.y<VisibleRect::center().y-range)
                     _offset += speed;

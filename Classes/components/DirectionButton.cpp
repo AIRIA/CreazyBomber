@@ -37,7 +37,7 @@ bool DirectionButton::init()
         m_vArrows.pushBack(direc);
         return direc;
     };
-    GameManager::getInstance()->setPrevWalkDirection(Player::kWalkDown);
+    GameManager::getInstance()->setPrevWalkDirection(kWalkDown);
     auto up = createDirec("up.png",Point(0.5f,1.0f),Point(0,size.height/2-5),kDirectionUp);
     auto left = createDirec("left.png",Point(0.0f,0.5f),Point(-size.width/2+5,0),kDirectionLeft);
     auto right = createDirec("right.png",Point(1.0f,0.5f),Point(size.width/2-5,0),kDirectionRight);
@@ -83,7 +83,7 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
             getCurrentDirectionArrow()->setOpacity(128);
         }
         stand();
-        GameManager::getInstance()->setWalkDirection(Player::WalkDirection::kWalkStand);
+        GameManager::getInstance()->setWalkDirection(WalkDirection::kWalkStand);
     };
     
     touchListener->onTouchMoved = [&](Touch *touch,Event *event)->void{
@@ -141,7 +141,7 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
         auto degree = CC_RADIANS_TO_DEGREES(angle);
         auto wrapper = this->getChildByTag(kDirectionWrapper);
         
-        auto setDirection = [&](Player::WalkDirection playerDirection,DirectionButtonTag tag,const Point &speed)->void{
+        auto setDirection = [&](WalkDirection playerDirection,DirectionButtonTag tag,const Point &speed)->void{
             GameManager::getInstance()->setWalkDirection(playerDirection);
             this->setCurrentDirectionArrow(wrapper->getChildByTag(tag));
             GameManager::getInstance()->setSpeed(speed);
@@ -149,19 +149,19 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
         float speed = 3.0;
         if(degree>=-135&&degree<-45)
         {
-            setDirection(Player::WalkDirection::kWalkDown,kDirectionDown,Point(0,-speed));
+            setDirection(WalkDirection::kWalkDown,kDirectionDown,Point(0,-speed));
         }
         else if(degree>=-45&&degree<45)
         {
-            setDirection(Player::WalkDirection::kWalkRight,kDirectionRight,Point(speed,0));
+            setDirection(WalkDirection::kWalkRight,kDirectionRight,Point(speed,0));
         }
         else if(degree>=45&&degree<135)
         {
-            setDirection(Player::WalkDirection::kWalkUp,kDirectionUp,Point(0,speed));
+            setDirection(WalkDirection::kWalkUp,kDirectionUp,Point(0,speed));
         }
         else
         {
-            setDirection(Player::WalkDirection::kWalkLeft,kDirectionLeft,Point(-speed,0));
+            setDirection(WalkDirection::kWalkLeft,kDirectionLeft,Point(-speed,0));
         }
         this->getCurrentDirectionArrow()->setOpacity(255);
         walk();
@@ -176,7 +176,7 @@ void DirectionButton::walk()
     {
         return;
     }
-    Player::WalkDirection direct = GameManager::getInstance()->getWalkDirection();
+    WalkDirection direct = GameManager::getInstance()->getWalkDirection();
     auto player = GameManager::getInstance()->getPlayer();
     if(GameManager::getInstance()->getCurrentWalkDirection()==direct)
     {
@@ -212,7 +212,7 @@ void DirectionButton::stand()
     auto animationName = GameConfig::selectedRoleName+"_huxi_"+player->getDirectionStr();
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     player->runAction(RepeatForever::create(animate));
-    GameManager::getInstance()->setCurrentWalkDirection(Player::WalkDirection::kWalkStand);
+    GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);
 }
 
 

@@ -13,7 +13,7 @@
 void BigBuilding::update(float delta)
 {
     auto status = GameManager::getInstance()->getWalkDirection();
-    if(status!=Player::kWalkStand)
+    if(status!=kWalkStand)
     {
         auto mapCell = getMapCell();
         auto height = atoi(mapCell->getArgs().at(1)->getValue().c_str());

@@ -159,13 +159,7 @@ public:
     virtual void onEnter();
     virtual void update(float delta);
     virtual void doTileDestory();
-    enum WalkDirection{
-        kWalkUp = 1,
-        kWalkLeft = 2,
-        kWalkRight = -2,
-        kWalkDown  = -1,
-        kWalkStand = 0
-    };
+    
     bool initWithMapCell(MapCell *mapCell);
     /**
      * 根据传入的方向 执行对应的动画
@@ -192,7 +186,9 @@ protected:
     CC_SYNTHESIZE(Point, m_prevPosition, PrevPosition);
     CC_SYNTHESIZE(bool,m_bCanMove,CanMove);
     /* 被撞到之后 判断出来要继续行走的方向 */
-    CC_SYNTHESIZE(WalkDirection, m_collisitonDirection, CollisionDirection);
+    CC_SYNTHESIZE(WalkDirection, m_smartDirection, SmartDirection);
+    CC_SYNTHESIZE(bool, m_bSmartWalk, SmartWalk);
+    CC_SYNTHESIZE(float, m_fSpeedRate, SpeedRate);
 };
 
 /**
@@ -260,7 +256,7 @@ public:
     virtual void onExit();
 protected:
     bool _isMoving = false;
-    CC_SYNTHESIZE(Monster::WalkDirection, m_eMovingDirection, MovingDirection);
+    CC_SYNTHESIZE(WalkDirection, m_eMovingDirection, MovingDirection);
 public:
     Point m_Scale;
     Point m_Anchor;

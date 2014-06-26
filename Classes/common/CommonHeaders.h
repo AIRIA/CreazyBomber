@@ -28,6 +28,14 @@ using namespace CocosDenshion;
 using namespace tinyxml2;
 using namespace rapidjson;
 
+enum WalkDirection{
+    kWalkUp = 1,
+    kWalkLeft = 2,
+    kWalkRight = -2,
+    kWalkDown  = -1,
+    kWalkStand = 0
+};
+
 #define DESIGN_WIDTH 960
 #define DESIGN_HEIGHT 640
 

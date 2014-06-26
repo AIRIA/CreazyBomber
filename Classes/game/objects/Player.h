@@ -15,14 +15,6 @@
 class Player:public MapObject
 {
 public:
-    enum WalkDirection{
-        kWalkUp = 1,
-        kWalkLeft = 2,
-        kWalkRight = -2,
-        kWalkDown = -1,
-        kWalkStand = 0
-    };
-    
     virtual Rect getBoundingBox() const;
     
     /**

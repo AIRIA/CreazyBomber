@@ -220,7 +220,7 @@ Point MapObject::convertCoordinate2Point(const cocos2d::Point &coordinate)
 void MapObject::update(float delta)
 {
     auto status = GameManager::getInstance()->getWalkDirection();
-    if(status!=Player::kWalkStand)
+    if(status!=kWalkStand)
     {
         auto rect = getBoundingBox();
         if(getType()!=kCellBorder)
@@ -373,8 +373,7 @@ void Monster::onEnter()
     setMonsterProperty(pro);
     setIsCollison(true);
     float speed = getMonsterProperty()->getSpeed()/30.0f;
-    setVecSpeed(getVecSpeed()*speed);
-    setCanMove(true);
+    setSpeedRate(speed);
 }
 
 void Monster::run()
@@ -409,6 +408,7 @@ void Monster::update(float delta)
     /* 判断是不是和移动的箱子发生了碰撞 需要根据怪物移动的方向和箱子移动的方向 同时判断要进行的操作*/
     auto manager = GameManager::getInstance();
     auto boxIt = manager->getMovingBoxes().begin();
+    setSmartWalk(false);
     while(boxIt!=manager->getMovingBoxes().end())
     {
         auto box = *boxIt;
@@ -417,46 +417,44 @@ void Monster::update(float delta)
         boxRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
         if(boxRect.intersectsRect(monsterRect))
         {
+            setSmartWalk(true);
+            setSpeedRate(1.2f);
             //如果箱子移动的方向和怪物行走的方向是一样的 那么怪物需要加速往前跑
             if (box->getMovingDirection()==getDirection())
             {
-                setVecSpeed(getVecSpeed()*1.2);
+                setSmartDirection(getDirection());
             }
-            //如果箱子移动的方向和怪物行走的方向一样 那么怪物需要加速往回跑
+            //如果箱子移动的方向和怪物行走的方向相反 那么怪物需要加速往回跑
             else if(box->getMovingDirection()==-getDirection())
             {
-                
+                setSmartDirection(box->getMovingDirection());
             }
             //如果箱子的方向和怪物行走的方向是垂直的 那么怪物需要自己判断是加速往前还是往后
             else
             {
                 
             }
-            
-            
-            
-            
-            
-            if(getCanMove())
-            {
-                setVecSpeed(getVecSpeed()*1.5);
-                setIsCollison(true);
-                break;
-            }
-            else
-            {
-                auto size = getContentSize();
-                auto anchor = getAnchorPoint();
-                unscheduleUpdate();
-                auto instance = box->m_Anchor-getAnchorPoint();
-                setAnchorPoint(box->m_Anchor);
-                setPosition(getPosition()+Point(size.width*instance.x,size.height*instance.y));
-                runAction(Sequence::create(ScaleTo::create(0.3f, box->m_Scale.x, box->m_Scale.y),CallFunc::create([&]()->void{
-                    removeFromParent();
-                    MapUtil::getInstance()->getMonsters().eraseObject(this);
-                }), NULL));
-                return;
-            }
+            break;
+//            if(getCanMove())
+//            {
+//                setVecSpeed(getVecSpeed()*1.5);
+//                setIsCollison(true);
+//                break;
+//            }
+//            else
+//            {
+//                auto size = getContentSize();
+//                auto anchor = getAnchorPoint();
+//                unscheduleUpdate();
+//                auto instance = box->m_Anchor-getAnchorPoint();
+//                setAnchorPoint(box->m_Anchor);
+//                setPosition(getPosition()+Point(size.width*instance.x,size.height*instance.y));
+//                runAction(Sequence::create(ScaleTo::create(0.3f, box->m_Scale.x, box->m_Scale.y),CallFunc::create([&]()->void{
+//                    removeFromParent();
+//                    MapUtil::getInstance()->getMonsters().eraseObject(this);
+//                }), NULL));
+//                return;
+//            }
         }
         boxIt++;
     }
@@ -473,8 +471,6 @@ void Monster::update(float delta)
                 direction = (WalkDirection)(rand()%5-2);
             }
             m_eDirection = direction;
-            
-        
             
             switch (m_eDirection) {
                 case kWalkUp:
@@ -496,6 +492,7 @@ void Monster::update(float delta)
                 default:
                     break;
             }
+            setVecSpeed(getVecSpeed()*getSpeedRate());
             auto cornerX = TILE_WIDTH*(coordinate.x+0.5);
             auto cornerY = mapUtil->getMapHeightInPixle()-TILE_HEIGHT*(coordinate.y+0.5);
             setCornerPoint(Point(cornerX,cornerY));
@@ -509,7 +506,16 @@ void Monster::update(float delta)
         };
         
         //随机选择方向以后 需要判断要行走的地方是否有障碍 直到找到一个可以行走的方向
-        auto tile = getRandomDirection();
+        
+        MapObject *tile = nullptr;
+        if(getSmartWalk())
+        {
+            tile = getRandomDirection(getSmartDirection());
+        }
+        else
+        {
+            tile = getRandomDirection();
+        }
         if((tile!=nullptr&&tile->getType()!=kCellTypeTransfer)||util->isBorder(coordinate))
         {
             return;
@@ -630,7 +636,7 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     return true;
 }
 
-void Monster::walk(Monster::WalkDirection direc)
+void Monster::walk(WalkDirection direc)
 {
     stopAllActions();
     auto suffix = "up";
@@ -705,7 +711,7 @@ void ManEater::run()
 void ManEater::update(float delta)
 {
     auto status = GameManager::getInstance()->getWalkDirection();
-    if(status!=Player::kWalkStand)
+    if(status!=kWalkStand)
     {
         auto direc = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
         auto rect = getBoundingBox();
@@ -802,7 +808,7 @@ void WoodBox::update(float delta)
     }
     auto mapUtil = MapUtil::getInstance();
     auto status = GameManager::getInstance()->getWalkDirection();
-    if(status!=Player::kWalkStand)
+    if(status!=kWalkStand)
     {
         auto rect = getBoundingBox();
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
@@ -813,28 +819,28 @@ void WoodBox::update(float delta)
             GameManager::getInstance()->setIsCollision(isCollision);
             /* 根据行走碰撞的方向 执行不同的操作 */
             auto direction = GameManager::getInstance()->getWalkDirection();
-            //setMovingDirection(direction);
+            setMovingDirection(direction);
             auto nextCoordinate = Point(getCol(),getRow());
             auto offset = Point::ZERO;
             m_Anchor = Point::ZERO;
             m_Scale= Point::ZERO;
             switch (direction) {
-                case Player::kWalkUp:
+                case kWalkUp:
                     offset = Point(0,-1);
                     m_Anchor = Point(0.5f,1.0f);
                     m_Scale = Point(1,0);
                     break;
-                case Player::kWalkDown:
+                case kWalkDown:
                     offset = Point(0,1);
                     m_Anchor = Point(0.5f,0.0f);
                     m_Scale = Point(1,0);
                     break;
-                case Player::kWalkLeft:
+                case kWalkLeft:
                     offset = Point(-1,0);
                     m_Anchor = Point(0.0f,0.5f);
                     m_Scale = Point(0,1);
                     break;
-                case Player::kWalkRight:
+                case kWalkRight:
                     offset = Point(1,0);
                     m_Anchor = Point(1.0f,0.5f);
                     m_Scale = Point(0,1);

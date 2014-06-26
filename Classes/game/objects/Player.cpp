@@ -197,19 +197,19 @@ void Player::run()
 
 std::string Player::getDirectionStr()
 {
-    Player::WalkDirection direct = GameManager::getInstance()->getPrevWalkDirection();
+    WalkDirection direct = GameManager::getInstance()->getPrevWalkDirection();
     std::string directionStr;
     switch (direct) {
-        case Player::WalkDirection::kWalkUp:
+        case WalkDirection::kWalkUp:
             directionStr = "up";
             break;
-        case Player::WalkDirection::kWalkLeft:
+        case WalkDirection::kWalkLeft:
             directionStr = "left";
             break;
-        case Player::WalkDirection::kWalkRight:
+        case WalkDirection::kWalkRight:
             directionStr = "right";
             break;
-        case Player::WalkDirection::kWalkDown:
+        case WalkDirection::kWalkDown:
             directionStr = "down";
             break;
         default:
