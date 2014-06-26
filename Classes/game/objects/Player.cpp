@@ -332,7 +332,8 @@ void Player::update(float delta)
         while (monsterIt!=monsters.end()) {
             auto monster = *monsterIt;
             auto monsterRect = monster->getBoundingBox();
-            monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+            monsterRect.origin = Point(monster->getPosition()-Point(TILE_WIDTH/2,monster->getMonsterProperty()->getFootPos()*2));
+            monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT-20);
             if(getBoundingBox().intersectsRect(monsterRect))
             {
                 beAttack(monster->getMonsterProperty()->getPower());

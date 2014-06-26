@@ -160,10 +160,11 @@ public:
     virtual void update(float delta);
     virtual void doTileDestory();
     enum WalkDirection{
-        kWalkUp,
-        kWalkLeft,
-        kWalkRight,
-        kWalkDown
+        kWalkUp = 1,
+        kWalkLeft = 2,
+        kWalkRight = -2,
+        kWalkDown  = -1,
+        kWalkStand = 0
     };
     bool initWithMapCell(MapCell *mapCell);
     /**
@@ -188,6 +189,10 @@ protected:
     CC_SYNTHESIZE(Point, m_CornerPoint, CornerPoint);
     CC_SYNTHESIZE(WalkDirection, m_eDirection, Direction);
     CC_SYNTHESIZE(Point, m_nextCoordinate, NextCoordinate);
+    CC_SYNTHESIZE(Point, m_prevPosition, PrevPosition);
+    CC_SYNTHESIZE(bool,m_bCanMove,CanMove);
+    /* 被撞到之后 判断出来要继续行走的方向 */
+    CC_SYNTHESIZE(WalkDirection, m_collisitonDirection, CollisionDirection);
 };
 
 /**
@@ -255,6 +260,10 @@ public:
     virtual void onExit();
 protected:
     bool _isMoving = false;
+    CC_SYNTHESIZE(Monster::WalkDirection, m_eMovingDirection, MovingDirection);
+public:
+    Point m_Scale;
+    Point m_Anchor;
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

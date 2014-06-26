@@ -31,7 +31,7 @@ void Bomb::onEnter()
         log("bomb time:%ld",end-start);
     });
     MapUtil::getInstance()->getCommonTiles().pushBack(this);
-    runAction(Sequence::create(Repeat::create(animate, 58),animateCall, NULL));
+    runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
 }
 
 void Bomb::updateBombnum()

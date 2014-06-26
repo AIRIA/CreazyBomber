@@ -82,6 +82,17 @@
          contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
       </ContextState>
       <ContextState
+         contextName = "operator():MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameManager::getInstance()-&gt;getMovingBoxes()">
+            </PersistentString>
+            <PersistentString
+               value = "direction">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapLayer::update(float):MapLayer.cpp">
          <PersistentStrings>
             <PersistentString
@@ -148,7 +159,18 @@
          contextName = "cocos2d::Node::getPosition() const:CCNode.cpp">
       </ContextState>
       <ContextState
+         contextName = "WoodBox::update(float):MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameManager::getInstance()-&gt;getMovingBoxes()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Player::run():Player.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Monster::onEnter():MapObject.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

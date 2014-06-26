@@ -68,9 +68,9 @@ void GameUILayer::onTexturesLoaded()
     });
     
     hpMenuItem->setAnchorPoint(Point(1.0f,1.0f));
-    hpMenuItem->setPosition(VisibleRect::right()+Point(-20,200));
+    hpMenuItem->setPosition(VisibleRect::right()+Point(-20,100));
     timerBombItem->setAnchorPoint(hpMenuItem->getAnchorPoint());
-    timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,180));
+    timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,80));
     
     timerBombItem->setScale(m_fScaleFactor);
     hpMenuItem->setScale(m_fScaleFactor);

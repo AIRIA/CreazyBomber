@@ -37,7 +37,7 @@ bool DirectionButton::init()
         m_vArrows.pushBack(direc);
         return direc;
     };
-    
+    GameManager::getInstance()->setPrevWalkDirection(Player::kWalkDown);
     auto up = createDirec("up.png",Point(0.5f,1.0f),Point(0,size.height/2-5),kDirectionUp);
     auto left = createDirec("left.png",Point(0.0f,0.5f),Point(-size.width/2+5,0),kDirectionLeft);
     auto right = createDirec("right.png",Point(1.0f,0.5f),Point(size.width/2-5,0),kDirectionRight);

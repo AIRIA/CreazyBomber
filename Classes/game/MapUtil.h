@@ -111,6 +111,7 @@ public:
     GET_MAPOBJECT_FROM(MapObjectVector,MapObject);
     GET_MAPOBJECT_FROM(BombFireVector, BombFire);
     GET_MAPOBJECT_FROM(BombVector, Bomb);
+    GET_MAPOBJECT_FROM(MonsterVector, Monster);
     
     Monster *getMonsterByCoordinate(const Point &coordiante);
     

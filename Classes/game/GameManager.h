@@ -41,11 +41,17 @@ public:
     CC_SYNTHESIZE(int, m_iCoin,Coin);
     CC_SYNTHESIZE(std::vector<PlayerItemType>, m_vPlayerItems, PlayerItems);
     
+    
+    Vector<WoodBox*> &getMovingBoxes(){ return m_vMovingBoxes;};
+    
 public:
     /**
      * 解析游戏道具的动画
      */
     void initPlayerItemAnimations(std::string name,std::string aniName,float delta = 0.1f);
+    
+    Vector<WoodBox*> m_vMovingBoxes;
+    
 };
 
 #endif /* defined(__CreazyBomber__GameManager__) */
