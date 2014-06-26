@@ -404,61 +404,6 @@ void Monster::update(float delta)
         it++;
     }
     
-    
-    /* 判断是不是和移动的箱子发生了碰撞 需要根据怪物移动的方向和箱子移动的方向 同时判断要进行的操作*/
-    auto manager = GameManager::getInstance();
-    auto boxIt = manager->getMovingBoxes().begin();
-    setSmartWalk(false);
-    while(boxIt!=manager->getMovingBoxes().end())
-    {
-        auto box = *boxIt;
-        auto boxRect = box->getBoundingBox();
-        boxRect.origin = box->getPosition()-Point(TILE_WIDTH/2,0);
-        boxRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
-        if(boxRect.intersectsRect(monsterRect))
-        {
-            setSmartWalk(true);
-            setSpeedRate(1.2f);
-            //如果箱子移动的方向和怪物行走的方向是一样的 那么怪物需要加速往前跑
-            if (box->getMovingDirection()==getDirection())
-            {
-                setSmartDirection(getDirection());
-            }
-            //如果箱子移动的方向和怪物行走的方向相反 那么怪物需要加速往回跑
-            else if(box->getMovingDirection()==-getDirection())
-            {
-                setSmartDirection(box->getMovingDirection());
-            }
-            //如果箱子的方向和怪物行走的方向是垂直的 那么怪物需要自己判断是加速往前还是往后
-            else
-            {
-                
-            }
-            break;
-//            if(getCanMove())
-//            {
-//                setVecSpeed(getVecSpeed()*1.5);
-//                setIsCollison(true);
-//                break;
-//            }
-//            else
-//            {
-//                auto size = getContentSize();
-//                auto anchor = getAnchorPoint();
-//                unscheduleUpdate();
-//                auto instance = box->m_Anchor-getAnchorPoint();
-//                setAnchorPoint(box->m_Anchor);
-//                setPosition(getPosition()+Point(size.width*instance.x,size.height*instance.y));
-//                runAction(Sequence::create(ScaleTo::create(0.3f, box->m_Scale.x, box->m_Scale.y),CallFunc::create([&]()->void{
-//                    removeFromParent();
-//                    MapUtil::getInstance()->getMonsters().eraseObject(this);
-//                }), NULL));
-//                return;
-//            }
-        }
-        boxIt++;
-    }
-    
     /* 怪物的走路碰撞监测 */
     if(getIsCollison())
     {
@@ -856,6 +801,22 @@ void WoodBox::update(float delta)
             offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
             auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), nextCoordinate);
             if(tile==nullptr)
+            {
+                tile = mapUtil->getMapObjectFromMonsterVector(mapUtil->getMonsters(), nextCoordinate);
+                if(tile)
+                {
+                    auto size = tile->getContentSize();
+                    auto anchor = tile->getAnchorPoint();
+                    tile->unscheduleUpdate();
+                    auto instance = m_Anchor-tile->getAnchorPoint();
+                    tile->setAnchorPoint(m_Anchor);
+                    tile->setPosition(tile->getPosition()+Point(size.width*instance.x,size.height*instance.y));
+                    tile->runAction(Sequence::create(ScaleTo::create(0.3f, m_Scale.x, m_Scale.y),CallFunc::create([&,tile]()->void{
+                        tile->removeFromParent();
+                    }), NULL));
+                }
+            }
+            if(tile==nullptr||tile->getType()==kCellTypeMonster)
             {
                 _isMoving = true;
                 GameManager::getInstance()->getMovingBoxes().pushBack(this);
