@@ -70,6 +70,14 @@
          contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
       </ContextState>
       <ContextState
+         contextName = "BigBuilding::onEnter():BigBuilding.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameManager::getInstance()-&gt;getMapTileLayer()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
       </ContextState>
       <ContextState
@@ -171,6 +179,9 @@
       </ContextState>
       <ContextState
          contextName = "Monster::onEnter():MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "BigBuilding::update(float):BigBuilding.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

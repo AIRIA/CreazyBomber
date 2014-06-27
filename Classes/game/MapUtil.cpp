@@ -221,6 +221,29 @@ Node *MapUtil::getCommonTileLayer()
         mapObj->setRow(row);
         mapObj->setCol(col);
         mapCellNode->addChild(mapObj);
+        if(mapObj->getType()==kCellTypeBigBuilding)
+        {
+            auto mapCell = mapObj->getMapCell();
+            auto width = atoi(mapCell->getArgs().at(1)->getValue().c_str());
+            auto height = atoi(mapCell->getArgs().at(1)->getValue().c_str());
+            auto collision = mapCell->getArgs().at(2);
+            auto val = collision->getValue();
+            
+            int ax = width*mapObj->getAnchorPoint().x;
+            int startCol = mapObj->getCol()-ax;
+            
+            auto start = atoi(val.substr(0,1).c_str());
+            auto end = atoi(val.substr(2,1).c_str());
+            
+            for (auto i=0;i<height; i++) {
+                for (auto j=start; j<=end; j++) {
+                    auto emptyObj = EmptyObject::createWithSpriteFrameName("cl_shui13.png");
+                    emptyObj->setCol(startCol+j);
+                    emptyObj->setRow(mapObj->getRow()-i);
+                    mapCellNode->addChild(emptyObj);
+                }
+            }
+        }
     }
     return mapCellNode;
 }

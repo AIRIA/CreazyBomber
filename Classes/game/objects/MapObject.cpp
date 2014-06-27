@@ -830,7 +830,45 @@ void WoodBox::onExit()
     NotificationCenter::getInstance()->postNotification(CREATE_PLAYER_ITEM, this);
 }
 
+#pragma mark -------------------------EmptyObject------------------
+auto EmptyObject::createWithSpriteFrame(cocos2d::SpriteFrame *frame) -> EmptyObject*
+{
+    auto eo = new EmptyObject();
+    if(eo&&eo->initWithSpriteFrame(frame))
+    {
+        eo->autorelease();
+        return eo;
+    }
+    CC_SAFE_FREE(eo);
+    return nullptr;
+}
+
+EmptyObject* EmptyObject::createWithSpriteFrameName(const std::string& spriteFrameName)
+{
+    SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
+    
+#if COCOS2D_DEBUG > 0
+    char msg[256] = {0};
+    sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
+    CCASSERT(frame != nullptr, msg);
+#endif
+    
+    return createWithSpriteFrame(frame);
+}
+
 void EmptyObject::doTileDestory()
 {
-    
+    //do nothing
+}
+
+void EmptyObject::onEnter()
+{
+    MapObject::onEnter();
+    MapUtil::getInstance()->getCommonTiles().pushBack(this);
+}
+
+void EmptyObject::onExit()
+{
+    MapObject::onExit();
+    MapUtil::getInstance()->getCommonTiles().eraseObject(this);
 }

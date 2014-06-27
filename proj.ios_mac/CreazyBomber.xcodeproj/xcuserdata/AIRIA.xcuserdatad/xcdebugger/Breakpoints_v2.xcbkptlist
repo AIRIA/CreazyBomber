@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/components/MapLayer.cpp"
-            timestampString = "424159434.774989"
+            timestampString = "425531473.651909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "MapLayer::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -185,29 +185,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/game/objects/BigBuilding.cpp"
-            timestampString = "425472894.552705"
+            filePath = "../Classes/game/objects/MapObject.cpp"
+            timestampString = "425531672.262431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "BigBuilding::onEnter()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/game/objects/BigBuilding.cpp"
-            timestampString = "425472894.552705"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "BigBuilding::update(float delta)"
+            startingLineNumber = "872"
+            endingLineNumber = "872"
+            landmarkName = "EmptyObject::onExit()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

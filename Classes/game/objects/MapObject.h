@@ -265,7 +265,11 @@ public:
 class EmptyObject:public MapObject
 {
 public:
+    static EmptyObject *createWithSpriteFrameName(const std::string &name);
+    static EmptyObject *createWithSpriteFrame(SpriteFrame *frame);
     virtual void doTileDestory();
+    virtual void onEnter();
+    virtual void onExit();
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

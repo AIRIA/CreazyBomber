@@ -58,7 +58,6 @@ void MapLayer::update(float delta)
     auto pos = player->getPosition();
     auto worldPos = player->getParent()->convertToWorldSpace(pos);
     auto direction = GameManager::getInstance()->getWalkDirection();
-//    log("wx:%f , wy:%f",worldPos.x,worldPos.y);
     auto range = 20;
     if(GameManager::getInstance()->getIsCollision()==false)
     {
