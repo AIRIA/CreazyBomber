@@ -262,6 +262,8 @@ public:
     Point m_Anchor;
 };
 
+#pragma mark------------空的占位对象----------------------------
+
 class EmptyObject:public MapObject
 {
 public:
@@ -271,5 +273,20 @@ public:
     virtual void onEnter();
     virtual void onExit();
 };
+
+#pragma mark-------------地洞------------------------------
+
+class DiDong:public MapObject
+{
+public:
+    MAPOBJ_CREATE(DiDong);
+    virtual void update(float delta);
+    virtual void run(){};
+protected:
+    bool m_bIsEnable = true;
+    bool m_bIsAttack = false;
+    Point m_pPlayerCoordiante;
+};
+
 
 #endif /* defined(__CreazyBomber__MapObject__) */

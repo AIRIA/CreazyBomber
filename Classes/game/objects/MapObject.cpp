@@ -169,7 +169,6 @@ void MapObject::doTileAttack()
     sprintf(animationName2,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusAttack);
     auto attackAnimation = AnimationCache::getInstance()->getAnimation(animationName2);
     auto callback = CallFunc::create([&]()->void{
-        
         this->doAnimationWithAttack();
     });
     
@@ -234,7 +233,6 @@ void MapObject::update(float delta)
             GameManager::getInstance()->setIsCollision(isCollision);
         }
     }
-    
 }
 
 
@@ -374,6 +372,7 @@ void Monster::onEnter()
     setIsCollison(true);
     float speed = getMonsterProperty()->getSpeed()/30.0f;
     setSpeedRate(speed);
+    MapUtil::getInstance()->getMonsters().pushBack(this);
 }
 
 void Monster::run()
@@ -872,3 +871,45 @@ void EmptyObject::onExit()
     MapObject::onExit();
     MapUtil::getInstance()->getCommonTiles().eraseObject(this);
 }
+
+
+#pragma mark-------------地洞------------------------------
+
+void DiDong::update(float delta)
+{
+    MapObject::update(delta);
+    /* 判断玩家和地洞是不是相邻 */
+    auto playerCoordiante = GameManager::getInstance()->getPlayer()->getCoordinate();
+    if((abs(playerCoordiante.x-getCol())==1&&playerCoordiante.y==getRow())||(abs(playerCoordiante.y-getRow())==1&&playerCoordiante.x==getCol()))
+    {
+        m_bIsEnable = false;
+        m_bIsAttack = true;
+        m_pPlayerCoordiante = playerCoordiante;
+    }
+    else if(m_bIsAttack)
+    {
+        m_bIsEnable = true;
+        m_bIsAttack = false;
+        char animationName[50];
+        sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
+        auto prepareAnimation = AnimationCache::getInstance()->getAnimation(animationName);
+        auto attack = Animate::create(prepareAnimation);
+        runAction(Sequence::create(attack,CallFunc::create([&]()->void{
+            auto mapUtil = MapUtil::getInstance();
+            auto it = mapUtil->getMapCells().begin();
+            while (it!=mapUtil->getMapCells().end()) {
+                if((*it)->getCellName()==std::string("蘑菇怪"))
+                {
+                    break;
+                }
+                it++;
+            }
+            auto mapCell = *it;
+            auto monster = Monster::create(mapCell);
+            monster->setCol(m_pPlayerCoordiante.x);
+            monster->setRow(m_pPlayerCoordiante.y);
+            getParent()->addChild(monster);
+        }), NULL));
+    }
+}
+

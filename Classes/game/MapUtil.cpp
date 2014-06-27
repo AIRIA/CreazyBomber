@@ -266,7 +266,6 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         case kCellTypeMonster:
             element = Monster::create(mapCell);
-            m_vMonsters.pushBack(static_cast<Monster*>(element));
             break;
 //        case kCellTypeGround:
 //            element = GroundTile::create(mapCell);
@@ -300,9 +299,10 @@ MapObject *MapUtil::getMapObject(std::string name)
 //        case kCellTypeMonsterHome:
 //            element = GroundTile::create(mapCell);
 //            break;
-//        case kCellTypeDiDong:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeDiDong:
+            element = DiDong::create(mapCell);
+            m_vCommonTiles.pushBack(element);
+            break;
 //        case kCellTypeFireWall:
 //            element = GroundTile::create(mapCell);
 //            break;

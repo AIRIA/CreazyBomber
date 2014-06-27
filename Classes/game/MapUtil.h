@@ -145,6 +145,8 @@ public:
     
     void getMonsterInfos();
     
+    Vector<MapCell*> &getMapCells(){return m_vMapCells;};
+    
     MonsterProperty *getMonsterProperyById(int id);
     /**
      * 判断指定的坐标是不是地图的边界位置
