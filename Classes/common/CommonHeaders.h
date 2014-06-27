@@ -81,6 +81,8 @@ enum WalkDirection{
 #define SOUND_INGAME_FAILED        "music/soundEffect/ingame_fail.mp3"
 #define SOUND_ITEM_BOMB_EXPLODE    "music/soundEffect/item_bomb_explode.mp3"
 #define SOUND_ENTER_TONGGUANDIAN   "music/soundEffect/playe_enter_tongguandian.mp3"
+#define SOUND_INGAME_START         "music/soundEffect/ingame_game_start.mp3"
+#define SOUND_INGAME_COUNT_NUMBER  "music/soundEffect/ingame_count_number.mp3"
 
 #define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::selectedRoleName.c_str())->getCString()
 #define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::selectedRoleName.c_str())->getCString()

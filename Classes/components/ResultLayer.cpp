@@ -169,6 +169,7 @@ void ResultLayer::_scoreAnimateSelector(float delta)
     char newScore[20];
     sprintf(newScore, "%d",number);
     score->setString(newScore);
+    Util::playEffect(SOUND_INGAME_COUNT_NUMBER);
 }
 
 
