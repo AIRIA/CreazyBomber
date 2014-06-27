@@ -142,7 +142,7 @@ void GameScene::onTexturesLoaded()
     wrapper->setScale(GameManager::getInstance()->getScaleFactor());
     wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
         
-       // Util::playSound(SOUND_SCENE_BG,true);
+        Util::playSound(SOUND_SCENE_BG,true);
         
         auto util = MapUtil::getInstance();
         /* 初始化道具的动画 */

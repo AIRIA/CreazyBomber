@@ -21,7 +21,7 @@ void Util::playSound(std::string sound,bool repeat)
     if(GameConfig::getInstance()->getSoundEnable())
     {
         SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-//        SimpleAudioEngine::getInstance()->playBackgroundMusic(sound.c_str(),repeat);
+        SimpleAudioEngine::getInstance()->playBackgroundMusic(sound.c_str(),repeat);
     }
 }
 
