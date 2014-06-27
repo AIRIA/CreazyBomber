@@ -23,6 +23,7 @@ void Player::onEnter()
 {
     MapObject::onEnter();
     scheduleUpdateWithPriority(10);
+    Util::playEffect(SOUND_PLAYER_BIRTH);
 }
 
 Player *Player::create(MapCell *mapCell)
@@ -282,6 +283,7 @@ void Player::beAttack(float heart)
 {
     if(_isCanBeAttack)
     {
+        Util::playEffect(SOUND_PLAYER_ATTACKED);
         _isCanBeAttack = false;
         setHP(getHP()-heart);
         auto data = Node::create();
@@ -292,6 +294,7 @@ void Player::beAttack(float heart)
             unscheduleUpdate();
             stopAllActions();
             die();
+            Util::playEffect(SOUND_PLAYER_DEATH);
             NotificationCenter::getInstance()->postNotification(GAME_OVER);
             return;
         }

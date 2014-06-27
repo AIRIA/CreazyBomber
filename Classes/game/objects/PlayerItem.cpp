@@ -66,21 +66,26 @@ void PlayerItem::update(float delta)
             case PlayerInfoParam::kTypeBomb:
                 manager->setBombNum(manager->getBombNum()+1);
                 data->setValue(manager->getBombNum());
+                Util::playEffect(SOUND_ITEM_GET_BOMB);
                 break;
             case PlayerInfoParam::kTypeCoin:
                 if(getIdx()==0)
                 {
                     manager->setCoin(manager->getCoin()+50);
+                    Util::playEffect(SOUND_ITEM_GET_LITTLE_COIN);
                 }else{
                     manager->setCoin(manager->getCoin()+100);
+                    Util::playEffect(SOUND_ITEM_GET_BIG_COIN);
                 }
                 data->setValue(manager->getCoin());
                 break;
             case PlayerInfoParam::kTypeShoe:
+                Util::playEffect(SOUND_ITEM_GET_SHOE);
                 manager->setShoe(manager->getShoe()+1);
                 data->setValue(manager->getShoe());
                 break;
             case PlayerInfoParam::kTypePower:
+                Util::playEffect(SOUND_ITEM_GET_POWER);
                 manager->setBombPower(manager->getBombPower()+1);
                 data->setValue(manager->getBombPower());
                 break;

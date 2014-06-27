@@ -18,6 +18,7 @@
 #include "components/ResultLayer.h"
 #include "components/SettingLayer.h"
 #include "game/objects/PlayerItem.h"
+#include "game/utils/Util.h"
 
 
 void GameScene::onEnter()
@@ -69,6 +70,29 @@ bool GameScene::init()
         manager->setScaleFactor(m_fScaleFactor);
     }
     
+    /* 加载音频资源 */
+    soundFiles.push_back(SOUND_SCENE_BG);
+    
+    effectFiles.push_back(SOUND_ITEM_GET_BIG_COIN);
+    effectFiles.push_back(SOUND_ITEM_GET_BOMB);
+    effectFiles.push_back(SOUND_ITEM_GET_LITTLE_COIN);
+    effectFiles.push_back(SOUND_ITEM_GET_POWER);
+    effectFiles.push_back(SOUND_ITEM_GET_SHOE);
+    effectFiles.push_back(SOUND_ITEM_PUT_BOMB);
+    effectFiles.push_back(SOUND_ITEM_USE_HP);
+    effectFiles.push_back(SOUND_MONSTER_BOMBED_DEAD);
+    effectFiles.push_back(SOUND_PLAYER_LOW_HP);
+    effectFiles.push_back(SOUND_INGAME_WIN);
+    effectFiles.push_back(SOUND_INGAME_FAILED);
+    effectFiles.push_back(SOUND_ITEM_BOMB_EXPLODE);
+    effectFiles.push_back(SOUND_ENTER_TONGGUANDIAN);
+    
+    effectFiles.push_back(SOUND_PLAYER_ATTACKED);
+    effectFiles.push_back(SOUND_PLAYER_BIRTH);
+    effectFiles.push_back(SOUND_PLAYER_DEATH);
+    effectFiles.push_back(SOUND_PLAYER_RANDOM);
+    
+    /* 预加载资源 */
     textureFiles.push_back("textures/default-hd");
     textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/monster_1-hd");
@@ -117,6 +141,9 @@ void GameScene::onTexturesLoaded()
     addChild(wrapper);
     wrapper->setScale(GameManager::getInstance()->getScaleFactor());
     wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
+        
+        Util::playSound(SOUND_SCENE_BG,true);
+        
         auto util = MapUtil::getInstance();
         /* 初始化道具的动画 */
         std::vector<PlayerItemType> items = {{"coin0.png","coin_small",0.1f,PlayerInfoParam::kTypeCoin},

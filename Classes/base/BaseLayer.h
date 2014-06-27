@@ -33,6 +33,8 @@ protected:
     Layer *m_pLeft,*m_pBody,*m_pRight;
     /* textures that will be preload */
     std::vector<std::string> textureFiles;
+    std::vector<std::string> soundFiles;
+    std::vector<std::string> effectFiles;
 private:
     Layer *__createScaleLayer(const Point &anchorPoint,const Point &position);
     void __loadAssets();

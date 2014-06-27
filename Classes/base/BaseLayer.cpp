@@ -63,6 +63,18 @@ void BaseLayer::__loadedNotificationHander(cocos2d::Ref *pObj)
 
 void BaseLayer::onTexturesLoaded()
 {
+    auto soundIt = soundFiles.begin();
+    while (soundIt!=soundFiles.end()) {
+        SimpleAudioEngine::getInstance()->preloadBackgroundMusic(soundIt->c_str());
+        soundIt++;
+    }
+    
+    auto effectIt = effectFiles.begin();
+    while (effectIt!=effectFiles.end()) {
+        SimpleAudioEngine::getInstance()->preloadEffect(effectIt->c_str());
+        effectIt++;
+    }
+    
     getChildByTag(kTagWrapper)->removeFromParent();
     log("%s\n", Director::getInstance()->getTextureCache()->getCachedTextureInfo().c_str());
 }

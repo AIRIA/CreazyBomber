@@ -40,6 +40,7 @@ void ResultLayer::onExit()
 
 void ResultLayer::_changeBgColor()
 {
+    SimpleAudioEngine::getInstance()->stopBackgroundMusic();
     auto winSize = Director::getInstance()->getWinSize();
     auto bg = LayerColor::create(Color4B::BLACK, winSize.width, winSize.height);
     auto touchListener = EventListenerTouchOneByOne::create();
@@ -58,6 +59,7 @@ void ResultLayer::_changeBgColor()
 
 void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 {
+    Util::playEffect(SOUND_INGAME_FAILED);
     _changeBgColor();
     auto wrapper = Node::create();
     wrapper->setScale(GameManager::getInstance()->getScaleFactor());
@@ -87,8 +89,8 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)
 {
+    Util::playEffect(SOUND_INGAME_WIN);
     _changeBgColor();
-    
     auto wrapper = Node::create();
     wrapper->setScale(GameManager::getInstance()->getScaleFactor());
     wrapper->setPosition(VisibleRect::center()+VisibleRect::leftTop());
