@@ -8,18 +8,54 @@
 
 #include "GameConfig.h"
 
-std::string GameConfig::selectedRoleName = "viking";
-std::string GameConfig::selectedSceneName = "cl";
-std::string GameConfig::selectedStageName = "";
-int GameConfig::selectedLevel = 7;
 
 GameConfig *GameConfig::getInstance()
 {
     static GameConfig *_instance = nullptr;
     if (_instance==nullptr) {
         _instance = new GameConfig();
+        _instance->init();
+        _instance->setSelectRoleName("viking");
+        _instance->setSelectSceneName("cl");
+        _instance->setSelectLevel(1);
     }
     return _instance;
+}
+
+void GameConfig::init()
+{
+    auto isExist = __userDefault->getBoolForKey("isExist", false);
+    if(isExist)
+    {
+
+    }
+    else
+    {
+        __userDefault->setBoolForKey("isExist", true);
+        __userDefault->setBoolForKey(KEY_CL, true);
+        __userDefault->setBoolForKey(KEY_MD, false);
+        __userDefault->setBoolForKey(KEY_BC, false);
+        __userDefault->setBoolForKey(KEY_CL_BATTLE, false);
+        __userDefault->setBoolForKey(KEY_MD_BATTLE, false);
+        __userDefault->setBoolForKey(KEY_BC_BATTLE, false);
+        
+        __userDefault->setBoolForKey(KEY_BATTLE_MODE, false);
+        __userDefault->setIntegerForKey(KEY_CL_LEVEL, 1);
+        __userDefault->setIntegerForKey(KEY_BC_LEVEL, 0);
+        __userDefault->setIntegerForKey(KEY_MD_LEVEL, 0);
+        __userDefault->setBoolForKey(KEY_SOUND_ENABLED, true);
+        __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, true);
+    }  
+}
+
+bool GameConfig::getSoundEnable()
+{
+    return __userDefault->getBoolForKey(KEY_SOUND_ENABLED);
+}
+
+bool GameConfig::getEffectEnable()
+{
+    return __userDefault->getBoolForKey(KEY_EFFECT_ENABLED);
 }
 
 void GameConfig::setSoundEnable(bool val)
@@ -27,12 +63,13 @@ void GameConfig::setSoundEnable(bool val)
     if(getSoundEnable()!=val&&val==false)
     {
         SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-    }else if(SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying()==false){
-        SimpleAudioEngine::getInstance()->playBackgroundMusic(SOUND_SCENE_BG,true);
-    }else{
+    }
+    else
+    {
         SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
     }
     m_bSoundEnable = val;
+    __userDefault->setBoolForKey(KEY_SOUND_ENABLED, val);
 }
 
 void GameConfig::setEffectEnable(bool val)
@@ -45,24 +82,6 @@ void GameConfig::setEffectEnable(bool val)
         }
         m_bEffectEnable = val;
     }
-    
-}
-
-void GameConfig::setSelectScene(SceneType type)
-{
-    switch (type) {
-        case kClBattle:
-            selectedSceneName = "cl_battle";
-            break;
-        case kClStory:
-            selectedSceneName = "cl_story";
-            break;
-        default:
-            break;
-    }
-}
-
-std::string GameConfig::getSelectScene()
-{
+    __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, val);
     
 }

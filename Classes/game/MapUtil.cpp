@@ -93,14 +93,14 @@ std::string MapUtil::getMapName()
     /* 获取地图名称 */
     char mapName[20];
     int prefix = 1100;
-    if (GameConfig::selectedSceneName=="cl") {
+    if (GameConfig::getInstance()->getSelectSceneName()=="cl") {
         prefix = 1100;
-    }else if(GameConfig::selectedSceneName=="md"){
+    }else if(GameConfig::getInstance()->getSelectSceneName()=="md"){
         prefix = 1200;
     }else{
         prefix = 1300;
     }
-    prefix += GameConfig::selectedLevel;
+    prefix += GameConfig::getInstance()->getSelectLevel();
     sprintf(mapName, "%d",prefix);
     return mapName;
 }
@@ -122,7 +122,7 @@ std::string MapUtil::getSceMapName()
 std::string MapUtil::getBaseTileFullName()
 {
     char pathName[30];
-    sprintf(pathName, "map/%smap_base-hd.png",GameConfig::selectedSceneName.c_str());
+    sprintf(pathName, "map/%smap_base-hd.png",GameConfig::getInstance()->getSelectSceneName().c_str());
     return pathName;
 }
 
@@ -342,8 +342,8 @@ Node *MapUtil::addTileMapBorder()
     borderNode->setContentSize(mapSizeInPixle);
     char dibian_xia[20];
     char dibian_shang[20];
-    sprintf(dibian_xia, "%s_dibian_xia.png",GameConfig::selectedSceneName.c_str());
-    sprintf(dibian_shang, "%s_dibian_shang.png",GameConfig::selectedSceneName.c_str());
+    sprintf(dibian_xia, "%s_dibian_xia.png",GameConfig::getInstance()->getSelectSceneName().c_str());
+    sprintf(dibian_shang, "%s_dibian_shang.png",GameConfig::getInstance()->getSelectSceneName().c_str());
     auto mapSize = getMapSize();
     int endCol = mapSize.width/3;
     if(int(mapSize.width)%3!=0)

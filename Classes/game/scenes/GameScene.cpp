@@ -40,7 +40,7 @@ void GameScene::onExit()
 
 void GameScene::nextLevel(cocos2d::Ref *pSender)
 {
-    GameConfig::selectedLevel += 1;
+    GameConfig::getInstance()->setSelectLevel(GameConfig::getInstance()->getSelectLevel()+1);
     GameManager::getInstance()->setSpeed(Point::ZERO);
     GameManager::getInstance()->setPlayer(nullptr);
     removeAllChildren();
@@ -116,7 +116,7 @@ bool GameScene::init()
     
     
     char playerTextureName[50];
-    sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::selectedRoleName.c_str());
+    sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::getInstance()->getSelectRoleName().c_str());
     textureFiles.push_back(playerTextureName);
     
     manager->setBombNum(1);
@@ -142,8 +142,7 @@ void GameScene::onTexturesLoaded()
     wrapper->setScale(GameManager::getInstance()->getScaleFactor());
     wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
         
-        Util::playSound(SOUND_SCENE_BG,true);
-        Util::playEffect(SOUND_INGAME_START);
+       // Util::playSound(SOUND_SCENE_BG,true);
         
         auto util = MapUtil::getInstance();
         /* 初始化道具的动画 */

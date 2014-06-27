@@ -71,11 +71,6 @@
       </ContextState>
       <ContextState
          contextName = "BigBuilding::onEnter():BigBuilding.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "GameManager::getInstance()-&gt;getMapTileLayer()">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
@@ -88,6 +83,14 @@
       </ContextState>
       <ContextState
          contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "GameConfig::init():GameConfig.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "UserDefault::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "operator():MapObject.cpp">
@@ -181,7 +184,12 @@
          contextName = "Monster::onEnter():MapObject.cpp">
       </ContextState>
       <ContextState
-         contextName = "BigBuilding::update(float):BigBuilding.cpp">
+         contextName = "HomeScene::__showStageSelectMenu():HomeScene.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameConfig::selectedSceneName">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

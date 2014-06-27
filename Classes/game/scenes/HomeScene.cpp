@@ -140,8 +140,7 @@ void HomeScene::onTexturesLoaded()
     this->__showIcons();
     __addBackMenu();
     //循环播放背景音乐
-    SimpleAudioEngine::getInstance()->playBackgroundMusic("music/bg/music_main_bg.mp3",true);
-
+    Util::playSound("music/bg/music_main_bg.mp3",true);
 }
 
 void HomeScene::__delayRun(float dt,const std::function<void ()> &func)
@@ -267,16 +266,16 @@ void HomeScene::__showRoleSelectMenu()
             selectRole = role;
             switch(role){
                 case kRoleSmurf:
-                    GameConfig::selectedRoleName = "smurf";
+                    GameConfig::getInstance()->setSelectRoleName("smurf");
                     break;
                 case kRoleViking:
-                    GameConfig::selectedRoleName = "viking";
+                     GameConfig::getInstance()->setSelectRoleName("viking");
                     break;
                 case kRoleZombie:
-                    GameConfig::selectedRoleName = "zombie";
+                     GameConfig::getInstance()->setSelectRoleName("zombie");
                     break;
                 case kRoleVampire:
-                    GameConfig::selectedRoleName = "vampire";
+                     GameConfig::getInstance()->setSelectRoleName("vampire");
                     break;
                 default:
                     break;
@@ -426,10 +425,16 @@ void HomeScene::__showSceneSelectMenu()
     auto cl_story = createItemFunc(kSceneCL_Story,"clstorynormal.png", "clstorypress.png", "clstorydisable.png",Point(300,10));
     auto md_story = createItemFunc(kSceneMD_Story,"mdstorynormal.png", "mdstorypress.png", "mdstorydisable.png",Point(550,100));
     auto bc_story = createItemFunc(kSceneBC_Story,"bcstorynormal.png", "bcstorypress.png", "bcstorydisable.png",Point(800,100));
+    cl_story->setEnabled(__userDefault->getBoolForKey(KEY_CL));
+    md_story->setEnabled(__userDefault->getBoolForKey(KEY_MD));
+    bc_story->setEnabled(__userDefault->getBoolForKey(KEY_BC));
     
     auto cl_battle = createItemFunc(kSceneCL_Battle,"clbattlenormal.png", "clbattlepress.png", "clbattledisable.png",Point(200,240));
     auto md_battle = createItemFunc(kSceneMD_Battle,"mdbattlenormal.png", "mdbattlepress.png", "mdbattledisable.png",Point(450,250));
     auto bc_battle = createItemFunc(kSceneBC_Battle,"bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png",Point(700,230));
+    cl_battle->setEnabled(__userDefault->getBoolForKey(KEY_CL_BATTLE));
+    md_battle->setEnabled(__userDefault->getBoolForKey(KEY_MD_BATTLE));
+    bc_battle->setEnabled(__userDefault->getBoolForKey(KEY_BC_BATTLE));
     
     cl_battle->setPosition(Point(200,240));
     md_battle->setPosition(Point(450,250));
@@ -447,6 +452,8 @@ void HomeScene::__showSceneSelectMenu()
     };
     
     addMenu(cl_story,md_story,bc_story,back3,kStoryMenu);
+    
+    
     addMenu(cl_battle,md_battle,bc_battle,back2,kBattleMenu);
     cl_story->setEnabled(true);
     this->__setBackButtonEnable(true,0.5f);
@@ -475,7 +482,7 @@ void HomeScene::__showStageSelectMenu()
         default:
             break;
     }
-    GameConfig::selectedSceneName = type;
+    GameConfig::getInstance()->setSelectSceneName(type);
     
     
     std::vector<Point> points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330),Point(400,450),Point(560,460),Point(720,450),Point(870,430)};
@@ -487,6 +494,9 @@ void HomeScene::__showStageSelectMenu()
         menu->setTag(tag);
         return menu;
     };
+    
+    /* 获取到达的关卡信息 */
+    int level = __userDefault->getIntegerForKey(__String::createWithFormat("key_%s_level",GameConfig::getInstance()->getSelectSceneName().c_str())->getCString());
     
     int idx = 0;
     auto it = points.begin();
@@ -518,8 +528,12 @@ void HomeScene::__showStageSelectMenu()
         stage->setPosition(*it);
         stage->setAnchorPoint(Point(0.5,0));
         stage->setScale(0.0f);
-        if(idx!=0){
-//            stage->setEnabled(false);
+        if(idx<level){
+            stage->setEnabled(true);
+        }
+        else
+        {
+            stage->setEnabled(false);
         }
         auto showSeq = Sequence::create(DelayTime::create(idx*0.15f),easeBackIn->clone(), NULL);
         stage->runAction(showSeq);
@@ -527,7 +541,7 @@ void HomeScene::__showStageSelectMenu()
             auto item = (MenuItemSprite*)pSender;
             void *userData = item->getUserData();
             int idx = *static_cast<int*>(userData);
-            GameConfig::selectedLevel = idx+1;
+            GameConfig::getInstance()->setSelectLevel(idx+1);
             log("idx %d",idx);
             GameScene::create()->run();
         });

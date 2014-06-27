@@ -766,7 +766,7 @@ void WoodBox::update(float delta)
         if(isCollision)
         {
             GameManager::getInstance()->setIsCollision(isCollision);
-            if (GameConfig::selectedLevel==11&&GameConfig::selectedSceneName=="cl") {
+            if (GameConfig::getInstance()->getSelectLevel()==11&&GameConfig::getInstance()->getSelectSceneName()=="cl") {
                 return;
             }
             /* 根据行走碰撞的方向 执行不同的操作 */

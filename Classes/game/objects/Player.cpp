@@ -48,7 +48,7 @@ bool Player::init()
         return false;
     }
     
-    auto playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::selectedRoleName+"_chuchang.png");
+    auto playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::getInstance()->getSelectRoleName()+"_chuchang.png");
     auto frameSourceRect = playerSpriteFrame->getRect();
     auto frameHeight = frameSourceRect.size.height;
     auto frameWidth = frameSourceRect.size.width/2;
@@ -57,7 +57,7 @@ bool Player::init()
         
         auto playerTexture = playerSpriteFrame->getTexture();
         auto playerSourceRect = playerSpriteFrame->getRect();
-        auto animationName = GameConfig::selectedRoleName+"_"+suffix;
+        auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_"+suffix;
         Vector<SpriteFrame*> frameVec;
         for(auto i=0;i<frameNum;i++)
         {
@@ -86,7 +86,7 @@ bool Player::init()
     };
     
     int huxi_frameNum = 2;
-    if(GameConfig::selectedRoleName=="vampire")
+    if(GameConfig::getInstance()->getSelectRoleName()=="vampire")
     {
         huxi_frameNum = 4;
     }
@@ -95,7 +95,7 @@ bool Player::init()
     };
     registAnimation(chuchang);
     
-    playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::selectedRoleName+"_huxi.png");
+    playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::getInstance()->getSelectRoleName()+"_huxi.png");
     /* 角色呼吸的动画 */
     std::vector<RoleProperty> huxiVec = {
         {"huxi_up",0,huxi_frameNum},
@@ -106,7 +106,7 @@ bool Player::init()
     
     registAnimation(huxiVec);
     
-    playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::selectedRoleName+".png");
+    playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::getInstance()->getSelectRoleName()+".png");
     /* 角色行走的动画 */
     std::vector<RoleProperty> walkVec = {
         {"up",0,8},
@@ -115,21 +115,21 @@ bool Player::init()
         {"down",frameHeight*3,8}
     };
     
-    if(GameConfig::selectedRoleName=="vampire")
+    if(GameConfig::getInstance()->getSelectRoleName()=="vampire")
     {
         walkVec.push_back({"down_1",frameHeight*4,9});
         walkVec.push_back({"down_2",frameHeight*5,9});
         walkVec.push_back({"die_1",frameHeight*6,9});
         walkVec.push_back({"die_2",frameHeight*7,9});
     }
-    else if(GameConfig::selectedRoleName=="viking")
+    else if(GameConfig::getInstance()->getSelectRoleName()=="viking")
     {
         walkVec.push_back({"down_1",frameHeight*4,8});
         walkVec.push_back({"down_2",frameHeight*5,7});
         walkVec.push_back({"die_1",frameHeight*6,8});
         walkVec.push_back({"die_2",frameHeight*7,6});
     }
-    else if(GameConfig::selectedRoleName=="zombie")
+    else if(GameConfig::getInstance()->getSelectRoleName()=="zombie")
     {
         walkVec.push_back({"down_1",frameHeight*4,9});
         walkVec.push_back({"die_1",frameHeight*5,11});
@@ -148,8 +148,8 @@ bool Player::init()
 void Player::die()
 {
     GameManager::getInstance()->setIsGameOver(true);
-    auto animation1 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_1");
-    auto animation2 = AnimationCache::getInstance()->getAnimation(GameConfig::selectedRoleName+"_die_2");
+    auto animation1 = AnimationCache::getInstance()->getAnimation(GameConfig::getInstance()->getSelectRoleName()+"_die_1");
+    auto animation2 = AnimationCache::getInstance()->getAnimation(GameConfig::getInstance()->getSelectRoleName()+"_die_2");
     auto die1 = Animate::create(animation1);
    
     Sequence *dieSeq = nullptr;
@@ -169,7 +169,7 @@ void Player::die()
 void Player::run()
 {
     auto getAnimate = [](std::string name)->Animate*{
-        auto animationName = GameConfig::selectedRoleName+"_"+name;
+        auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_"+name;
         auto animation = AnimationCache::getInstance()->getAnimation(animationName);
         return Animate::create(animation);
     };
@@ -184,7 +184,7 @@ void Player::run()
     auto arrow = PlayerArrow::getInstance();
     arrow->retain();
     arrow->setAnchorPoint(Point(0.5,0));
-    if(GameConfig::selectedRoleName==std::string("zombie"))
+    if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
     {
         arrow->setPosition(getWidth(),130);
     }
@@ -226,7 +226,7 @@ void Player::loadPlayerInfo()
     auto data = FileUtils::getInstance()->getStringFromFile(filePath);
     rapidjson::Document playerInfoDoc;
     playerInfoDoc.Parse<0>(data.c_str());
-    rapidjson::Value &player = playerInfoDoc[GameConfig::selectedRoleName.c_str()];
+    rapidjson::Value &player = playerInfoDoc[GameConfig::getInstance()->getSelectRoleName().c_str()];
     this->setWidth(player["width"].GetInt());
     this->setHeight(player["height"].GetInt());
     this->setSpeed(player["speed"].GetInt()*2);
@@ -238,12 +238,12 @@ Rect Player::getBoundingBox() const
 {
     //每个角色的碰撞检测区域都有差别
     auto rect = Node::getBoundingBox();
-    if(GameConfig::selectedRoleName==std::string("zombie"))
+    if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
     {
         rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
         rect.size = Size(getWidth(),40);
     }
-    else if(GameConfig::selectedRoleName==std::string("viking"))
+    else if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
     {
         rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
         rect.size = Size(getWidth(),50);

@@ -195,7 +195,7 @@ void DirectionButton::walk()
     {
         return;
     }
-    auto animationName = GameConfig::selectedRoleName+"_"+direction;
+    auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_"+direction;
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     GameManager::getInstance()->getPlayer()->runAction(RepeatForever::create(animate));
 }
@@ -209,7 +209,7 @@ void DirectionButton::stand()
     GameManager::getInstance()->setSpeed(Point::ZERO);
     auto player = GameManager::getInstance()->getPlayer();
     player->stopAllActions();
-    auto animationName = GameConfig::selectedRoleName+"_huxi_"+player->getDirectionStr();
+    auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_huxi_"+player->getDirectionStr();
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     player->runAction(RepeatForever::create(animate));
     GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);

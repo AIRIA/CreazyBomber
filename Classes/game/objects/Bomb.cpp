@@ -16,11 +16,11 @@ void Bomb::onEnter()
     Sprite::onEnter();
     char animationName[50];
     if (getBombType()==kBombTimer) {
-        sprintf(animationName, "%s-timer-zd.png",GameConfig::selectedRoleName.c_str());
+        sprintf(animationName, "%s-timer-zd.png",GameConfig::getInstance()->getSelectRoleName().c_str());
     }
     else
     {
-        sprintf(animationName, "%s-zd.png",GameConfig::selectedRoleName.c_str());
+        sprintf(animationName, "%s-zd.png",GameConfig::getInstance()->getSelectRoleName().c_str());
     }
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     auto animateCall = CallFunc::create([&]()->void{
@@ -116,12 +116,12 @@ void Bomb::initBombAnimations()
         AnimationCache::getInstance()->addAnimation(animation, fileName);
     };
     
-    createBombAnimation(GameConfig::selectedRoleName+"-timer-zd.png",2);
-    createBombAnimation(GameConfig::selectedRoleName+"-zd.png",2);
+    createBombAnimation(GameConfig::getInstance()->getSelectRoleName()+"-timer-zd.png",2);
+    createBombAnimation(GameConfig::getInstance()->getSelectRoleName()+"-zd.png",2);
     for (auto i=1; i<=9; i++) {
         char name[50];
-        sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),i);
-        if(GameConfig::selectedRoleName==std::string("viking"))
+        sprintf(name, "%s-zd0%d.png",GameConfig::getInstance()->getSelectRoleName().c_str(),i);
+        if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
         {
             createBombAnimation(name,8,0.1f);
         }
@@ -154,7 +154,7 @@ void Bomb::bomb()
     auto center = BombFire::create();
     center->setRow(getRow());
     center->setCol(getCol());
-    center->runAction(Sequence::create(getAnimateByName((GameConfig::selectedRoleName+"-zd01.png").c_str()),removeHandler,NULL));
+    center->runAction(Sequence::create(getAnimateByName((GameConfig::getInstance()->getSelectRoleName()+"-zd01.png").c_str()),removeHandler,NULL));
     center->setPosition(getPosition());
     center->setAnchorPoint(getAnchorPoint());
     GameManager::getInstance()->getMapTileLayer()->addChild(center);
@@ -167,11 +167,11 @@ void Bomb::bomb()
             char name[50];
             if(j==m_iPower)
             {
-                sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),2*(i+1));
+                sprintf(name, "%s-zd0%d.png",GameConfig::getInstance()->getSelectRoleName().c_str(),2*(i+1));
             }
             else
             {
-                sprintf(name, "%s-zd0%d.png",GameConfig::selectedRoleName.c_str(),2*(i+1)+1);
+                sprintf(name, "%s-zd0%d.png",GameConfig::getInstance()->getSelectRoleName().c_str(),2*(i+1)+1);
             }
             
             auto targetCoordiante = Point(getCol(),getRow())+directions[i]*j;

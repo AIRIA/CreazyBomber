@@ -36,7 +36,7 @@ void GameUILayer::onTexturesLoaded()
     m_pLeft->setPosition(VisibleRect::leftTop());
     
     //玩家控制的角色的头像
-    auto playerIcon = SPRITE(GameConfig::selectedRoleName+"_icon_big.png");
+    auto playerIcon = SPRITE(GameConfig::getInstance()->getSelectRoleName()+"_icon_big.png");
     m_pLeft->addChild(playerIcon);
     playerIcon->setAnchorPoint(Point(0.0f,1.0f));
     playerIcon->setPosition(10, DESIGN_HEIGHT-10);
@@ -106,8 +106,8 @@ void GameUILayer::onTexturesLoaded()
     infoNode->addChild(coin);
     addChild(infoNode);
     //选择的模式以及关卡
-    auto mode = SPRITE(GameConfig::selectedSceneName+"_main_sign.png");
-    auto levelLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d",GameConfig::selectedLevel)->getCString());
+    auto mode = SPRITE(GameConfig::getInstance()->getSelectSceneName()+"_main_sign.png");
+    auto levelLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d",GameConfig::getInstance()->getSelectLevel())->getCString());
     auto monstersLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d/%d",0,GameManager::getInstance()->getMonsterCount())->getCString());
     mode->setPosition(coin->getPosition().x+coin->getContentSize().width+pad,shoe->getPosition().y);
     levelLabel->setPosition(mode->getPosition().x+mode->getContentSize().width+5,mode->getPosition().y);
