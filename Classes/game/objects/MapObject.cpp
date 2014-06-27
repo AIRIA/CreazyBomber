@@ -625,6 +625,7 @@ void Monster::doTileDestory()
         }
     });
     runAction(Sequence::create(blink,blinkHandler, NULL));
+    Util::playEffect(SOUND_MONSTER_BOMBED_DEAD);
 }
 
 
