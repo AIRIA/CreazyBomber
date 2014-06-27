@@ -134,7 +134,7 @@ void GameScene::onTexturesLoaded()
         /* 添加地图元素和UI元素到界面 */
         auto mapLayer = MapLayer::create();
         GameManager::getInstance()->setMapLayer(mapLayer);
-        
+        GameManager::getInstance()->setMonsterCount(0);
         auto baseTileLayer = util->getBaseTileLayer();
         auto tmxLayer = util->getTmxTileLayer();
         auto commonTileLayer = util->getCommonTileLayer();
@@ -157,7 +157,7 @@ void GameScene::onTexturesLoaded()
             mapLayer->setAnchorPoint(Point(0.0f,0.5f));
             mapLayer->setPositionY(m_winSize.height/2);
         }
-        GameManager::getInstance()->setMonsterCount(MapUtil::getInstance()->getMonsters().size());
+        
         mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
         addChild(mapLayer);
         addUIComponents();

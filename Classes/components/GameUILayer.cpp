@@ -133,16 +133,20 @@ void GameUILayer::onEnter()
 {
     BaseLayer::onEnter();
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateHpHandler), UPDATE_HP, nullptr);
-    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_onMonsterDestroy), MONSTER_DESTROY, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updatePlayerInfoHandler), UPDATE_PLAYER_INFO, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateMonsterCount), UPDATE_MONSTER_COUNT, nullptr);
 }
 
 void GameUILayer::onExit()
 {
     BaseLayer::onExit();
-    NotificationCenter::getInstance()->removeObserver(this, UPDATE_HP);
-    NotificationCenter::getInstance()->removeObserver(this, MONSTER_DESTROY);
-    NotificationCenter::getInstance()->removeObserver(this, UPDATE_PLAYER_INFO);
+    NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
+void GameUILayer::_updateMonsterCount(cocos2d::Ref *pSender)
+{
+    auto monsterCountLabel = static_cast<Label*>(getChildByTag(kTagWraper)->getChildByTag(kTagMonsterCountLabel));
+    monsterCountLabel->setString(__String::createWithFormat("%ld/%d",GameManager::getInstance()->getMonsterCount()-MapUtil::getInstance()->getMonsters().size(),GameManager::getInstance()->getMonsterCount())->getCString());
 }
 
 void GameUILayer::_updateHpHandler(cocos2d::Ref *pSender)
@@ -151,12 +155,6 @@ void GameUILayer::_updateHpHandler(cocos2d::Ref *pSender)
     int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
     auto progressTo = ProgressFromTo::create(1.0f, player->getHP()+*hurt, player->getHP());
     hpBar->runAction(progressTo);
-}
-
-void GameUILayer::_onMonsterDestroy(cocos2d::Ref *pSender)
-{
-    auto monsterCountLabel = static_cast<Label*>(getChildByTag(kTagWraper)->getChildByTag(kTagMonsterCountLabel));
-    monsterCountLabel->setString(__String::createWithFormat("%ld/%d",GameManager::getInstance()->getMonsterCount()-MapUtil::getInstance()->getMonsters().size(),GameManager::getInstance()->getMonsterCount())->getCString());
 }
 
 void GameUILayer::_updatePlayerInfoHandler(cocos2d::Ref *pSender)

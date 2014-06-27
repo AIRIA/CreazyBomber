@@ -373,6 +373,9 @@ void Monster::onEnter()
     float speed = getMonsterProperty()->getSpeed()/30.0f;
     setSpeedRate(speed);
     MapUtil::getInstance()->getMonsters().pushBack(this);
+    auto manager = GameManager::getInstance();
+    manager->setMonsterCount(manager->getMonsterCount()+1);
+    NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
 }
 
 void Monster::run()
@@ -615,7 +618,7 @@ void Monster::doTileDestory()
     auto blinkHandler = CallFunc::create([&]()->void{
         this->removeFromParent();
         MapUtil::getInstance()->getMonsters().eraseObject(this);
-        NotificationCenter::getInstance()->postNotification(MONSTER_DESTROY);
+        NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
         if(MapUtil::getInstance()->getMonsters().size()==0)
         {
             NotificationCenter::getInstance()->postNotification(GAME_PASS);

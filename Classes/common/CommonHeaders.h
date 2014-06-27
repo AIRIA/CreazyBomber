@@ -62,4 +62,6 @@ enum WalkDirection{
 #define UPDATE_PLAYER_INFO "update_player_info" 
 #define CREATE_PLAYER_ITEM "create_player_item" //在木头或者植物被炸掉以后 添加
 
+#define UPDATE_MONSTER_COUNT "update_monster_count"
+
 #endif
