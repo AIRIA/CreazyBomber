@@ -70,7 +70,7 @@ void GameUILayer::onTexturesLoaded()
     hpMenuItem->setAnchorPoint(Point(1.0f,1.0f));
     hpMenuItem->setPosition(VisibleRect::right()+Point(-20,100));
     timerBombItem->setAnchorPoint(hpMenuItem->getAnchorPoint());
-    timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,80));
+    timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,80*GameManager::getInstance()->getScaleFactor()));
     
     timerBombItem->setScale(m_fScaleFactor);
     hpMenuItem->setScale(m_fScaleFactor);
@@ -85,7 +85,7 @@ void GameUILayer::onTexturesLoaded()
     
     //玩家的装备信息
     auto infoNode = Node::create();
-    infoNode->setScale(m_fScaleFactor);
+    infoNode->setScale(m_fScaleFactor*1.5);
     auto playerInfo = SPRITE("role_info_bg.png");
     playerInfo->setAnchorPoint(Point(0.5f,1.0f));
     infoNode->addChild(playerInfo);
@@ -93,7 +93,7 @@ void GameUILayer::onTexturesLoaded()
     auto shoe = Label::createWithBMFont("font/font_02.fnt", "0");
     auto bomb = Label::createWithBMFont("font/font_02.fnt", Util::itoa(GameManager::getInstance()->getBombNum()));
     auto power = Label::createWithBMFont("font/font_02.fnt", "1");
-    auto coin = Label::createWithBMFont("font/font_02.fnt", "000000");
+    auto coin = Label::createWithBMFont("font/font_02.fnt", __String::createWithFormat("%06d",__userDefault->getIntegerForKey(KEY_COIN_NUM))->getCString());
     shoe->setPosition(playerInfo->getContentSize().width/2*-1+40,-20);
     auto pad = 70;
     power->setPosition(shoe->getPosition().x+pad,shoe->getPosition().y);

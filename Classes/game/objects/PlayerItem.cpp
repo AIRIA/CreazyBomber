@@ -71,18 +71,26 @@ void PlayerItem::update(float delta)
             case PlayerInfoParam::kTypeCoin:
                 if(getIdx()==0)
                 {
-                    manager->setCoin(manager->getCoin()+50);
+                    __userDefault->setIntegerForKey(KEY_COIN_NUM, __userDefault->getIntegerForKey(KEY_COIN_NUM)+50);
                     Util::playEffect(SOUND_ITEM_GET_LITTLE_COIN);
                 }else{
-                    manager->setCoin(manager->getCoin()+100);
+                    __userDefault->setIntegerForKey(KEY_COIN_NUM, __userDefault->getIntegerForKey(KEY_COIN_NUM)+100);
                     Util::playEffect(SOUND_ITEM_GET_BIG_COIN);
                 }
-                data->setValue(manager->getCoin());
+                data->setValue(__userDefault->getIntegerForKey(KEY_COIN_NUM));
                 break;
             case PlayerInfoParam::kTypeShoe:
                 Util::playEffect(SOUND_ITEM_GET_SHOE);
                 manager->setShoe(manager->getShoe()+1);
                 data->setValue(manager->getShoe());
+                
+                if(_speedUp==false)
+                {
+                    manager->setSpeed(manager->getSpeed()*1.3f);
+                    manager->getPlayer()->setSpeed(manager->getPlayer()->getSpeed()*1.3f);
+                    checkShoeNum();
+                }
+                
                 break;
             case PlayerInfoParam::kTypePower:
                 Util::playEffect(SOUND_ITEM_GET_POWER);
@@ -95,5 +103,28 @@ void PlayerItem::update(float delta)
         NotificationCenter::getInstance()->postNotification(UPDATE_PLAYER_INFO,data);
         removeFromParent();
     }
+}
+
+void PlayerItem::checkShoeNum()
+{
+    _speedUp = true;
+    auto seq = Sequence::create(DelayTime::create(10),CallFunc::create([&]()->void{
+        auto manager = GameManager::getInstance();
+        manager->setShoe(manager->getShoe()-1);
+        auto data = PlayerInfoParam::create();
+        data->setType(PlayerInfoParam::TYPE::kTypeShoe);
+        data->setValue(manager->getShoe());
+        NotificationCenter::getInstance()->postNotification(UPDATE_PLAYER_INFO,data);
+        if(manager->getShoe()>0)
+        {
+            this->checkShoeNum();
+        }else{
+            manager->setSpeed(manager->getSpeed()/1.3f);
+            manager->getPlayer()->setSpeed(manager->getPlayer()->getSpeed()/1.3f);
+            _speedUp = false;
+        }
+        
+    }), NULL);
+    Director::getInstance()->getRunningScene()->runAction(seq);
 }
 

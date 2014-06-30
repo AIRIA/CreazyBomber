@@ -31,6 +31,10 @@ public:
     PlayerItem *createWithSpriteFrameName(const std::string& spriteFrameName);
     CC_SYNTHESIZE(PlayerItemType, m_ItemType, ItemType);
     CC_SYNTHESIZE(int, m_iIdx, Idx);
+    
+protected:
+    void checkShoeNum();
+    bool _speedUp = false;
 };
 
 #endif /* defined(__CreazyBomber__PlayerItem__) */

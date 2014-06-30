@@ -32,7 +32,7 @@ void SettingLayer::showPause(cocos2d::Ref *pSender)
 {
     background = SPRITE("pause_bg.png");
     background->setAnchorPoint(Point(1.0f,1.0f));
-    background->setPosition(VisibleRect::rightTop()-Point(100,130));
+    background->setPosition(VisibleRect::rightTop()-Point(100,60));
     show();
 }
 
@@ -112,8 +112,9 @@ void SettingLayer::show()
         }
     });
     
-    replay->setCallback([](Ref *pSender)->void{
+    replay->setCallback([&](Ref *pSender)->void{
         Director::getInstance()->resume();
+        this->removeAllChildren();
         SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         NotificationCenter::getInstance()->postNotification(GAME_RETRY);
     });

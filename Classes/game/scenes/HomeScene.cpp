@@ -12,6 +12,11 @@
 
 #define ICON_ANIMATE_TIME 0.3f
 
+#define SOUND_MAIN_BG "music/bg/music_main_bg.mp3"
+#define EFFECT_UI_CLICK "music/soundEffect/ui_click.mp3"
+#define EFFECT_UI_ITEM_IN "music/soundEffect/ui_item_in.mp3"
+#define EFFECT_UI_ITEM_OUT "music/soundEffect/ui_item_out.mp3"
+
 enum{
     kStatusSelectRole,
     kStatusSelectMode,
@@ -68,11 +73,10 @@ bool HomeScene::init()
         return false;
     }
     /* 预加载音频文件 */
-    SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/bg/music_main_bg.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_click.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_item_in.mp3");
-    SimpleAudioEngine::getInstance()->preloadEffect("music/soundEffect/ui_item_out.mp3");
-    SimpleAudioEngine::getInstance()->setEffectsVolume(0.5);
+    SimpleAudioEngine::getInstance()->preloadBackgroundMusic(SOUND_MAIN_BG);
+    SimpleAudioEngine::getInstance()->preloadEffect(EFFECT_UI_CLICK);
+    SimpleAudioEngine::getInstance()->preloadEffect(EFFECT_UI_ITEM_IN);
+    SimpleAudioEngine::getInstance()->preloadEffect(EFFECT_UI_ITEM_OUT);
     
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     Texture2D::PVRImagesHavePremultipliedAlpha(true);
@@ -140,7 +144,7 @@ void HomeScene::onTexturesLoaded()
     this->__showIcons();
     __addBackMenu();
     //循环播放背景音乐
-    Util::playSound("music/bg/music_main_bg.mp3",true);
+    Util::playSound(SOUND_MAIN_BG,true);
 }
 
 void HomeScene::__delayRun(float dt,const std::function<void ()> &func)
@@ -239,7 +243,7 @@ void HomeScene::__showIcons()
     playBtn->setScale(0.7f);
     playBtn->setPosition(Point(480,320));
     playBtn->setCallback([&](Ref *pSender)->void{
-        SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_click.mp3");
+        Util::playEffect(EFFECT_UI_CLICK);
         this->__hideIcons([&]()->void{
             this->__showRoleSelectMenu();
         });
@@ -584,7 +588,7 @@ void HomeScene::__hideIcons(const std::function<void()> &func)
 void HomeScene::__hideRoles(const std::function<void()> &func)
 {
     this->__setBackButtonEnable(false);
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
+    Util::playEffect(EFFECT_UI_ITEM_OUT);
     auto roleMenu = (PerfectMenu*)m_pBody->getChildByTag(kSelectRoleMenu);
     roleMenu->setEnabled(false);
     auto children = roleMenu->getChildren();
@@ -612,7 +616,7 @@ void HomeScene::__hideModes(const std::function<void()> &func)
 {
     log("hide modes");
     this->__setBackButtonEnable(false);
-    SimpleAudioEngine::getInstance()->playEffect("music/soundEffect/ui_item_out.mp3");
+    Util::playEffect(EFFECT_UI_ITEM_OUT);
     auto bottomNode = m_pBody->getChildByTag(kBottomNode);
     auto storyNode = bottomNode->getChildByTag(kStoreModeNode);
     auto battleNode = bottomNode->getChildByTag(kBattleModeNode);

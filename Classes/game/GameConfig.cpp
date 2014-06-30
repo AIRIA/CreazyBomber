@@ -45,6 +45,7 @@ void GameConfig::init()
         __userDefault->setIntegerForKey(KEY_MD_LEVEL, 0);
         __userDefault->setBoolForKey(KEY_SOUND_ENABLED, true);
         __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, true);
+        __userDefault->setIntegerForKey(KEY_COIN_NUM, 300);
     }  
 }
 

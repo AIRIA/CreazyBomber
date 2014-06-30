@@ -96,6 +96,8 @@ enum WalkDirection{
 #define KEY_BC "key_bc"
 #define KEY_MD "key_md"
 
+#define KEY_COIN_NUM "key_coin_num"
+
 #define KEY_CL_BATTLE "key_cl_battle"
 #define KEY_BC_BATTLE "key_bc_battle"
 #define KEY_MD_BATTLE "key_md_battle"

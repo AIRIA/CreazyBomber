@@ -361,8 +361,6 @@ void Player::update(float delta)
         setPosition(targetPosition);
     }
     
-    
-    
 }
 
 void Player::stopWalkAction()

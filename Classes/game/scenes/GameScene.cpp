@@ -167,7 +167,7 @@ void GameScene::onTexturesLoaded()
         auto commonTileLayer = util->getCommonTileLayer();
         auto borderLayer = util->addTileMapBorder();
         
-        auto mapSize = util->getMapSize();
+
         auto mapSizeInPixle = util->getMapSizeInPixle();
         mapLayer->setContentSize(mapSizeInPixle);
         
@@ -237,7 +237,7 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
     auto mapObj = static_cast<MapObject*>(pSender);
     auto row = mapObj->getRow(),col = mapObj->getCol();
     //mapObj->release();
-    auto itemId = rand()%20;
+    auto itemId = rand()%5;
     if(itemId<5)
     {
         auto playerItemType = GameManager::getInstance()->getPlayerItems().at(itemId);
