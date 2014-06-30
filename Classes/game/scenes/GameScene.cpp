@@ -179,11 +179,11 @@ void GameScene::onTexturesLoaded()
         
         mapLayer->setAnchorPoint(Point(0.0f,1.0f));
         mapLayer->setPosition(Point(-TILE_WIDTH/2*m_fScaleFactor,m_winSize.height+TILE_HEIGHT/2*m_fScaleFactor));
-        if(mapSize.height==9)
-        {
-            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
-            mapLayer->setPositionY(m_winSize.height/2);
-        }
+//        if(mapSize.height==9)
+//        {
+//            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
+//            mapLayer->setPositionY(m_winSize.height/2);
+//        }
         
         mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
         addChild(mapLayer);

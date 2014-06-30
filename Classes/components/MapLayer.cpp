@@ -21,17 +21,17 @@ void MapLayer::onEnter()
     auto winSize = Director::getInstance()->getWinSize();
     auto isScroll = false;
     
-    if(mapSize.width - DESIGN_TILES_HORIZONTAL_NUMS>0)
-    {
+//    if(mapSize.width - DESIGN_TILES_HORIZONTAL_NUMS>0)
+//    {
         _rangeWidth = (mapSize.width-1)*TILE_WIDTH*scaleFactor-winSize.width;
         isScroll = true;
-    }
+//    }
     
-    if(mapSize.height - DESIGN_TILES_VERTICAL_NUMS>0)
-    {
+//    if(mapSize.height - DESIGN_TILES_VERTICAL_NUMS>0)
+//    {
         _rangeHeight = (mapSize.height-1)*TILE_HEIGHT*scaleFactor-winSize.height;
-        isScroll = true;
-    }
+//        isScroll = true;
+//    }
     
     if(isScroll)
     {

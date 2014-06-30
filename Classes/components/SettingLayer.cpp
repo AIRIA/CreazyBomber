@@ -45,7 +45,7 @@ void SettingLayer::showSetting(cocos2d::Ref *pSender)
 void SettingLayer::onExit()
 {
     Layer::onExit();
-
+    NotificationCenter::getInstance()->removeAllObservers(this);
 }
 
 bool SettingLayer::init()
@@ -124,8 +124,9 @@ void SettingLayer::show()
         this->removeAllChildren();
     });
     
-    exit->setCallback([](Ref *pSender)->void{
+    exit->setCallback([&](Ref *pSender)->void{
         Director::getInstance()->resume();
+        this->removeAllChildren();
         GameManager::getInstance()->setSpeed(Point::ZERO);
         SimpleAudioEngine::getInstance()->stopBackgroundMusic();
         HomeScene::create()->run();
