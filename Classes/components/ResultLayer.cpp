@@ -89,6 +89,12 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)
 {
+    auto config = GameConfig::getInstance();
+    auto key = __String::createWithFormat("key_%s_level",config->getSelectSceneName().c_str())->getCString();
+    if (config->getSelectLevel()<12&&config->getSelectLevel()==__userDefault->getIntegerForKey(key)) {
+        __userDefault->setIntegerForKey(key,config->getSelectLevel()+1);
+    }
+    
     Util::playEffect(SOUND_INGAME_WIN);
     _changeBgColor();
     auto wrapper = Node::create();
@@ -139,7 +145,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
     auto moveAct = MoveTo::create(0.4f, VisibleRect::center());
     auto easeAct = EaseBackOut::create(moveAct);
     auto showScore = CallFunc::create([&]()->void{
-        this->schedule(schedule_selector(ResultLayer::_scoreAnimateSelector), 0.05);
+        this->schedule(schedule_selector(ResultLayer::_scoreAnimateSelector), 0.07);
     });
     wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,showScore,NULL));
     addChild(wrapper);

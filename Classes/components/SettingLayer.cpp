@@ -8,6 +8,7 @@
 
 #include "SettingLayer.h"
 #include "game/GameManager.h"
+#include "game/scenes/HomeScene.h"
 
 SettingLayer *SettingLayer::getInstance()
 {
@@ -90,6 +91,47 @@ void SettingLayer::show()
     auto menu = Menu::create(music,sound,replay,resume,exit,nullptr);
     menu->setPosition(Point::ZERO);
     background->addChild(menu);
+    
+    music->setCallback([](Ref *pSender)->void{
+        auto music = static_cast<MenuItemToggle*>(pSender);
+        if(music->getSelectedIndex()==0)
+        {
+            GameConfig::getInstance()->setSoundEnable(true);
+        }else{
+            GameConfig::getInstance()->setSoundEnable(false);
+        }
+    });
+    
+    sound->setCallback([](Ref *pSender)->void{
+        auto sound = static_cast<MenuItemToggle*>(pSender);
+        if(sound->getSelectedIndex()==0)
+        {
+            GameConfig::getInstance()->setEffectEnable(true);
+        }else{
+            GameConfig::getInstance()->setEffectEnable(false);
+        }
+    });
+    
+    replay->setCallback([](Ref *pSender)->void{
+        Director::getInstance()->resume();
+        SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        NotificationCenter::getInstance()->postNotification(GAME_RETRY);
+    });
+    
+    resume->setCallback([&](Ref *pSender)->void{
+        
+        Director::getInstance()->resume();
+        this->removeAllChildren();
+    });
+    
+    exit->setCallback([](Ref *pSender)->void{
+        Director::getInstance()->resume();
+        GameManager::getInstance()->setSpeed(Point::ZERO);
+        SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        HomeScene::create()->run();
+    });
+    
+    
     
 }
 
