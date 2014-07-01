@@ -121,7 +121,7 @@ void GameUILayer::onTexturesLoaded()
     infoNode->addChild(monstersLabel);
     infoNode->setContentSize(Size(monstersLabel->getContentSize().width+monstersLabel->getPosition().x,1));
     infoNode->setAnchorPoint(Point(0.5,1));
-    infoNode->setPosition(VisibleRect::top());
+    infoNode->setPosition(VisibleRect::top()+Point(100,0));
     
     shoe->setTag(PlayerInfoParam::kTypeShoe);
     bomb->setTag(PlayerInfoParam::kTypeBomb);

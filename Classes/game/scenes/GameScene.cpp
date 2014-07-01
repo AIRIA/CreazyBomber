@@ -144,6 +144,7 @@ bool GameScene::init()
     
     manager->setBombNum(1);
     manager->setBombPower(1);
+    manager->setLvDaiSpeed(Point::ZERO);
     
     return true;
 }

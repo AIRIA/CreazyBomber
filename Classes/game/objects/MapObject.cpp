@@ -218,20 +218,16 @@ Point MapObject::convertCoordinate2Point(const cocos2d::Point &coordinate)
 
 void MapObject::update(float delta)
 {
-    auto status = GameManager::getInstance()->getWalkDirection();
-    if(status!=kWalkStand)
+    auto rect = getBoundingBox();
+    if(getType()!=kCellBorder)
     {
-        auto rect = getBoundingBox();
-        if(getType()!=kCellBorder)
-        {
-            rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
-        }
-        auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
-        auto isCollision = playerRect.intersectsRect(rect);
-        if(isCollision)
-        {
-            GameManager::getInstance()->setIsCollision(isCollision);
-        }
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+    }
+    auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+    auto isCollision = playerRect.intersectsRect(rect);
+    if(isCollision)
+    {
+        GameManager::getInstance()->setIsCollision(isCollision);
     }
 }
 
@@ -643,6 +639,41 @@ void LvDai::onEnter()
     setZOrder(-1);
 }
 
+#define LV_DAI_SPEED 1
+
+void LvDai::update(float delta)
+{
+    auto manager = GameManager::getInstance();
+    auto rect = getBoundingBox();
+    if(getType()!=kCellBorder)
+    {
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
+    }
+    auto playerRect = manager->getPlayer()->getBoundingBox();
+    auto isCollision = playerRect.intersectsRect(rect);
+    if(isCollision)
+    {
+        auto direction = atoi(m_pMapCell->getArgs().at(0)->getValue().c_str());
+        
+        switch (direction) {
+            case 0: //up
+                manager->setLvDaiSpeed(Point(0,LV_DAI_SPEED));
+                break;
+            case 1: //down
+                manager->setLvDaiSpeed(Point(0,-LV_DAI_SPEED));
+                break;
+            case 2: //left
+                manager->setLvDaiSpeed(Point(-LV_DAI_SPEED,0));
+                break;
+            case 3: //right
+                manager->setLvDaiSpeed(Point(LV_DAI_SPEED,0));
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 #pragma mark ----------------鬼火-------------------
 void GuiHuo::run()
 {
@@ -965,7 +996,7 @@ int ShuShou::getArgAt(int idx)
     return atoi(m_pMapCell->getArgs().at(idx)->getValue().c_str());
 }
 
-
+#pragma mark ------------地刺-----------------------
 
 
 

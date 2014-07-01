@@ -200,6 +200,7 @@ public:
     virtual void onEnter();
     MAPOBJ_CREATE(LvDai);
     virtual void doTileAnimation();
+    virtual void update(float delta);
 };
 
 /**
@@ -299,6 +300,16 @@ public:
     virtual void doTileAnimation();
 protected:
     int getArgAt(int idx);
+};
+
+#pragma mark ------------地刺-----------------------
+
+class DiCi:public MapObject
+{
+public:
+    MAPOBJ_CREATE(DiCi);
+    virtual void update(float delta);
+    virtual void run();
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

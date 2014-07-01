@@ -17,6 +17,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "cocos2d::Scheduler::update(float):CCScheduler.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameManager::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapUtil::getMapName():MapUtil.cpp">
          <PersistentStrings>
             <PersistentString
@@ -39,19 +47,22 @@
                value = "row">
             </PersistentString>
             <PersistentString
-               value = "coordinate">
-            </PersistentString>
-            <PersistentString
                value = "rect.origin.y">
-            </PersistentString>
-            <PersistentString
-               value = "this">
             </PersistentString>
             <PersistentString
                value = "col">
             </PersistentString>
             <PersistentString
                value = "GameManager::getInstance()-&gt;getSpeed()">
+            </PersistentString>
+            <PersistentString
+               value = "this">
+            </PersistentString>
+            <PersistentString
+               value = "GameManager::getInstance();">
+            </PersistentString>
+            <PersistentString
+               value = "coordinate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -76,21 +87,21 @@
          contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
       </ContextState>
       <ContextState
-         contextName = "Player::loadPlayerInfo():Player.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
-      </ContextState>
-      <ContextState
          contextName = "GameConfig::init():GameConfig.cpp">
          <PersistentStrings>
             <PersistentString
                value = "UserDefault::getInstance()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Player::loadPlayerInfo():Player.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():MapObject.cpp">
@@ -102,6 +113,9 @@
                value = "direction">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LvDai::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
          contextName = "MapLayer::update(float):MapLayer.cpp">

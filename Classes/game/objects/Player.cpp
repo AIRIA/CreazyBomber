@@ -349,19 +349,20 @@ void Player::update(float delta)
         }
         
     }
-    
+    auto manager = GameManager::getInstance();
     
     /* 判断是否有阻挡 */
-    auto isCollision = GameManager::getInstance()->getIsCollision();
+    auto isCollision = manager->getIsCollision();
     if(isCollision)
     {
-        GameManager::getInstance()->setIsCollision(false);
+        manager->setIsCollision(false);
     }
     else
     {
-        auto targetPosition = getPosition()+GameManager::getInstance()->getSpeed();
+        auto targetPosition = getPosition()+manager->getSpeed()+manager->getLvDaiSpeed();
         auto coordinate = getCoordinate();
         setPosition(targetPosition);
+        manager->setLvDaiSpeed(Point::ZERO);
     }
     
 }

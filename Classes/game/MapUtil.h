@@ -26,7 +26,7 @@ enum CellType{
     kCellTypeBox          = 9,// 木头箱子 可以推动的
     kCellTypeCorpseFlower = 7,//食人花
     kCellTypeWanDou       = 55 ,//豌豆 可以发射炮弹
-    kCellTypeDiCi         = 40,//地刺
+    kCellTypeDiCi         = 40,//地刺 骨爪
     kCellTypeLvDai        = 8,//履带 可以让英雄加速或者减速
     kCellTypeShuShou      = 38 ,//瘴气
     kCellTypeMonsterHome  = 11,//怪物帐篷 可以生成怪物

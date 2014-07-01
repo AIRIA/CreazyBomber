@@ -160,6 +160,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
     });
     wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,showScore,NULL));
     addChild(wrapper);
+    Util::playEffect(SOUND_INGAME_COUNT_NUMBER);
 }
 
 void ResultLayer::_scoreAnimateSelector(float delta)
@@ -186,7 +187,6 @@ void ResultLayer::_scoreAnimateSelector(float delta)
     char newScore[20];
     sprintf(newScore, "%d",number);
     score->setString(newScore);
-    Util::playEffect(SOUND_INGAME_COUNT_NUMBER);
 }
 
 
