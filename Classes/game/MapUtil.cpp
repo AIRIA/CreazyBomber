@@ -92,13 +92,13 @@ std::string MapUtil::getMapName()
 {
     /* 获取地图名称 */
     char mapName[20];
-    int prefix = 3100;
+    int prefix = 1100;
     if (GameConfig::getInstance()->getSelectSceneName()=="cl") {
-        prefix = 3100;
+        prefix = 1100;
     }else if(GameConfig::getInstance()->getSelectSceneName()=="md"){
-        prefix = 3200;
+        prefix = 1200;
     }else{
-        prefix = 3300;
+        prefix = 1300;
     }
     prefix += GameConfig::getInstance()->getSelectLevel();
     sprintf(mapName, "%d",prefix);

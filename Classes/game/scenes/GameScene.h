@@ -21,6 +21,7 @@ public:
     virtual bool init();
     CREATE_FUNC(GameScene);
 protected:
+    void startGame();
     void addUIComponents();
     void normalBombHandler(Ref *pSender);
     void nextLevel(Ref *pSender);

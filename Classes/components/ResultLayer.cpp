@@ -91,8 +91,19 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
 {
     auto config = GameConfig::getInstance();
     auto key = __String::createWithFormat("key_%s_level",config->getSelectSceneName().c_str())->getCString();
+    
     if (config->getSelectLevel()<12&&config->getSelectLevel()==__userDefault->getIntegerForKey(key)) {
         __userDefault->setIntegerForKey(key,config->getSelectLevel()+1);
+    }else{
+        std::string sceneName = GameConfig::getInstance()->getSelectSceneName();
+        if(sceneName=="cl")
+        {
+            __userDefault->setBoolForKey(KEY_MD, true);
+        }
+        else if(sceneName=="md")
+        {
+            __userDefault->setBoolForKey(KEY_BC, true);
+        }
     }
     
     Util::playEffect(SOUND_INGAME_WIN);

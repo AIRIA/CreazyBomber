@@ -40,7 +40,27 @@ void GameScene::onExit()
 
 void GameScene::nextLevel(cocos2d::Ref *pSender)
 {
-    GameConfig::getInstance()->setSelectLevel(GameConfig::getInstance()->getSelectLevel()+1);
+    auto config = GameConfig::getInstance();
+    auto sceneName = config->getSelectSceneName();
+    
+    if(config->getSelectLevel()==12)
+    {
+        if(sceneName=="cl")
+        {
+            config->setSelectSceneName("md");
+        }
+        else if(sceneName=="md")
+        {
+            config->setSelectSceneName("bc");
+        }
+        config->setSelectLevel(1);
+    }
+    else
+    {
+        config->setSelectLevel(config->getSelectLevel()+1);
+    }
+    
+    
     GameManager::getInstance()->setSpeed(Point::ZERO);
     GameManager::getInstance()->setPlayer(nullptr);
     removeAllChildren();
@@ -123,7 +143,7 @@ bool GameScene::init()
     textureFiles.push_back(playerTextureName);
     
     manager->setBombNum(1);
-    manager->setBombPower(2);
+    manager->setBombPower(1);
     
     return true;
 }
@@ -133,57 +153,6 @@ void GameScene::onTexturesLoaded()
     auto util = MapUtil::getInstance();
     BaseLayer::onTexturesLoaded();
     MapUtil::getInstance()->initMapSize();
-    
-    auto startGame = [&]()->void{
-        Util::playSound(SOUND_SCENE_BG,true);
-        
-        auto util = MapUtil::getInstance();
-        /* 初始化道具的动画 */
-        std::vector<PlayerItemType> items = {{"coin0.png","coin_small",0.1f,PlayerInfoParam::kTypeCoin},
-            {"coin1.png","coin_big",0.1f,PlayerInfoParam::kTypeCoin},
-            {"speed.png","speed",0.3f,PlayerInfoParam::kTypeShoe},
-            {"power.png","power",0.2f,PlayerInfoParam::kTypePower},
-            {"bomb.png","bomb",0.2f,PlayerInfoParam::kTypeBomb}};
-        GameManager::getInstance()->setPlayerItems(items);
-        auto it = items.begin();
-        while(it!=items.end())
-        {
-            GameManager::getInstance()->initPlayerItemAnimations(it->frameName, it->animationName,it->perFrameDelay);
-            it++;
-        }
-        /* 添加地图元素和UI元素到界面 */
-        auto mapLayer = MapLayer::create();
-        GameManager::getInstance()->setMapLayer(mapLayer);
-        GameManager::getInstance()->setMonsterCount(0);
-        auto baseTileLayer = util->getBaseTileLayer();
-        auto tmxLayer = util->getTmxTileLayer();
-        auto commonTileLayer = util->getCommonTileLayer();
-        auto borderLayer = util->addTileMapBorder();
-        
-        
-        auto mapSizeInPixle = util->getMapSizeInPixle();
-        mapLayer->setContentSize(mapSizeInPixle);
-        
-        mapLayer->addChild(baseTileLayer);
-        mapLayer->addChild(tmxLayer);
-        mapLayer->addChild(borderLayer);
-        mapLayer->addChild(commonTileLayer);
-        GameManager::getInstance()->setMapTileLayer(commonTileLayer);
-        
-        mapLayer->setAnchorPoint(Point(0.0f,1.0f));
-        mapLayer->setPosition(Point(-TILE_WIDTH/2*m_fScaleFactor,m_winSize.height+TILE_HEIGHT/2*m_fScaleFactor));
-        //        if(mapSize.height==9)
-        //        {
-        //            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
-        //            mapLayer->setPositionY(m_winSize.height/2);
-        //        }
-        
-        mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
-        addChild(mapLayer);
-        addUIComponents();
-        addChild(SettingLayer::getInstance());
-        addChild(ResultLayer::create());
-    };
     if(isShowTip()==false)
     {
         startGame();
@@ -200,13 +169,64 @@ void GameScene::onTexturesLoaded()
         wrapper->setPosition(VisibleRect::center());
         addChild(wrapper);
         wrapper->setScale(GameManager::getInstance()->getScaleFactor());
-        wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
+        wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&,this]()->void{
             startGame();
         }), NULL));
     }
    
     
     return;
+}
+
+void GameScene::startGame()
+{
+    Util::playSound(SOUND_SCENE_BG,true);
+    auto util = MapUtil::getInstance();
+    /* 初始化道具的动画 */
+    std::vector<PlayerItemType> items = {{"coin0.png","coin_small",0.1f,PlayerInfoParam::kTypeCoin},
+        {"coin1.png","coin_big",0.1f,PlayerInfoParam::kTypeCoin},
+        {"speed.png","speed",0.3f,PlayerInfoParam::kTypeShoe},
+        {"power.png","power",0.2f,PlayerInfoParam::kTypePower},
+        {"bomb.png","bomb",0.2f,PlayerInfoParam::kTypeBomb}};
+    GameManager::getInstance()->setPlayerItems(items);
+    auto it = items.begin();
+    while(it!=items.end())
+    {
+        GameManager::getInstance()->initPlayerItemAnimations(it->frameName, it->animationName,it->perFrameDelay);
+        it++;
+    }
+    /* 添加地图元素和UI元素到界面 */
+    auto mapLayer = MapLayer::create();
+    GameManager::getInstance()->setMapLayer(mapLayer);
+    GameManager::getInstance()->setMonsterCount(0);
+    auto baseTileLayer = util->getBaseTileLayer();
+    auto tmxLayer = util->getTmxTileLayer();
+    auto commonTileLayer = util->getCommonTileLayer();
+    auto borderLayer = util->addTileMapBorder();
+    
+    
+    auto mapSizeInPixle = util->getMapSizeInPixle();
+    mapLayer->setContentSize(mapSizeInPixle);
+    
+    mapLayer->addChild(baseTileLayer);
+    mapLayer->addChild(tmxLayer);
+    mapLayer->addChild(borderLayer);
+    mapLayer->addChild(commonTileLayer);
+    GameManager::getInstance()->setMapTileLayer(commonTileLayer);
+    
+    mapLayer->setAnchorPoint(Point(0.0f,1.0f));
+    mapLayer->setPosition(Point(-TILE_WIDTH/2*m_fScaleFactor,m_winSize.height+TILE_HEIGHT/2*m_fScaleFactor));
+    //        if(mapSize.height==9)
+    //        {
+    //            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
+    //            mapLayer->setPositionY(m_winSize.height/2);
+    //        }
+    
+    mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
+    addChild(mapLayer);
+    addUIComponents();
+    addChild(SettingLayer::getInstance());
+    addChild(ResultLayer::create());
 }
 
 void GameScene::addUIComponents()
