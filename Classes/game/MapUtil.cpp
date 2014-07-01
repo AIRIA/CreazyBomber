@@ -92,13 +92,13 @@ std::string MapUtil::getMapName()
 {
     /* 获取地图名称 */
     char mapName[20];
-    int prefix = 1100;
+    int prefix = 3100;
     if (GameConfig::getInstance()->getSelectSceneName()=="cl") {
-        prefix = 1100;
+        prefix = 3100;
     }else if(GameConfig::getInstance()->getSelectSceneName()=="md"){
-        prefix = 1200;
+        prefix = 3200;
     }else{
-        prefix = 1300;
+        prefix = 3300;
     }
     prefix += GameConfig::getInstance()->getSelectLevel();
     sprintf(mapName, "%d",prefix);
@@ -293,9 +293,9 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeLvDai:
             element = LvDai::create(mapCell);
             break;
-//        case kCellTypeShuShou:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeShuShou:
+            element = ShuShou::create(mapCell);
+            break;
 //        case kCellTypeMonsterHome:
 //            element = GroundTile::create(mapCell);
 //            break;

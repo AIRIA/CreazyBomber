@@ -26,6 +26,8 @@ protected:
     void nextLevel(Ref *pSender);
     void retry(Ref *pSender);
     void createPlayerItem(Ref *pSender);
+    CC_SYNTHESIZE(std::string, m_sMapName, MapName);
+    bool isShowTip();
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

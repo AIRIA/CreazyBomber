@@ -192,7 +192,10 @@ void Player::run()
     {
         arrow->setPosition(getWidth(),getHeight()*2);
     }
-
+    if(arrow->getParent())
+    {
+        return;
+    }
     addChild(arrow);
 }
 
@@ -250,7 +253,7 @@ Rect Player::getBoundingBox() const
     }
     else
     {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos())+GameManager::getInstance()->getSpeed();
+        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2)+GameManager::getInstance()->getSpeed();
         rect.size = Size(getWidth(),40);
     }
     

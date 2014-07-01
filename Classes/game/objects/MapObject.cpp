@@ -107,11 +107,11 @@ void MapObject::createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,st
     AnimationCache::getInstance()->addAnimation(animation, animationName);
 }
 
-Animate *MapObject::getDefaultAnimate()
+Animate *MapObject::getAnimateAt(int idx)
 {
     char animationName[50];
     auto mapCell = getMapCell();
-    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(0)->getID().c_str());
+    sprintf(animationName, "%s_%s",mapCell->getCellName().c_str(),mapCell->getAnimations().at(idx)->getID().c_str());
     auto animation = AnimationCache::getInstance()->getAnimation(animationName);
     auto animate = Animate::create(animation);
     return animate;
@@ -124,7 +124,7 @@ void MapObject::doTileAnimation()
     auto animateCallback = CallFunc::create([&]()->void{
         this->doTileAnimation();
     });
-    auto animateSeq = Sequence::create(delayAct,getDefaultAnimate(),animateCallback, NULL);
+    auto animateSeq = Sequence::create(delayAct,getAnimateAt(0),animateCallback, NULL);
     runAction(animateSeq);
 }
 
@@ -140,7 +140,7 @@ void MapObject::doAnimationWithAttack()
             this->doAnimationWithAttack();
         }
     });
-    auto animateSeq = Sequence::create(getDefaultAnimate(),animateCallback, NULL);
+    auto animateSeq = Sequence::create(getAnimateAt(0),animateCallback, NULL);
     runAction(animateSeq);
 }
 
@@ -269,7 +269,7 @@ void TransferDoor::onExit()
 
 void TransferDoor::run()
 {
-    auto animate = getDefaultAnimate();
+    auto animate = getAnimateAt(0);
     runAction(RepeatForever::create(animate));
 }
 
@@ -634,7 +634,7 @@ void Monster::doTileDestory()
 
 void LvDai::doTileAnimation()
 {
-    runAction(RepeatForever::create(getDefaultAnimate()));
+    runAction(RepeatForever::create(getAnimateAt(0)));
 }
 
 void LvDai::onEnter()
@@ -646,7 +646,7 @@ void LvDai::onEnter()
 #pragma mark ----------------鬼火-------------------
 void GuiHuo::run()
 {
-    runAction(RepeatForever::create(getDefaultAnimate()));
+    runAction(RepeatForever::create(getAnimateAt(0)));
 }
 
 #pragma mark ----------------食人类的物种------------------
@@ -916,4 +916,57 @@ void DiDong::update(float delta)
         }), NULL));
     }
 }
+
+#pragma mark ------------树手-----------------------
+
+void ShuShou::update(float delta)
+{
+    auto player = GameManager::getInstance()->getPlayer();
+    auto playerRect = player->getBoundingBox();
+    playerRect.size.height = 20;
+    auto rect = getBoundingBox();
+    rect.origin = getPosition()-Point(TILE_WIDTH/2,0);
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+    if(rect.intersectsRect(playerRect))
+    {
+        player->beAttack(33);
+    }
+}
+
+void ShuShou::run()
+{
+    unscheduleUpdate();
+    /* 攻击的延迟  */
+    auto delayTime = getArgAt(2);
+    auto delayAct = DelayTime::create(delayTime);
+    runAction(Sequence::create(delayAct,CallFunc::create([&]()->void{
+        this->doTileAnimation();
+    }), NULL));
+}
+
+void ShuShou::doTileAnimation()
+{
+    // 1攻击 2停顿1秒 3执行隐藏 4停顿4秒 5循环执行
+    auto startCallback = CallFunc::create([&]()->void{
+        this->scheduleUpdate();
+    });
+    
+    auto endCallback = CallFunc::create([&]()->void{
+        this->unscheduleUpdate();
+    });
+    auto animateSeq = Sequence::create(startCallback,getAnimateAt(1),endCallback,getAnimateAt(0),DelayTime::create(4),CallFunc::create([&]()->void{
+        this->doTileAnimation();
+    }), NULL);
+    runAction(animateSeq);
+}
+
+int ShuShou::getArgAt(int idx)
+{
+    return atoi(m_pMapCell->getArgs().at(idx)->getValue().c_str());
+}
+
+
+
+
+
 

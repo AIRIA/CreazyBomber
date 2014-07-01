@@ -111,9 +111,12 @@ bool GameScene::init()
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
     textureFiles.push_back("textures/zh_cn/locale_4-hd");
     
-    std::string mapName = "textures/zh_cn/"+MapUtil::getInstance()->getMapName()+"-hd";
-    textureFiles.push_back(mapName);
-    
+    setMapName(MapUtil::getInstance()->getMapName());
+    if(isShowTip())
+    {
+        std::string mapTip = "textures/zh_cn/"+getMapName()+"-hd";
+        textureFiles.push_back(mapTip);
+    }
     
     char playerTextureName[50];
     sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::getInstance()->getSelectRoleName().c_str());
@@ -130,18 +133,8 @@ void GameScene::onTexturesLoaded()
     auto util = MapUtil::getInstance();
     BaseLayer::onTexturesLoaded();
     MapUtil::getInstance()->initMapSize();
-    /* 显示提示UI */
-    auto wrapper = Node::create();
-    auto tipBg = SPRITE("default.png");
-    std::string tipName = util->getMapName()+".png";
-    auto tip = SPRITE(tipName);
-    wrapper->addChild(tipBg);
-    wrapper->addChild(tip);
-    wrapper->setPosition(VisibleRect::center());
-    addChild(wrapper);
-    wrapper->setScale(GameManager::getInstance()->getScaleFactor());
-    wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
-        
+    
+    auto startGame = [&]()->void{
         Util::playSound(SOUND_SCENE_BG,true);
         
         auto util = MapUtil::getInstance();
@@ -167,7 +160,7 @@ void GameScene::onTexturesLoaded()
         auto commonTileLayer = util->getCommonTileLayer();
         auto borderLayer = util->addTileMapBorder();
         
-
+        
         auto mapSizeInPixle = util->getMapSizeInPixle();
         mapLayer->setContentSize(mapSizeInPixle);
         
@@ -179,18 +172,39 @@ void GameScene::onTexturesLoaded()
         
         mapLayer->setAnchorPoint(Point(0.0f,1.0f));
         mapLayer->setPosition(Point(-TILE_WIDTH/2*m_fScaleFactor,m_winSize.height+TILE_HEIGHT/2*m_fScaleFactor));
-//        if(mapSize.height==9)
-//        {
-//            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
-//            mapLayer->setPositionY(m_winSize.height/2);
-//        }
+        //        if(mapSize.height==9)
+        //        {
+        //            mapLayer->setAnchorPoint(Point(0.0f,0.5f));
+        //            mapLayer->setPositionY(m_winSize.height/2);
+        //        }
         
         mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
         addChild(mapLayer);
         addUIComponents();
         addChild(SettingLayer::getInstance());
         addChild(ResultLayer::create());
-    }), NULL));
+    };
+    if(isShowTip()==false)
+    {
+        startGame();
+    }
+    else
+    {
+        /* 显示提示UI */
+        auto wrapper = Node::create();
+        auto tipBg = SPRITE("default.png");
+        std::string tipName = util->getMapName()+".png";
+        auto tip = SPRITE(tipName);
+        wrapper->addChild(tipBg);
+        wrapper->addChild(tip);
+        wrapper->setPosition(VisibleRect::center());
+        addChild(wrapper);
+        wrapper->setScale(GameManager::getInstance()->getScaleFactor());
+        wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&]()->void{
+            startGame();
+        }), NULL));
+    }
+   
     
     return;
 }
@@ -248,4 +262,23 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
         item->setPosition(mapObj->convertCoordinate2Point(Point(col,row)));
         GameManager::getInstance()->getMapTileLayer()->addChild(item);
     }
+}
+
+bool GameScene::isShowTip()
+{
+    auto level = atoi(getMapName().c_str());
+    if(level>2104)
+    {
+        return false;
+    }
+//    std::vector<std::string> ignoreTips = {"2201","2105","2106","2107","2108"};
+//    auto tipIt = ignoreTips.begin();
+//    while (tipIt!=ignoreTips.end()) {
+//        if(*tipIt==getMapName())
+//        {
+//            return false;
+//        }
+//        tipIt++;
+//    }
+    return true;
 }

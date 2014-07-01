@@ -90,7 +90,7 @@ public:
     
     virtual void update(float delta);
     
-    Animate *getDefaultAnimate();
+    Animate *getAnimateAt(int idx);
     /**
      * 根据当前的坐标获取所在的行列信息
      */
@@ -288,5 +288,17 @@ protected:
     Point m_pPlayerCoordiante;
 };
 
+#pragma mark ------------树手-----------------------
+
+class ShuShou:public MapObject
+{
+public:
+    MAPOBJ_CREATE(ShuShou);
+    virtual void update(float delta);
+    virtual void run();
+    virtual void doTileAnimation();
+protected:
+    int getArgAt(int idx);
+};
 
 #endif /* defined(__CreazyBomber__MapObject__) */

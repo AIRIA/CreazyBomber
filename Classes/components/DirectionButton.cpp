@@ -146,7 +146,7 @@ EventListenerTouchOneByOne *DirectionButton::getInnerEventListener()
             this->setCurrentDirectionArrow(wrapper->getChildByTag(tag));
             GameManager::getInstance()->setSpeed(speed);
         };
-        float speed = GameManager::getInstance()->getPlayer()->getSpeed()/2.5f;
+        float speed = GameManager::getInstance()->getPlayer()->getSpeed()/1.8f;
         if(degree>=-135&&degree<-45)
         {
             setDirection(WalkDirection::kWalkDown,kDirectionDown,Point(0,-speed));
