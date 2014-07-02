@@ -287,9 +287,9 @@ MapObject *MapUtil::getMapObject(std::string name)
 //        case kCellTypeWanDou:
 //            element = GroundTile::create(mapCell);
 //            break;
-//        case kCellTypeDiCi:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeDiCi:
+            element = DiCi::create(mapCell);
+            break;
         case kCellTypeLvDai:
             element = LvDai::create(mapCell);
             break;

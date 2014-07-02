@@ -108,6 +108,8 @@ public:
      * 地图对象的类型(比如地图瓦片,出生点,怪物,箱子,树木 等等)
      **/
     CC_SYNTHESIZE(int, m_iType, Type);
+protected:
+    int getArgAt(int idx);
 };
 
 /**
@@ -148,9 +150,7 @@ protected:
     void _enableTransfor(Ref *pSender);
 };
 
-/**
- * monster类型的tile 可以攻击英雄
- */
+#pragma mark monster类型的tile 可以攻击英雄
 class Monster:public MapObject
 {
 public:
@@ -191,9 +191,12 @@ protected:
     CC_SYNTHESIZE(float, m_fSpeedRate, SpeedRate);
 };
 
-/**
- * 炸弹人在上面走的时候会有速度的变化
- **/
+class MonsterBoss:public Monster
+{
+    
+};
+
+#pragma mark 炸弹人在上面走的时候会有速度的变化
 class LvDai:public MapObject
 {
 public:
@@ -203,9 +206,7 @@ public:
     virtual void update(float delta);
 };
 
-/**
- * 鬼灯 可以移动
- */
+#pragma mark 鬼灯 可以移动
 class GuiHuo:public MapObject
 {
 public:
@@ -213,9 +214,7 @@ public:
     virtual void run();
 };
 
-/**
- * 食人鱼 食人花 幽灵 吃人的建筑
- */
+#pragma mark 食人鱼 食人花 幽灵 吃人的建筑
 class ManEater:public MapObject
 {
 public:
@@ -225,10 +224,7 @@ public:
     virtual void onAttack();
 };
 
-/**
- *
- * 张嘴吐雪球的人
- */
+#pragma mark 张嘴吐雪球的人
 class SnowBallMan:public MapObject
 {
 public:
@@ -236,10 +232,7 @@ public:
     virtual void run();
 };
 
-/**
- * 地图的边界元素
- *
- */
+#pragma mark 地图的边界元素
 class MapBorder:public MapObject
 {
 public:
@@ -298,8 +291,6 @@ public:
     virtual void update(float delta);
     virtual void run();
     virtual void doTileAnimation();
-protected:
-    int getArgAt(int idx);
 };
 
 #pragma mark ------------地刺-----------------------
@@ -310,6 +301,7 @@ public:
     MAPOBJ_CREATE(DiCi);
     virtual void update(float delta);
     virtual void run();
+    virtual void doTileAnimation();
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

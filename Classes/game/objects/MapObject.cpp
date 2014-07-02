@@ -39,6 +39,11 @@ void MapObject::run()
     doAnimationWithAttack();
 }
 
+int MapObject::getArgAt(int idx)
+{
+    return atoi(m_pMapCell->getArgs().at(idx)->getValue().c_str());
+}
+
 /**
  * 根据MapCell的数据 来创建指定的tile的行为和显示信息
  */
@@ -991,13 +996,41 @@ void ShuShou::doTileAnimation()
     runAction(animateSeq);
 }
 
-int ShuShou::getArgAt(int idx)
-{
-    return atoi(m_pMapCell->getArgs().at(idx)->getValue().c_str());
-}
 
 #pragma mark ------------地刺-----------------------
 
+void DiCi::update(float delta)
+{
+    auto player = GameManager::getInstance()->getPlayer();
+    auto playerRect = player->getBoundingBox();
+    auto rect = getBoundingBox();
+    rect.origin = getPosition()-Point(TILE_WIDTH/2,0);
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+    if(rect.intersectsRect(playerRect))
+    {
+        player->beAttack(33);
+    }
+}
 
+void DiCi::run()
+{
+    unscheduleUpdate();
+    doTileAnimation();
+}
 
+void DiCi::doTileAnimation()
+{
+    auto startCallback = CallFunc::create([&]()->void{
+        this->scheduleUpdate();
+    });
+    
+    auto endCallback = CallFunc::create([&]()->void{;
+        this->unscheduleUpdate();
+    });
+    auto delay = DelayTime::create(rand()%3+1);
+    auto seq = Sequence::create(delay,startCallback,getAnimateAt(1),endCallback,getAnimateAt(0),CallFunc::create([&]()->void{
+        this->doTileAnimation();
+    }), NULL);
+    runAction(seq);
+}
 
