@@ -171,6 +171,7 @@ public:
      * 怪物走过的路径 保存怪物的巡逻范围
      */
     std::vector<Point> &getRoutePoint(){return m_vRoutePoint;};
+    virtual void createAnimation(std::string suffix,Point &startPos);
     
 protected:
     std::vector<WalkDirection> testDirections;
@@ -193,7 +194,9 @@ protected:
 
 class MonsterBoss:public Monster
 {
-    
+public:
+    bool initWithCell(MapCell *mapCell);
+    virtual void run();
 };
 
 #pragma mark 炸弹人在上面走的时候会有速度的变化

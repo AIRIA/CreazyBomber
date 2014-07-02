@@ -80,6 +80,7 @@ bool GameScene::init()
     if (!BaseLayer::init()) {
         return false;
     }
+    auto config = GameConfig::getInstance();
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     auto scaleH = m_winSize.height/DESIGN_HEIGHT;
     auto manager = GameManager::getInstance();
@@ -137,6 +138,10 @@ bool GameScene::init()
         std::string mapTip = "textures/zh_cn/"+getMapName()+"-hd";
         textureFiles.push_back(mapTip);
     }
+    if (config->getSelectLevel()==12) {
+        textureFiles.push_back(__String::createWithFormat("textures/monster_%s_boss-hd",config->getSelectSceneName().c_str())->getCString());
+    }
+    
     
     char playerTextureName[50];
     sprintf(playerTextureName, "textures/player_%s-hd",GameConfig::getInstance()->getSelectRoleName().c_str());

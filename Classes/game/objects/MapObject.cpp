@@ -551,7 +551,10 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     auto texture = monsterFrame->getTexture();
     auto monsterRect = monsterFrame->getRect();
     int frameNum = monsterRect.size.width/frameWidth;
-    
+    if(fileName=="md_MB_kulouwang.png")
+    {
+        frameNum = 4;
+    }
     auto createAnimate = [&](std::string suffix,Point &startPos)->void{
         char animationName[50];
         sprintf(animationName, "%s_%s",fileName.c_str(),suffix.c_str());
@@ -572,6 +575,19 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     };
     
     std::vector<std::string> suffixVec = {"up","right","left","down"};
+    
+    if(fileName=="md_MB_kulouwang.png"||fileName=="bc_MB_zhangyuguai.png")
+    {
+        suffixVec.push_back("attack");
+        suffixVec.push_back("die");
+    }
+    
+    if(fileName=="cl_MB_yuanren.png")
+    {
+        suffixVec.push_back("attack");
+        suffixVec.push_back("prepare_attack");
+    }
+    
     auto suffixIt = suffixVec.begin();
     auto idx = 0;
     while (suffixIt!=suffixVec.end()) {
@@ -581,7 +597,23 @@ bool Monster::initWithMapCell(MapCell *mapCell)
         idx++;
                     
     }
+    
+    if(fileName=="cl_MB_yuanren.png")
+    {
+        auto pos = Point(0,0);
+        monsterFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("cl_MB_yuanren_siwang.png");
+        texture = monsterFrame->getTexture();
+        monsterRect = monsterFrame->getRect();
+        frameNum = monsterRect.size.width/frameWidth;
+        createAnimate("die1",pos);
+    }
+    
     return true;
+}
+
+void Monster::createAnimation(std::string suffix, cocos2d::Point &startPos)
+{
+    
 }
 
 void Monster::walk(WalkDirection direc)
@@ -629,7 +661,39 @@ void Monster::doTileDestory()
     Util::playEffect(SOUND_MONSTER_BOMBED_DEAD);
 }
 
+#pragma mark ----------------Monster Boss-------------------
 
+bool MonsterBoss::initWithCell(MapCell *mapCell)
+{
+    Monster::initWithMapCell(mapCell);
+    if(getMapCell()->getFileName()=="cl_MB_yuanren.png")
+    {
+        auto animationName = __String::createWithFormat("%s_die1",getMapCell()->getFileName().c_str())->getCString();
+        if(AnimationCache::getInstance()->getAnimation(animationName))
+        {
+            return true;
+        }
+        else
+        {
+            auto frameWidth = getMapCell()->getAnimations().at(0)->getWidth()*2;
+            auto frameHeight = getMapCell()->getAnimations().at(0)->getHeight()*2;
+            auto monsterFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("cl_MB_yuanren_siwang.png");
+            auto texture = monsterFrame->getTexture();
+            auto monsterRect = monsterFrame->getRect();
+            int frameNum = monsterRect.size.width/frameWidth;
+            Vector<SpriteFrame*> frameVec;
+            for (auto i=0; i<frameNum; i++) {
+                auto rect = Rect(monsterRect.origin.x+i*frameWidth,monsterRect.origin.y,frameWidth,frameHeight);
+                auto frame = SpriteFrame::createWithTexture(texture, rect);
+                frameVec.pushBack(frame);
+            }
+            auto animation = Animation::createWithSpriteFrames(frameVec);
+            animation->setDelayPerUnit(getMapCell()->getAnimations().at(0)->getFrameTime());
+            AnimationCache::getInstance()->addAnimation(animation,animationName);
+        }
+    }
+    return true;
+}
 
 #pragma mark ----------------履带-------------------
 
