@@ -159,6 +159,7 @@ public:
     virtual void onEnter();
     virtual void update(float delta);
     virtual void doTileDestory();
+    virtual void doTileAttack();
     
     bool initWithMapCell(MapCell *mapCell);
     /**
@@ -171,7 +172,6 @@ public:
      * 怪物走过的路径 保存怪物的巡逻范围
      */
     std::vector<Point> &getRoutePoint(){return m_vRoutePoint;};
-    virtual void createAnimation(std::string suffix,Point &startPos);
     
 protected:
     std::vector<WalkDirection> testDirections;

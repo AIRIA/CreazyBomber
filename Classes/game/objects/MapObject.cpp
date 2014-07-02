@@ -361,7 +361,7 @@ Monster *Monster::create(MapCell *mapCell)
 
 void Monster::onEnter()
 {
-    MapObject::onEnter();
+    
     auto id = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
     auto pro = MapUtil::getInstance()->getMonsterProperyById(id);
     if(pro==nullptr)
@@ -377,11 +377,64 @@ void Monster::onEnter()
     auto manager = GameManager::getInstance();
     manager->setMonsterCount(manager->getMonsterCount()+1);
     NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
+    MapObject::onEnter();
 }
 
 void Monster::run()
 {
     walk(kWalkRight);
+    doTileAttack();
+}
+
+void Monster::doTileAttack()
+{
+    auto delay = DelayTime::create(rand()%5+5);
+    auto skillStr = getMonsterProperty()->getSkills();
+    
+    auto split = [](const std::string &s, char delim, std::vector<std::string> &elems)->std::vector<std::string>&{
+        std::stringstream ss(s);
+        std::string item;
+        while (std::getline(ss, item, delim)) {
+            elems.push_back(item);
+        }
+        return elems;
+    };
+    std::vector<std::string> skills;
+    skills = split(skillStr,',',skills);
+    
+    auto start = CallFunc::create([&]()->void{
+        this->setIsCollison(false);
+        this->setVecSpeed(Point::ZERO);
+        walk(kWalkDown);
+        this->stopActionByTag(10010);
+    });
+    
+    auto end = CallFunc::create([&]()->void{
+        float speed = getMonsterProperty()->getSpeed()/30.0f;
+        setSpeedRate(2);
+        this->setIsCollison(true);
+        this->doTileAttack();
+    });
+
+    auto skillLen = skills.size();
+    if(skillLen==0)
+    {
+        return;
+    }
+    auto skillIdx = rand()%skillLen;
+    auto skill = atoi(skills.at(skillIdx).c_str());
+    
+    std::string animationName;
+    
+    if(getMapCell()->getFileName()=="cl_MB_yuanren.png"&&(skill==1||skill==2))
+    {
+        animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"prepare_attack")->getCString();
+    }else{
+        animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"attack")->getCString();
+    }
+    auto attack = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
+    runAction(Sequence::create(delay,start,attack,end,nullptr));
+    
 }
 
 /* 在这里执行NPC的AI逻辑 */
@@ -611,14 +664,10 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     return true;
 }
 
-void Monster::createAnimation(std::string suffix, cocos2d::Point &startPos)
-{
-    
-}
-
 void Monster::walk(WalkDirection direc)
 {
-    stopAllActions();
+//    stopAllActions();
+    stopActionByTag(10010);
     auto suffix = "up";
     switch (direc) {
         case kWalkUp:
@@ -640,7 +689,9 @@ void Monster::walk(WalkDirection direc)
     sprintf(animateName, "%s_%s",m_pMapCell->getFileName().c_str(),suffix);
     auto animation = AnimationCache::getInstance()->getAnimation(animateName);
     auto walkAct = Animate::create(animation);
-    runAction(RepeatForever::create(walkAct));
+    auto action = RepeatForever::create(walkAct);
+    action->setTag(10010);
+    runAction(action);
 }
 
 void Monster::doTileDestory()
