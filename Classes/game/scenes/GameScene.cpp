@@ -140,6 +140,7 @@ bool GameScene::init()
     }
     if (config->getSelectLevel()==12) {
         textureFiles.push_back(__String::createWithFormat("textures/monster_%s_boss-hd",config->getSelectSceneName().c_str())->getCString());
+        textureFiles.push_back("textures/monster_bomb-hd");
     }
     
     

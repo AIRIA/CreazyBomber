@@ -9,6 +9,7 @@
 #include "MapObject.h"
 #include "game/MapUtil.h"
 #include "game/GameManager.h"
+#include "game/objects/MonsterSkills.h"
 
 void MapObject::onEnter()
 {
@@ -492,7 +493,20 @@ void Monster::doTileAttack()
 
 void Monster::fire(int length)
 {
-    
+    auto mid = length/2;
+    for (auto i=-mid; i<=mid; i++) {
+        for (auto j=-mid; j<=mid; j++) {
+            if((i==mid||i==-mid||j==mid||j==-mid))
+            {
+                auto col = getCol()+i;
+                auto row = getRow()+j;
+                auto fire = MonsterFire::create();
+                fire->setCol(col);
+                fire->setRow(row);
+                GameManager::getInstance()->getMapLayer()->addChild(fire);
+            }
+        }
+    }
 }
 
 void Monster::bullet(int length)

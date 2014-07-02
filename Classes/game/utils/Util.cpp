@@ -32,3 +32,26 @@ void Util::playEffect(std::string effect,bool repeat)
         SimpleAudioEngine::getInstance()->playEffect(effect.c_str(),repeat);
     }
 }
+
+void Util::addAnimation(std::string fileName, int frameNum)
+{
+    auto animation = AnimationCache::getInstance()->getAnimation(fileName);
+    if(animation)
+    {
+        return;
+    }
+    auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
+    auto textureRect = frame->getRect();
+    auto frameWidth = textureRect.size.width/frameNum;
+    auto frameHeight = textureRect.size.height;
+    Vector<SpriteFrame*> frameVec;
+    for(auto i=0;i<frameNum;i++)
+    {
+        auto rect = Rect(textureRect.origin.x+frameWidth*i,textureRect.origin.y,frameWidth,frameHeight);
+        auto spriteFrame = SpriteFrame::createWithTexture(frame->getTexture(), rect);
+        frameVec.pushBack(spriteFrame);
+    }
+    animation = Animation::createWithSpriteFrames(frameVec);
+    animation->setDelayPerUnit(0.15f);
+    AnimationCache::getInstance()->addAnimation(animation,fileName);
+}

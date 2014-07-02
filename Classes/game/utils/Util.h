@@ -17,6 +17,10 @@ public:
     static std::string itoa(int i);
     static void playSound(std::string sound,bool repeat=false);
     static void playEffect(std::string effect,bool repeat=false);
+    /**
+     * 解析单行动画纹理
+     */
+    static void addAnimation(std::string fileName,int frameNum);
 };
 
 #endif /* defined(__CreazyBomber__Util__) */
