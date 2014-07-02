@@ -402,19 +402,6 @@ void Monster::doTileAttack()
     std::vector<std::string> skills;
     skills = split(skillStr,',',skills);
     
-    auto start = CallFunc::create([&]()->void{
-        this->setIsCollison(false);
-        this->setVecSpeed(Point::ZERO);
-        walk(kWalkDown);
-        this->stopActionByTag(10010);
-    });
-    
-    auto end = CallFunc::create([&]()->void{
-        float speed = getMonsterProperty()->getSpeed()/30.0f;
-        setSpeedRate(2);
-        this->setIsCollison(true);
-        this->doTileAttack();
-    });
 
     auto skillLen = skills.size();
     if(skillLen==0)
@@ -423,6 +410,72 @@ void Monster::doTileAttack()
     }
     auto skillIdx = rand()%skillLen;
     auto skill = atoi(skills.at(skillIdx).c_str());
+    
+    auto start = CallFunc::create([&]()->void{
+        this->setIsCollison(false);
+        this->setVecSpeed(Point::ZERO);
+        walk(kWalkDown);
+        this->stopActionByTag(10010);
+    });
+    
+    auto end = CallFunc::create([&,skill]()->void{
+        this->setIsCollison(true);
+        this->doTileAttack();
+        switch (skill) {
+            case 1:
+                this->fire(4);
+                break;
+            case 2:
+                this->fire(5);
+                break;
+            case 3:
+                this->callMonster(1);
+                break;
+            case 4:
+                this->callMonster(2);
+                break;
+            case 5:
+                this->bullet(3);
+                break;
+            case 6:
+                this->bullet(4);
+                break;
+            case 7:
+                this->guzhua(2);
+                break;
+            case 8:
+                this->guzhua(3);
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+                this->bullet(4);
+                break;
+            case 12:
+                this->bullet(5);
+                break;
+            case 13:
+                break;
+            case 14:
+                break;
+            case 15:
+                this->callMonster(3);
+                break;
+            case 16:
+                this->callMonster(4);
+                break;
+            case 17:
+                this->bullet(5);
+                break;
+            case 18:
+                this->bullet(6);
+                break;
+            default:
+                break;
+        }
+    });
     
     std::string animationName;
     
@@ -434,6 +487,26 @@ void Monster::doTileAttack()
     }
     auto attack = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     runAction(Sequence::create(delay,start,attack,end,nullptr));
+    
+}
+
+void Monster::fire(int length)
+{
+    
+}
+
+void Monster::bullet(int length)
+{
+    
+}
+
+void Monster::callMonster(int type)
+{
+    
+}
+
+void Monster::guzhua(int length)
+{
     
 }
 

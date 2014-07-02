@@ -173,6 +173,24 @@ public:
      */
     std::vector<Point> &getRoutePoint(){return m_vRoutePoint;};
     
+    /**
+     * 定距离范围内放火
+     */
+    void fire(int length);
+    /**
+     * 召唤怪物
+     */
+    void callMonster(int type);
+    /**
+     * 发射子弹 飞行指定的距离
+     */
+    void bullet(int length);
+    /**
+     * 添加骨爪
+     */
+    void guzhua(int length);
+    
+    
 protected:
     std::vector<WalkDirection> testDirections;
     std::vector<Point> m_vRoutePoint;
@@ -190,6 +208,7 @@ protected:
     CC_SYNTHESIZE(WalkDirection, m_smartDirection, SmartDirection);
     CC_SYNTHESIZE(bool, m_bSmartWalk, SmartWalk);
     CC_SYNTHESIZE(float, m_fSpeedRate, SpeedRate);
+    
 };
 
 class MonsterBoss:public Monster
