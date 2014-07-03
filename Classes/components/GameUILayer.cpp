@@ -85,7 +85,7 @@ void GameUILayer::onTexturesLoaded()
     
     //玩家的装备信息
     auto infoNode = Node::create();
-    infoNode->setScale(m_fScaleFactor*1.5);
+    infoNode->setScale(m_fScaleFactor*1.2);
     auto playerInfo = SPRITE("role_info_bg.png");
     playerInfo->setAnchorPoint(Point(0.5f,1.0f));
     infoNode->addChild(playerInfo);

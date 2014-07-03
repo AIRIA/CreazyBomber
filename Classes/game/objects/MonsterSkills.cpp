@@ -31,9 +31,8 @@ void MonsterFire::onEnter()
     auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
     auto anchor = getAnchorPoint();
     setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
-    setZOrder(getRow()*10);
-    
     auto sprite = Sprite::create();
+    sprite->setAnchorPoint(Point::ZERO);
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(getFileName()));
     sprite->runAction(Sequence::create(animate,CallFunc::create([&]()->void{
         this->removeFromParent();

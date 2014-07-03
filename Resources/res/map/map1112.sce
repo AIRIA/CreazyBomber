@@ -24,7 +24,5 @@
 	<Cell Name="木箱" X="6" Y="7" />
 	<Cell Name="通关点-1" X="7" Y="7" />
 	<Cell Name="猿人" X="9" Y="7" arg0="7" />
-	<Cell Name="丛林图腾1" X="5" Y="8" />
-	<Cell Name="蘑菇怪" X="9" Y="8" arg0="1" />
-	<Cell Name="丛林图腾1" X="10" Y="8" />
+	<Cell Name="蘑菇怪" X="9" Y="7" arg0="1" />
 </Project>

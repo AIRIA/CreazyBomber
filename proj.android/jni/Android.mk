@@ -24,6 +24,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 		   		   ../../Classes/game/objects/BigBuilding.cpp \
                    ../../Classes/game/objects/MapCell.cpp \
 				   ../../Classes/game/objects/Player.cpp \
+				   ../../Classes/game/objects/MonsterSkills.cpp \
 				   ../../Classes/game/objects/Bomb.cpp \
 		   		   ../../Classes/components/MapLayer.cpp \
                    ../../Classes/game/GameConfig.cpp \

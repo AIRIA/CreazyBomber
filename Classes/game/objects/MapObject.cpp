@@ -421,7 +421,6 @@ void Monster::doTileAttack()
     
     auto end = CallFunc::create([&,skill]()->void{
         this->setIsCollison(true);
-        this->doTileAttack();
         switch (skill) {
             case 1:
                 this->fire(4);
@@ -487,12 +486,15 @@ void Monster::doTileAttack()
         animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"attack")->getCString();
     }
     auto attack = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
-    runAction(Sequence::create(delay,start,attack,end,nullptr));
+    runAction(Sequence::create(delay,start,attack, end,DelayTime::create(0.5f),CallFunc::create([&]()->void{
+        this->doTileAttack();
+    }), nullptr));
     
 }
 
 void Monster::fire(int length)
 {
+    auto mapUtil = MapUtil::getInstance();
     auto mid = length/2;
     for (auto i=-mid; i<=mid; i++) {
         for (auto j=-mid; j<=mid; j++) {
@@ -500,10 +502,15 @@ void Monster::fire(int length)
             {
                 auto col = getCol()+i;
                 auto row = getRow()+j;
-                auto fire = MonsterFire::create();
-                fire->setCol(col);
-                fire->setRow(row);
-                GameManager::getInstance()->getMapLayer()->addChild(fire);
+                auto coordinate = Point(col,row);
+                auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), coordinate);
+                if(tile==nullptr&&mapUtil->isBorder(coordinate)==false)
+                {
+                    auto fire = MonsterFire::create();
+                    fire->setCol(col);
+                    fire->setRow(row);
+                    getParent()->addChild(fire);
+                }
             }
         }
     }
@@ -516,6 +523,41 @@ void Monster::bullet(int length)
 
 void Monster::callMonster(int type)
 {
+    auto mapUtil = MapUtil::getInstance();
+    std::string monsterName;
+    switch (type) {
+        case 1:
+            monsterName = "猪怪";
+            break;
+        case 2:
+             monsterName = "猴怪";
+            break;
+        case 3:
+             monsterName = "小章鱼(怪)";
+            break;
+        case 4:
+             monsterName = "章鱼(Boss)";
+            break;
+            
+        default:
+            break;
+    }
+    auto it = mapUtil->getMapCells().begin();
+    while (it!=mapUtil->getMapCells().end()) {
+        if((*it)->getCellName()==monsterName)
+        {
+            break;
+        }
+        it++;
+    }
+    auto mapCell = *it;
+    for(auto i=0;i<3;i++)
+    {
+        auto monster = Monster::create(mapCell);
+        monster->setCol(getCol());
+        monster->setRow(getRow());
+        getParent()->addChild(monster);
+    }
     
 }
 
