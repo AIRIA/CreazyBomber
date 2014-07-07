@@ -172,7 +172,12 @@ void GameUILayer::_showBossHp(cocos2d::Ref *pSender)
 void GameUILayer::_updateBossHp(cocos2d::Ref *pSender)
 {
     int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
-    auto progressTo = ProgressFromTo::create(1.0f, bossHpBar->getPercentage(), bossHpBar->getPercentage()-*hurt/10.0f);
+    auto targetHP = bossHpBar->getPercentage()-*hurt/1.0f;
+    if(targetHP<=0)
+    {
+        NotificationCenter::getInstance()->postNotification(BOSS_DEAD);
+    }
+    auto progressTo = ProgressFromTo::create(1.0f, bossHpBar->getPercentage(), targetHP);
     bossHpBar->runAction(progressTo);
 }
 

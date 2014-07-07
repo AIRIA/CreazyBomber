@@ -261,6 +261,11 @@ void TransferDoor::onEnter()
     MapObject::onEnter();
     setZOrder(-1);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(TransferDoor::_enableTransfor), GAME_PASS, nullptr);
+    auto config = GameConfig::getInstance();
+    if(config->getSelectSceneName()=="md"&&config->getSelectLevel()==4)
+    {
+        _enableTransfor(nullptr);
+    }
     unscheduleUpdate();
 }
 
@@ -288,6 +293,10 @@ void TransferDoor::_enableTransfor(cocos2d::Ref *pSender)
 
 void TransferDoor::update(float delta)
 {
+    if(GameManager::getInstance()->getIsGameOver())
+    {
+        return;
+    }
     auto rect = getBoundingBox();
     auto playerRect = GameManager::getInstance()->getPlayer()->Node::getBoundingBox();
     playerRect.origin.x = playerRect.origin.x+playerRect.size.width/2;
@@ -391,6 +400,7 @@ void Monster::onEnter()
 
 void Monster::bossDead(Ref *pSender)
 {
+    stopAllActions();
     auto animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"dead")->getCString();
     auto dead = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     runAction(Sequence::create(dead,CallFunc::create([&]()->void{
@@ -548,6 +558,7 @@ void Monster::bullet(int length)
 
 void Monster::callMonster(int type)
 {
+    return;
     auto mapUtil = MapUtil::getInstance();
     std::string monsterName;
     switch (type) {
@@ -828,7 +839,7 @@ bool Monster::initWithMapCell(MapCell *mapCell)
         texture = monsterFrame->getTexture();
         monsterRect = monsterFrame->getRect();
         frameNum = monsterRect.size.width/frameWidth;
-        createAnimate("die1",pos);
+        createAnimate("dead",pos);
     }
     
     return true;

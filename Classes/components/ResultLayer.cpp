@@ -117,30 +117,19 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)
 {
-    auto config = GameConfig::getInstance();
-    auto key = __String::createWithFormat("key_%s_level",config->getSelectSceneName().c_str())->getCString();
-    
-    if (config->getSelectLevel()<12&&config->getSelectLevel()==__userDefault->getIntegerForKey(key))
-    {
-        __userDefault->setIntegerForKey(key,config->getSelectLevel()+1);
-    }
-    else
-    {
-        std::string sceneName = GameConfig::getInstance()->getSelectSceneName();
-        if(sceneName=="cl")
-        {
-            __userDefault->setBoolForKey(KEY_MD, true);
-        }
-        else if(sceneName=="md")
-        {
-            __userDefault->setBoolForKey(KEY_BC, true);
-        }
-    }
-    
-    Util::playEffect(SOUND_INGAME_WIN);
     _changeBgColor();
+    auto config = GameConfig::getInstance();
+    auto scaleFactor = GameManager::getInstance()->getScaleFactor();
+    auto key = __String::createWithFormat("key_%s_level",config->getSelectSceneName().c_str())->getCString();
+    auto scaleAct = ScaleTo::create(0.3f, scaleFactor);
+    auto scaleEase = EaseBackOut::create(scaleAct);
+    auto spawn = Spawn::create(FadeTo::create(0.3, 255),scaleEase, NULL);
+    auto hideAct = ScaleTo::create(0.3, 2*scaleFactor);
+    auto hideEase = EaseBackIn::create(hideAct);
+    auto hideSpawn = Spawn::create(FadeOut::create(0.3f),hideEase, NULL);
     
     auto showResultPanel = [&](Node *parent)->void{
+        Util::playEffect(SOUND_INGAME_WIN);
         /* 显示结果面板 */
         auto wrapper = Node::create();
         wrapper->setScale(GameManager::getInstance()->getScaleFactor());
@@ -198,22 +187,45 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         parent->addChild(wrapper);
     };
     
+    if (config->getSelectLevel()<12&&config->getSelectLevel()==__userDefault->getIntegerForKey(key))
+    {
+        __userDefault->setIntegerForKey(key,config->getSelectLevel()+1);
+    }
+    else
+    {
+        std::string sceneName = GameConfig::getInstance()->getSelectSceneName();
+        auto key = "unlock_md.png";
+        if(sceneName=="cl")
+        {
+            __userDefault->setBoolForKey(KEY_MD, true);
+        }
+        else if(sceneName=="md")
+        {
+            __userDefault->setBoolForKey(KEY_BC, true);
+            key = "unlock_bc.png";
+        }
+        auto sprite = SPRITE(key);
+        sprite->setOpacity(0);
+        sprite->setScale(0.5f*scaleFactor);
+        sprite->setPosition(VisibleRect::center());
+        addChild(sprite);
+        auto seq = Sequence::create(spawn,DelayTime::create(2),hideSpawn,CallFunc::create([&]()->void{
+            showResultPanel(this);
+        }), NULL);
+        sprite->runAction(seq);
+        return;
+    }
+    
     /* 设置解锁信息 */
     key = __String::createWithFormat("key_%s_battle",config->getSelectSceneName().c_str())->getCString();
     if(config->getSelectLevel()==1&&__userDefault->getBoolForKey(key)==false)
     {
         __userDefault->setBoolForKey(key, true);
-        auto scaleFactor = GameManager::getInstance()->getScaleFactor();
+        
         auto unlockSprite = SPRITE(__String::createWithFormat("unlock_%s_challenge.png",config->getSelectSceneName().c_str())->getCString());
         unlockSprite->setPosition(VisibleRect::center());
         unlockSprite->setOpacity(0);
         unlockSprite->setScale(0.5*scaleFactor);
-        auto scaleAct = ScaleTo::create(0.3f, scaleFactor);
-        auto scaleEase = EaseBackOut::create(scaleAct);
-        auto spawn = Spawn::create(FadeTo::create(0.3, 255),scaleEase, NULL);
-        auto hideAct = ScaleTo::create(0.3, 2*scaleFactor);
-        auto hideEase = EaseBackIn::create(hideAct);
-        auto hideSpawn = Spawn::create(FadeOut::create(0.3f),hideEase, NULL);
         auto seq = Sequence::create(spawn,DelayTime::create(2),hideSpawn,CallFunc::create([&,this]()->void{
             log("%f",this->getContentSize().width);
             showResultPanel(this);
