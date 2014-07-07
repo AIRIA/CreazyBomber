@@ -24,6 +24,7 @@ void Player::onEnter()
     MapObject::onEnter();
     scheduleUpdateWithPriority(10);
     Util::playEffect(SOUND_PLAYER_BIRTH);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Player::_revive), PLAYER_REVIVE, nullptr);
 }
 
 Player *Player::create(MapCell *mapCell)
@@ -166,6 +167,20 @@ void Player::die()
     runAction(dieSeq);
 }
 
+void Player::_revive(cocos2d::Ref *pSender)
+{
+    GameManager::getInstance()->setIsGameOver(false);
+    scheduleUpdate();
+    GameManager::getInstance()->setSpeed(Point::ZERO);
+    stopAllActions();
+    _isCanBeAttack = true;
+    beAttack(-100);
+    auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_huxi_"+getDirectionStr();
+    auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
+    runAction(RepeatForever::create(animate));
+    GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);
+}
+
 void Player::run()
 {
     auto getAnimate = [](std::string name)->Animate*{
@@ -286,9 +301,16 @@ void Player::beAttack(float heart)
 {
     if(_isCanBeAttack)
     {
-        Util::playEffect(SOUND_PLAYER_ATTACKED);
+        if(heart>0)
+        {
+            Util::playEffect(SOUND_PLAYER_ATTACKED);
+        }
         _isCanBeAttack = false;
-        setHP(getHP()-heart);
+        auto hp = getHP()-heart;
+        if (hp<0) {
+            hp=0;
+        }
+        setHP(hp);
         auto data = Node::create();
         data->setUserData(new int(heart));
         NotificationCenter::getInstance()->postNotification(UPDATE_HP,data);

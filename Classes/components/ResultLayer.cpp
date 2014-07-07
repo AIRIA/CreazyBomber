@@ -70,8 +70,28 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
     
     auto charge = MenuItemSprite::create(SPRITE("shop_charge_btn_normal.png"), SPRITE("shop_charge_btn_press.png"));
     auto revice = MenuItemSprite::create(SPRITE("revive_normal.png"), SPRITE("revive_press.png"));
+    revice->setCallback([&](Ref *pSender)->void{
+        auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
+        if(coin>=REVIVE_COIN)
+        {
+            NotificationCenter::getInstance()->postNotification(PLAYER_REVIVE);
+            auto data = PlayerInfoParam::create();
+            data->setType(PlayerInfoParam::kTypeCoin);
+            __userDefault->setIntegerForKey(KEY_COIN_NUM, __userDefault->getIntegerForKey(KEY_COIN_NUM)-REVIVE_COIN);
+            data->setValue(__userDefault->getIntegerForKey(KEY_COIN_NUM));
+            NotificationCenter::getInstance()->postNotification(UPDATE_PLAYER_INFO,data);
+            this->removeAllChildren();
+        }
+        else
+        {
+            MessageBox("金币不足 请充值", "提示");
+        }
+    });
     revice->setPosition(Point(0,20));
     charge->setPosition(Point(0,-150));
+    charge->setCallback([](Ref *pSender)->void{
+        MessageBox("充值功能暂未开放,敬请等待!", "提示");
+    });
     
     auto menu = Menu::create(revice,charge,nullptr);
     menu->ignoreAnchorPointForPosition(false);

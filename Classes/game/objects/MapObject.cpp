@@ -1022,7 +1022,7 @@ void ManEater::onAttack()
     auto isCollision = playerRect.intersectsRect(rect);
     if(isCollision)
     {
-        GameManager::getInstance()->getPlayer()->beAttack(33);
+        GameManager::getInstance()->getPlayer()->beAttack(DAMAGE_MONSTER);
     }
 }
 
@@ -1249,7 +1249,7 @@ void ShuShou::update(float delta)
     rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     if(rect.intersectsRect(playerRect))
     {
-        player->beAttack(33);
+        player->beAttack(DAMAGE_MONSTER);
     }
 }
 
@@ -1292,7 +1292,7 @@ void DiCi::update(float delta)
     rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     if(rect.intersectsRect(playerRect))
     {
-        player->beAttack(33);
+        player->beAttack(DAMAGE_MONSTER);
     }
 }
 

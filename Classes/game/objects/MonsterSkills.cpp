@@ -8,6 +8,11 @@
 
 #include "MonsterSkills.h"
 #include "game/MapUtil.h"
+#include "game/GameManager.h"
+
+enum Tag{
+    kTagFire
+};
 
 bool MonsterFire::init()
 {
@@ -38,4 +43,20 @@ void MonsterFire::onEnter()
         this->removeFromParent();
     }), NULL));
     addChild(sprite);
+    sprite->setTag(kTagFire);
+    scheduleUpdate();
+}
+
+void MonsterFire::update(float delta)
+{
+    auto player = GameManager::getInstance()->getPlayer();
+    auto sprite = static_cast<Sprite*>(getChildByTag(kTagFire));
+    auto rect = sprite->getBoundingBox();
+    rect.origin = getPosition();
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+    auto playerRect = player->getBoundingBox();
+    if(rect.intersectsRect(playerRect))
+    {
+        player->beAttack(DAMAGE_MONSTER_FIRE);
+    }
 }

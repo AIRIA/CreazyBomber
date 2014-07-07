@@ -17,6 +17,7 @@ class MonsterFire:public Node
 public:
     virtual bool init();
     CREATE_FUNC(MonsterFire);
+    virtual void update(float delta);
     virtual void onEnter();
     
     CC_SYNTHESIZE(std::string, m_sFileName, FileName);

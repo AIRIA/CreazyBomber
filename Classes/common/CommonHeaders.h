@@ -31,8 +31,8 @@ using namespace tinyxml2;
 using namespace rapidjson;
 
 enum WalkDirection{
-    kWalkUp = 1,
-    kWalkLeft = 2,
+    kWalkUp    = 1,
+    kWalkLeft  = 2,
     kWalkRight = -2,
     kWalkDown  = -1,
     kWalkStand = 0
@@ -67,9 +67,18 @@ enum WalkDirection{
 #define UPDATE_MONSTER_COUNT "update_monster_count"
 #define SHOW_BOSS_HP         "show_boss_hp"
 #define UPDATE_BOSS_HP       "update_boss_hp"
-#define BOSS_DEAD "boss_dead"
+#define BOSS_DEAD            "boss_dead"
+#define PLAYER_REVIVE "player_revive" //玩家原地复活
 
-//----------sounds---------------
+
+#define DAMAGE_MONSTER      33 //怪物的伤害
+#define DAMAGE_MONSTER_FIRE 20 //怪物Boss的伤害
+#define DAMAGE_BOMB         50 //炸弹的伤害
+
+#define REVIVE_COIN         300//复活需要使用的金币
+
+
+#pragma mark---------sounds---------------
 
 #define SOUND_ITEM_GET_BIG_COIN    "music/soundEffect/item_get_big_coin.mp3"
 #define SOUND_ITEM_GET_BOMB        "music/soundEffect/item_get_bombnum.mp3"
@@ -95,26 +104,26 @@ enum WalkDirection{
 
 #pragma mark ----------------UserDefault Defines---------------------------------------------------------------------------------------------------
 
-#define KEY_CL "key_cl"
-#define KEY_BC "key_bc"
-#define KEY_MD "key_md"
+#define KEY_CL             "key_cl"
+#define KEY_BC             "key_bc"
+#define KEY_MD             "key_md"
 
-#define KEY_COIN_NUM "key_coin_num"
+#define KEY_COIN_NUM       "key_coin_num"
 
-#define KEY_CL_BATTLE "key_cl_battle"
-#define KEY_BC_BATTLE "key_bc_battle"
-#define KEY_MD_BATTLE "key_md_battle"
+#define KEY_CL_BATTLE      "key_cl_battle"
+#define KEY_BC_BATTLE      "key_bc_battle"
+#define KEY_MD_BATTLE      "key_md_battle"
 
-#define KEY_CL_LEVEL "key_cl_level"
-#define KEY_BC_LEVEL "key_bc_level"
-#define KEY_MD_LEVEL "key_md_level"
+#define KEY_CL_LEVEL       "key_cl_level"
+#define KEY_BC_LEVEL       "key_bc_level"
+#define KEY_MD_LEVEL       "key_md_level"
 
 
-#define KEY_SOUND_ENABLED "key_sound_enabled"
+#define KEY_SOUND_ENABLED  "key_sound_enabled"
 #define KEY_EFFECT_ENABLED "key_effect_enabled"
 
-#define KEY_BATTLE_MODE "key_battle_mode"
+#define KEY_BATTLE_MODE    "key_battle_mode"
 
-#define __userDefault UserDefault::getInstance()
+#define __userDefault      UserDefault::getInstance()
 
 #endif
