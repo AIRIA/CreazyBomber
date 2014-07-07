@@ -119,6 +119,8 @@ public:
     
     void removeMapObject(MapObject *mapObj);
     
+    void dispose();
+    
     Vector<MapObject*> &getMapObjects(){ return m_vMapObjects;};
     /**
      * 所有怪物的全部属性

@@ -9,18 +9,18 @@
          contextName = "MapObject::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
-         contextName = "Bomb::bomb():Bomb.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMapObjects()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "cocos2d::Scheduler::update(float):CCScheduler.cpp">
          <PersistentStrings>
             <PersistentString
                value = "GameManager::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Bomb::bomb():Bomb.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapObjects()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -44,16 +44,16 @@
          contextName = "Player::update(float):Player.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "row">
-            </PersistentString>
-            <PersistentString
-               value = "rect.origin.y">
-            </PersistentString>
-            <PersistentString
                value = "col">
             </PersistentString>
             <PersistentString
+               value = "row">
+            </PersistentString>
+            <PersistentString
                value = "GameManager::getInstance()-&gt;getSpeed()">
+            </PersistentString>
+            <PersistentString
+               value = "rect.origin.y">
             </PersistentString>
             <PersistentString
                value = "this">
@@ -101,7 +101,7 @@
          contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
       </ContextState>
       <ContextState
-         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
+         contextName = "LvDai::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():MapObject.cpp">
@@ -115,7 +115,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LvDai::update(float):MapObject.cpp">
+         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
       </ContextState>
       <ContextState
          contextName = "MapLayer::update(float):MapLayer.cpp">
@@ -196,6 +196,11 @@
       </ContextState>
       <ContextState
          contextName = "Monster::onEnter():MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMonsters()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "HomeScene::__showStageSelectMenu():HomeScene.cpp">

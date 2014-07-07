@@ -135,12 +135,45 @@ void GameUILayer::onEnter()
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateHpHandler), UPDATE_HP, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updatePlayerInfoHandler), UPDATE_PLAYER_INFO, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateMonsterCount), UPDATE_MONSTER_COUNT, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_showBossHp),SHOW_BOSS_HP, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateBossHp), UPDATE_BOSS_HP, nullptr);
 }
 
 void GameUILayer::onExit()
 {
     BaseLayer::onExit();
     NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
+void GameUILayer::_showBossHp(cocos2d::Ref *pSender)
+{
+    auto wrapper = Node::create();
+    auto bg = SPRITE("boss_hp_bg.png");
+    auto hp = SPRITE("boss_hp.png");
+    auto boss = SPRITE(GameConfig::getInstance()->getSelectSceneName()+"_boss_icon.png");
+    bg->setAnchorPoint(Point::ANCHOR_MIDDLE);
+    bossHpBar = ProgressTimer::create(hp);
+    bossHpBar->setAnchorPoint(Point::ANCHOR_MIDDLE);
+    bossHpBar->setType(ProgressTimer::Type::BAR);
+    bossHpBar->setMidpoint(Point::ZERO);
+    bossHpBar->setBarChangeRate(Point(1,0));
+    bossHpBar->setPercentage(100);
+    bossHpBar->setPosition(hp->getPosition());
+    wrapper->addChild(bg);
+    wrapper->addChild(bossHpBar);
+    wrapper->addChild(boss);
+    addChild(wrapper);
+    wrapper->setScale(GameManager::getInstance()->getScaleFactor());
+    wrapper->setPosition(VisibleRect::bottom()+Point(0,20));
+    boss->setAnchorPoint(Point::ANCHOR_BOTTOM_LEFT);
+    boss->setPosition(bg->getPosition()+Point(bg->getContentSize().width/2+20,0));
+}
+
+void GameUILayer::_updateBossHp(cocos2d::Ref *pSender)
+{
+    int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
+    auto progressTo = ProgressFromTo::create(1.0f, bossHpBar->getPercentage(), bossHpBar->getPercentage()-*hurt/10.0f);
+    bossHpBar->runAction(progressTo);
 }
 
 void GameUILayer::_updateMonsterCount(cocos2d::Ref *pSender)

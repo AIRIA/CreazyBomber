@@ -17,10 +17,25 @@ MapUtil *MapUtil::getInstance()
     if(instance==nullptr)
     {
         instance = new MapUtil();
+    }
+    if(instance->getMapCells().size()==0)
+    {
         instance->initMapCells();
         instance->getMonsterInfos();
     }
     return instance;
+}
+
+void MapUtil::dispose()
+{
+    m_vMonsters.clear();
+    m_vBombs.clear();
+    m_vCommonTiles.clear();
+    m_vFires.clear();
+    m_vMonsterProperteis.clear();
+    m_vMapCells.clear();
+    m_vMapObjects.clear();
+    m_vMapBorders.clear();
 }
 
 void MapUtil::clearMap()

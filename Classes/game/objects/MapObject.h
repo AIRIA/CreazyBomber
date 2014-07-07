@@ -209,6 +209,8 @@ protected:
     CC_SYNTHESIZE(bool, m_bSmartWalk, SmartWalk);
     CC_SYNTHESIZE(float, m_fSpeedRate, SpeedRate);
     
+    void bossDead(Ref *pSender);
+    
 };
 
 class MonsterBoss:public Monster

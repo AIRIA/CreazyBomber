@@ -70,7 +70,7 @@ void GameScene::nextLevel(cocos2d::Ref *pSender)
 void GameScene::retry(cocos2d::Ref *pSender)
 {
     GameManager::getInstance()->setSpeed(Point::ZERO);
-    GameManager::getInstance()->setPlayer(nullptr);
+    Director::getInstance()->purgeCachedData();
     removeAllChildren();
     GameScene::create()->run();
 }
@@ -80,6 +80,7 @@ bool GameScene::init()
     if (!BaseLayer::init()) {
         return false;
     }
+    MapUtil::getInstance()->dispose();
     auto config = GameConfig::getInstance();
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     auto scaleH = m_winSize.height/DESIGN_HEIGHT;
@@ -176,8 +177,9 @@ void GameScene::onTexturesLoaded()
         wrapper->setPosition(VisibleRect::center());
         addChild(wrapper);
         wrapper->setScale(GameManager::getInstance()->getScaleFactor());
-        wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&,this]()->void{
+        wrapper->runAction(Sequence::create(DelayTime::create(3.0f),CallFunc::create([&,this,wrapper]()->void{
             startGame();
+            wrapper->removeFromParent();
         }), NULL));
     }
    
@@ -230,10 +232,11 @@ void GameScene::startGame()
     //        }
     
     mapLayer->setScale(GameManager::getInstance()->getScaleFactor());
-    addChild(mapLayer);
+    mapLayer->setZOrder(-1);
     addUIComponents();
     addChild(SettingLayer::getInstance());
     addChild(ResultLayer::create());
+    addChild(mapLayer);
 }
 
 void GameScene::addUIComponents()

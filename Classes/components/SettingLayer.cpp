@@ -9,6 +9,7 @@
 #include "SettingLayer.h"
 #include "game/GameManager.h"
 #include "game/scenes/HomeScene.h"
+#include "game/MapUtil.h"
 
 SettingLayer *SettingLayer::getInstance()
 {
@@ -130,6 +131,9 @@ void SettingLayer::show()
         this->removeAllChildren();
         GameManager::getInstance()->setSpeed(Point::ZERO);
         SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        Director::getInstance()->getRunningScene()->removeAllChildren();
+        Director::getInstance()->purgeCachedData();
+        MapUtil::getInstance()->dispose();
         HomeScene::create()->run();
     });
     

@@ -362,6 +362,13 @@ Monster *Monster::create(MapCell *mapCell)
 
 void Monster::onEnter()
 {
+ 
+    auto fileName = getMapCell()->getFileName();
+    if(fileName=="md_MB_kulouwang.png"||fileName=="bc_MB_zhangyuguai.png"||fileName=="cl_MB_yuanren.png")
+    {
+        NotificationCenter::getInstance()->postNotification(SHOW_BOSS_HP);
+        NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Monster::bossDead), BOSS_DEAD, nullptr);
+    }
     
     auto id = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
     auto pro = MapUtil::getInstance()->getMonsterProperyById(id);
@@ -379,6 +386,23 @@ void Monster::onEnter()
     manager->setMonsterCount(manager->getMonsterCount()+1);
     NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
     MapObject::onEnter();
+}
+
+void Monster::bossDead(Ref *pSender)
+{
+    auto animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"dead")->getCString();
+    auto dead = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
+    runAction(Sequence::create(dead,CallFunc::create([&]()->void{
+        this->stopAllActions();
+        this->unscheduleUpdate();
+        this->removeFromParent();
+        MapUtil::getInstance()->getMonsters().eraseObject(this);
+        NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
+        if(MapUtil::getInstance()->getMonsters().size()==0)
+        {
+            NotificationCenter::getInstance()->postNotification(GAME_PASS);
+        }
+    }), NULL));
 }
 
 void Monster::run()
@@ -536,9 +560,11 @@ void Monster::callMonster(int type)
              monsterName = "小章鱼(怪)";
             break;
         case 4:
-             monsterName = "章鱼(Boss)";
+             monsterName = "木偶-bt";
             break;
-            
+        case 5:
+            monsterName = "小章鱼(怪)-bt";
+            break;
         default:
             break;
     }
@@ -569,10 +595,16 @@ void Monster::guzhua(int length)
 /* 在这里执行NPC的AI逻辑 */
 void Monster::update(float delta)
 {
+    auto fileName = getMapCell()->getFileName();
+    
     /* 监测和炸弹的碰撞 */
     auto monsterRect = getBoundingBox();
     monsterRect.origin = getPosition()-Point(TILE_WIDTH/2,0);
     monsterRect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+    if(fileName=="md_MB_kulouwang.png"||fileName=="bc_MB_zhangyuguai.png"||fileName=="cl_MB_yuanren.png")
+    {
+        monsterRect.size.height = TILE_HEIGHT*2;
+    }
     auto util = MapUtil::getInstance();
     auto it = util->getBombFires().begin();
     while(it!=util->getBombFires().end())
@@ -583,8 +615,16 @@ void Monster::update(float delta)
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
         if(monsterRect.intersectsRect(rect))
         {
-            doTileDestory();
-            return;
+            if(fileName=="md_MB_kulouwang.png"||fileName=="bc_MB_zhangyuguai.png"||fileName=="cl_MB_yuanren.png")
+            {
+                auto data = Node::create();
+                data->setUserData(new int(50));
+                NotificationCenter::getInstance()->postNotification(UPDATE_BOSS_HP,data);
+            }else{
+                doTileDestory();
+                return;
+            }
+            
         }
         it++;
     }
@@ -761,7 +801,7 @@ bool Monster::initWithMapCell(MapCell *mapCell)
     if(fileName=="md_MB_kulouwang.png"||fileName=="bc_MB_zhangyuguai.png")
     {
         suffixVec.push_back("attack");
-        suffixVec.push_back("die");
+        suffixVec.push_back("dead");
     }
     
     if(fileName=="cl_MB_yuanren.png")
