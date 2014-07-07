@@ -169,15 +169,18 @@ void Player::die()
 
 void Player::_revive(cocos2d::Ref *pSender)
 {
+    auto player = GameManager::getInstance()->getPlayer();
+    player->unscheduleAllSelectors();
+    player->unscheduleUpdate();
+    player->stopAllActions();
+    player->scheduleUpdate();
+    player->_isCanBeAttack = true;
     GameManager::getInstance()->setIsGameOver(false);
-    scheduleUpdate();
     GameManager::getInstance()->setSpeed(Point::ZERO);
-    stopAllActions();
-    _isCanBeAttack = true;
     beAttack(-100);
     auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_huxi_"+getDirectionStr();
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
-    runAction(RepeatForever::create(animate));
+    player->runAction(RepeatForever::create(animate));
     GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);
 }
 
@@ -299,32 +302,34 @@ const Point &Player::getCoordinate()
 
 void Player::beAttack(float heart)
 {
-    if(_isCanBeAttack)
+    auto player = GameManager::getInstance()->getPlayer();
+    if(player->_isCanBeAttack)
     {
         if(heart>0)
         {
             Util::playEffect(SOUND_PLAYER_ATTACKED);
         }
-        _isCanBeAttack = false;
-        auto hp = getHP()-heart;
-        if (hp<0) {
-            hp=0;
+        player->_isCanBeAttack = false;
+        auto hp = player->getHP()-heart;
+        player->setHP(hp);
+        if (player->getHP()<0) {
+            player->setHP(0);
         }
-        setHP(hp);
+        
         auto data = Node::create();
         data->setUserData(new int(heart));
         NotificationCenter::getInstance()->postNotification(UPDATE_HP,data);
-        if(getHP()<=0)
+        if(player->getHP()<=0)
         {
-            unscheduleUpdate();
-            stopAllActions();
-            die();
+            player->unscheduleUpdate();
+            player->stopAllActions();
+            player->die();
             Util::playEffect(SOUND_PLAYER_DEATH);
             NotificationCenter::getInstance()->postNotification(GAME_OVER);
             return;
         }
-        schedule(schedule_selector(Player::blink), 0.1, 11, 0);
-        scheduleOnce(schedule_selector(Player::_afterAttack), 2);
+        player->schedule(schedule_selector(Player::blink), 0.1, 11, 0);
+        player->scheduleOnce(schedule_selector(Player::_afterAttack), 2);
     }
 }
 
@@ -349,7 +354,7 @@ void Player::update(float delta)
         while (it!=fires.end()) {
             if(getBoundingBox().intersectsRect((*it)->getBoundingBox()))
             {
-                beAttack(50);
+                beAttack(DAMAGE_BOMB);
                 break;
             }
             it++;

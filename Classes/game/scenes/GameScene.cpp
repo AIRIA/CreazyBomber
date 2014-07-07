@@ -130,6 +130,7 @@ bool GameScene::init()
     textureFiles.push_back("textures/button-hd");
     textureFiles.push_back("textures/item-hd");
     
+    textureFiles.push_back("textures/zh_cn/locale_1-hd");
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
     textureFiles.push_back("textures/zh_cn/locale_4-hd");
     

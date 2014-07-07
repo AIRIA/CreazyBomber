@@ -26,6 +26,7 @@ public:
     std::string getDirectionStr();
     
     virtual void onEnter();
+    
     virtual bool init();
     virtual void run();
     void born();

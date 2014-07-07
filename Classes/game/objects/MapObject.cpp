@@ -33,6 +33,7 @@ void MapObject::onEnter()
 void MapObject::onExit()
 {
     Sprite::onExit();
+    NotificationCenter::getInstance()->removeAllObservers(this);
 }
 
 void MapObject::run()
