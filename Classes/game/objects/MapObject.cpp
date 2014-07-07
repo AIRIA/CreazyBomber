@@ -262,11 +262,12 @@ void TransferDoor::onEnter()
     setZOrder(-1);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(TransferDoor::_enableTransfor), GAME_PASS, nullptr);
     auto config = GameConfig::getInstance();
+    unscheduleUpdate();
     if(config->getSelectSceneName()=="md"&&config->getSelectLevel()==4)
     {
-        _enableTransfor(nullptr);
+        _enableTransfor(NULL);
     }
-    unscheduleUpdate();
+    
 }
 
 void TransferDoor::onExit()
@@ -1329,4 +1330,17 @@ void DiCi::doTileAnimation()
     }), NULL);
     runAction(seq);
 }
+
+#pragma mark -------------火墙------------------
+
+void FireWall::run()
+{
+    runAction(RepeatForever::create(getAnimateAt(0)));
+}
+
+void FireWall::update(float delta)
+{
+    
+}
+
 

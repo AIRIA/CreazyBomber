@@ -259,6 +259,17 @@ Node *MapUtil::getCommonTileLayer()
                 }
             }
         }
+        if(mapObj->getType()==kCellTypeFireWall)
+        {
+            mapObj->setCol(0);
+            for(auto i=mapObj->getRow()-1;i>0;i--)
+            {
+                auto fireWall = FireWall::create(mapObj->getMapCell());
+                fireWall->setRow(i);
+                fireWall->setCol(0);
+                mapCellNode->addChild(fireWall);
+            }
+        }
     }
     return mapCellNode;
 }
@@ -318,9 +329,9 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = DiDong::create(mapCell);
             m_vCommonTiles.pushBack(element);
             break;
-//        case kCellTypeFireWall:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeFireWall:
+            element = FireWall::create(mapCell);
+            break;
 //        case kCellTypePengHuoKou:
 //            element = GroundTile::create(mapCell);
 //            break;

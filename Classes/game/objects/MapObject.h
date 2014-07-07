@@ -328,4 +328,13 @@ public:
     virtual void doTileAnimation();
 };
 
+#pragma mark -------------火墙------------------
+
+class FireWall:public MapObject
+{
+public:
+    MAPOBJ_CREATE(FireWall);
+    virtual void update(float delta);
+    virtual void run();
+};
 #endif /* defined(__CreazyBomber__MapObject__) */
