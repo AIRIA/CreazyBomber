@@ -266,6 +266,7 @@ void TransferDoor::onEnter()
     if((config->getSelectSceneName()=="md"||config->getSelectSceneName()=="bc")&&config->getSelectLevel()==4)
     {
         _enableTransfor(NULL);
+        NotificationCenter::getInstance()->postNotification(DISABLE_BOMB_BUTTON);
     }
     
 }
@@ -1333,6 +1334,20 @@ void DiCi::doTileAnimation()
 
 #pragma mark -------------火墙------------------
 
+void FireWall::onEnter()
+{
+    Sprite::onEnter();
+    if (m_pMapCell==nullptr) {
+        return;
+    }
+    auto mapSizeInPixel = MapUtil::getInstance()->getMapSizeInPixle();
+    setMapSizeInPixle(mapSizeInPixel);
+    setAnchorPoint(Point::ANCHOR_BOTTOM_RIGHT);
+    setPosition(getCol()*TILE_WIDTH, mapSizeInPixel.height-(getRow()+1)*TILE_HEIGHT);
+    scheduleUpdateWithPriority(-1);
+    run();
+}
+
 void FireWall::run()
 {
     runAction(RepeatForever::create(getAnimateAt(0)));
@@ -1343,6 +1358,8 @@ void FireWall::run()
 void FireWall::update(float delta)
 {
     auto rect = getBoundingBox();
+    rect.origin = Point(rect.origin.x+TILE_WIDTH,rect.origin.y);
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     auto player = GameManager::getInstance()->getPlayer();
     auto playerRect = player->getBoundingBox();
     if (rect.intersectsRect(playerRect)) {

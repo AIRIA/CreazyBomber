@@ -48,3 +48,23 @@ void BomberButton::addEventListeners()
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
+
+void BomberButton::onEnter()
+{
+    Sprite::onEnter();
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(BomberButton::_disableBomb), DISABLE_BOMB_BUTTON, nullptr);
+}
+
+void BomberButton::onExit()
+{
+    Sprite::onExit();
+    NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
+void BomberButton::_disableBomb(cocos2d::Ref *pSender)
+{
+    setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("bomb_down.png"));
+    getEventDispatcher()->removeEventListenersForTarget(this);
+}
+
+

@@ -334,6 +334,7 @@ class FireWall:public MapObject
 {
 public:
     MAPOBJ_CREATE(FireWall);
+    virtual void onEnter();
     virtual void update(float delta);
     virtual void run();
 protected:

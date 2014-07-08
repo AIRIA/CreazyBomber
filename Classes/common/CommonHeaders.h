@@ -47,7 +47,8 @@ enum WalkDirection{
 
 #define SPRITE(name) Sprite::createWithSpriteFrameName(name)
 
-//--------Notifications---------------------------------------------
+#pragma mark--------Notifications---------------------------------------------
+
 #define ADD_NORMAL_BOMB      "add_normal_bomb"
 #define ADD_TIMER_BOMB       "add_timer_bomb"
 #define GAME_PASS            "game_pass"
@@ -70,6 +71,9 @@ enum WalkDirection{
 #define BOSS_DEAD            "boss_dead"
 #define PLAYER_REVIVE "player_revive" //玩家原地复活
 
+#define DISABLE_BOMB_BUTTON "disable_bomb_button"
+
+#pragma mark--------Damage Values---------------------------------------------
 
 #define DAMAGE_MONSTER      33 //怪物的伤害
 #define DAMAGE_MONSTER_FIRE 20 //怪物Boss的伤害

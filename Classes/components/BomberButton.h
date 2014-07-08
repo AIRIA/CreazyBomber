@@ -15,8 +15,12 @@ class BomberButton:public Sprite
 {
 public:
     static BomberButton *create();
+    virtual void onEnter();
+    virtual void onExit();
 protected:
     void addEventListeners();
+    void _disableBomb(Ref *pSender);
 };
+
 
 #endif /* defined(__CreazyBomber__BomberButton__) */
