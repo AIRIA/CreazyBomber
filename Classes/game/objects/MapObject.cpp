@@ -23,9 +23,13 @@ void MapObject::onEnter()
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
     setZOrder(getRow()*10);
-    if(getMapCell()->getCellType()!=88)
+    if(getType()!=88&&getType()!=12)
     {
         scheduleUpdateWithPriority(-1);
+    }
+    if(getType()==12)
+    {
+        setZOrder(0);
     }
     run();
 }

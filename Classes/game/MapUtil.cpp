@@ -344,9 +344,9 @@ MapObject *MapUtil::getMapObject(std::string name)
 //        case kCellTypeSnowBall:
 //            element = GroundTile::create(mapCell);
 //            break;
-//        case kCellTypeIce:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeIce:
+            element = GroundTile::create(mapCell);
+            break;
         case kCellTypeTransfer:
             element = TransferDoor::create(mapCell);
             break;

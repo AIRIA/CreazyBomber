@@ -298,7 +298,7 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
 bool GameScene::isShowTip()
 {
     auto level = atoi(getMapName().c_str());
-    if(level>2104)
+    if(level>2104||level==1308||level==1310)
     {
         return false;
     }

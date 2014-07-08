@@ -22,6 +22,7 @@ struct RoleProperty{
 void Player::onEnter()
 {
     MapObject::onEnter();
+    unscheduleUpdate();
     scheduleUpdateWithPriority(10);
     Util::playEffect(SOUND_PLAYER_BIRTH);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Player::_revive), PLAYER_REVIVE, nullptr);
