@@ -338,9 +338,9 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeEvilFire:
             element = GuiHuo::create(mapCell);
             break;
-//        case kCellTypeWom:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeWom:
+            element = SnowBallOrWorm::create(mapCell);
+            break;
 //        case kCellTypeSnowBall:
 //            element = GroundTile::create(mapCell);
 //            break;

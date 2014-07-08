@@ -3,24 +3,82 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "operator():HomeScene.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "MapObject::update(float):MapObject.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "cocos2d::Scheduler::update(float):CCScheduler.cpp">
+         contextName = "GameScene::onTexturesLoaded():GameScene.cpp">
          <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMonsters().size()">
+            </PersistentString>
             <PersistentString
                value = "GameManager::getInstance()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Bomb::bomb():Bomb.cpp">
+         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "MapLayer::update(float):MapLayer.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapSize()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapUtil::getMonsterInfos():MapUtil.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "monsters.Size()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BigBuilding::onEnter():BigBuilding.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Monster::update(float):MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMapSize()">
+            </PersistentString>
+            <PersistentString
+               value = "m_iBombCollisionFrames">
+            </PersistentString>
+            <PersistentString
+               value = "getVecSpeed()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "operator():HomeScene.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "cocos2d::Node::getPosition() const:CCNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "GameConfig::init():GameConfig.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "UserDefault::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapObject::onEnter():MapObject.cpp">
          <PersistentStrings>
             <PersistentString
                value = "MapUtil::getInstance()-&gt;getMapObjects()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeScene::__showStageSelectMenu():HomeScene.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameConfig::selectedSceneName">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -33,12 +91,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MapObject::onEnter():MapObject.cpp">
+         contextName = "MapObject::update(float):MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "LvDai::update(float):MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "WoodBox::update(float):MapObject.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMapObjects()">
+               value = "GameManager::getInstance()-&gt;getMovingBoxes()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "cocos2d::Scheduler::update(float):CCScheduler.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameManager::getInstance()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Player::loadPlayerInfo():Player.cpp">
       </ContextState>
       <ContextState
          contextName = "Player::update(float):Player.cpp">
@@ -67,6 +145,25 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Player::run():Player.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "GameScene::nextLevel(cocos2d::Ref*):GameScene.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "GameConfig::selectedLevel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Monster::onEnter():MapObject.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "MapUtil::getInstance()-&gt;getMonsters()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "operator():ResultLayer.cpp">
          <PersistentStrings>
             <PersistentString
@@ -78,30 +175,10 @@
          contextName = "operator():DirectionButton.cpp">
       </ContextState>
       <ContextState
-         contextName = "MapObject::convertCoordinate2Point(cocos2d::Point const&amp;):MapObject.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "BigBuilding::onEnter():BigBuilding.cpp">
-      </ContextState>
-      <ContextState
          contextName = "GameScene::normalBombHandler(cocos2d::Ref*):GameScene.cpp">
       </ContextState>
       <ContextState
-         contextName = "GameConfig::init():GameConfig.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "UserDefault::getInstance()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Player::loadPlayerInfo():Player.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "cocos2d::NotificationObserver::performSelector(cocos2d::Ref*):CCNotificationCenter.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "LvDai::update(float):MapObject.cpp">
+         contextName = "cocos2d::Node::setUserData(void*):CCNode.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():MapObject.cpp">
@@ -115,46 +192,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MapObject::getCurrentCoordinate():MapObject.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "MapLayer::update(float):MapLayer.cpp">
+         contextName = "SnowBallOrWorm::update(float):MapObject.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMapSize()">
+               value = "getMapSizeInPixle()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "GameScene::nextLevel(cocos2d::Ref*):GameScene.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "GameConfig::selectedLevel">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "FireWall::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
-         contextName = "GameScene::onTexturesLoaded():GameScene.cpp">
+         contextName = "Bomb::bomb():Bomb.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMonsters().size()">
-            </PersistentString>
-            <PersistentString
-               value = "GameManager::getInstance()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Monster::update(float):MapObject.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMapSize()">
-            </PersistentString>
-            <PersistentString
-               value = "m_iBombCollisionFrames">
-            </PersistentString>
-            <PersistentString
-               value = "getVecSpeed()">
+               value = "MapUtil::getInstance()-&gt;getMapObjects()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -166,47 +218,6 @@
          <PersistentStrings>
             <PersistentString
                value = "coordinate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "cocos2d::Node::setUserData(void*):CCNode.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "MapUtil::getMonsterInfos():MapUtil.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "monsters.Size()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "cocos2d::Node::getPosition() const:CCNode.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "WoodBox::update(float):MapObject.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "GameManager::getInstance()-&gt;getMovingBoxes()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Player::run():Player.cpp">
-      </ContextState>
-      <ContextState
-         contextName = "Monster::onEnter():MapObject.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "MapUtil::getInstance()-&gt;getMonsters()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HomeScene::__showStageSelectMenu():HomeScene.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "GameConfig::selectedSceneName">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

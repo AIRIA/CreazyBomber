@@ -198,10 +198,20 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         if(sceneName=="cl")
         {
             __userDefault->setBoolForKey(KEY_MD, true);
+            if(__userDefault->getBoolForKey(KEY_MD))
+            {
+                showResultPanel(this);
+                return;
+            }
         }
         else if(sceneName=="md")
         {
             __userDefault->setBoolForKey(KEY_BC, true);
+            if(__userDefault->getBoolForKey(KEY_MD))
+            {
+                showResultPanel(this);
+                return;
+            }
             key = "unlock_bc.png";
         }
         auto sprite = SPRITE(key);
@@ -218,7 +228,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
     
     /* 设置解锁信息 */
     key = __String::createWithFormat("key_%s_battle",config->getSelectSceneName().c_str())->getCString();
-    if(config->getSelectLevel()==1&&__userDefault->getBoolForKey(key)==false)
+    if(config->getSelectLevel()==8&&__userDefault->getBoolForKey(key)==false)
     {
         __userDefault->setBoolForKey(key, true);
         

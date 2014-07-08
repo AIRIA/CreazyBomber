@@ -60,7 +60,7 @@
 	<Cell Name="冰墙" X="4" Y="8" />
 	<Cell Name="通关点-1" X="7" Y="8" />
 	<Cell Name="冰墙" X="8" Y="8" />
-	<Cell Name="bc-雪球-右" X="12" Y="8" arg0="70" arg1="2.00,1" arg2="3,3" />
+	<Cell Name="bc-雪球-右" X="10" Y="8" arg0="70" arg1="2.00,1" arg2="3,3" />
 	<Cell Name="bc-雪球-右" X="1" Y="9" arg0="70" arg1="2.00,1" arg2="3,3" />
 	<Cell Name="bc-雪球-右" X="5" Y="9" arg0="70" arg1="2.00,2" arg2="3,3" />
 	<Cell Name="鱼人(怪)" X="6" Y="9" arg0="17" />

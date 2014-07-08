@@ -22,14 +22,16 @@ void MapObject::onEnter()
     setMapSizeInPixle(mapSizeInPixel);
     setAnchorPoint(anchor);
     setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
-    setZOrder(getRow()*10);
+    
     if(getType()!=88&&getType()!=12)
     {
         scheduleUpdateWithPriority(-1);
     }
     if(getType()==12)
     {
-        setZOrder(0);
+        setZOrder((getRow()-20)*10);
+    }else{
+        setZOrder(getRow()*10);
     }
     run();
 }
@@ -1395,4 +1397,83 @@ void FireWall::update(float delta)
     }
 }
 
+#pragma mark -------------雪球和虫子------------------
+
+void SnowBallOrWorm::onEnter()
+{
+    MapObject::onEnter();
+    _originPosition = getPosition();
+    /* 根据方向设定偏移量 */
+    auto args = getMapCell()->getArgs();
+    auto speed = atoi(args.at(0)->getValue().c_str());
+    cdTime = atoi(args.at(1)->getValue().substr(0,1).c_str());
+    auto startTime = atoi(args.at(1)->getValue().substr(2,1).c_str());
+    auto direction = atoi(args.at(2)->getValue().substr(0,1).c_str());
+    distance = atoi(args.at(2)->getValue().substr(2,1).c_str());
+    setOpacity(255);
+    switch (direction) {
+        case 1: //Down
+            this->speed = Point(0,-1);
+            break;
+        case 2: //left
+            this->speed = Point(-1,0);
+            break;
+        case 3: //right
+            this->speed = Point(1,0);
+            break;
+        case 4:
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
+void SnowBallOrWorm::run()
+{
+    runAction(RepeatForever::create(getAnimateAt(0)));
+}
+
+void SnowBallOrWorm::update(float delta)
+{
+    offset++;
+    setPosition(getPosition()+speed*1.2);
+    auto stopRoll = [this]()->void{
+        setOpacity(0);
+        offset = 0;
+        unscheduleUpdate();
+        setPosition(_originPosition);
+        runAction(Sequence::create(DelayTime::create(cdTime),CallFunc::create([this]()->void{
+            this->setOpacity(255);
+            this->scheduleUpdateWithPriority(-1);
+        }), NULL));
+    };
+    if(offset>=distance*TILE_WIDTH)
+    {
+        stopRoll();
+        return;
+    }
+    auto rect = getBoundingBox();
+    rect.origin.x += 1;
+    rect.origin.y += 1;
+    rect.size = Size(TILE_WIDTH-2,TILE_HEIGHT-2);
+    auto objs = MapUtil::getInstance()->getCommonTiles();
+    for (auto i=0; i<objs.size(); i++) {
+        auto obj = objs.at(i);
+        auto objRect = Rect(obj->getCol()*TILE_WIDTH,m_MapSizeInPixle.height-(obj->getRow()+1)*TILE_HEIGHT,TILE_WIDTH,TILE_HEIGHT);
+        if(rect.intersectsRect(objRect))
+        {
+            stopRoll();
+            return;
+        }
+    }
+    
+    auto player = GameManager::getInstance()->getPlayer();
+    if(rect.intersectsRect(player->getBoundingBox()))
+    {
+        player->beAttack(DAMAGE_MONSTER);
+    }
+    
+}
 

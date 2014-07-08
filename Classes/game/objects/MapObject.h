@@ -341,4 +341,21 @@ protected:
     Point _originPosition;
     float offsetX = 0;
 };
+#pragma mark -------------雪球和虫子------------------
+
+class SnowBallOrWorm:public MapObject
+{
+public:
+    MAPOBJ_CREATE(SnowBallOrWorm);
+    virtual void onEnter();
+    virtual void update(float delta);
+    virtual void run();
+protected:
+    Point speed = Point::ZERO;
+    Point _originPosition;
+    int distance;
+    float offset = 0;
+    int cdTime = 0;
+};
+
 #endif /* defined(__CreazyBomber__MapObject__) */
