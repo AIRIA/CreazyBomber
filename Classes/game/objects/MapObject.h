@@ -336,5 +336,8 @@ public:
     MAPOBJ_CREATE(FireWall);
     virtual void update(float delta);
     virtual void run();
+protected:
+    Point _originPosition;
+    float offsetX = 0;
 };
 #endif /* defined(__CreazyBomber__MapObject__) */

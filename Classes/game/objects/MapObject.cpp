@@ -263,7 +263,7 @@ void TransferDoor::onEnter()
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(TransferDoor::_enableTransfor), GAME_PASS, nullptr);
     auto config = GameConfig::getInstance();
     unscheduleUpdate();
-    if(config->getSelectSceneName()=="md"&&config->getSelectLevel()==4)
+    if((config->getSelectSceneName()=="md"||config->getSelectSceneName()=="bc")&&config->getSelectLevel()==4)
     {
         _enableTransfor(NULL);
     }
@@ -1336,11 +1336,31 @@ void DiCi::doTileAnimation()
 void FireWall::run()
 {
     runAction(RepeatForever::create(getAnimateAt(0)));
+    setZOrder(10000);
+    _originPosition = getPosition();
 }
 
 void FireWall::update(float delta)
 {
-    
+    auto rect = getBoundingBox();
+    auto player = GameManager::getInstance()->getPlayer();
+    auto playerRect = player->getBoundingBox();
+    if (rect.intersectsRect(playerRect)) {
+        player->beAttack(33);
+    }
+    offsetX++;
+    if(offsetX==500)
+    {
+        auto fire = FireWall::create(getMapCell());
+        fire->setCol(0);
+        fire->setRow(getRow());
+        getParent()->addChild(fire);
+    }
+    setPositionX(getPositionX()+1);
+    if(offsetX>=getMapSizeInPixle().width)
+    {
+        removeFromParent();
+    }
 }
 
 
