@@ -991,7 +991,18 @@ void GuiHuo::run()
 
 void ManEater::run()
 {
-    this->doAnimationWithAttack();
+    auto cd = atoi(getMapCell()->getArgs().at(1)->getValue().c_str());
+    auto delay = DelayTime::create(cd);
+    auto seq = Sequence::create(delay,CallFunc::create([&]()->void{
+        this->stopActionByTag(101);
+        this->onAttack();
+    }),getAnimateAt(1),getAnimateAt(2),CallFunc::create([&]()->void{
+        this->run();
+    }), NULL);
+    auto stand = RepeatForever::create(getAnimateAt(0));
+    stand->setTag(101);
+    runAction(stand);
+    runAction(seq);
 }
 
 void ManEater::update(float delta)
