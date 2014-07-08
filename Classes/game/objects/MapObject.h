@@ -356,6 +356,8 @@ protected:
     int distance;
     float offset = 0;
     int cdTime = 0;
+    bool isCanMove = true;
+    void doMove();
 };
 
 #endif /* defined(__CreazyBomber__MapObject__) */

@@ -1405,9 +1405,9 @@ void SnowBallOrWorm::onEnter()
     _originPosition = getPosition();
     /* 根据方向设定偏移量 */
     auto args = getMapCell()->getArgs();
-    auto speed = atoi(args.at(0)->getValue().c_str());
+//    auto speed = atoi(args.at(0)->getValue().c_str());
     cdTime = atoi(args.at(1)->getValue().substr(0,1).c_str());
-    auto startTime = atoi(args.at(1)->getValue().substr(2,1).c_str());
+//    auto startTime = atoi(args.at(1)->getValue().substr(2,1).c_str());
     auto direction = atoi(args.at(2)->getValue().substr(0,1).c_str());
     distance = atoi(args.at(2)->getValue().substr(2,1).c_str());
     setOpacity(255);
@@ -1432,18 +1432,60 @@ void SnowBallOrWorm::onEnter()
 
 void SnowBallOrWorm::run()
 {
-    runAction(RepeatForever::create(getAnimateAt(0)));
+    auto repAct = RepeatForever::create(getAnimateAt(0));
+    
+    if(getMapCell()->getFileName()=="md_chongzi.png")
+    {
+        doMove();
+    }
+    else
+    {
+        runAction(repAct);
+    }
+}
+
+void SnowBallOrWorm::doMove()
+{
+    isCanMove = false;
+    auto seq = Sequence::create(getAnimateAt(0),CallFunc::create([this]()->void{
+        this->isCanMove = true;
+        auto move = RepeatForever::create(getAnimateAt(2));
+        move->setTag(1010);
+        runAction(move);
+        
+    }),nullptr);
+    runAction(seq);
+    setOpacity(255);
 }
 
 void SnowBallOrWorm::update(float delta)
 {
-    offset++;
-    setPosition(getPosition()+speed*1.2);
+    if(isCanMove)
+    {
+        offset++;
+        setPosition(getPosition()+speed*1.2);
+    }
+    
     auto stopRoll = [this]()->void{
-        setOpacity(0);
+        if(getMapCell()->getFileName()!="md_chongzi.png")
+        {
+            setOpacity(0);
+            setPosition(_originPosition);
+        }
+        else
+        {
+            this->stopActionByTag(1010);
+            isCanMove = false;
+            this->runAction(Sequence::create(this->getAnimateAt(1),CallFunc::create([&]()->void{
+                setPosition(_originPosition);
+                this->setOpacity(0);
+            }),DelayTime::create(cdTime),CallFunc::create([&]()->void{
+                this->doMove();
+            }),NULL) );
+        }
+        
         offset = 0;
         unscheduleUpdate();
-        setPosition(_originPosition);
         runAction(Sequence::create(DelayTime::create(cdTime),CallFunc::create([this]()->void{
             this->setOpacity(255);
             this->scheduleUpdateWithPriority(-1);
