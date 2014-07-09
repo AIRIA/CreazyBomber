@@ -1381,6 +1381,7 @@ void DiCi::update(float delta)
 
 void DiCi::run()
 {
+    setZOrder((getRow()-10)*10);
     unscheduleUpdate();
     doTileAnimation();
 }
