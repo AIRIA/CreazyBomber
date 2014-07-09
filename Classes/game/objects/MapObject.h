@@ -249,11 +249,18 @@ public:
 };
 
 #pragma mark 张嘴吐雪球的人
+
+class SnowBallOrWorm;
+
 class SnowBallMan:public MapObject
 {
 public:
     MAPOBJ_CREATE(SnowBallMan);
     virtual void run();
+protected:
+    void doAnimate();
+    int cdTime = 0;
+    SnowBallOrWorm *ball;
 };
 
 #pragma mark 地图的边界元素
@@ -350,10 +357,13 @@ public:
     virtual void onEnter();
     virtual void update(float delta);
     virtual void run();
+    int direction = -1;
+    int distance;
+    bool isByMan = false; //是不是投雪球的人吐的雪球
 protected:
     Point speed = Point::ZERO;
     Point _originPosition;
-    int distance;
+    
     float offset = 0;
     int cdTime = 0;
     bool isCanMove = true;

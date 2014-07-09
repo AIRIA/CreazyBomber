@@ -341,9 +341,10 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeWom:
             element = SnowBallOrWorm::create(mapCell);
             break;
-//        case kCellTypeSnowBall:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeSnowBall:
+            element = SnowBallMan::create(mapCell);
+            m_vCommonTiles.pushBack(element);
+            break;
         case kCellTypeIce:
             element = GroundTile::create(mapCell);
             break;

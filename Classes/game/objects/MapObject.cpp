@@ -1061,8 +1061,60 @@ void ManEater::onAttack()
 
 void SnowBallMan::run()
 {
-    this->doAnimationWithAttack();
+    auto args = getMapCell()->getArgs();
+    cdTime = atoi(args.at(1)->getValue().substr(0,1).c_str());
+    
+    
+    doAnimate();
 }
+
+void SnowBallMan::doAnimate()
+{
+    auto act = Sequence::create(getAnimateAt(0),DelayTime::create(3.0),getAnimateAt(2),CallFunc::create([this]()->void{
+        auto args = getMapCell()->getArgs();
+        auto mapUtil = MapUtil::getInstance();
+        auto it = mapUtil->getMapCells().begin();
+        while (it!=mapUtil->getMapCells().end()) {
+            if((*it)->getCellName()=="bc-雪球-左")
+            {
+                break;
+            }
+            it++;
+        }
+        auto mapCell = *it;
+        ball = SnowBallOrWorm::create(mapCell);
+        ball->setRow(getRow());
+        auto direction =atoi(args.at(0)->getValue().c_str());
+        ball->distance = atoi(args.at(2)->getValue().c_str());
+        ball->direction = direction;
+        ball->isByMan = true;
+        
+        switch (direction) {
+            case 1:
+                
+                break;
+            case 2: //left
+                ball->setCol(getCol()-1);
+                break;
+            case 3: //right
+                ball->setCol(getCol()+1);
+                break;
+            case 4:
+                break;
+                
+            default:
+                break;
+        }
+        getParent()->addChild(ball);
+        ball->setOpacity(255);
+        ball->unscheduleUpdate();
+        ball->scheduleUpdate();
+        this->doAnimate();
+    }), NULL);
+    runAction(act);
+}
+
+#pragma mark--------------------边界----------------------------
 
 auto MapBorder::createWithSpriteFrame(cocos2d::SpriteFrame *frame) -> MapBorder*
 {
@@ -1408,8 +1460,11 @@ void SnowBallOrWorm::onEnter()
 //    auto speed = atoi(args.at(0)->getValue().c_str());
     cdTime = atoi(args.at(1)->getValue().substr(0,1).c_str());
 //    auto startTime = atoi(args.at(1)->getValue().substr(2,1).c_str());
-    auto direction = atoi(args.at(2)->getValue().substr(0,1).c_str());
-    distance = atoi(args.at(2)->getValue().substr(2,1).c_str());
+    if(direction==-1)
+    {
+        direction = atoi(args.at(2)->getValue().substr(0,1).c_str());
+        distance = atoi(args.at(2)->getValue().substr(2,1).c_str());
+    }
     setOpacity(255);
     switch (direction) {
         case 1: //Down
@@ -1480,16 +1535,21 @@ void SnowBallOrWorm::update(float delta)
                 setPosition(_originPosition);
                 this->setOpacity(0);
             }),DelayTime::create(cdTime),CallFunc::create([&]()->void{
-                this->doMove();
+                if (isByMan==false) {
+                    this->doMove();
+                }
+                
             }),NULL) );
         }
         
         offset = 0;
         unscheduleUpdate();
-        runAction(Sequence::create(DelayTime::create(cdTime),CallFunc::create([this]()->void{
-            this->setOpacity(255);
-            this->scheduleUpdateWithPriority(-1);
-        }), NULL));
+        if (isByMan==false) {
+            runAction(Sequence::create(DelayTime::create(cdTime),CallFunc::create([this]()->void{
+                this->setOpacity(255);
+                this->scheduleUpdateWithPriority(-1);
+            }), NULL));
+        }
     };
     if(offset>=distance*TILE_WIDTH)
     {
