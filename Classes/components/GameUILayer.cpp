@@ -106,7 +106,7 @@ void GameUILayer::onTexturesLoaded()
     infoNode->addChild(coin);
     addChild(infoNode);
     //选择的模式以及关卡
-    auto mode = SPRITE(GameConfig::getInstance()->getSelectSceneName()+"_main_sign.png");
+    auto mode = SPRITE(GameConfig::getInstance()->getSelectSceneName().substr(0,2)+"_main_sign.png");
     auto levelLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d",GameConfig::getInstance()->getSelectLevel())->getCString());
     auto monstersLabel = Label::createWithBMFont("font/font_01.fnt", __String::createWithFormat("%d/%d",0,GameManager::getInstance()->getMonsterCount())->getCString());
     mode->setPosition(coin->getPosition().x+coin->getContentSize().width+pad,shoe->getPosition().y);
@@ -150,7 +150,7 @@ void GameUILayer::_showBossHp(cocos2d::Ref *pSender)
     auto wrapper = Node::create();
     auto bg = SPRITE("boss_hp_bg.png");
     auto hp = SPRITE("boss_hp.png");
-    auto boss = SPRITE(GameConfig::getInstance()->getSelectSceneName()+"_boss_icon.png");
+    auto boss = SPRITE(GameConfig::getInstance()->getSelectSceneName().substr(0,2)+"_boss_icon.png");
     bg->setAnchorPoint(Point::ANCHOR_MIDDLE);
     bossHpBar = ProgressTimer::create(hp);
     bossHpBar->setAnchorPoint(Point::ANCHOR_MIDDLE);

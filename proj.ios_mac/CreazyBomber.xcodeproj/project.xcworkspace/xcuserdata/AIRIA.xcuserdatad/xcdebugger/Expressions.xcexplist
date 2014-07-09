@@ -78,7 +78,7 @@
          contextName = "HomeScene::__showStageSelectMenu():HomeScene.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "GameConfig::selectedSceneName">
+               value = "GameConfig::getInstance()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

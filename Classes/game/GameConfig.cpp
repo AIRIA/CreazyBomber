@@ -17,7 +17,7 @@ GameConfig *GameConfig::getInstance()
         _instance->init();
         _instance->setSelectRoleName("viking");
         _instance->setSelectSceneName("bc");
-        _instance->setSelectLevel(8);
+        _instance->setSelectLevel(10);
     }
     return _instance;
 }
@@ -33,16 +33,21 @@ void GameConfig::init()
     {
         __userDefault->setBoolForKey("isExist", true);
         __userDefault->setBoolForKey(KEY_CL, true);
-        __userDefault->setBoolForKey(KEY_MD, false);
-        __userDefault->setBoolForKey(KEY_BC, false);
-        __userDefault->setBoolForKey(KEY_CL_BATTLE, false);
-        __userDefault->setBoolForKey(KEY_MD_BATTLE, false);
-        __userDefault->setBoolForKey(KEY_BC_BATTLE, false);
+        __userDefault->setBoolForKey(KEY_MD, true);
+        __userDefault->setBoolForKey(KEY_BC, true);
+        __userDefault->setBoolForKey(KEY_CL_BATTLE, true);
+        __userDefault->setBoolForKey(KEY_MD_BATTLE, true);
+        __userDefault->setBoolForKey(KEY_BC_BATTLE, true);
         
         __userDefault->setBoolForKey(KEY_BATTLE_MODE, false);
         __userDefault->setIntegerForKey(KEY_CL_LEVEL, 1);
         __userDefault->setIntegerForKey(KEY_BC_LEVEL, 1);
         __userDefault->setIntegerForKey(KEY_MD_LEVEL, 1);
+        __userDefault->setIntegerForKey(KEY_MD_BATTLE_LEVEL, 1);
+        __userDefault->setIntegerForKey(KEY_BC_BATTLE_LEVEL, 1);
+        __userDefault->setIntegerForKey(KEY_CL_BATTLE_LEVEL, 1);
+        
+        
         __userDefault->setBoolForKey(KEY_SOUND_ENABLED, true);
         __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, true);
         __userDefault->setIntegerForKey(KEY_COIN_NUM, 30000);

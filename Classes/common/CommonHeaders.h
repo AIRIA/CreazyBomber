@@ -100,33 +100,30 @@ enum WalkDirection{
 #define SOUND_INGAME_START         "music/soundEffect/ingame_game_start.mp3"
 #define SOUND_INGAME_COUNT_NUMBER  "music/soundEffect/ingame_count_number.mp3"
 
-#define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
-#define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
-#define SOUND_PLAYER_BIRTH    __String::createWithFormat("music/soundEffect/player_%s_birth.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
-#define SOUND_PLAYER_RANDOM   __String::createWithFormat("music/soundEffect/player_%s_random.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
-#define SOUND_SCENE_BG        __String::createWithFormat("music/bg/music_game_%s.mp3",GameConfig::getInstance()->getSelectSceneName().c_str())->getCString()
+#define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
+#define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
+#define SOUND_PLAYER_BIRTH    __String::createWithFormat("music/soundEffect/player_%s_birth.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
+#define SOUND_PLAYER_RANDOM   __String::createWithFormat("music/soundEffect/player_%s_random.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
+#define SOUND_SCENE_BG        __String::createWithFormat("music/bg/music_game_%s.mp3",GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str())->getCString()
 
 #pragma mark ----------------UserDefault Defines---------------------------------------------------------------------------------------------------
 
-#define KEY_CL             "key_cl"
-#define KEY_BC             "key_bc"
-#define KEY_MD             "key_md"
-
-#define KEY_COIN_NUM       "key_coin_num"
-
-#define KEY_CL_BATTLE      "key_cl_battle"
-#define KEY_BC_BATTLE      "key_bc_battle"
-#define KEY_MD_BATTLE      "key_md_battle"
-
-#define KEY_CL_LEVEL       "key_cl_level"
-#define KEY_BC_LEVEL       "key_bc_level"
-#define KEY_MD_LEVEL       "key_md_level"
-
-
-#define KEY_SOUND_ENABLED  "key_sound_enabled"
-#define KEY_EFFECT_ENABLED "key_effect_enabled"
-
-#define KEY_BATTLE_MODE    "key_battle_mode"
+#define KEY_CL              "key_cl"
+#define KEY_BC              "key_bc"
+#define KEY_MD              "key_md"
+#define KEY_COIN_NUM        "key_coin_num"
+#define KEY_CL_BATTLE       "key_cl_battle"
+#define KEY_BC_BATTLE       "key_bc_battle"
+#define KEY_MD_BATTLE       "key_md_battle"
+#define KEY_CL_LEVEL        "key_cl_level"
+#define KEY_BC_LEVEL        "key_bc_level"
+#define KEY_MD_LEVEL        "key_md_level"
+#define KEY_SOUND_ENABLED   "key_sound_enabled"
+#define KEY_EFFECT_ENABLED  "key_effect_enabled"
+#define KEY_BATTLE_MODE     "key_battle_mode"
+#define KEY_CL_BATTLE_LEVEL "key_cl_battle_level"
+#define KEY_BC_BATTLE_LEVEL "key_bc_battle_level"
+#define KEY_MD_BATTLE_LEVEL "key_md_battle_level"
 
 #define __userDefault      UserDefault::getInstance()
 

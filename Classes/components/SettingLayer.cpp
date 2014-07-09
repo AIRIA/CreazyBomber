@@ -137,10 +137,17 @@ void SettingLayer::show()
         HomeScene::create()->run();
     });
     
+    if(__userDefault->getBoolForKey(KEY_SOUND_ENABLED)==false)
+    {
+        music->setSelectedIndex(1);
+    }
     
+    if(__userDefault->getBoolForKey(KEY_EFFECT_ENABLED)==false)
+    {
+        sound->setSelectedIndex(1);
+    }
     
 }
-
 void SettingLayer::addBgColor()
 {
     Director::getInstance()->pause();

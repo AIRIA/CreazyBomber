@@ -1579,3 +1579,61 @@ void SnowBallOrWorm::update(float delta)
     
 }
 
+#pragma mark---------------Monster Home---------------------------
+
+void MonsterHome::run()
+{
+    
+}
+
+void MonsterHome::update(float delta)
+{
+    MapObject::update(delta);
+    /* 判断玩家和地洞是不是相邻 */
+    auto playerCoordiante = GameManager::getInstance()->getPlayer()->getCoordinate();
+    if((abs(playerCoordiante.x-getCol())==1&&playerCoordiante.y==getRow())||(abs(playerCoordiante.y-getRow())==1&&playerCoordiante.x==getCol()))
+    {
+        m_bIsEnable = false;
+        m_bIsAttack = true;
+        m_pPlayerCoordiante = playerCoordiante;
+    }
+    else if(m_bIsAttack)
+    {
+        m_bIsEnable = true;
+        m_bIsAttack = false;
+        
+        
+        runAction(Sequence::create(getAnimateAt(1),CallFunc::create([&]()->void{
+            std::string monsterName = "飞鱼(怪)";
+            auto mapUtil = MapUtil::getInstance();
+            auto it = mapUtil->getMapCells().begin();
+            while (it!=mapUtil->getMapCells().end()) {
+                if((*it)->getCellName()==monsterName)
+                {
+                    break;
+                }
+                it++;
+            }
+            auto mapCell = *it;
+            auto top = Point(getCol(),getRow()+1);
+            if(!mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), top))
+            {
+                auto monster = Monster::create(mapCell);
+                monster->setCol(getCol());
+                monster->setRow(getRow()+1);
+                getParent()->addChild(monster);
+            }
+            
+            auto blow = Point(getCol(),getRow()-1);
+            if(!mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), blow))
+            {
+                auto monster2 = Monster::create(mapCell);
+                monster2->setCol(getCol());
+                monster2->setRow(getRow()-1);
+                getParent()->addChild(monster2);
+            }
+            
+            
+        }),getAnimateAt(0), NULL));
+    }
+}

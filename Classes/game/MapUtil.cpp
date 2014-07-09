@@ -108,12 +108,20 @@ std::string MapUtil::getMapName()
     /* 获取地图名称 */
     char mapName[20];
     int prefix = 1100;
-    if (GameConfig::getInstance()->getSelectSceneName()=="cl") {
+    auto config = GameConfig::getInstance();
+    auto name = config->getSelectSceneName();
+    if (name=="cl") {
         prefix = 1100;
-    }else if(GameConfig::getInstance()->getSelectSceneName()=="md"){
+    }else if(name=="md"){
         prefix = 1200;
-    }else{
+    }else if(name=="bc"){
         prefix = 1300;
+    }else if(name=="cl_battle"){
+        prefix = 2100;
+    }else if(name=="md_battle"){
+        prefix = 2200;
+    }else if(name=="bc_battle"){
+        prefix = 2300;
     }
     prefix += GameConfig::getInstance()->getSelectLevel();
     sprintf(mapName, "%d",prefix);
@@ -137,7 +145,7 @@ std::string MapUtil::getSceMapName()
 std::string MapUtil::getBaseTileFullName()
 {
     char pathName[30];
-    sprintf(pathName, "map/%smap_base-hd.png",GameConfig::getInstance()->getSelectSceneName().c_str());
+    sprintf(pathName, "map/%smap_base-hd.png",GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str());
     return pathName;
 }
 
@@ -322,9 +330,10 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeShuShou:
             element = ShuShou::create(mapCell);
             break;
-//        case kCellTypeMonsterHome:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeMonsterHome:
+            element = MonsterHome::create(mapCell);
+            m_vCommonTiles.pushBack(element);
+            break;
         case kCellTypeDiDong:
             element = DiDong::create(mapCell);
             m_vCommonTiles.pushBack(element);
@@ -369,8 +378,9 @@ Node *MapUtil::addTileMapBorder()
     borderNode->setContentSize(mapSizeInPixle);
     char dibian_xia[20];
     char dibian_shang[20];
-    sprintf(dibian_xia, "%s_dibian_xia.png",GameConfig::getInstance()->getSelectSceneName().c_str());
-    sprintf(dibian_shang, "%s_dibian_shang.png",GameConfig::getInstance()->getSelectSceneName().c_str());
+    auto scenename = GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str();
+    sprintf(dibian_xia, "%s_dibian_xia.png",scenename);
+    sprintf(dibian_shang, "%s_dibian_shang.png",scenename);
     auto mapSize = getMapSize();
     int endCol = mapSize.width/3;
     if(int(mapSize.width)%3!=0)

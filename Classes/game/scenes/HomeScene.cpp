@@ -433,16 +433,12 @@ void HomeScene::__showSceneSelectMenu()
     md_story->setEnabled(__userDefault->getBoolForKey(KEY_MD));
     bc_story->setEnabled(__userDefault->getBoolForKey(KEY_BC));
     
-    auto cl_battle = createItemFunc(kSceneCL_Battle,"clbattlenormal.png", "clbattlepress.png", "clbattledisable.png",Point(200,240));
+    auto cl_battle = createItemFunc(kSceneCL_Battle,"clbattlenormal.png", "clbattlepress.png", "clbattledisable.png",Point(700,230));
     auto md_battle = createItemFunc(kSceneMD_Battle,"mdbattlenormal.png", "mdbattlepress.png", "mdbattledisable.png",Point(450,250));
-    auto bc_battle = createItemFunc(kSceneBC_Battle,"bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png",Point(700,230));
+    auto bc_battle = createItemFunc(kSceneBC_Battle,"bcbattlenormal.png", "bcbattlepress.png", "bcbattledisable.png",Point(200,240));
     cl_battle->setEnabled(__userDefault->getBoolForKey(KEY_CL_BATTLE));
     md_battle->setEnabled(__userDefault->getBoolForKey(KEY_MD_BATTLE));
     bc_battle->setEnabled(__userDefault->getBoolForKey(KEY_BC_BATTLE));
-    
-    cl_battle->setPosition(Point(200,240));
-    md_battle->setPosition(Point(450,250));
-    bc_battle->setPosition(Point(700,230));
     
     auto addMenu = [this](MenuItemSprite *cl,MenuItemSprite *md,MenuItemSprite *bc,Node *node,int tag)->void{
         auto menu = PerfectMenu::create(cl,md,bc,nullptr);
@@ -483,6 +479,14 @@ void HomeScene::__showStageSelectMenu()
         case kSceneMD_Story:
             type = "md";
             break;
+        case kSceneCL_Battle:
+            type = "cl_battle";
+            break;
+        case kSceneMD_Battle:
+            type = "md_battle";
+            break;
+        case kSceneBC_Battle:
+            type = "bc_battle";
         default:
             break;
     }
@@ -490,6 +494,11 @@ void HomeScene::__showStageSelectMenu()
     
     
     std::vector<Point> points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330),Point(400,450),Point(560,460),Point(720,450),Point(870,430)};
+    
+    if(type.find("battle")!=std::string::npos)
+    {
+        points = {Point(350,70),Point(510,140),Point(670,180),Point(830,250),Point(640,300),Point(440,330),Point(270,340),Point(100,330)};
+    }
     
     auto createMenu = [](Node *parentNode,int tag)->PerfectMenu*{
         auto menu = PerfectMenu::create();
@@ -499,8 +508,12 @@ void HomeScene::__showStageSelectMenu()
         return menu;
     };
     
+    
+    
     /* 获取到达的关卡信息 */
     int level = __userDefault->getIntegerForKey(__String::createWithFormat("key_%s_level",GameConfig::getInstance()->getSelectSceneName().c_str())->getCString());
+    
+    type = type.substr(0,2);
     
     int idx = 0;
     auto it = points.begin();

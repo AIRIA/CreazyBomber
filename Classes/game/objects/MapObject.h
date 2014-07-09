@@ -370,4 +370,12 @@ protected:
     void doMove();
 };
 
+#pragma mark---------------Monster Home---------------------------
+class MonsterHome:public DiDong
+{
+public:
+    MAPOBJ_CREATE(MonsterHome);
+    virtual void run();
+    virtual void update(float delta);
+};
 #endif /* defined(__CreazyBomber__MapObject__) */
