@@ -55,3 +55,23 @@ void Util::addAnimation(std::string fileName, int frameNum)
     animation->setDelayPerUnit(0.15f);
     AnimationCache::getInstance()->addAnimation(animation,fileName);
 }
+
+std::vector<std::string> Util::split(std::string _string,std::string delimiter,std::vector<std::string> res)
+{
+    std::string strTmp = _string;
+    size_t cutAt;
+    while( (cutAt = strTmp.find_first_of(delimiter)) != strTmp.npos )
+    {
+        if(cutAt > 0)
+        {
+            res.push_back(strTmp.substr(0,cutAt));
+        }
+        strTmp = strTmp.substr(cutAt + 1);
+    }
+    
+    if(strTmp.length() > 0)
+    {
+        res.push_back(strTmp);
+    }
+    return res;
+}

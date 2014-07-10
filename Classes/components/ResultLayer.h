@@ -25,6 +25,7 @@ protected:
     void _gameOver(Ref *pSender);
     void _showResult(Ref *pSender);
     void _scoreAnimateSelector(float delta);
+    std::string _getStarImg();
 };
 
 #endif /* defined(__CreazyBomber__ResultLayer__) */

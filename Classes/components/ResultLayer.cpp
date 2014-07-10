@@ -9,6 +9,7 @@
 #include "ResultLayer.h"
 #include "game/GameManager.h"
 #include "game/scenes/HomeScene.h"
+#include "game/MapUtil.h"
 
 enum Tags{
     kTagWrapper = 100,
@@ -141,7 +142,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         auto infoBg = SPRITE("gameover_win_story_info.png");
         wrapper->addChild(infoBg);
         
-        auto star = SPRITE("gameover_star2.png");
+        auto star = SPRITE(this->_getStarImg());
         star->setPosition(Point(7,101));
         wrapper->addChild(star);
         
@@ -172,6 +173,8 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         
         auto topScore = Label::createWithBMFont("font/number02.fnt", "0");
         topScore->setPosition(0,-113);
+        auto recordScore = __userDefault->getIntegerForKey(MapUtil::getInstance()->getMapName().c_str(), 0);
+        topScore->setString(__String::createWithFormat("%d",recordScore)->getCString());
         wrapper->addChild(font);
         wrapper->addChild(topScore);
         wrapper->setTag(kTagWrapper);
@@ -260,16 +263,21 @@ void ResultLayer::_scoreAnimateSelector(float delta)
     {
         number = GameManager::getInstance()->getGameScore();
         unscheduleAllSelectors();
-        /* 添加是不是创纪录 */
-        auto record = SPRITE("new_record.png");
-        wrapper->addChild(record);
-        record->setPosition(-125,225);
-        record->setScale(5);
-        record->setOpacity(0);
-        auto scaleAct = ScaleTo::create(0.3f, 1.0f);
-        auto fadeAct = FadeTo::create(0.3f, 255);
-        auto spawn = Spawn::create(scaleAct,fadeAct, NULL);
-        record->runAction(spawn);
+        if(number>__userDefault->getIntegerForKey(MapUtil::getInstance()->getMapName().c_str(), 0))
+        {
+            __userDefault->setIntegerForKey(MapUtil::getInstance()->getMapName().c_str(), number);
+            /* 添加是不是创纪录 */
+            auto record = SPRITE("new_record.png");
+            wrapper->addChild(record);
+            record->setPosition(-125,225);
+            record->setScale(5);
+            record->setOpacity(0);
+            auto scaleAct = ScaleTo::create(0.3f, 1.0f);
+            auto fadeAct = FadeTo::create(0.3f, 255);
+            auto spawn = Spawn::create(scaleAct,fadeAct, NULL);
+            record->runAction(spawn);
+            
+        }
     }
     char newScore[20];
     sprintf(newScore, "%d",number);
@@ -277,7 +285,40 @@ void ResultLayer::_scoreAnimateSelector(float delta)
 }
 
 
-
+std::string ResultLayer::_getStarImg()
+{
+    auto mapUtil = MapUtil::getInstance();
+    auto mapId = mapUtil->getMapName();//地图编号
+    auto mapVec = mapUtil->getMapVec();
+    std::string scoreInfo = "";
+    for(auto i=0;i<mapVec.size();i++)
+    {
+        auto map = mapVec.at(i);
+        if (map.at(0)==mapId) {
+            scoreInfo = map.at(5);
+            break;
+        }
+    }
+    std::vector<std::string> levelVec;
+    levelVec = Util::split(scoreInfo, ";", levelVec);
+    int doubleStar = atoi(levelVec.at(0).c_str());
+    int threeStar = atoi(levelVec.at(1).c_str());
+    auto score = 500;//GameManager::getInstance()->getGameScore();
+    auto imgName = "";
+    if(score<doubleStar) //★
+    {
+        imgName = "gameover_star1.png";
+    }
+    else if(score<threeStar)//★★
+    {
+        imgName = "gameover_star2.png";
+    }
+    else //★★★
+    {
+        imgName = "gameover_star3.png";
+    }
+    return imgName;
+}
 
 
 

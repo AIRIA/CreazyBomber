@@ -7,6 +7,9 @@
 //
 
 #include "MapUtil.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define TILE_WIDTH 80
 #define TILE_HEIGHT 80
@@ -22,6 +25,7 @@ MapUtil *MapUtil::getInstance()
     {
         instance->initMapCells();
         instance->getMonsterInfos();
+        instance->readMapTxt();
     }
     return instance;
 }
@@ -36,6 +40,20 @@ void MapUtil::dispose()
     m_vMapCells.clear();
     m_vMapObjects.clear();
     m_vMapBorders.clear();
+    mapVec.clear();
+}
+
+void MapUtil::readMapTxt()
+{
+    auto data = FileUtils::getInstance()->getStringFromFile("res/map.txt");
+    std::string line;
+    std::stringstream ss(data);
+    char del = '\n';
+    while (std::getline(ss, line, del)) {
+        std::vector<std::string> elements;
+        elements = Util::split(line, "\t", elements);
+        mapVec.push_back(elements);
+    }
 }
 
 void MapUtil::clearMap()

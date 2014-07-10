@@ -8,7 +8,6 @@
 
 #ifndef __CreazyBomber__MapUtil__
 #define __CreazyBomber__MapUtil__
-
 #include "common/CommonHeaders.h"
 #include "game/objects/MapObject.h"
 #include "game/objects/MapCell.h"
@@ -154,6 +153,9 @@ public:
      * 判断指定的坐标是不是地图的边界位置
      */
     bool isBorder(const Point &coordinate);
+    
+    std::vector<std::vector<std::string> > &getMapVec(){return mapVec;};
+    
 protected:
     
     /**
@@ -175,9 +177,12 @@ protected:
     Vector<MapObject*> m_vCommonTiles;
     /* 边界 */
     Vector<MapBorder*> m_vMapBorders;
+    std::vector<std::vector<std::string> > mapVec;
     CC_SYNTHESIZE(float, m_fMapWidthInPixle, MapWidthInPixle);
     CC_SYNTHESIZE(float, m_fMapHeightInPixle, MapHeightInPixle);
     CC_SYNTHESIZE(Size, m_MapSize, MapSize);
+
+    void readMapTxt();
 };
 
 

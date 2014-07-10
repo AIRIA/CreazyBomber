@@ -183,6 +183,8 @@ void Player::_revive(cocos2d::Ref *pSender)
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     player->runAction(RepeatForever::create(animate));
     GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);
+    Util::playSound(SOUND_SCENE_BG);
+    Util::playEffect(SOUND_PLAYER_BIRTH);
 }
 
 void Player::run()

@@ -21,6 +21,8 @@ public:
      * 解析单行动画纹理
      */
     static void addAnimation(std::string fileName,int frameNum);
+    
+    static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
 };
 
 #endif /* defined(__CreazyBomber__Util__) */
