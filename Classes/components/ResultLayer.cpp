@@ -186,7 +186,6 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
             parent->schedule(schedule_selector(ResultLayer::_scoreAnimateSelector), 0.07);
         });
         wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,showScore,NULL));
-        log("%f",parent->getContentSize().width);
         parent->addChild(wrapper);
     };
     
@@ -240,7 +239,6 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         unlockSprite->setOpacity(0);
         unlockSprite->setScale(0.5*scaleFactor);
         auto seq = Sequence::create(spawn,DelayTime::create(2),hideSpawn,CallFunc::create([&,this]()->void{
-            log("%f",this->getContentSize().width);
             showResultPanel(this);
         }), NULL);
         unlockSprite->runAction(seq);

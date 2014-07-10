@@ -28,7 +28,6 @@ void Bomb::onEnter()
 
         this->bomb();
         auto end = time(nullptr);
-        log("bomb time:%ld",end-start);
     });
     MapUtil::getInstance()->getCommonTiles().pushBack(this);
     runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));

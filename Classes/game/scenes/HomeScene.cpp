@@ -97,7 +97,6 @@ void HomeScene::onTexturesLoaded()
 {
     BaseLayer::onTexturesLoaded();
     
-    log("texture loaded");
     auto bg = Sprite::createWithSpriteFrameName("bg.png");
     bg->setPosition(DESIGN_CENTER);
     

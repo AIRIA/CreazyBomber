@@ -100,6 +100,7 @@ void PlayerItem::update(float delta)
             default:
                 break;
         }
+        manager->score(20);
         NotificationCenter::getInstance()->postNotification(UPDATE_PLAYER_INFO,data);
         removeFromParent();
     }

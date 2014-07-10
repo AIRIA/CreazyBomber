@@ -390,7 +390,6 @@ MapObject *MapUtil::getMapObject(std::string name)
 
 Node *MapUtil::addTileMapBorder()
 {
-    log("%s","invoke add tileMapBorder");
     auto borderNode = Node::create();
     auto mapSizeInPixle = getMapSizeInPixle();
     borderNode->setContentSize(mapSizeInPixle);
