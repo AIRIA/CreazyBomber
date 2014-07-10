@@ -191,7 +191,15 @@ void GameScene::onTexturesLoaded()
 
 void GameScene::startGame()
 {
-    Util::playSound(SOUND_SCENE_BG,true);
+    if(GameConfig::getInstance()->getSelectLevel()==12)
+    {
+        Util::playSound(SOUND_SCENE_BG,true);
+    }
+    else
+    {
+        Util::playSound(SOUND_BOSS_BG,true);
+    }
+    
     auto util = MapUtil::getInstance();
     /* 初始化道具的动画 */
     std::vector<PlayerItemType> items = {{"coin0.png","coin_small",0.1f,PlayerInfoParam::kTypeCoin},
@@ -283,7 +291,6 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
 {
     auto mapObj = static_cast<MapObject*>(pSender);
     auto row = mapObj->getRow(),col = mapObj->getCol();
-    //mapObj->release();
     auto itemId = rand()%5;
     if(itemId<5)
     {

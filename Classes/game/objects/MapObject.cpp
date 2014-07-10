@@ -641,6 +641,10 @@ void Monster::update(float delta)
             {
                 auto data = Node::create();
                 data->setUserData(new int(50));
+                auto color = getColor();
+                auto tintAct = TintTo::create(0.5, 255, 0, 0);
+                auto seq = Sequence::create(tintAct,DelayTime::create(2),TintTo::create(0.5f, 255, 255, 255), NULL);
+                runAction(seq);
                 NotificationCenter::getInstance()->postNotification(UPDATE_BOSS_HP,data);
             }else{
                 doTileDestory();

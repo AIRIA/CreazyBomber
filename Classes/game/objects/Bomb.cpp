@@ -24,10 +24,7 @@ void Bomb::onEnter()
     }
     auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
     auto animateCall = CallFunc::create([&]()->void{
-        auto start = time(nullptr);
-
         this->bomb();
-        auto end = time(nullptr);
     });
     MapUtil::getInstance()->getCommonTiles().pushBack(this);
     runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));

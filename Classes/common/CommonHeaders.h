@@ -99,11 +99,12 @@ enum WalkDirection{
 #define SOUND_ENTER_TONGGUANDIAN   "music/soundEffect/playe_enter_tongguandian.mp3"
 #define SOUND_INGAME_START         "music/soundEffect/ingame_game_start.mp3"
 #define SOUND_INGAME_COUNT_NUMBER  "music/soundEffect/ingame_count_number.mp3"
+#define SOUND_BOSS_BG              "music/bg/music_game_boss.mp3"
 
-#define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
-#define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
-#define SOUND_PLAYER_BIRTH    __String::createWithFormat("music/soundEffect/player_%s_birth.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
-#define SOUND_PLAYER_RANDOM   __String::createWithFormat("music/soundEffect/player_%s_random.mp3",GameConfig::getInstance()->getSelectRoleName().substr(0,2).c_str())->getCString()
+#define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
+#define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
+#define SOUND_PLAYER_BIRTH    __String::createWithFormat("music/soundEffect/player_%s_birth.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
+#define SOUND_PLAYER_RANDOM   __String::createWithFormat("music/soundEffect/player_%s_random.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
 #define SOUND_SCENE_BG        __String::createWithFormat("music/bg/music_game_%s.mp3",GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str())->getCString()
 
 #pragma mark ----------------UserDefault Defines---------------------------------------------------------------------------------------------------
