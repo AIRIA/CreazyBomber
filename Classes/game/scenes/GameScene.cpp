@@ -61,15 +61,15 @@ void GameScene::nextLevel(cocos2d::Ref *pSender)
     }
     
     
-    GameManager::getInstance()->setSpeed(Point::ZERO);
-    GameManager::getInstance()->setPlayer(nullptr);
+    manager->setSpeed(Point::ZERO);
+    manager->setPlayer(nullptr);
     removeAllChildren();
     GameScene::create()->run();
 }
 
 void GameScene::retry(cocos2d::Ref *pSender)
 {
-    GameManager::getInstance()->setSpeed(Point::ZERO);
+    manager->setSpeed(Point::ZERO);
     Director::getInstance()->purgeCachedData();
     removeAllChildren();
     GameScene::create()->run();
@@ -84,7 +84,6 @@ bool GameScene::init()
     auto config = GameConfig::getInstance();
     m_fScaleFactor = m_winSize.width/DESIGN_WIDTH;
     auto scaleH = m_winSize.height/DESIGN_HEIGHT;
-    auto manager = GameManager::getInstance();
     if(scaleH>m_fScaleFactor)
     {
         manager->setScaleFactor(scaleH);
@@ -152,6 +151,8 @@ bool GameScene::init()
     
     manager->setBombNum(1);
     manager->setBombPower(1);
+    manager->setGameScore(0);
+    manager->setBattleTime(0);
     manager->setLvDaiSpeed(Point::ZERO);
     
     return true;
@@ -238,6 +239,7 @@ void GameScene::startGame()
     addChild(SettingLayer::getInstance());
     addChild(ResultLayer::create());
     addChild(mapLayer);
+    schedule(schedule_selector(GameScene::_battleTime), 1);
 }
 
 void GameScene::addUIComponents()
@@ -312,4 +314,9 @@ bool GameScene::isShowTip()
 //        tipIt++;
 //    }
     return true;
+}
+
+void GameScene::_battleTime(float delta)
+{
+    manager->setBattleTime(manager->getBattleTime()+delta);
 }

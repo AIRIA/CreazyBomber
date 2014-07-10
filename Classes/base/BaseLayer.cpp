@@ -7,6 +7,7 @@
 //
 
 #include "BaseLayer.h"
+#include "game/GameManager.h"
 
 #define EVENT_ASSET_LOADED "event_asset_loaded"
 
@@ -102,7 +103,7 @@ bool BaseLayer::init()
     if (!Layer::init()) {
         return false;
     }
-    
+    manager = GameManager::getInstance();
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
     auto wrapper = Layer::create();

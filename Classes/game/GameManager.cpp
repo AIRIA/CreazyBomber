@@ -14,7 +14,6 @@ GameManager *GameManager::getInstance()
     if(_instance==nullptr)
     {
         _instance = new GameManager();
-        _instance->setGameScore(345);
     }
     return _instance;
 }
@@ -47,4 +46,9 @@ void GameManager::initPlayerItemAnimations(std::string name,std::string aniName,
         
         AnimationCache::getInstance()->addAnimation(animation, buffer);
     }
+}
+
+void GameManager::score(float score)
+{
+    m_iGameScore += score;
 }

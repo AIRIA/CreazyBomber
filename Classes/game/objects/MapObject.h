@@ -59,9 +59,12 @@ public:
     CC_SYNTHESIZE(std::string,m_sSkills,Skills);
 };
 
+class GameManager;
+
 class MapObject : public Sprite
 {
 public:
+    GameManager *manager;
     virtual void onEnter();
     virtual void onExit();
     bool initWithMapCell(MapCell *mapCell);

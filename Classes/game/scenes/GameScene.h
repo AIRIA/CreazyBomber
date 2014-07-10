@@ -29,6 +29,7 @@ protected:
     void createPlayerItem(Ref *pSender);
     CC_SYNTHESIZE(std::string, m_sMapName, MapName);
     bool isShowTip();
+    void _battleTime(float delta);
 };
 
 #endif /* defined(__CreazyBomber__GameScene__) */

@@ -60,6 +60,7 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
     if (!Sprite::init()) {
         return false;
     }
+    manager = GameManager::getInstance();
     auto cellFileName = mapCell->getFileName();
     auto cellFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(cellFileName);
     auto cellTexture = cellFrame->getTexture();
@@ -236,11 +237,12 @@ void MapObject::update(float delta)
     {
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
     }
-    auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+    auto manager = GameManager::getInstance();
+    auto playerRect = manager->getPlayer()->getBoundingBox();
     auto isCollision = playerRect.intersectsRect(rect);
     if(isCollision)
     {
-        GameManager::getInstance()->setIsCollision(isCollision);
+        manager->setIsCollision(isCollision);
     }
 }
 
@@ -301,12 +303,12 @@ void TransferDoor::_enableTransfor(cocos2d::Ref *pSender)
 
 void TransferDoor::update(float delta)
 {
-    if(GameManager::getInstance()->getIsGameOver())
+    if(manager->getIsGameOver())
     {
         return;
     }
     auto rect = getBoundingBox();
-    auto playerRect = GameManager::getInstance()->getPlayer()->Node::getBoundingBox();
+    auto playerRect = manager->getPlayer()->Node::getBoundingBox();
     playerRect.origin.x = playerRect.origin.x+playerRect.size.width/2;
     playerRect.origin.y = playerRect.origin.y+playerRect.size.height/2;
     playerRect.size = Size(1,1);
@@ -320,7 +322,7 @@ void TransferDoor::update(float delta)
         auto scaleHandler = CallFunc::create([]()->void{
             NotificationCenter::getInstance()->postNotification(GAME_RESULT);
         });
-        GameManager::getInstance()->getPlayer()->runAction(Sequence::create(scaleAct,scaleHandler, NULL));
+        manager->getPlayer()->runAction(Sequence::create(scaleAct,scaleHandler, NULL));
     }
 }
 
@@ -899,6 +901,9 @@ void Monster::doTileDestory()
     });
     runAction(Sequence::create(blink,blinkHandler, NULL));
     Util::playEffect(SOUND_MONSTER_BOMBED_DEAD);
+    auto reward = getMonsterProperty()->getReward();
+    auto manager = GameManager::getInstance();
+    manager->setGameScore(manager->getGameScore()+reward);
 }
 
 #pragma mark ----------------Monster Boss-------------------

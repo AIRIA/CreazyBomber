@@ -41,9 +41,12 @@ public:
     CC_SYNTHESIZE(int, m_iCoin,Coin);
     CC_SYNTHESIZE(std::vector<PlayerItemType>, m_vPlayerItems, PlayerItems);
     CC_SYNTHESIZE(Point, m_pLvDaiSpeed, LvDaiSpeed);
+    CC_SYNTHESIZE(int, m_iBattleTime,BattleTime);
     
     
     Vector<WoodBox*> &getMovingBoxes(){ return m_vMovingBoxes;};
+    
+    void score(float score);
     
 public:
     /**

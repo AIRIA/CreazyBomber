@@ -11,6 +11,8 @@
 
 #include "common/CommonHeaders.h"
 
+class GameManager;
+
 /**
  1.屏幕适配 分为三个部分 左 中 右
  **/
@@ -35,6 +37,8 @@ protected:
     std::vector<std::string> textureFiles;
     std::vector<std::string> soundFiles;
     std::vector<std::string> effectFiles;
+    GameManager *manager;
+    
 private:
     Layer *__createScaleLayer(const Point &anchorPoint,const Point &position);
     void __loadAssets();

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426505884.280986"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1033"
-            endingLineNumber = "1033"
+            startingLineNumber = "1038"
+            endingLineNumber = "1038"
             landmarkName = "ManEater::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426505884.280986"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1049"
-            endingLineNumber = "1049"
+            startingLineNumber = "1054"
+            endingLineNumber = "1054"
             landmarkName = "ManEater::onAttack()"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426567181.010913"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1271"
-            endingLineNumber = "1271"
+            startingLineNumber = "1276"
+            endingLineNumber = "1276"
             landmarkName = "EmptyObject::onEnter()"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426505884.280986"
+            timestampString = "426674004.357141"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "MapObject::doTileAttack()"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426505884.280986"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "958"
-            endingLineNumber = "958"
+            startingLineNumber = "963"
+            endingLineNumber = "963"
             landmarkName = "LvDai::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426505884.280986"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
             landmarkName = "Monster::bossDead(Ref *pSender)"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426567181.010913"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1458"
-            endingLineNumber = "1458"
+            startingLineNumber = "1463"
+            endingLineNumber = "1463"
             landmarkName = "SnowBallOrWorm::onEnter()"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426567181.010913"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1504"
-            endingLineNumber = "1504"
+            startingLineNumber = "1509"
+            endingLineNumber = "1509"
             landmarkName = "SnowBallOrWorm::doMove()"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426567181.010913"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1490"
-            endingLineNumber = "1490"
+            startingLineNumber = "1495"
+            endingLineNumber = "1495"
             landmarkName = "SnowBallOrWorm::run()"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "426573942.670321"
+            timestampString = "426674206.282043"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1617"
-            endingLineNumber = "1617"
+            startingLineNumber = "1622"
+            endingLineNumber = "1622"
             landmarkName = "MonsterHome::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
@@ -321,6 +321,66 @@
             endingLineNumber = "186"
             landmarkName = "__String::componentsSeparatedByString(const char *delimiter)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/game/objects/MapObject.cpp"
+            timestampString = "426674103.290832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "MapObject::initWithMapCell(MapCell *mapCell)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MapObject::initWithMapCell(MapCell*)"
+                  moduleName = "CreazyBomber Mac"
+                  urlString = "file:///Users/AIRIA/cocos/CreazyBomber/Classes/game/objects/MapObject.cpp"
+                  timestampString = "426674206.614506"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "86">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "non-virtual thunk to MapObject::~MapObject()"
+                  moduleName = "CreazyBomber Mac"
+                  urlString = "file:///Users/AIRIA/cocos/CreazyBomber/Classes/game/objects/MapObject.cpp"
+                  timestampString = "426674206.61477"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "non-virtual thunk to MapObject::~MapObject()"
+                  moduleName = "CreazyBomber Mac"
+                  urlString = "file:///Users/AIRIA/cocos/CreazyBomber/Classes/game/objects/MapObject.cpp"
+                  timestampString = "426674206.615007"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

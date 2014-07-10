@@ -290,20 +290,33 @@ std::string ResultLayer::_getStarImg()
     auto mapUtil = MapUtil::getInstance();
     auto mapId = mapUtil->getMapName();//地图编号
     auto mapVec = mapUtil->getMapVec();
+    auto manager = GameManager::getInstance();
     std::string scoreInfo = "";
     for(auto i=0;i<mapVec.size();i++)
     {
         auto map = mapVec.at(i);
         if (map.at(0)==mapId) {
             scoreInfo = map.at(5);
+            manager->score(atoi(map.at(4).c_str()));
             break;
         }
     }
+    manager->score(manager->getPlayer()->getHP()*2);
+    /* compute time reward */
+    auto startTime = 20;
+    auto config = GameConfig::getInstance();
+    auto scenename = config->getSelectSceneName();
+    auto timeReward = (startTime+config->getSelectLevel()*20-manager->getBattleTime())*15+random()%10;
+    if (timeReward<0) {
+        timeReward = 0;
+    }
+    manager->score(timeReward);
+    
     std::vector<std::string> levelVec;
     levelVec = Util::split(scoreInfo, ";", levelVec);
     int doubleStar = atoi(levelVec.at(0).c_str());
     int threeStar = atoi(levelVec.at(1).c_str());
-    auto score = 500;//GameManager::getInstance()->getGameScore();
+    auto score = manager->getGameScore();
     auto imgName = "";
     if(score<doubleStar) //★
     {
