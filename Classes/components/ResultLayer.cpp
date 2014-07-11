@@ -316,18 +316,29 @@ std::string ResultLayer::_getStarImg()
     int threeStar = atoi(levelVec.at(1).c_str());
     auto score = manager->getGameScore();
     auto imgName = "";
+    auto key = __String::createWithFormat("%s_rate",mapId.c_str())->getCString();
+    auto topRate = __userDefault->getIntegerForKey(key, 0);
+    auto rate = 0;
     if(score<doubleStar) //★
     {
+        rate = 1;
         imgName = "gameover_star1.png";
     }
     else if(score<threeStar)//★★
     {
+        rate = 2;
         imgName = "gameover_star2.png";
     }
     else //★★★
     {
+        rate = 3;
         imgName = "gameover_star3.png";
     }
+    if(rate>topRate)
+    {
+        __userDefault->setIntegerForKey(key, rate);
+    }
+    
     return imgName;
 }
 

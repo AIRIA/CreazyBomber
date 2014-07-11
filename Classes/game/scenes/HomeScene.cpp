@@ -90,6 +90,8 @@ bool HomeScene::init()
     textureFiles.push_back("textures/selectstage-hd");
     textureFiles.push_back("textures/button-hd");
     textureFiles.push_back("textures/medium2-hd");
+    textureFiles.push_back("textures/other-hd");
+    
     return true;
 }
 
@@ -507,8 +509,6 @@ void HomeScene::__showStageSelectMenu()
         return menu;
     };
     
-    
-    
     /* 获取到达的关卡信息 */
     int level = __userDefault->getIntegerForKey(__String::createWithFormat("key_%s_level",GameConfig::getInstance()->getSelectSceneName().c_str())->getCString());
     
@@ -524,14 +524,43 @@ void HomeScene::__showStageSelectMenu()
     MenuItemSprite *stage = nullptr;
     auto showAct = ScaleTo::create(0.2, 0.8f);
     auto easeBackIn = EaseBackInOut::create(showAct);
+    
+    auto getMapName = [](int idx)->std::string{
+        /* 获取地图名称 */
+        char mapName[20];
+        int prefix = 1100;
+        auto config = GameConfig::getInstance();
+        auto name = config->getSelectSceneName();
+        if (name=="cl") {
+            prefix = 1100;
+        }else if(name=="md"){
+            prefix = 1200;
+        }else if(name=="bc"){
+            prefix = 1300;
+        }else if(name=="cl_battle"){
+            prefix = 2100;
+        }else if(name=="md_battle"){
+            prefix = 2200;
+        }else if(name=="bc_battle"){
+            prefix = 2300;
+        }
+        prefix += idx;
+        sprintf(mapName, "%d",prefix+1);
+        return mapName;
+    };
     while (it!=points.end()) {
+        auto key = __String::createWithFormat("%s_rate",getMapName(idx).c_str())->getCString();
+        auto rate = __userDefault->getIntegerForKey(key,0);
+        auto fileName = __String::createWithFormat("%s_stage1_star%d.png",GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str(),rate)->getCString();
         if(idx<3)
         {
+            
             menu = row3;
             stage = MenuItemSprite::create(SPRITE(type+"_stage1_normal.png"), SPRITE(type+"_stage1_press.png"),SPRITE(type+"_stage1_disable.png"));
         }
         else if(idx<8)
         {
+            fileName = __String::createWithFormat("%s_stage2_star%d.png",GameConfig::getInstance()->getSelectSceneName().substr(0,2).c_str(),rate)->getCString();
             menu = row2;
             stage = MenuItemSprite::create(SPRITE(type+"_stage2_normal.png"), SPRITE(type+"_stage2_press.png"),SPRITE(type+"_stage2_disable.png"));
         }
@@ -546,6 +575,14 @@ void HomeScene::__showStageSelectMenu()
         stage->setScale(0.0f);
         if(idx<level){
             stage->setEnabled(true);
+            /* 设置评级 */
+            if(rate>0)
+            {
+                auto star = SPRITE(fileName);
+                star->setPosition(0,110);
+                star->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
+                stage->addChild(star);
+            }
         }
         else
         {

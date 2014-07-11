@@ -89,5 +89,4 @@ void GameConfig::setEffectEnable(bool val)
         m_bEffectEnable = val;
     }
     __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, val);
-    
 }

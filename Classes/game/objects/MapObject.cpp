@@ -271,7 +271,8 @@ void TransferDoor::onEnter()
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(TransferDoor::_enableTransfor), GAME_PASS, nullptr);
     auto config = GameConfig::getInstance();
     unscheduleUpdate();
-    if((config->getSelectSceneName()=="md"||config->getSelectSceneName()=="bc")&&config->getSelectLevel()==4)
+    auto sceneName = config->getSelectSceneName().substr(0,2);
+    if((sceneName=="md"||sceneName=="bc")&&config->getSelectLevel()==4)
     {
         _enableTransfor(NULL);
         NotificationCenter::getInstance()->postNotification(DISABLE_BOMB_BUTTON);
@@ -411,11 +412,11 @@ void Monster::onEnter()
 void Monster::bossDead(Ref *pSender)
 {
     stopAllActions();
+    this->unscheduleUpdate();
     auto animationName = __String::createWithFormat("%s_%s",getMapCell()->getFileName().c_str(),"dead")->getCString();
     auto dead = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
-    runAction(Sequence::create(dead,CallFunc::create([&]()->void{
+    runAction(Sequence::create(dead,DelayTime::create(1.0f),FadeOut::create(0.5f),CallFunc::create([&]()->void{
         this->stopAllActions();
-        this->unscheduleUpdate();
         this->removeFromParent();
         MapUtil::getInstance()->getMonsters().eraseObject(this);
         NotificationCenter::getInstance()->postNotification(UPDATE_MONSTER_COUNT);
@@ -641,10 +642,9 @@ void Monster::update(float delta)
             {
                 auto data = Node::create();
                 data->setUserData(new int(50));
-                auto color = getColor();
-                auto tintAct = TintTo::create(0.5, 255, 0, 0);
-                auto seq = Sequence::create(tintAct,DelayTime::create(2),TintTo::create(0.5f, 255, 255, 255), NULL);
-                runAction(seq);
+                auto tintAct = TintTo::create(0.2, 255, 0, 0);
+                auto seq = Sequence::create(tintAct,DelayTime::create(0.2),TintTo::create(0.2f, 255, 255, 255), NULL);
+                runAction(Repeat::create(seq, 2));
                 NotificationCenter::getInstance()->postNotification(UPDATE_BOSS_HP,data);
             }else{
                 doTileDestory();
@@ -1308,9 +1308,13 @@ void DiDong::update(float delta)
         m_bIsAttack = false;
         char animationName[50];
         sprintf(animationName,"%s_%d", getMapCell()->getCellName().c_str(),kTileStatusPrepare);
-        auto prepareAnimation = AnimationCache::getInstance()->getAnimation(animationName);
-        auto attack = Animate::create(prepareAnimation);
-        runAction(Sequence::create(attack,CallFunc::create([&]()->void{
+        runAction(Sequence::create(getAnimateAt(1),getAnimateAt(0),CallFunc::create([&]()->void{
+            auto randNum = rand()%10;
+            if(randNum!=0)
+            {
+                return;
+            }
+            
             auto mapUtil = MapUtil::getInstance();
             auto it = mapUtil->getMapCells().begin();
             while (it!=mapUtil->getMapCells().end()) {
@@ -1328,7 +1332,6 @@ void DiDong::update(float delta)
         }), NULL));
     }
 }
-
 #pragma mark ------------树手-----------------------
 
 void ShuShou::update(float delta)

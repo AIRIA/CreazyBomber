@@ -8,7 +8,6 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/base/BaseLayer.cpp \
                    ../../Classes/common/VisibleRect.cpp \
                    ../../Classes/components/BomberButton.cpp \
