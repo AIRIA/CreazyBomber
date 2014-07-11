@@ -10,6 +10,7 @@
 #include "game/GameManager.h"
 #include "game/scenes/HomeScene.h"
 #include "game/MapUtil.h"
+#include "game/scenes/TempScene.h"
 
 SettingLayer *SettingLayer::getInstance()
 {
@@ -127,14 +128,20 @@ void SettingLayer::show()
     });
     
     exit->setCallback([&](Ref *pSender)->void{
-        Director::getInstance()->resume();
+        
         this->removeAllChildren();
         GameManager::getInstance()->setSpeed(Point::ZERO);
         SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-        Director::getInstance()->getRunningScene()->removeAllChildren();
+//        if(getParent())
+//        {
+//            getParent()->removeFromParent();
+//        }
+//        Director::getInstance()->getRunningScene()->removeAllChildren();
         Director::getInstance()->purgeCachedData();
-        MapUtil::getInstance()->dispose();
-        HomeScene::create()->run();
+        
+//        HomeScene::create()->run();
+        Director::getInstance()->replaceScene(TempScene::scene());
+        Director::getInstance()->resume();
     });
     
     if(__userDefault->getBoolForKey(KEY_SOUND_ENABLED)==false)

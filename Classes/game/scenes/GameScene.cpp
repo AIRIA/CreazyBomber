@@ -21,21 +21,18 @@
 #include "game/utils/Util.h"
 
 
+
 void GameScene::onEnter()
 {
+    NotificationCenter::getInstance()->removeAllObservers(this);
     BaseLayer::onEnter();
+    
     NotificationCenter::getInstance()->addObserver(this,callfuncO_selector(GameScene::normalBombHandler), ADD_NORMAL_BOMB, NULL);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::nextLevel), GAME_NEXT, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::retry), GAME_RETRY, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameScene::createPlayerItem), CREATE_PLAYER_ITEM, nullptr);
     
     GameManager::getInstance()->setIsGameOver(false);
-}
-
-void GameScene::onExit()
-{
-    BaseLayer::onExit();
-    NotificationCenter::getInstance()->removeAllObservers(this);
 }
 
 void GameScene::nextLevel(cocos2d::Ref *pSender)

@@ -55,6 +55,8 @@
 		4174D9D4194EADDA00B27DE1 /* ResultLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */; };
 		4174D9D9194EF44700B27DE1 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 4174D9D8194EF44700B27DE1 /* font */; };
 		4174D9DA194EF44700B27DE1 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 4174D9D8194EF44700B27DE1 /* font */; };
+		418C65FF196FA80C0063D8F8 /* TempScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 418C65FD196FA80C0063D8F8 /* TempScene.cpp */; };
+		418C6600196FA80C0063D8F8 /* TempScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 418C65FD196FA80C0063D8F8 /* TempScene.cpp */; };
 		4198AF11192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF12192DA31F00E70612 /* map in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF10192DA31F00E70612 /* map */; };
 		4198AF17192DB01F00E70612 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4198AF16192DB01F00E70612 /* res */; };
@@ -309,6 +311,8 @@
 		4174D9D1194EADDA00B27DE1 /* ResultLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResultLayer.cpp; sourceTree = "<group>"; };
 		4174D9D2194EADDA00B27DE1 /* ResultLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultLayer.h; sourceTree = "<group>"; };
 		4174D9D8194EF44700B27DE1 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
+		418C65FD196FA80C0063D8F8 /* TempScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TempScene.cpp; sourceTree = "<group>"; };
+		418C65FE196FA80C0063D8F8 /* TempScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempScene.h; sourceTree = "<group>"; };
 		4198AF10192DA31F00E70612 /* map */ = {isa = PBXFileReference; lastKnownFileType = folder; path = map; sourceTree = "<group>"; };
 		4198AF16192DB01F00E70612 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		419D825419640F9E00AE774F /* MonsterSkills.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterSkills.cpp; sourceTree = "<group>"; };
@@ -685,6 +689,8 @@
 				8ECFE55D192867EC006C61FC /* HomeScene.h */,
 				8E1ADD311931F83E002A7A34 /* GameScene.cpp */,
 				8E1ADD321931F83E002A7A34 /* GameScene.h */,
+				418C65FD196FA80C0063D8F8 /* TempScene.cpp */,
+				418C65FE196FA80C0063D8F8 /* TempScene.h */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -927,6 +933,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				41647901192C8D8C000FB1B5 /* GameConfig.cpp in Sources */,
 				8E87765819285C8300EBCA0C /* BaseLayer.cpp in Sources */,
+				418C65FF196FA80C0063D8F8 /* TempScene.cpp in Sources */,
 				41E939C9193494F5002E3F4A /* BigBuilding.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -953,6 +960,7 @@
 				8E87765919285C8300EBCA0C /* BaseLayer.cpp in Sources */,
 				41178AA41957D90F00FAAAE8 /* PlayerInfoParam.cpp in Sources */,
 				415C357719383B08005ADF8E /* DirectionButton.cpp in Sources */,
+				418C6600196FA80C0063D8F8 /* TempScene.cpp in Sources */,
 				8E1ADD301931E856002A7A34 /* MapUtil.cpp in Sources */,
 				410E2073193876E1006A28B6 /* GameManager.cpp in Sources */,
 				414CED7419471965004FF658 /* MapLayer.cpp in Sources */,

@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 		   		   ../../Classes/components/SettingLayer.cpp \
                    ../../Classes/game/scenes/HomeScene.cpp \
                    ../../Classes/game/scenes/GameScene.cpp \
+                   ../../Classes/game/scenes/TempScene.cpp \
                    ../../Classes/components/PerfectMenu.cpp \
                    ../../Classes/game/objects/MapObject.cpp \
 		   		   ../../Classes/game/objects/BigBuilding.cpp \
