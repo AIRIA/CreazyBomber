@@ -158,11 +158,13 @@ void HomeScene::__delayRun(float dt,const std::function<void ()> &func)
 void HomeScene::__addBackMenu()
 {
     auto mainMenuItemBack = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"),SPRITE("back_press.png"));
-    mainMenuItemBack->setPosition(Point(80,80));
+    mainMenuItemBack->setPosition(Point(80,60));
     auto mainMenu = PerfectMenu::create(mainMenuItemBack,nullptr);
     mainMenu->setPosition(Point::ZERO);
+    mainMenu->setAnchorPoint(Point::ZERO);
     mainMenu->setTag(kBackButtonMenu);
-    m_pBody->addChild(mainMenu);
+    mainMenu->setScale(m_fScaleFactor);
+    addChild(mainMenu);
     mainMenuItemBack->setCallback([&](Ref *pSender)->void{
         this->__setBackButtonEnable(false);
         switch (navStatus) {
@@ -206,7 +208,7 @@ void HomeScene::__setBackButtonEnable(bool val,float delay)
         }else{
             log("disable");
         }
-        auto backMenu = (PerfectMenu*)m_pBody->getChildByTag(kBackButtonMenu);
+        auto backMenu = (PerfectMenu*)getChildByTag(kBackButtonMenu);
         auto item = (MenuItemSprite*)(*backMenu->getChildren().begin());
         item->setEnabled(val);
     }), NULL));

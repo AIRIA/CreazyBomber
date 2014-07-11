@@ -106,6 +106,10 @@ bool BaseLayer::init()
     manager = GameManager::getInstance();
     m_winSize = Director::getInstance()->getWinSize();
     m_fScaleFactor = m_winSize.height/DESIGN_HEIGHT;
+    if(textureFiles.size()==0)
+    {
+        
+    }
     auto wrapper = Layer::create();
     wrapper->ignoreAnchorPointForPosition(false);
     wrapper->setContentSize(Size(DESIGN_WIDTH,DESIGN_HEIGHT));
