@@ -17,6 +17,7 @@ class GameScene:public BaseLayer
 public:
     virtual void onEnter();
     virtual void onTexturesLoaded();
+    virtual void onExit();
     virtual bool init();
     CREATE_FUNC(GameScene);
 protected:

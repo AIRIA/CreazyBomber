@@ -133,7 +133,8 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         Util::playEffect(SOUND_INGAME_WIN);
         /* 显示结果面板 */
         auto wrapper = Node::create();
-        wrapper->setScale(GameManager::getInstance()->getScaleFactor());
+        auto winSize = Director::getInstance()->getWinSize();
+        wrapper->setScale(winSize.height/DESIGN_HEIGHT);
         wrapper->setPosition(VisibleRect::center()+VisibleRect::leftTop());
         
         auto bg = SPRITE("gameover_win_bg.png");
@@ -256,7 +257,10 @@ void ResultLayer::_scoreAnimateSelector(float delta)
     auto wrapper = getChildByTag(kTagWrapper);
     auto node = wrapper->getChildByTag(kTagGameScore);
     auto score = static_cast<Label*>(node);
-    auto number = atoi(score->getString().c_str())+15;
+    auto times = 3.0/delta;
+    int step = GameManager::getInstance()->getGameScore()/times+1;
+    auto number = atoi(score->getString().c_str())+step;
+    
     if(number>=GameManager::getInstance()->getGameScore())
     {
         number = GameManager::getInstance()->getGameScore();

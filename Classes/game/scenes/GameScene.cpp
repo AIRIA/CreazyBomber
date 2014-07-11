@@ -35,6 +35,12 @@ void GameScene::onEnter()
     GameManager::getInstance()->setIsGameOver(false);
 }
 
+void GameScene::onExit()
+{
+    BaseLayer::onExit();
+    MapUtil::getInstance()->dispose();
+}
+
 void GameScene::nextLevel(cocos2d::Ref *pSender)
 {
     auto config = GameConfig::getInstance();
