@@ -11,6 +11,7 @@
 #include "game/scenes/GameScene.h"
 
 enum NodeTags{
+    kTagMenu,
     kTagWrapperNode,
     kTagNode1,
     kTagNode2,
@@ -123,6 +124,27 @@ void WelcomeScene::onTexturesLoaded()
 {
     BaseLayer::onTexturesLoaded();
     _initBackground();
+    _initMenu();
+}
+
+void WelcomeScene::_initMenu()
+{
+    back = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"),SPRITE("back_disable.png"));
+    store = MenuItemSprite::create(SPRITE("store_btn_normal.png"), SPRITE("store_btn_press.png"));
+    back->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+    back->setPosition(Point(60,15));
+    back->setScale(0.6f);
+    
+    store->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+    store->setPosition(Point(DESIGN_WIDTH-200,15));
+    store->setScale(0.6f);
+
+    auto mainManu = Menu::create(back,store,nullptr);
+    mainManu->setTag(kTagMenu);
+    mainManu->setAnchorPoint(Point::ZERO);
+    mainManu->setPosition(Point::ZERO);
+    mainManu->setScale(m_fScaleFactor);
+    addChild(mainManu);
 }
 
 void WelcomeScene::_initBackground()
@@ -372,7 +394,7 @@ void WelcomeScene::_showGameMode()
             {
                 MessageBox("暂未开放,敬请期待~", "提示");
             }
-            
+            changeRole->removeFromParent();
             this->_setShieldEnabled(true);
             auto scaleOut = ScaleTo::create(actionTime,0);
             auto easeScale = EaseBackInOut::create(scaleOut);
@@ -411,13 +433,21 @@ void WelcomeScene::_showGameMode()
     });
     
     /* change player menu */
-    auto changeNormal = SPRITE("change_role.png");
-    auto changePress = SPRITE("change_role.png");
-    auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
-    auto changeMenu = PerfectMenu::create(changePlayerItem,nullptr);
-    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
-    changeMenu->setPosition(Point::ZERO);
-    m_pBody->addChild(changeMenu);
+    auto roleNormal = __String::createWithFormat("mainmenu_role_%s_normal.png",config->getSelectRoleName().c_str())->getCString();
+    auto rolePress = __String::createWithFormat("mainmenu_role_%s_normal.png",config->getSelectRoleName().c_str())->getCString();
+    
+    changeRole = MenuItemSprite::create(SPRITE(roleNormal), SPRITE(rolePress));
+    changeRole->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+    changeRole->setPosition(Point(DESIGN_WIDTH-200,-20));
+    getChildByTag(kTagMenu)->addChild(changeRole);
+//    auto changeNormal = SPRITE("change_role.png");
+//    auto changePress = SPRITE("change_role.png");
+//    auto changePlayerItem = MenuItemSprite::create(changeNormal, changePress);
+//    auto changeMenu = PerfectMenu::create(changePlayerItem,nullptr);
+//    changePlayerItem->setPosition(Point(DESIGN_WIDTH-200,80));
+//    changeMenu->setPosition(Point::ZERO);
+//    m_pBody->addChild(changeMenu);
+    
 }
 
 void WelcomeScene::_showStages()

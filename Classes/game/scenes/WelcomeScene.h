@@ -43,7 +43,10 @@ public:
     CREATE_FUNC(WelcomeScene);
 protected:
     Node *node1,*node2,*node3,*node4;
+    MenuItemSprite *back,*store,*changeRole,*rank;
     GameConfig *config;
+    
+    void _initMenu();
     
     /**
      * 设置屏蔽层的开启状态
