@@ -41,9 +41,17 @@ public:
     void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(WelcomeScene);
+    
 protected:
     Node *node1,*node2,*node3,*node4;
     GameConfig *config;
+    
+    MenuItemSprite *back,*rank,*setting,*changePlayer,*shop;
+    /**
+     * 初始化所有的菜单
+     */
+    void _initMenu();
+    
     
     /**
      * 设置屏蔽层的开启状态

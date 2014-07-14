@@ -125,6 +125,12 @@ void WelcomeScene::onTexturesLoaded()
     _initBackground();
 }
 
+void WelcomeScene::_initMenu()
+{
+    back = MenuItemSprite::create(SPRITE("back_normal.png"), SPRITE("back_press.png"));
+    shop = MenuItemSprite::create(SPRITE(""),SPRITE(""));
+}
+
 void WelcomeScene::_initBackground()
 {
     /* 背景 */
@@ -229,7 +235,7 @@ void WelcomeScene::_showWelcome()
             frames.pushBack(frame);
         }
         auto animation = Animation::createWithSpriteFrames(frames);
-        animation->setDelayPerUnit(0.1f);
+        animation->setDelayPerUnit(0.05f);
         auto explodeAnimate = Animate::create(animation);
         auto target = static_cast<MenuItemSprite*>(pSender);
         auto seq = Sequence::create(explodeAnimate,CallFuncN::create([&](Node *pSender)->void{

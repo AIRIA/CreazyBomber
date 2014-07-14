@@ -139,7 +139,6 @@ void SettingLayer::show()
         Director::getInstance()->purgeCachedData();
         
         WelcomeScene::create()->run();
-//        Director::getInstance()->replaceScene(TempScene::scene());
         Director::getInstance()->resume();
     });
     
