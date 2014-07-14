@@ -28,6 +28,11 @@ public:
     CREATE_FUNC(BaseLayer);
     virtual void onEnter();
     virtual void onExit();
+    
+    std::vector<std::string> &getTextureFiles(){ return textureFiles;};
+    std::vector<std::string> &getSoundFiles(){ return soundFiles;};
+    std::vector<std::string> &getEffectFiles(){ return effectFiles;};
+    
 protected:
     float m_fScaleFactor;
     Size m_winSize;
@@ -38,10 +43,10 @@ protected:
     std::vector<std::string> soundFiles;
     std::vector<std::string> effectFiles;
     GameManager *manager;
-    
+    virtual void __loadAssets();
 private:
     Layer *__createScaleLayer(const Point &anchorPoint,const Point &position);
-    void __loadAssets();
+    
     static void __loadedHandler(Texture2D *texture);
     int loadedNum = 0;
     void __loadedNotificationHander(Ref *pObj);

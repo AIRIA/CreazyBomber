@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "game/scenes/HomeScene.h"
 #include "game/scenes/GameScene.h"
+#include "game/scenes/WelcomeScene.h"
 
 USING_NS_CC;
 
@@ -24,7 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     srand(time(NULL));
     director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
-    HomeScene::create()->run();
+    WelcomeScene::create()->run();
     
     return true;
 }

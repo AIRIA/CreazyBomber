@@ -8,7 +8,7 @@
 
 #include "ResultLayer.h"
 #include "game/GameManager.h"
-#include "game/scenes/HomeScene.h"
+#include "game/scenes/WelcomeScene.h"
 #include "game/MapUtil.h"
 
 enum Tags{
@@ -156,7 +156,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         exit->setPosition(Point(-150,-200));
         exit->setCallback([](Ref *pSender)->void{
             GameManager::getInstance()->setSpeed(Point::ZERO);
-            HomeScene::create()->run();
+            WelcomeScene::create()->run();
         });
         retry->setPosition(Point(0,-200));
         retry->setCallback([](Ref *pSender)->void{

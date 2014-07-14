@@ -27,8 +27,8 @@ void BaseLayer::onEnter()
     m_pBody = __createScaleLayer(Point(0.5f,0.5f), VisibleRect::center());
     m_pRight = __createScaleLayer(Point(1.0f,0.5f), VisibleRect::right());
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(BaseLayer::__loadedNotificationHander), EVENT_ASSET_LOADED, nullptr);
-    auto loadingNode = Node::create();
-    this->addChild(loadingNode);
+//    auto loadingNode = Node::create();
+//    this->addChild(loadingNode);
     __loadAssets();
 }
 
@@ -76,7 +76,10 @@ void BaseLayer::onTexturesLoaded()
         effectIt++;
     }
     
-    getChildByTag(kTagWrapper)->removeFromParent();
+    if (getChildByTag(kTagWrapper)) {
+        getChildByTag(kTagWrapper)->removeFromParent();
+    }
+    
     log("%s\n", Director::getInstance()->getTextureCache()->getCachedTextureInfo().c_str());
 }
 

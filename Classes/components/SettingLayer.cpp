@@ -8,9 +8,8 @@
 
 #include "SettingLayer.h"
 #include "game/GameManager.h"
-#include "game/scenes/HomeScene.h"
+#include "game/scenes/WelcomeScene.h"
 #include "game/MapUtil.h"
-#include "game/scenes/TempScene.h"
 
 SettingLayer *SettingLayer::getInstance()
 {
@@ -139,8 +138,8 @@ void SettingLayer::show()
 //        Director::getInstance()->getRunningScene()->removeAllChildren();
         Director::getInstance()->purgeCachedData();
         
-//        HomeScene::create()->run();
-        Director::getInstance()->replaceScene(TempScene::scene());
+        WelcomeScene::create()->run();
+//        Director::getInstance()->replaceScene(TempScene::scene());
         Director::getInstance()->resume();
     });
     

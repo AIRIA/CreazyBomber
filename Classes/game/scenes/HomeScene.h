@@ -9,7 +9,7 @@
 #ifndef __CreazyBomber__HomeScene__
 #define __CreazyBomber__HomeScene__
 
-#include "base/BaseLayer.h"
+#include "base/BaseScene.h"
 
 class HomeScene:public BaseLayer
 {

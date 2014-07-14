@@ -12,10 +12,7 @@
 
 #define ICON_ANIMATE_TIME 0.3f
 
-#define SOUND_MAIN_BG "music/bg/music_main_bg.mp3"
-#define EFFECT_UI_CLICK "music/soundEffect/ui_click.mp3"
-#define EFFECT_UI_ITEM_IN "music/soundEffect/ui_item_in.mp3"
-#define EFFECT_UI_ITEM_OUT "music/soundEffect/ui_item_out.mp3"
+
 
 enum{
     kStatusSelectRole,
