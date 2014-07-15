@@ -38,6 +38,14 @@ public:
         kSceneBC_Battle
     } selectScene;
     
+    enum NavStatus{
+        kStatusSelectRole,
+        kStatusSelectMode,
+        kStatusSelectLevel,
+        kStatusSelectStage,
+        kStatusStart
+    } navStatus = kStatusStart;
+    
     void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(WelcomeScene);
@@ -46,6 +54,12 @@ protected:
     Node *node1,*node2,*node3,*node4;
     MenuItemSprite *back,*store,*changeRole,*rank;
     GameConfig *config;
+    std::vector<NavStatus> statusVec;
+    
+    void _setNavStatus(NavStatus status);
+    
+    void _hideTargetMenuItem(MenuItemSprite *item);
+    void _showTargetMenuItem(MenuItemSprite *item);
 
     /**
      * 初始化所有的菜单
@@ -78,8 +92,6 @@ protected:
      */
     void _showGameMode();
     
-    void _hideGameMode();
-    
     /**
      * 显示关卡选择界面
      */
@@ -100,7 +112,13 @@ protected:
      * 隐藏完毕之后调用指定的回调
      */
     void hideElement(ActionInterval *action,CallFunc *callback = nullptr);
-    
+
+HANDLER:
+    void _hideGameMode(float duration,const std::function<void ()> &func = nullptr);
+    void _hideRoles(float duration,const std::function<void ()> &callback = nullptr);
+    void _hideStages(float duration,const std::function<void ()> &callback = nullptr);
+    void _hideLevelSelect(float duration,const std::function<void ()> &callback = nullptr);
+    void _back(Ref *pSender = nullptr);
 };
 
 

@@ -38,6 +38,8 @@ enum WalkDirection{
     kWalkStand = 0
 };
 
+#define HANDLER private
+
 #define DESIGN_WIDTH 960
 #define DESIGN_HEIGHT 640
 
