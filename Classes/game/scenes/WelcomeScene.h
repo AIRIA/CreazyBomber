@@ -43,6 +43,7 @@ public:
         kStatusSelectMode,
         kStatusSelectLevel,
         kStatusSelectStage,
+        kStatusStore,
         kStatusStart
     } navStatus = kStatusStart;
     
@@ -55,6 +56,8 @@ protected:
     MenuItemSprite *back,*store,*changeRole,*rank;
     GameConfig *config;
     std::vector<NavStatus> statusVec;
+    /* 菜单的Y坐标 */
+    float m_fItemPosY;
     
     void _setNavStatus(NavStatus status);
     
@@ -113,12 +116,17 @@ protected:
      */
     void hideElement(ActionInterval *action,CallFunc *callback = nullptr);
 
+    
+    void _hideCurrentStatus(const std::function<void ()> &func = nullptr);
+    
 HANDLER:
     void _hideGameMode(float duration,const std::function<void ()> &func = nullptr);
     void _hideRoles(float duration,const std::function<void ()> &callback = nullptr);
     void _hideStages(float duration,const std::function<void ()> &callback = nullptr);
     void _hideLevelSelect(float duration,const std::function<void ()> &callback = nullptr);
+    void _hideStore(float duration,const std::function<void ()> &callback = nullptr);
     void _back(Ref *pSender = nullptr);
+    void _showStore(Ref *pSender = nullptr);
 };
 
 

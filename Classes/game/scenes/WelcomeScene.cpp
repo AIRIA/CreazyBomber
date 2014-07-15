@@ -11,6 +11,7 @@
 #include "game/scenes/GameScene.h"
 
 enum NodeTags{
+    kTagRoleMenu,
     kTagMenu,
     kTagWrapperNode,
     kTagNode1,
@@ -21,10 +22,12 @@ enum NodeTags{
 
 #define MENU_POS_RANGE 120
 
-#define SHOW_ROLE_TIME 0.5f
-#define SHOW_MODE_TIME 0.5f
+#define SHOW_ROLE_TIME  0.5f
+#define SHOW_MODE_TIME  0.5f
 #define SHOW_STAGE_TIME 0.5f
 #define SHOW_LEVEL_TIME 0.5f
+#define HIDE_TIME       0.5f
+#define SHOW_STORE_TIME 0.3f
 
 
 bool WelcomeScene::init()
@@ -50,6 +53,7 @@ bool WelcomeScene::init()
     textureFiles.push_back("textures/selectstage-hd");
     textureFiles.push_back("textures/button-hd");
     textureFiles.push_back("textures/medium2-hd");
+    textureFiles.push_back("textures/medium-hd");
     textureFiles.push_back("textures/other-hd");
     
     config = GameConfig::getInstance();
@@ -153,9 +157,7 @@ void WelcomeScene::_initMenu()
     store->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
     store->setPosition(Point(DESIGN_WIDTH-200,15)-Point(0,MENU_POS_RANGE));
     store->setScale(0.6f);
-    store->setCallback([](Ref *pSender)->void{
-        
-    });
+    store->setCallback(CC_CALLBACK_1(WelcomeScene::_showStore, this));
 
     auto mainManu = Menu::create(back,store,nullptr);
     mainManu->setTag(kTagMenu);
@@ -163,20 +165,21 @@ void WelcomeScene::_initMenu()
     mainManu->setPosition(Point::ZERO);
     mainManu->setScale(m_fScaleFactor);
     addChild(mainManu);
+    m_fItemPosY = store->getPositionY()+MENU_POS_RANGE;
 //    _showTargetMenuItem(back);
-    _showTargetMenuItem(store);
+//    _showTargetMenuItem(store);
 }
 
 void WelcomeScene::_showTargetMenuItem(cocos2d::MenuItemSprite *item)
 {
-    auto moveIn = MoveBy::create(0.5f, Point(0,MENU_POS_RANGE));
+    auto moveIn = MoveTo::create(0.5f, Point(item->getPosition().x,m_fItemPosY));
     auto easeMove = EaseBackOut::create(moveIn);
     item->runAction(easeMove);
 }
 
 void WelcomeScene::_hideTargetMenuItem(cocos2d::MenuItemSprite *item)
 {
-    auto moveIn = MoveBy::create(0.5f, Point(0,-MENU_POS_RANGE));
+    auto moveIn = MoveTo::create(0.5f, Point(item->getPosition().x,m_fItemPosY-MENU_POS_RANGE));
     auto easeMove = EaseBackIn::create(moveIn);
     item->runAction(easeMove);
 }
@@ -397,11 +400,13 @@ void WelcomeScene::_showRoles()
     auto viking = createRoleItem(kRoleViking,"selectrole_viking_normal.png","selectrole_viking_press.png",smurf->getPosition()+Point(roleSize.width+20,-80));
     auto selectRole = PerfectMenu::create(vampire,zombie,smurf,viking,nullptr);
     selectRole->setPosition(Point::ZERO);
+    selectRole->setTag(kTagRoleMenu);
     m_pBody->addChild(selectRole);
 
     /* 进入场景完毕之后 禁用屏蔽层 */
     this->_delayCall(i*0.15f+0.4f, [&]()->void{
         this->_setShieldEnabled(false);
+        this->_showTargetMenuItem(store);
     });
 }
 
@@ -468,7 +473,7 @@ void WelcomeScene::_showGameMode()
     auto rolePress = __String::createWithFormat("mainmenu_role_%s_press.png",config->getSelectRoleName().c_str())->getCString();
     
     changeRole = MenuItemSprite::create(SPRITE(roleNormal), SPRITE(rolePress));
-    changeRole->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+    changeRole->setAnchorPoint(Point(0.5,0.3));
     changeRole->setPosition(Point(DESIGN_WIDTH-200,-20)-Point(0,MENU_POS_RANGE));
 
     
@@ -488,12 +493,9 @@ void WelcomeScene::_showGameMode()
     changeRole->addChild(arrow);
     changeRole->setCallback([this](Ref *pSender)->void{
         auto item = static_cast<MenuItemSprite*>(pSender);
-        this->_hideGameMode(SHOW_MODE_TIME,[&,item]()->void{
+        this->_hideCurrentStatus([&,item]()->void{
             this->_hideTargetMenuItem(item);
             this->_showRoles();
-            this->_delayCall(0.5f, [&]()->void{
-                this->_showTargetMenuItem(store);
-            });
         });
     });
     arrow->runAction(RepeatForever::create(animate));
@@ -527,7 +529,7 @@ void WelcomeScene::_showStages()
             auto scaleOut = ScaleTo::create(animateTime,0);
             auto easeScale = EaseBackInOut::create(scaleOut);
             this->hideElement(easeScale);
-            this->_hideStages(animateTime,[this]()->void{
+            this->_hideCurrentStatus([this]()->void{
                 this->_showLevelSelect();
             });
         });
@@ -557,7 +559,6 @@ void WelcomeScene::_showStages()
     auto addMenu = [this,animateTime](MenuItemSprite *cl,MenuItemSprite *md,MenuItemSprite *bc,Node *node)->void{
         auto menu = PerfectMenu::create(cl,md,bc,nullptr);
         menu->setPosition(Point::ZERO);
-        //        menu->setEnabled(false);
         node->addChild(menu);
         this->_delayCall(animateTime, [this]()->void{
             this->_setShieldEnabled(false);
@@ -713,6 +714,49 @@ void WelcomeScene::_showLevelSelect()
     this->_setShieldEnabled(false);
 }
 
+void WelcomeScene::_showStore(Ref *pSender)
+{
+    auto showTime = 0.3f;
+    /* 隐藏当前的 */
+    this->_setShieldEnabled(true);
+    this->_showTargetMenuItem(back);
+    _hideTargetMenuItem(store);
+    /* 商城会丢失当前的状态 需要重新记录 */
+    this->_setNavStatus(navStatus);
+    _hideCurrentStatus([this,showTime]()->void{
+        this->_setNavStatus(kStatusStore);
+        auto hpBottle = MenuItemSprite::create(SPRITE("shop_item_hp_normal.png"), SPRITE("shop_item_hp_press.png"));
+        auto timerBomb = MenuItemSprite::create(SPRITE("shop_item_timerbomb_normal.png"), SPRITE("shop_item_timerbomb_press.png"));
+        
+        hpBottle->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+        timerBomb->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+        
+        auto timerMenu = Menu::create(timerBomb,nullptr);
+        auto hpMenu = Menu::create(hpBottle,nullptr);
+        
+        auto formatMenu = [this,showTime](Menu *menu,MenuItemSprite *item,const Point &pos)->void{
+            menu->setAnchorPoint(Point::ZERO);
+            menu->setPosition(Point::ZERO);
+            item->setPosition(pos);
+            item->setScale(0);
+            item->runAction(EaseBackOut::create(ScaleTo::create(showTime, 1.0f)));
+            auto num = Label::createWithBMFont("font/number03.fnt", "1");
+            item->addChild(num);
+            num->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
+            num->setPosition(Point(item->getContentSize().width-20,item->getContentSize().height-40));
+        };
+        
+        formatMenu(timerMenu,timerBomb,Point(750,80));
+        formatMenu(hpMenu,hpBottle,Point(200,230));
+        this->_delayCall(showTime, [this]()->void{
+            this->_setShieldEnabled(false);
+        });
+        node3->addChild(timerMenu);
+        node2->addChild(hpMenu);
+    });
+    
+}
+
 #pragma mark -----------Handlers---------------
 
 void WelcomeScene::_hideGameMode(float duration,const std::function<void ()> &callback)
@@ -726,12 +770,34 @@ void WelcomeScene::_hideGameMode(float duration,const std::function<void ()> &ca
     if (callback) {
         this->_delayCall(duration, callback);
     }
-    
 }
 
 void WelcomeScene::_hideRoles(float duration, const std::function<void ()> &callback)
 {
     Util::playEffect(EFFECT_UI_ITEM_OUT);
+    auto roleMenu = (PerfectMenu*)m_pBody->getChildByTag(kTagRoleMenu);
+    roleMenu->setEnabled(false);
+    auto children = roleMenu->getChildren();
+    int i=0;
+    float delayTime = 0.0f;
+    float aniTime = 0.3f;
+    for(auto &child : children)
+    {
+        auto item = (MenuItemSprite*)child;
+        i++;
+        delayTime = i*0.2f;
+        auto delay = DelayTime::create(delayTime);
+        auto itemPos = item->getPosition();
+        auto move = MoveTo::create(aniTime, Point(itemPos.x,1000));
+        item->runAction(Sequence::create(delay,move,NULL));
+    }
+    auto delay = DelayTime::create(delayTime+aniTime);
+    auto delayCall = CallFunc::create(CC_CALLBACK_0(Node::removeFromParent, roleMenu));
+    roleMenu->runAction(Sequence::create(delay,delayCall,nullptr));
+    if (callback) {
+        this->_delayCall(i*0.2f, callback);
+    }
+    
 }
 
 void WelcomeScene::_hideStages(float duration, const std::function<void ()> &callback)
@@ -744,7 +810,12 @@ void WelcomeScene::_hideLevelSelect(float duration, const std::function<void ()>
     _hideGameMode(duration, callback);
 }
 
-void WelcomeScene::_back(Ref *pSender)
+void WelcomeScene::_hideStore(float duration, const std::function<void ()> &callback)
+{
+    _hideGameMode(duration,callback);
+}
+
+void WelcomeScene::_hideCurrentStatus(const std::function<void ()> &func)
 {
     /* 隐藏当前的 并且删除状态 */
     auto endIt = statusVec.end();
@@ -752,44 +823,56 @@ void WelcomeScene::_back(Ref *pSender)
     
     switch (*endIt) {
         case kStatusSelectRole:
-            this->_hideRoles(SHOW_ROLE_TIME);
+            this->_hideRoles(SHOW_ROLE_TIME,func);
             break;
         case kStatusSelectMode:
-            this->_hideGameMode(SHOW_MODE_TIME);
+            this->_hideGameMode(SHOW_MODE_TIME,func);
             break;
         case kStatusSelectStage:
-            this->_hideStages(SHOW_STAGE_TIME);
-            _hideTargetMenuItem(back);
+            this->_hideStages(SHOW_STAGE_TIME,func);
             break;
         case kStatusSelectLevel:
-            this->_hideLevelSelect(SHOW_LEVEL_TIME);
+            this->_hideLevelSelect(SHOW_LEVEL_TIME,func);
             break;
-            
-        default:
+        case kStatusStore:
+            this->_hideStore(SHOW_STORE_TIME,func);
             break;
-    }
-    
-    this->statusVec.erase(endIt);
-    --endIt;
-    switch (*endIt) {
-        case kStatusSelectRole:
-            this->_showRoles();
-            break;
-        case kStatusSelectMode:
-            this->_showGameMode();
-            break;
-        case kStatusSelectStage:
-            this->_showStages();
-            break;
-        case kStatusSelectLevel:
-            this->_showLevelSelect();
-            break;
-            
         default:
             break;
     }
     this->statusVec.erase(endIt);
 }
+
+void WelcomeScene::_back(Ref *pSender)
+{
+    _hideCurrentStatus();
+    auto endIt = statusVec.end();
+    --endIt;
+    switch (*endIt) {
+        case kStatusSelectRole:
+            this->_showRoles();
+            this->_hideTargetMenuItem(back);
+            break;
+        case kStatusSelectMode:
+            this->_showGameMode();
+            this->_hideTargetMenuItem(back);
+            break;
+        case kStatusSelectStage:
+            this->_showStages();
+            this->_showTargetMenuItem(store);
+            break;
+        case kStatusSelectLevel:
+            this->_showLevelSelect();
+            this->_showTargetMenuItem(store);
+            break;
+        case kStatusStore:
+            this->_showStore();
+        default:
+            break;
+    }
+    this->statusVec.erase(endIt);
+}
+
 
 
 
