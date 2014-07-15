@@ -529,7 +529,7 @@ void WelcomeScene::_showStages()
             auto scaleOut = ScaleTo::create(animateTime,0);
             auto easeScale = EaseBackInOut::create(scaleOut);
             this->hideElement(easeScale);
-            this->_hideCurrentStatus([this]()->void{
+            this->_hideStages(animateTime,[this]()->void{
                 this->_showLevelSelect();
             });
         });
