@@ -453,10 +453,25 @@ void Player::update(float delta)
     setCol(col);
     setZOrder(row*10+5);
     auto cornerPoint = pos;
+
+    auto neighborRow = row,neighborCol = col;
+    auto neighbor = Point::ZERO;
     
     switch(m_WalkDirection)
     {
         case kWalkUp:
+            if(fCol-col<0.5)
+            {
+                neighborCol--;
+            }
+            else if(fCol==col)
+            {
+                neighborCol=0;
+            }
+            else if(fCol-col>0.5)
+            {
+                neighborCol++;
+            }
             if(fRow-row<=0.1)
             {
                 cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
@@ -467,47 +482,44 @@ void Player::update(float delta)
                     cornerPoint.y = cornerY-TILE_HEIGHT;
                 }
             }
-//            else if(fRow-row>=0.9)
-//            {
-//                row -= 2;
-//            }
-            
-            
-//            row += 1;
-//            cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
-//            if (targetPosition.y > cornerY)
-//            {
-//                isCheck = true;
-//            }
+            neighbor = Point(neighborCol,row);
             break;
         case kWalkDown:
-            if (fCol==col) {
-                
-            }
-            row += 1;
-            cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
-            if (targetPosition.y < cornerY)
+            if(fCol-col<0.5)
             {
-                isCheck = true;
+                neighborCol--;
             }
+            else if(fCol==col)
+            {
+                neighborCol=0;
+            }
+            else if(fCol-col>0.5)
+            {
+                neighborCol++;
+            }
+            if(fRow-row<=0.1)
+            {
+                cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
+                row += 1;
+                if(cornerY - (pos.y+TILE_HEIGHT) <abs(getWalkSpeed().y))
+                {
+                    isCheck = true;
+                    cornerPoint.y = cornerY-TILE_HEIGHT;
+                }
+            }
+            neighbor = Point(neighborCol,row);
             break;
             
         case kWalkLeft:
-//            if(fCol-col<0.5)
-//            {
-//                col -= 1;
-//            }
-//            cornerX = (col+0.5)*TILE_WIDTH;
-//            if ( abs(targetPosition.x-cornerX)<=abs(getWalkSpeed().x))
-//            {
-//                isCheck = true;
-//                
-//            }
-//            if(abs(targetPosition.x-cornerX)==0)
-//            {
-//                col -= 1;
-//            }
             
+            if(fRow==row)
+            {
+                neighborRow = 0;
+            }
+            else
+            {
+                neighborRow++;
+            }
             if(fCol-col>=0.5)
             {
                 cornerX = (col+0.5)*TILE_WIDTH;
@@ -518,11 +530,17 @@ void Player::update(float delta)
                     cornerPoint.x = cornerX;
                 }
             }
-            
-            
-            
+            neighbor = Point(col,neighborRow);
             break;
         case kWalkRight:
+            if(fRow==row)
+            {
+                neighborRow = 0;
+            }
+            else
+            {
+                neighborRow++;
+            }
             if(fCol-col<=0.5)
             {
                 col += 1;
@@ -533,6 +551,7 @@ void Player::update(float delta)
                     cornerPoint.x = cornerX;
                 }
             }
+            neighbor = Point(col,neighborRow);
             break;
         default:
             break;
@@ -542,6 +561,9 @@ void Player::update(float delta)
     {
         auto corner = Point(col,row);
         auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), corner);
+        if (tile==nullptr&&neighborRow!=0&&neighborCol!=0) {
+            tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), neighbor);
+        }
         if(tile==nullptr&&mapUtil->isBorder(corner)==false)
         {
             setPosition(targetPosition);
