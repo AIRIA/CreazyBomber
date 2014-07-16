@@ -449,6 +449,9 @@ void Player::update(float delta)
     auto isCheck = false;
     auto cornerX = 0,cornerY = 0;
     int col = fCol,row = fRow;
+    setRow(row);
+    setCol(col);
+    setZOrder(row*10+5);
     auto cornerPoint = pos;
     
     switch(m_WalkDirection)
