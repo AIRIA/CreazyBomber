@@ -509,7 +509,7 @@ void Player::update(float delta)
             {
                 cornerX = (col+0.5)*TILE_WIDTH;
                 col -= 1;
-                if (abs(pos.x-cornerX)<=abs(getWalkSpeed().x/2))
+                if (abs(pos.x-cornerX)<=abs(getWalkSpeed().x))
                 {
                     isCheck = true;
                     cornerPoint.x = cornerX;
@@ -524,7 +524,7 @@ void Player::update(float delta)
             {
                 col += 1;
                 cornerX = (col-0.5)*TILE_WIDTH;
-                if (abs(pos.x-cornerX)<=getWalkSpeed().x/2)
+                if (abs(pos.x-cornerX)<=getWalkSpeed().x)
                 {
                     isCheck = true;
                     cornerPoint.x = cornerX;
