@@ -155,7 +155,7 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         });
         exit->setPosition(Point(-150,-200));
         exit->setCallback([](Ref *pSender)->void{
-            GameManager::getInstance()->setSpeed(Point::ZERO);
+//            GameManager::getInstance()->setSpeed(Point::ZERO);
             WelcomeScene::create()->run();
         });
         retry->setPosition(Point(0,-200));

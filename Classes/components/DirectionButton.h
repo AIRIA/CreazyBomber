@@ -11,14 +11,15 @@
 
 #include "common/CommonHeaders.h"
 
+class Player;
+
 class DirectionButton:public Node
 {
 public:
     virtual bool init();
     CREATE_FUNC(DirectionButton);
-    void walk();
-    void stand();
 protected:
+    Player *player;
     Vector<Sprite*> m_vArrows;
     EventListenerTouchOneByOne *getInnerEventListener();
     CC_SYNTHESIZE(Node*, m_pCurrentDirectionArrow, CurrentDirectionArrow);

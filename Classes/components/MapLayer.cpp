@@ -57,12 +57,12 @@ void MapLayer::update(float delta)
     auto player = GameManager::getInstance()->getPlayer();
     auto pos = player->getPosition();
     auto worldPos = player->getParent()->convertToWorldSpace(pos);
-    auto direction = GameManager::getInstance()->getWalkDirection();
+    auto direction = player->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
     auto range = 20;
     if(GameManager::getInstance()->getIsCollision()==false)
     {
-        auto speed = GameManager::getInstance()->getSpeed()*GameManager::getInstance()->getScaleFactor();
-        
+//        auto speed = GameManager::getInstance()->getSpeed() *GameManager::getInstance()->getScaleFactor();
+        auto speed = player->getWalkSpeed()*GameManager::getInstance()->getScaleFactor();
         
         switch (direction) {
             case kWalkRight:

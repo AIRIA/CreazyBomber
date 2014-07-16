@@ -23,7 +23,7 @@ void BigBuilding::onExit()
 
 void BigBuilding::update(float delta)
 {
-    auto status = GameManager::getInstance()->getWalkDirection();
+    auto status =  GameManager::getInstance()->getPlayer()->getWalkDirection();//GameManager::getInstance()->getWalkDirection();
     if(status!=kWalkStand)
     {
         auto mapCell = getMapCell();

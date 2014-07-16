@@ -35,7 +35,8 @@ enum WalkDirection{
     kWalkLeft  = 2,
     kWalkRight = -2,
     kWalkDown  = -1,
-    kWalkStand = 0
+    kWalkStand = 0,
+    kWalkEmpty = 999
 };
 
 #define HANDLER private

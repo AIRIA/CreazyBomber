@@ -21,7 +21,7 @@ void MapObject::onEnter()
     auto anchor = Point(m_pMapCell->getAnchorX(),1-m_pMapCell->getAnchorY());
     setMapSizeInPixle(mapSizeInPixel);
     setAnchorPoint(anchor);
-    setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1)*TILE_HEIGHT);
+    setPosition((getCol()+anchor.x)*TILE_WIDTH, mapSizeInPixel.height- (getRow()+1-anchor.y)*TILE_HEIGHT);
     
     if(getType()!=88&&getType()!=12)
     {
@@ -61,6 +61,9 @@ bool MapObject::initWithMapCell(MapCell *mapCell)
         return false;
     }
     manager = GameManager::getInstance();
+    config = GameConfig::getInstance();
+    mapUtil = MapUtil::getInstance();
+    
     auto cellFileName = mapCell->getFileName();
     auto cellFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(cellFileName);
     auto cellTexture = cellFrame->getTexture();
@@ -1018,7 +1021,7 @@ void ManEater::run()
 
 void ManEater::update(float delta)
 {
-    auto status = GameManager::getInstance()->getWalkDirection();
+    auto status = manager->getPlayer()->getWalkDirection();//GameManager::getInstance()->getWalkDirection();
     if(status!=kWalkStand)
     {
         auto direc = atoi(getMapCell()->getArgs().at(0)->getValue().c_str());
@@ -1168,7 +1171,7 @@ void WoodBox::update(float delta)
         return;
     }
     auto mapUtil = MapUtil::getInstance();
-    auto status = GameManager::getInstance()->getWalkDirection();
+    auto status = manager->getPlayer()->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
     if(status!=kWalkStand)
     {
         auto rect = getBoundingBox();
@@ -1182,7 +1185,7 @@ void WoodBox::update(float delta)
                 return;
             }
             /* 根据行走碰撞的方向 执行不同的操作 */
-            auto direction = GameManager::getInstance()->getWalkDirection();
+            auto direction = manager->getPlayer()->getWalkDirection();//GameManager::getInstance()->getWalkDirection();
             setMovingDirection(direction);
             auto nextCoordinate = Point(getCol(),getRow());
             auto offset = Point::ZERO;

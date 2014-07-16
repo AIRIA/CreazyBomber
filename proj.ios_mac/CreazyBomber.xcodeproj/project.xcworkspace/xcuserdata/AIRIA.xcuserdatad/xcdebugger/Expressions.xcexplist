@@ -53,6 +53,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Player::stand():Player.cpp">
+      </ContextState>
+      <ContextState
          contextName = "operator():HomeScene.cpp">
       </ContextState>
       <ContextState
@@ -137,6 +140,9 @@
                value = "this">
             </PersistentString>
             <PersistentString
+               value = "getWalkSpeed().x">
+            </PersistentString>
+            <PersistentString
                value = "GameManager::getInstance();">
             </PersistentString>
             <PersistentString
@@ -211,6 +217,9 @@
          contextName = "FireWall::update(float):MapObject.cpp">
       </ContextState>
       <ContextState
+         contextName = "Player::init():Player.cpp">
+      </ContextState>
+      <ContextState
          contextName = "Bomb::bomb():Bomb.cpp">
          <PersistentStrings>
             <PersistentString
@@ -228,6 +237,9 @@
                value = "coordinate">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Player::_revive(cocos2d::Ref*):Player.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

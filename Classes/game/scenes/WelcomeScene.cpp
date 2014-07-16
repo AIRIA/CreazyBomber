@@ -249,7 +249,7 @@ void WelcomeScene::_showWelcome()
 {
     auto createSprite = [&](std::string frameName,Point pos,float scale,Node *parentNode)->Sprite*{
         auto sprite = SPRITE(frameName);
-        auto startPos = pos-Point(0,500);
+        auto startPos = pos-Point(0,600);
         
         sprite->setScale(scale);
         sprite->setPosition(startPos);

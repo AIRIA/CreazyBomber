@@ -129,7 +129,7 @@ void SettingLayer::show()
     exit->setCallback([&](Ref *pSender)->void{
         
         this->removeAllChildren();
-        GameManager::getInstance()->setSpeed(Point::ZERO);
+//        GameManager::getInstance()->setSpeed(Point::ZERO);
         SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 //        if(getParent())
 //        {

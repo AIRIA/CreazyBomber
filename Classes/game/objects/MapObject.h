@@ -60,11 +60,16 @@ public:
 };
 
 class GameManager;
+class GameConfig;
+class MapUtil;
 
 class MapObject : public Sprite
 {
 public:
     GameManager *manager;
+    GameConfig *config;
+    MapUtil *mapUtil;
+    
     virtual void onEnter();
     virtual void onExit();
     bool initWithMapCell(MapCell *mapCell);

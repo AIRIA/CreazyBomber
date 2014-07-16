@@ -19,6 +19,11 @@ struct RoleProperty{
     std::string textureFileName;
 };
 
+enum ActionTag{
+    kTagRoleWalk,
+    kTagRoleStand
+};
+
 void Player::onEnter()
 {
     MapObject::onEnter();
@@ -28,6 +33,7 @@ void Player::onEnter()
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(Player::_revive), PLAYER_REVIVE, nullptr);
 }
 
+
 Player *Player::create(MapCell *mapCell)
 {
     auto player = new Player();
@@ -36,8 +42,7 @@ Player *Player::create(MapCell *mapCell)
         player->autorelease();
         player->setMapCell(mapCell);
         player->loadPlayerInfo();
-        GameManager::getInstance()->setPlayer(player);
-        GameManager::getInstance()->setWalkDirection(kWalkDown);
+        player->setWalkDirection(kWalkEmpty);
         return player;
     }
     CC_SAFE_FREE(player);
@@ -49,7 +54,14 @@ bool Player::init()
     if (!Sprite::init()) {
         return false;
     }
+    manager = GameManager::getInstance();
+    manager->setPlayer(this);
     
+    config = GameConfig::getInstance();
+    m_sRoleName = config->getSelectRoleName();
+    
+    mapUtil = MapUtil::getInstance();
+
     auto playerSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(GameConfig::getInstance()->getSelectRoleName()+"_chuchang.png");
     auto frameSourceRect = playerSpriteFrame->getRect();
     auto frameHeight = frameSourceRect.size.height;
@@ -149,6 +161,9 @@ bool Player::init()
 
 void Player::die()
 {
+    stopAllActions();
+    unscheduleUpdate();
+    unscheduleAllSelectors();
     GameManager::getInstance()->setIsGameOver(true);
     auto animation1 = AnimationCache::getInstance()->getAnimation(GameConfig::getInstance()->getSelectRoleName()+"_die_1");
     auto animation2 = AnimationCache::getInstance()->getAnimation(GameConfig::getInstance()->getSelectRoleName()+"_die_2");
@@ -162,27 +177,20 @@ void Player::die()
     }else{
         dieSeq = Sequence::create(die1, NULL);
     }
-    stopAllActions();
-    unscheduleUpdate();
-    unscheduleAllSelectors();
+    
     runAction(dieSeq);
 }
 
 void Player::_revive(cocos2d::Ref *pSender)
 {
-    auto player = GameManager::getInstance()->getPlayer();
-    player->unscheduleAllSelectors();
-    player->unscheduleUpdate();
-    player->stopAllActions();
-    player->scheduleUpdate();
-    player->_isCanBeAttack = true;
+    stopAllActions();
+    scheduleUpdateWithPriority(10);
+    _isCanBeAttack = true;
     GameManager::getInstance()->setIsGameOver(false);
-    GameManager::getInstance()->setSpeed(Point::ZERO);
+    setWalkSpeed(Point::ZERO);
     beAttack(-100);
-    auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_huxi_"+getDirectionStr();
-    auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
-    player->runAction(RepeatForever::create(animate));
-    GameManager::getInstance()->setCurrentWalkDirection(WalkDirection::kWalkStand);
+    m_WalkDirection = kWalkEmpty;
+    stand();
     Util::playSound(SOUND_SCENE_BG);
     Util::playEffect(SOUND_PLAYER_BIRTH);
 }
@@ -197,8 +205,7 @@ void Player::run()
     
     auto chuchang = getAnimate("chuchang");
     auto huxiSeq = Sequence::create(Repeat::create(chuchang,3),CallFunc::create([&]()->void{
-        auto huxi_down = getAnimate("huxi_down");
-        this->runAction(RepeatForever::create(huxi_down));
+        this->stand();
     }), NULL);
     
     runAction(huxiSeq);
@@ -222,9 +229,8 @@ void Player::run()
 
 std::string Player::getDirectionStr()
 {
-    WalkDirection direct = GameManager::getInstance()->getPrevWalkDirection();
     std::string directionStr;
-    switch (direct) {
+    switch (m_WalkDirection) {
         case WalkDirection::kWalkUp:
             directionStr = "up";
             break;
@@ -238,7 +244,7 @@ std::string Player::getDirectionStr()
             directionStr = "down";
             break;
         default:
-            directionStr = "";
+            directionStr = "down";
             break;
     }
     return directionStr;
@@ -264,17 +270,17 @@ Rect Player::getBoundingBox() const
     auto rect = Node::getBoundingBox();
     if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
     {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
+        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
         rect.size = Size(getWidth(),40);
     }
     else if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
     {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y)+GameManager::getInstance()->getSpeed();
+        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
         rect.size = Size(getWidth(),50);
     }
     else
     {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2)+GameManager::getInstance()->getSpeed();
+        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2)+getWalkSpeed();
         rect.size = Size(getWidth(),40);
     }
     
@@ -303,49 +309,94 @@ const Point &Player::getCoordinate()
     return _coordinate;
 }
 
+
+
 void Player::beAttack(float heart)
 {
-    auto player = GameManager::getInstance()->getPlayer();
-    if(player->_isCanBeAttack)
+    if(!_isCanBeAttack)
     {
-        if(heart>0)
-        {
-            Util::playEffect(SOUND_PLAYER_ATTACKED);
-        }
-        player->_isCanBeAttack = false;
-        auto hp = player->getHP()-heart;
-        player->setHP(hp);
-        if (player->getHP()<0) {
-            player->setHP(0);
-        }
-        
-        auto data = Node::create();
-        data->setUserData(new int(heart));
-        NotificationCenter::getInstance()->postNotification(UPDATE_HP,data);
-        if(player->getHP()<=0)
-        {
-            player->unscheduleUpdate();
-            player->stopAllActions();
-            player->die();
-            Util::playEffect(SOUND_PLAYER_DEATH);
-            NotificationCenter::getInstance()->postNotification(GAME_OVER);
-            return;
-        }
-        player->schedule(schedule_selector(Player::blink), 0.1, 11, 0);
-        player->scheduleOnce(schedule_selector(Player::_afterAttack), 2);
+        return;
     }
+    auto blinkAction = Blink::create(2, 5);
+    if(heart>0)//伤害的时候播放音效 如果伤害值是负数 说明是复活或者是加血
+    {
+        Util::playEffect(SOUND_PLAYER_ATTACKED);
+    }
+    _isCanBeAttack = false;
+    auto hp = getHP()-heart;
+    setHP(hp);
+    if (getHP()<0) {
+        setHP(0);
+    }
+    auto data = Node::create();
+    data->setUserData(new int(heart));
+    NotificationCenter::getInstance()->postNotification(UPDATE_HP,data);
+    if(getHP()<=0)
+    {
+        die();
+        Util::playEffect(SOUND_PLAYER_DEATH);
+        NotificationCenter::getInstance()->postNotification(GAME_OVER);
+        return;
+    }
+    runAction(Sequence::create(blinkAction,CallFunc::create([&]()->void{
+        _isCanBeAttack = true;
+    }), NULL));
 }
 
-void Player::_afterAttack(float delta)
+void Player::walk(WalkDirection direction)
 {
-    _isCanBeAttack = true;
+    /* 如果方向一样 说明正在行走 */
+    if(m_WalkDirection==direction||manager->getIsGameOver())
+    {
+        return;
+    }
+    m_WalkDirection = direction;
+    /* 需要根据行走的方向 设置速度向量 */
+    switch (m_WalkDirection) {
+        case WalkDirection::kWalkUp:
+            m_WalkSpeed = Point(0,m_fSpeed);
+            break;
+        case WalkDirection::kWalkLeft:
+            m_WalkSpeed = Point(-m_fSpeed,0);
+            break;
+        case WalkDirection::kWalkRight:
+            m_WalkSpeed = Point(m_fSpeed,0);
+            break;
+        case WalkDirection::kWalkDown:
+            m_WalkSpeed = Point(0,-m_fSpeed);
+            break;
+        default:
+            break;
+    }
+    /* 执行行走的动画 同时停止呼吸动画和之前的行走动画 */
+    stopActionByTag(kTagRoleStand);
+    stopActionByTag(kTagRoleWalk);
+    auto animationName = m_sRoleName+"_"+getDirectionStr();
+    auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
+    auto repeatRunAction = RepeatForever::create(animate);
+    repeatRunAction->setTag(kTagRoleWalk);
+    runAction(repeatRunAction);
 }
 
-void Player::blink(float delta)
+void Player::stand()
 {
-    auto visible = isVisible();
-    setVisible(!visible);
+    if(GameManager::getInstance()->getIsGameOver()||m_WalkDirection==kWalkStand)
+    {
+        return;
+    }
+    /* 速度重置归零 并且停止之前的行走的动作 */
+    this->setWalkSpeed(Point::ZERO);
+    stopActionByTag(kWalkStand);
+    stopActionByTag(kTagRoleWalk);
+    /* 呼吸动画 */
+    auto animationName = GameConfig::getInstance()->getSelectRoleName()+"_huxi_"+getDirectionStr();
+    auto animate = Animate::create(AnimationCache::getInstance()->getAnimation(animationName));
+    auto repeatStandAction = RepeatForever::create(animate);
+    repeatStandAction->setTag(kTagRoleStand);
+    runAction(repeatStandAction);
+    m_WalkDirection = kWalkStand;
 }
+
 
 void Player::update(float delta)
 {
@@ -377,27 +428,144 @@ void Player::update(float delta)
             }
             monsterIt++;
         }
-        
     }
+    
+    
     auto manager = GameManager::getInstance();
     
-    /* 判断是否有阻挡 */
-    auto isCollision = manager->getIsCollision();
-    if(isCollision)
+    /**
+     * 判断是否有阻挡
+     * 炸弹人在行走的时候 只允许在每一行的底部 或者每一列的中心线走动
+     * 如果在改变方向行走的时候 需要判断 距离那一列或者那一行 比较近 自动行走到指定的行 然后再按照指定的方向行走
+     * 如果距离最近的行或者列 处于阻挡的状态 那么就单纯的改变行走方向 并不进行位置的移动
+     *
+     * 1.获取自己的坐标位置 计算出来未来的拐角点
+     * 2.获取拐角判断的位置
+     */
+    auto pos = getPosition();
+    float fCol = pos.x / TILE_WIDTH;
+    float fRow = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT-1;
+    auto targetPosition = getPosition()+getWalkSpeed()+manager->getLvDaiSpeed();
+    auto isCheck = false;
+    auto cornerX = 0,cornerY = 0;
+    int col = fCol,row = fRow;
+    auto cornerPoint = pos;
+    
+    switch(m_WalkDirection)
     {
-        manager->setIsCollision(false);
+        case kWalkUp:
+            if(fRow-row<=0.1)
+            {
+                cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
+                row -= 1;
+                if(cornerY - (pos.y+TILE_HEIGHT) <abs(getWalkSpeed().y))
+                {
+                    isCheck = true;
+                    cornerPoint.y = cornerY-TILE_HEIGHT;
+                }
+            }
+//            else if(fRow-row>=0.9)
+//            {
+//                row -= 2;
+//            }
+            
+            
+//            row += 1;
+//            cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
+//            if (targetPosition.y > cornerY)
+//            {
+//                isCheck = true;
+//            }
+            break;
+        case kWalkDown:
+            if (fCol==col) {
+                
+            }
+            row += 1;
+            cornerY = getMapSizeInPixle().height-TILE_HEIGHT*row;
+            if (targetPosition.y < cornerY)
+            {
+                isCheck = true;
+            }
+            break;
+            
+        case kWalkLeft:
+//            if(fCol-col<0.5)
+//            {
+//                col -= 1;
+//            }
+//            cornerX = (col+0.5)*TILE_WIDTH;
+//            if ( abs(targetPosition.x-cornerX)<=abs(getWalkSpeed().x))
+//            {
+//                isCheck = true;
+//                
+//            }
+//            if(abs(targetPosition.x-cornerX)==0)
+//            {
+//                col -= 1;
+//            }
+            
+            if(fCol-col>=0.5)
+            {
+                cornerX = (col+0.5)*TILE_WIDTH;
+                col -= 1;
+                if (abs(pos.x-cornerX)<=abs(getWalkSpeed().x/2))
+                {
+                    isCheck = true;
+                    cornerPoint.x = cornerX;
+                }
+            }
+            
+            
+            
+            break;
+        case kWalkRight:
+            if(fCol-col<=0.5)
+            {
+                col += 1;
+                cornerX = (col-0.5)*TILE_WIDTH;
+                if (abs(pos.x-cornerX)<=getWalkSpeed().x/2)
+                {
+                    isCheck = true;
+                    cornerPoint.x = cornerX;
+                }
+            }
+            break;
+        default:
+            break;
     }
-    else
+    
+    if(isCheck)
     {
-        auto targetPosition = getPosition()+manager->getSpeed()+manager->getLvDaiSpeed();
-        auto coordinate = getCoordinate();
+        auto corner = Point(col,row);
+        auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), corner);
+        if(tile==nullptr&&mapUtil->isBorder(corner)==false)
+        {
+            setPosition(targetPosition);
+        }else{
+            setPosition(cornerPoint);
+        }
+    }else{
         setPosition(targetPosition);
-        manager->setLvDaiSpeed(Point::ZERO);
     }
+    
+    
+    
+    
+//    auto isCollision = manager->getIsCollision();
+//    if(isCollision)
+//    {
+//        manager->setIsCollision(false);
+//    }
+//    else
+//    {
+//        auto targetPosition = getPosition()+getWalkSpeed()+manager->getLvDaiSpeed();
+//        auto coordinate = getCoordinate();
+//        setPosition(targetPosition);
+//        manager->setLvDaiSpeed(Point::ZERO);
+//    }
     
 }
 
-void Player::stopWalkAction()
-{
-    
-}
+
+

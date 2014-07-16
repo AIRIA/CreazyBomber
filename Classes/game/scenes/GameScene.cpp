@@ -64,7 +64,7 @@ void GameScene::nextLevel(cocos2d::Ref *pSender)
     }
     
     
-    manager->setSpeed(Point::ZERO);
+//    manager->setSpeed(Point::ZERO);
     manager->setPlayer(nullptr);
     removeAllChildren();
     GameScene::create()->run();
@@ -72,7 +72,7 @@ void GameScene::nextLevel(cocos2d::Ref *pSender)
 
 void GameScene::retry(cocos2d::Ref *pSender)
 {
-    manager->setSpeed(Point::ZERO);
+//    manager->setSpeed(Point::ZERO);
     Director::getInstance()->purgeCachedData();
     removeAllChildren();
     GameScene::create()->run();
