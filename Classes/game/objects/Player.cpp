@@ -68,7 +68,7 @@ bool Player::init()
     auto frameHeight = frameSourceRect.size.height;
     auto frameWidth = frameSourceRect.size.width/2;
     
-    auto createAnimation = [&](std::string suffix,int frameNum,Point &startPos)->void{
+    auto createAnimation = [&](std::string suffix,int frameNum,Point &startPos,float frameDelay)->void{
         
         auto playerTexture = playerSpriteFrame->getTexture();
         auto playerSourceRect = playerSpriteFrame->getRect();
@@ -83,18 +83,18 @@ bool Player::init()
             frameVec.pushBack(frame);
         }
         auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(0.2f);
+        animation->setDelayPerUnit(frameDelay);
         AnimationCache::getInstance()->addAnimation(animation, animationName);
     };
     
     /* 把Vec中的动画注册到动画缓存中 */
-    auto registAnimation = [&](std::vector<RoleProperty> vec)->void{
+    auto registAnimation = [&](std::vector<RoleProperty> vec,float frameDelay=0.2f)->void{
         /* 添加选定角色的方向行走动画 上 右 做 下(随机三个) */
         auto it = vec.begin();
         while(it!=vec.end())
         {
             auto startPoint = Point(0,it->offsetY);
-            createAnimation(it->suffix,it->frameNum,startPoint);
+            createAnimation(it->suffix,it->frameNum,startPoint,frameDelay);
             it++;
         }
 
@@ -155,7 +155,7 @@ bool Player::init()
         walkVec.push_back({"die_1",frameHeight*6,2});
     }
     
-    registAnimation(walkVec);
+    registAnimation(walkVec,0.1f);
     
     return true;
 }
