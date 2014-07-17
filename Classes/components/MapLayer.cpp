@@ -35,7 +35,7 @@ void MapLayer::onEnter()
     
     if(isScroll)
     {
-        scheduleUpdateWithPriority(1);
+        scheduleUpdateWithPriority(11);
         _originPosition = getPosition();
         _offset = Point::ZERO;
     }
@@ -57,10 +57,10 @@ void MapLayer::update(float delta)
     auto player = GameManager::getInstance()->getPlayer();
     auto pos = player->getPosition();
     auto worldPos = player->getParent()->convertToWorldSpace(pos);
-    auto direction = player->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
+    auto direction = player->getSmartDirection();//player->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
     auto range = 20;
-    if(GameManager::getInstance()->getIsCollision()==false)
-    {
+//    if(GameManager::getInstance()->getIsCollision()==false)
+//    {
 //        auto speed = GameManager::getInstance()->getSpeed() *GameManager::getInstance()->getScaleFactor();
         auto speed = player->getWalkSpeed()*GameManager::getInstance()->getScaleFactor();
         
@@ -90,5 +90,5 @@ void MapLayer::update(float delta)
                 break;
         }
         setPosition(_originPosition+_offset*-1);
-    }
+//    }
 }

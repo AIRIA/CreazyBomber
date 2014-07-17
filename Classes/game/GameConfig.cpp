@@ -17,7 +17,7 @@ GameConfig *GameConfig::getInstance()
         _instance->init();
         _instance->setSelectRoleName("viking");
         _instance->setSelectSceneName("cl");
-        _instance->setSelectLevel(5);
+        _instance->setSelectLevel(3);
     }
     return _instance;
 }

@@ -343,14 +343,15 @@ void Player::beAttack(float heart)
     }), NULL));
 }
 
-void Player::walk(WalkDirection direction)
+void Player::walk(WalkDirection direction,bool isForce)
 {
     /* 如果方向一样 说明正在行走 */
-    if(m_WalkDirection==direction||manager->getIsGameOver())
+    if((m_WalkDirection==direction||manager->getIsGameOver())&&isForce==false)
     {
         return;
     }
     m_WalkDirection = direction;
+    m_SmartDirection = m_WalkDirection;
     /* 需要根据行走的方向 设置速度向量 */
     switch (m_WalkDirection) {
         case WalkDirection::kWalkUp:
@@ -431,7 +432,6 @@ void Player::update(float delta)
     }
     
     
-    auto manager = GameManager::getInstance();
     
     /**
      * 判断是否有阻挡
@@ -442,6 +442,7 @@ void Player::update(float delta)
      * 1.获取自己的坐标位置 计算出来未来的拐角点
      * 2.获取拐角判断的位置
      */
+    auto manager = GameManager::getInstance();
     auto pos = getPosition();
     float fCol = pos.x / TILE_WIDTH;
     float fRow = (getMapSizeInPixle().height-pos.y)/TILE_HEIGHT-1;
@@ -485,6 +486,7 @@ void Player::update(float delta)
             neighbor = Point(neighborCol,row);
             break;
         case kWalkDown:
+            log("down");
             if(fCol-col<0.5)
             {
                 neighborCol--;
@@ -503,6 +505,7 @@ void Player::update(float delta)
                 row += 1;
                 if(cornerY - (pos.y+TILE_HEIGHT) <abs(getWalkSpeed().y))
                 {
+                    log("check");
                     isCheck = true;
                     cornerPoint.y = cornerY-TILE_HEIGHT;
                 }
@@ -557,17 +560,99 @@ void Player::update(float delta)
             break;
     }
     
-    if(isCheck)
+    if(isCheck||m_SmartDirection!=m_WalkDirection)
     {
         auto corner = Point(col,row);
-        auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), corner);
-        if (tile==nullptr&&neighborRow!=0&&neighborCol!=0) {
-            tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), neighbor);
+        MapObject *targetTile = nullptr,*neighborTile = nullptr;
+        if (neighborRow!=0&&neighborCol!=0) {
+            neighborTile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), neighbor);
         }
-        if(tile==nullptr&&mapUtil->isBorder(corner)==false)
+        targetTile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), corner);
+        
+        if(targetTile==nullptr&&neighborTile==nullptr&&mapUtil->isBorder(corner)==false)
         {
             setPosition(targetPosition);
         }else{
+            /* 智能走向判断 */
+            if (nullptr==targetTile&&(m_WalkDirection==kWalkUp||m_WalkDirection==kWalkDown))
+            {
+                
+                /* 计算出来拐点 到达了拐点就需要恢复速度向量 */
+                auto smartCornerX = (col+0.5)*TILE_WIDTH;
+                //判断出来是要往左边走还是右边走
+                if(fCol-col>=0.5) //left
+                {
+                    m_SmartDirection = kWalkLeft;
+                    m_WalkSpeed = Point(-m_fSpeed,0);
+                    cornerPoint += m_WalkSpeed;
+                    if (cornerPoint.x<=smartCornerX) {
+                        cornerPoint.x = smartCornerX;
+                        walk(m_WalkDirection,true);
+                    }
+                }
+                else //right
+                {
+                    m_SmartDirection = kWalkRight;
+                    m_WalkSpeed = Point(m_fSpeed,0);
+                    log("col:%d,row:%d,pos.x:%f,pos.y:%f,cornerX:%f,cornerY:%f,smartCornerX:%f",col,row,pos.x,pos.y,cornerPoint.x,cornerPoint.y,smartCornerX);
+                    cornerPoint += m_WalkSpeed;
+                    if (cornerPoint.x>=smartCornerX) {
+                        cornerPoint.x = smartCornerX;
+                        walk(m_WalkDirection,true);
+                    }
+                }
+                
+            }
+            else if (m_WalkDirection==kWalkLeft||m_WalkDirection==kWalkRight)
+            {
+                if (fRow-row>0.5 && neighborTile==nullptr) {
+                    auto smartCornerY = getMapSizeInPixle().height-(neighborRow+1)*TILE_HEIGHT;
+                    m_SmartDirection = kWalkDown;
+                    m_WalkSpeed = Point(0,-m_fSpeed);
+                    cornerPoint += m_WalkSpeed;
+                    if(cornerPoint.y <= smartCornerY)
+                    {
+                        cornerPoint.y = smartCornerY;
+                        walk(m_WalkDirection,true);
+                    }
+                }
+                else if(fRow-row<0.5 && targetTile==nullptr)
+                {
+                    auto smartCornerY = getMapSizeInPixle().height-(row+1)*TILE_HEIGHT;
+                    m_SmartDirection = kWalkUp;
+                    m_WalkSpeed = Point(0,m_fSpeed);
+                    cornerPoint += m_WalkSpeed;
+                    if(cornerPoint.y >= smartCornerY)
+                    {
+                        cornerPoint.y = smartCornerY;
+                        walk(m_WalkDirection,true);
+                    }
+                }
+//                auto smartCornerY = getMapSizeInPixle().height-(row+1)*TILE_HEIGHT;
+//                if (fRow-row>=0.5) //down
+//                {
+//                    m_SmartDirection = kWalkDown;
+//                    m_WalkSpeed = Point(0,-m_fSpeed);
+//                    cornerPoint += m_WalkSpeed;
+//                    if(cornerPoint.y <= smartCornerY)
+//                    {
+//                        cornerPoint.y = smartCornerY;
+//                        walk(m_WalkDirection,true);
+//                    }
+//                }
+//                else //up
+//                {
+//                    m_SmartDirection = kWalkUp;
+//                    m_WalkSpeed = Point(0,m_fSpeed);
+//                    cornerPoint += m_WalkSpeed;
+//                    if(cornerPoint.y >= smartCornerY)
+//                    {
+//                        cornerPoint.y = smartCornerY;
+//                        walk(m_WalkDirection,true);
+//                    }
+//                }
+            }
+            
             setPosition(cornerPoint);
         }
     }else{
@@ -575,7 +660,18 @@ void Player::update(float delta)
     }
     
     
-    
+//    switch (m_WalkDirection) {
+//        case kWalkUp:
+//            break;
+//        case kWalkDown:
+//            break;
+//        case kWalkLeft:
+//            break;
+//        case kWalkRight:
+//            break;
+//        default:
+//            break;
+//    }
     
 //    auto isCollision = manager->getIsCollision();
 //    if(isCollision)

@@ -25,6 +25,9 @@
             <PersistentString
                value = "MapUtil::getInstance()-&gt;getMapSize()">
             </PersistentString>
+            <PersistentString
+               value = "VisibleRect::center().y">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -34,6 +37,9 @@
                value = "monsters.Size()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Player::stand():Player.cpp">
       </ContextState>
       <ContextState
          contextName = "BigBuilding::onEnter():BigBuilding.cpp">
@@ -51,9 +57,6 @@
                value = "getVecSpeed()">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Player::stand():Player.cpp">
       </ContextState>
       <ContextState
          contextName = "operator():HomeScene.cpp">
@@ -137,16 +140,22 @@
                value = "rect.origin.y">
             </PersistentString>
             <PersistentString
+               value = "coordinate">
+            </PersistentString>
+            <PersistentString
                value = "this">
             </PersistentString>
             <PersistentString
                value = "getWalkSpeed().x">
             </PersistentString>
             <PersistentString
+               value = "fCol">
+            </PersistentString>
+            <PersistentString
                value = "GameManager::getInstance();">
             </PersistentString>
             <PersistentString
-               value = "coordinate">
+               value = "getPositionX()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

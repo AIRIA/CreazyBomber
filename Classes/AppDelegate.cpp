@@ -19,7 +19,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("Crazy Bomber");
-        glview->setFrameSize(960, 640);
+        glview->setFrameSize(1200, 640);
         director->setOpenGLView(glview);
     }
     srand(time(NULL));
