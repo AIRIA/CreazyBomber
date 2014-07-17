@@ -59,8 +59,8 @@ void MapLayer::update(float delta)
     auto worldPos = player->getParent()->convertToWorldSpace(pos);
     auto direction = player->getSmartDirection();//player->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
     auto range = 20;
-//    if(GameManager::getInstance()->getIsCollision()==false)
-//    {
+    if(player->getIsCollision()==false)
+    {
 //        auto speed = GameManager::getInstance()->getSpeed() *GameManager::getInstance()->getScaleFactor();
         auto speed = player->getWalkSpeed()*GameManager::getInstance()->getScaleFactor();
         
@@ -90,5 +90,5 @@ void MapLayer::update(float delta)
                 break;
         }
         setPosition(_originPosition+_offset*-1);
-//    }
+    }
 }

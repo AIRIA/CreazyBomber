@@ -77,8 +77,8 @@ protected:
     CC_SYNTHESIZE(Point, m_WalkSpeed, WalkSpeed);
     /* 智能判断出来的临时方向 */
     CC_SYNTHESIZE(WalkDirection, m_SmartDirection, SmartDirection);
-private:
-    bool m_bIsCollision = false;
+    /* 是否处于被阻挡的状态 */
+    CC_SYNTHESIZE(bool, m_bIsCollision, IsCollision);
 };
 
 #endif /* defined(__CreazyBomber__Player__) */

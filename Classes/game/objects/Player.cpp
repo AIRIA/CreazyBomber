@@ -43,6 +43,7 @@ Player *Player::create(MapCell *mapCell)
         player->setMapCell(mapCell);
         player->loadPlayerInfo();
         player->setWalkDirection(kWalkEmpty);
+        player->setIsCollision(false);
         return player;
     }
     CC_SAFE_FREE(player);
@@ -572,6 +573,7 @@ void Player::update(float delta)
         if(targetTile==nullptr&&neighborTile==nullptr&&mapUtil->isBorder(corner)==false)
         {
             setPosition(targetPosition);
+            this->setIsCollision(false);
         }else{
             /* 智能走向判断 */
             if (nullptr==targetTile&&(m_WalkDirection==kWalkUp||m_WalkDirection==kWalkDown))
@@ -628,6 +630,10 @@ void Player::update(float delta)
                         walk(m_WalkDirection,true);
                     }
                 }
+                else
+                {
+                    this->setIsCollision(true);
+                }
 //                auto smartCornerY = getMapSizeInPixle().height-(row+1)*TILE_HEIGHT;
 //                if (fRow-row>=0.5) //down
 //                {
@@ -652,11 +658,16 @@ void Player::update(float delta)
 //                    }
 //                }
             }
+            else
+            {
+                this->setIsCollision(true);
+            }
             
             setPosition(cornerPoint);
         }
     }else{
         setPosition(targetPosition);
+        this->setIsCollision(false);
     }
     
     
