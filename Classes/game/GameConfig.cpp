@@ -15,7 +15,7 @@ GameConfig *GameConfig::getInstance()
     if (_instance==nullptr) {
         _instance = new GameConfig();
         _instance->init();
-        _instance->setSelectRoleName("viking");
+        _instance->setSelectRoleName("smurf");
         _instance->setSelectSceneName("cl");
         _instance->setSelectLevel(3);
     }
@@ -33,11 +33,11 @@ void GameConfig::init()
     {
         __userDefault->setBoolForKey("isExist", true);
         __userDefault->setBoolForKey(KEY_CL, true);
-        __userDefault->setBoolForKey(KEY_MD, true);
-        __userDefault->setBoolForKey(KEY_BC, true);
-        __userDefault->setBoolForKey(KEY_CL_BATTLE, true);
-        __userDefault->setBoolForKey(KEY_MD_BATTLE, true);
-        __userDefault->setBoolForKey(KEY_BC_BATTLE, true);
+        __userDefault->setBoolForKey(KEY_MD, false);
+        __userDefault->setBoolForKey(KEY_BC, false);
+        __userDefault->setBoolForKey(KEY_CL_BATTLE, false);
+        __userDefault->setBoolForKey(KEY_MD_BATTLE, false);
+        __userDefault->setBoolForKey(KEY_BC_BATTLE, false);
         
         __userDefault->setBoolForKey(KEY_BATTLE_MODE, false);
         __userDefault->setIntegerForKey(KEY_CL_LEVEL, 1);

@@ -213,14 +213,7 @@ void Player::run()
     auto arrow = PlayerArrow::getInstance();
     arrow->retain();
     arrow->setAnchorPoint(Point(0.5,0));
-    if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
-    {
-        arrow->setPosition(getWidth(),130);
-    }
-    else
-    {
-        arrow->setPosition(getWidth(),getHeight()*2);
-    }
+    arrow->setPosition(getWidth(),getHeight()*2+getFootPos()+10);
     if(arrow->getParent())
     {
         return;
@@ -260,8 +253,8 @@ void Player::loadPlayerInfo()
     rapidjson::Value &player = playerInfoDoc[GameConfig::getInstance()->getSelectRoleName().c_str()];
     this->setWidth(player["width"].GetInt());
     this->setHeight(player["height"].GetInt());
-    this->setSpeed(player["speed"].GetInt()*2);
-    this->setFootPos(player["foot_pos"].GetInt()*2);
+    this->setSpeed(player["speed"].GetInt());
+    this->setFootPos(player["foot_pos"].GetInt());
     this->setHP(99);
 }
 

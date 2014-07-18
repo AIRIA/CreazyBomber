@@ -322,11 +322,14 @@ void TransferDoor::update(float delta)
         unscheduleUpdate();
         GameManager::getInstance()->setIsGameOver(true);
         GameManager::getInstance()->getPlayer()->unscheduleUpdate();
+        auto transforCenter = getPosition()+Point(0,TILE_HEIGHT/2);
+        auto moveAct = MoveTo::create(0.5f, transforCenter);
         auto scaleAct = ScaleTo::create(0.5f, 0.0f);
         auto scaleHandler = CallFunc::create([]()->void{
             NotificationCenter::getInstance()->postNotification(GAME_RESULT);
         });
-        manager->getPlayer()->runAction(Sequence::create(scaleAct,scaleHandler, NULL));
+        
+        manager->getPlayer()->runAction(Sequence::create(Spawn::create(moveAct,scaleAct, NULL),scaleHandler, NULL));
     }
 }
 
