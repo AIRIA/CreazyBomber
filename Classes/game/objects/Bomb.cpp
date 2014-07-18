@@ -196,7 +196,6 @@ void Bomb::bomb()
             bombFire->setAnchorPoint(getAnchorPoint());
             bombFire->setPosition(GameManager::getInstance()->getPlayer()->convertCoordinate2Point(targetCoordiante));
             bombFire->runAction(Sequence::create(getAnimateByName(name),removeHandler->clone(), NULL));
-            bombFire->setZOrder(getZOrder()-2);
             GameManager::getInstance()->getMapTileLayer()->addChild(bombFire);
             
         }
