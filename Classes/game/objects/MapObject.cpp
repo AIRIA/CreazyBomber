@@ -982,15 +982,19 @@ void LvDai::update(float delta)
         switch (direction) {
             case 0: //up
                 manager->setLvDaiSpeed(Point(0,LV_DAI_SPEED));
+//                manager->getPlayer()->setWalkDirection(kWalkUp);
                 break;
             case 1: //down
                 manager->setLvDaiSpeed(Point(0,-LV_DAI_SPEED));
+//                manager->getPlayer()->setWalkDirection(kWalkDown);
                 break;
             case 2: //left
                 manager->setLvDaiSpeed(Point(-LV_DAI_SPEED,0));
+//                manager->getPlayer()->setWalkDirection(kWalkLeft);
                 break;
             case 3: //right
                 manager->setLvDaiSpeed(Point(LV_DAI_SPEED,0));
+//                manager->getPlayer()->setWalkDirection(kWalkRight);
                 break;
             default:
                 break;
