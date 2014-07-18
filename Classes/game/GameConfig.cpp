@@ -15,9 +15,9 @@ GameConfig *GameConfig::getInstance()
     if (_instance==nullptr) {
         _instance = new GameConfig();
         _instance->init();
-        _instance->setSelectRoleName("smurf");
+        _instance->setSelectRoleName("viking");
         _instance->setSelectSceneName("cl");
-        _instance->setSelectLevel(3);
+        _instance->setSelectLevel(11);
     }
     return _instance;
 }

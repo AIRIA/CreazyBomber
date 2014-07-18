@@ -200,22 +200,24 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
         auto key = "unlock_md.png";
         if(sceneName=="cl")
         {
-            __userDefault->setBoolForKey(KEY_MD, true);
+            
             if(__userDefault->getBoolForKey(KEY_MD))
             {
                 showResultPanel(this);
                 return;
             }
+            __userDefault->setBoolForKey(KEY_MD, true);
         }
         else if(sceneName=="md")
         {
-            __userDefault->setBoolForKey(KEY_BC, true);
+            
             if(__userDefault->getBoolForKey(KEY_MD))
             {
                 showResultPanel(this);
                 return;
             }
             key = "unlock_bc.png";
+            __userDefault->setBoolForKey(KEY_BC, true);
         }
         auto sprite = SPRITE(key);
         sprite->setOpacity(0);

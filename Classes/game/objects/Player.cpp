@@ -262,22 +262,26 @@ Rect Player::getBoundingBox() const
 {
     //每个角色的碰撞检测区域都有差别
     auto rect = Node::getBoundingBox();
-    if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
-    {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
-        rect.size = Size(getWidth(),40);
-    }
-    else if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
-    {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
-        rect.size = Size(getWidth(),50);
-    }
-    else
-    {
-        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2)+getWalkSpeed();
-        rect.size = Size(getWidth(),40);
-    }
+//    if(GameConfig::getInstance()->getSelectRoleName()==std::string("zombie"))
+//    {
+//        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
+//        rect.size = Size(getWidth(),40);
+//    }
+//    else if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
+//    {
+//        rect.origin = Point(rect.origin.x+20,rect.origin.y)+getWalkSpeed();
+//        rect.size = Size(getWidth(),50);
+//    }
+//    else
+//    {
+//        rect.origin = Point(rect.origin.x+20,rect.origin.y+getFootPos()*2)+getWalkSpeed();
+//        rect.size = Size(getWidth(),40);
+//    }
     
+    auto origin = getPosition()-Point(getWidth()/2,-getFootPos());
+    auto size = Size(getWidth(), getHeight());
+    rect.origin = origin;
+    rect.size = size;
     return rect;
 }
 
