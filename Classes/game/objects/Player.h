@@ -75,10 +75,14 @@ protected:
     CC_SYNTHESIZE(WalkDirection, m_WalkDirection, WalkDirection);
     /* 角色行走的速度 */
     CC_SYNTHESIZE(Point, m_WalkSpeed, WalkSpeed);
+    /* 角色接触到的履带的速度向量 */
+    CC_SYNTHESIZE(Point, m_LvDaiSpeed, LvDaiSpeed);
     /* 智能判断出来的临时方向 */
     CC_SYNTHESIZE(WalkDirection, m_SmartDirection, SmartDirection);
     /* 是否处于被阻挡的状态 */
     CC_SYNTHESIZE(bool, m_bIsCollision, IsCollision);
+    /* 当前接触的履带的滚动方向 */
+    CC_SYNTHESIZE(WalkDirection, m_LvDaiDirection, LvDaiDirection);
 };
 
 #endif /* defined(__CreazyBomber__Player__) */

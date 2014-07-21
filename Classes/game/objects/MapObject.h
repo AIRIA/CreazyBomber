@@ -229,6 +229,9 @@ public:
 };
 
 #pragma mark 炸弹人在上面走的时候会有速度的变化
+
+class Player;
+
 class LvDai:public MapObject
 {
 public:
@@ -236,6 +239,7 @@ public:
     MAPOBJ_CREATE(LvDai);
     virtual void doTileAnimation();
     virtual void update(float delta);
+    bool checkCollisionWithPlayer(Player *player);
 };
 
 #pragma mark 鬼灯 可以移动

@@ -41,6 +41,7 @@ void MapUtil::dispose()
     m_vMapObjects.clear();
     m_vMapBorders.clear();
     mapVec.clear();
+    m_vLvDai.clear();
 }
 
 void MapUtil::readMapTxt()
@@ -331,6 +332,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         case kCellTypeCorpseFlower:
             element = ManEater::create(mapCell);
+            m_vCommonTiles.pushBack(element);
             break;
         case kCellTypeBox:
             element = WoodBox::create(mapCell);
@@ -344,6 +346,7 @@ MapObject *MapUtil::getMapObject(std::string name)
             break;
         case kCellTypeLvDai:
             element = LvDai::create(mapCell);
+            m_vLvDai.pushBack(static_cast<LvDai*>(element));
             break;
         case kCellTypeShuShou:
             element = ShuShou::create(mapCell);

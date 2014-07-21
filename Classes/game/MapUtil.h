@@ -156,6 +156,8 @@ public:
     
     std::vector<std::vector<std::string> > &getMapVec(){return mapVec;};
     
+    Vector<LvDai*> &getLvDai(){ return m_vLvDai;};
+    
 protected:
     
     /**
@@ -173,6 +175,7 @@ protected:
     Vector<Monster*> m_vMonsters;
     Vector<BombFire*> m_vFires;
     Vector<Bomb*> m_vBombs;
+    Vector<LvDai*> m_vLvDai;
     /* 普通建筑 不具有任何攻击力和伤害的 可以阻挡穿透 */
     Vector<MapObject*> m_vCommonTiles;
     /* 边界 */

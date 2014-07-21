@@ -190,7 +190,7 @@ void MapObject::doTileAttack()
     });
     
     auto attackCallback = CallFunc::create([&]()->void{
-        auto delay = DelayTime::create(0.05f);
+        auto delay = DelayTime::create(0.2f);
         auto delayCall = CallFunc::create([&]()->void{
             this->onAttack();
         });
@@ -960,19 +960,20 @@ void LvDai::doTileAnimation()
 void LvDai::onEnter()
 {
     MapObject::onEnter();
-    setZOrder(-1);
+//    removeFromParent();
 }
 
 #define LV_DAI_SPEED 1
 
 void LvDai::update(float delta)
 {
-    auto manager = GameManager::getInstance();
+    removeFromParent();
+}
+
+bool LvDai::checkCollisionWithPlayer(Player *player)
+{
     auto rect = getBoundingBox();
-    if(getType()!=kCellBorder)
-    {
-        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
-    }
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
     auto playerRect = manager->getPlayer()->getBoundingBox();
     auto isCollision = playerRect.intersectsRect(rect);
     if(isCollision)
@@ -981,25 +982,27 @@ void LvDai::update(float delta)
         
         switch (direction) {
             case 0: //up
-                manager->setLvDaiSpeed(Point(0,LV_DAI_SPEED));
-//                manager->getPlayer()->setWalkDirection(kWalkUp);
+                player->setLvDaiSpeed(Point(0,LV_DAI_SPEED));
+                player->setLvDaiDirection(kWalkUp);
                 break;
             case 1: //down
-                manager->setLvDaiSpeed(Point(0,-LV_DAI_SPEED));
-//                manager->getPlayer()->setWalkDirection(kWalkDown);
+                player->setLvDaiSpeed(Point(0,-LV_DAI_SPEED));
+                player->setLvDaiDirection(kWalkDown);
                 break;
             case 2: //left
-                manager->setLvDaiSpeed(Point(-LV_DAI_SPEED,0));
-//                manager->getPlayer()->setWalkDirection(kWalkLeft);
+                player->setLvDaiSpeed(Point(-LV_DAI_SPEED,0));
+                player->setLvDaiDirection(kWalkLeft);
                 break;
             case 3: //right
-                manager->setLvDaiSpeed(Point(LV_DAI_SPEED,0));
-//                manager->getPlayer()->setWalkDirection(kWalkRight);
+                player->setLvDaiSpeed(Point(LV_DAI_SPEED,0));
+                player->setLvDaiDirection(kWalkRight);
                 break;
             default:
                 break;
         }
+        return true;
     }
+    return false;
 }
 
 #pragma mark ----------------鬼火-------------------
@@ -1024,6 +1027,8 @@ void ManEater::run()
     stand->setTag(101);
     runAction(stand);
     runAction(seq);
+    
+    
 }
 
 void ManEater::update(float delta)
