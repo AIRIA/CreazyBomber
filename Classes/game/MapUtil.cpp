@@ -260,6 +260,9 @@ Node *MapUtil::getCommonTileLayer()
             log("get %s mapObj failed ",name.c_str());
             continue;
         }
+        if (mapObj->getType()==kCellTypeEvilFire) {
+            continue;
+        }
         mapObj->setRow(row);
         mapObj->setCol(col);
         mapCellNode->addChild(mapObj);
@@ -362,9 +365,10 @@ MapObject *MapUtil::getMapObject(std::string name)
         case kCellTypeFireWall:
             element = FireWall::create(mapCell);
             break;
-//        case kCellTypePengHuoKou:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypePengHuoKou:
+            element = SnowBallMan::create(mapCell);
+            m_vCommonTiles.pushBack(element);
+            break;
         case kCellTypeEvilFire:
             element = GuiHuo::create(mapCell);
             break;

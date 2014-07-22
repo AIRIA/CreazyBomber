@@ -72,7 +72,7 @@ public:
     
     virtual void onEnter();
     virtual void onExit();
-    bool initWithMapCell(MapCell *mapCell);
+    virtual bool initWithMapCell(MapCell *mapCell);
     void createAnimation(MapCell *mapCell,CellAnimation *cellAnimation,std::string suffix="");
     virtual void run();
     virtual void onAttack(){};
@@ -390,4 +390,15 @@ public:
     virtual void run();
     virtual void update(float delta);
 };
+
+#pragma mark--------------子弹------------------------
+
+class Bullet:public SnowBallOrWorm
+{
+public:
+    MAPOBJ_CREATE(Bullet);
+    virtual bool initWithMapCell(MapCell *cell);
+    virtual void run();
+};
+
 #endif /* defined(__CreazyBomber__MapObject__) */

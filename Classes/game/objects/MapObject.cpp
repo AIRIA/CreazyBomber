@@ -1008,7 +1008,7 @@ bool LvDai::checkCollisionWithPlayer(Player *player)
 #pragma mark ----------------鬼火-------------------
 void GuiHuo::run()
 {
-    runAction(RepeatForever::create(getAnimateAt(0)));
+    getParent()->removeChild(this);
 }
 
 #pragma mark ----------------食人类的物种------------------
@@ -1087,8 +1087,6 @@ void SnowBallMan::run()
 {
     auto args = getMapCell()->getArgs();
     cdTime = atoi(args.at(1)->getValue().substr(0,1).c_str());
-    
-    
     doAnimate();
 }
 
@@ -1096,6 +1094,7 @@ void SnowBallMan::doAnimate()
 {
     auto act = Sequence::create(getAnimateAt(0),DelayTime::create(3.0),getAnimateAt(2),CallFunc::create([this]()->void{
         auto args = getMapCell()->getArgs();
+        auto direction =atoi(args.at(0)->getValue().c_str());
         auto mapUtil = MapUtil::getInstance();
         auto it = mapUtil->getMapCells().begin();
         while (it!=mapUtil->getMapCells().end()) {
@@ -1105,31 +1104,65 @@ void SnowBallMan::doAnimate()
             }
             it++;
         }
-        auto mapCell = *it;
-        ball = SnowBallOrWorm::create(mapCell);
-        ball->setRow(getRow());
-        auto direction =atoi(args.at(0)->getValue().c_str());
+        if (this->getMapCell()->getCellName().find("喷火口")==std::string::npos) {
+            auto mapCell = *it;
+            ball = SnowBallOrWorm::create(mapCell);
+            switch (direction) {
+                case 1:
+                    break;
+                case 2: //left
+                    ball->setCol(getCol()-1);
+                    break;
+                case 3: //right
+                    ball->setCol(getCol()+1);
+                    break;
+                case 4:
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            auto getAnimate = [](int direction)->Animate*{
+                auto key = __String::createWithFormat("penhuokou_zidan.png_%d",direction)->getCString();
+                auto animation = AnimationCache::getInstance()->getAnimation(key);
+                auto animate = Animate::create(animation);
+                return animate;
+            };
+            ball = Bullet::create(*it);
+            ball->setRow(getRow());
+            ball->setCol(getCol());
+            ball->setAnchorPoint(Point(0.5f,0));
+            switch (direction) {
+                case 0: //up
+                    ball->setRow(getRow()-1);
+                    ball->runAction(RepeatForever::create(getAnimate(2)));
+                    break;
+                case 1: //down
+                    ball->setRow(getRow()+1);
+                    ball->runAction(RepeatForever::create(getAnimate(3)));
+                    break;
+                case 2: //left
+                    ball->setCol(getCol()-1);
+                    ball->runAction(RepeatForever::create(getAnimate(0)));
+                    break;
+                case 3: //right
+                    ball->setCol(getCol()+1);
+                    ball->runAction(RepeatForever::create(getAnimate(1)));
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        
         ball->distance = atoi(args.at(2)->getValue().c_str());
         ball->direction = direction;
         ball->isByMan = true;
-        
-        switch (direction) {
-            case 1:
-                
-                break;
-            case 2: //left
-                ball->setCol(getCol()-1);
-                break;
-            case 3: //right
-                ball->setCol(getCol()+1);
-                break;
-            case 4:
-                break;
-                
-            default:
-                break;
-        }
         getParent()->addChild(ball);
+//        Director::getInstance()->getRunningScene()->addChild(ball);
         ball->setOpacity(255);
         ball->unscheduleUpdate();
         ball->scheduleUpdate();
@@ -1665,3 +1698,48 @@ void MonsterHome::update(float delta)
         }),getAnimateAt(0), NULL));
     }
 }
+
+#pragma mark--------------子弹------------------------
+
+bool Bullet::initWithMapCell(MapCell *cell)
+{
+    if (!Sprite::init()) {
+        return false;
+    }
+    manager = GameManager::getInstance();
+    config = GameConfig::getInstance();
+    mapUtil = MapUtil::getInstance();
+    
+    auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName("penhuokou_zidan.png");
+    auto texture = frame->getTexture();
+    auto rect = frame->getRect();
+    auto frameWidth = rect.size.width/4;
+    auto frameHeight = rect.size.height/4;
+    
+    
+    
+    // 0 left 1 right 2 up 3 down
+    
+    for (auto i=0; i<4; i++) {
+        Vector<SpriteFrame*> frameVec;
+        for (auto j=0; j<4; j++) {
+            auto frameRect = Rect(rect.origin.x+j*frameWidth,rect.origin.y+i*frameHeight,frameWidth,frameHeight);
+            auto spriteFrame = SpriteFrame::createWithTexture(texture, frameRect);
+            frameVec.pushBack(spriteFrame);
+        }
+        auto animation = Animation::createWithSpriteFrames(frameVec);
+        animation->setDelayPerUnit(0.1f);
+        auto key = __String::createWithFormat("penhuokou_zidan.png_%d",i)->getCString();
+        if (AnimationCache::getInstance()->getAnimation(key)==nullptr) {
+            AnimationCache::getInstance()->addAnimation(animation, key);
+        }
+    }
+    
+    return true;
+}
+
+void Bullet::run()
+{
+    
+}
+

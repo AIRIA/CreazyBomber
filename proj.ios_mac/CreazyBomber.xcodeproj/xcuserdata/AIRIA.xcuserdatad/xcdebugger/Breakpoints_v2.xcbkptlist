@@ -167,32 +167,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Classes/components/ResultLayer.cpp"
-            timestampString = "427361486.814014"
+            filePath = "../Classes/game/objects/MapObject.cpp"
+            timestampString = "427688385.99862"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "ResultLayer::_showResult(cocos2d::Ref *pSender)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/components/ResultLayer.cpp"
-            timestampString = "427361488.33709"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "ResultLayer::_showResult(cocos2d::Ref *pSender)"
+            startingLineNumber = "1040"
+            endingLineNumber = "1040"
+            landmarkName = "ManEater::update(float delta)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -203,12 +187,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "427630926.261468"
+            timestampString = "427696419.844777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1040"
-            endingLineNumber = "1040"
-            landmarkName = "ManEater::update(float delta)"
+            startingLineNumber = "1161"
+            endingLineNumber = "1161"
+            landmarkName = "SnowBallMan::doAnimate()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
