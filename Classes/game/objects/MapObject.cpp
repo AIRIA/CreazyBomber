@@ -1230,7 +1230,7 @@ void WoodBox::update(float delta)
         rect.origin.y += 1;
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
         auto player = GameManager::getInstance()->getPlayer();
-        auto playerRect = Rect(player->getPositionX()-TILE_WIDTH/2-1,player->getPositionY(),TILE_WIDTH+2,TILE_HEIGHT);
+        auto playerRect = Rect(player->getPositionX()-TILE_WIDTH/2-1,player->getPositionY(),TILE_WIDTH+2,TILE_HEIGHT+2);
         auto isCollision = playerRect.intersectsRect(rect);
         if(isCollision)
         {
@@ -1254,7 +1254,6 @@ void WoodBox::moveBoxSelect(float delta)
     rect.origin.y += 1;
     rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
     auto player = GameManager::getInstance()->getPlayer();
-    auto playerRect = Rect(player->getPositionX()-TILE_WIDTH/2-1,player->getPositionY(),TILE_WIDTH+2,TILE_HEIGHT);
     auto mapUtil = MapUtil::getInstance();
     if (GameConfig::getInstance()->getSelectLevel()==11&&GameConfig::getInstance()->getSelectSceneName()=="cl") {
         return;
