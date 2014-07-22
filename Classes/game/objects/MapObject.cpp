@@ -1104,7 +1104,7 @@ void SnowBallMan::doAnimate()
             }
             it++;
         }
-        if (this->getMapCell()->getCellName().find("喷火口")==std::string::npos) {
+        if (this->getMapCell()->getCellName().find("bc-雪球")!=std::string::npos) {
             auto mapCell = *it;
             ball = SnowBallOrWorm::create(mapCell);
             ball->setRow(getRow());
@@ -1124,10 +1124,15 @@ void SnowBallMan::doAnimate()
                     break;
             }
         }
-        else
+        else //if(this->getMapCell()->getCellName().find("喷火口")!=std::string::npos)
         {
-            auto getAnimate = [](int direction)->Animate*{
+            auto getAnimate = [this](int direction)->Animate*{
                 auto key = __String::createWithFormat("penhuokou_zidan.png_%d",direction)->getCString();
+                if(this->getMapCell()->getCellName().find("豌豆")!=std::string::npos)
+                {
+                    key = __String::createWithFormat("wandoujia_zidan.png_%d",direction)->getCString();
+                }
+                
                 auto animation = AnimationCache::getInstance()->getAnimation(key);
                 auto animate = Animate::create(animation);
                 return animate;
@@ -1711,36 +1716,43 @@ bool Bullet::initWithMapCell(MapCell *cell)
     config = GameConfig::getInstance();
     mapUtil = MapUtil::getInstance();
     
-    auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName("penhuokou_zidan.png");
-    auto texture = frame->getTexture();
-    auto rect = frame->getRect();
-    auto frameWidth = rect.size.width/4;
-    auto frameHeight = rect.size.height/4;
-    
-    
-    
-    // 0 left 1 right 2 up 3 down
-    
-    for (auto i=0; i<4; i++) {
-        Vector<SpriteFrame*> frameVec;
-        for (auto j=0; j<4; j++) {
-            auto frameRect = Rect(rect.origin.x+j*frameWidth,rect.origin.y+i*frameHeight,frameWidth,frameHeight);
-            auto spriteFrame = SpriteFrame::createWithTexture(texture, frameRect);
-            frameVec.pushBack(spriteFrame);
+    auto registAnimations = [](std::string frameName)->void{
+      //  frameName = "penhuokou_zidan.png"; //wandoujia_zidan.png
+        
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(frameName);
+        auto texture = frame->getTexture();
+        auto rect = frame->getRect();
+        auto frameWidth = rect.size.width/4;
+        auto frameHeight = rect.size.height/4;
+        
+        
+        
+        // 0 left 1 right 2 up 3 down
+        
+        for (auto i=0; i<4; i++) {
+            Vector<SpriteFrame*> frameVec;
+            for (auto j=0; j<4; j++) {
+                auto frameRect = Rect(rect.origin.x+j*frameWidth,rect.origin.y+i*frameHeight,frameWidth,frameHeight);
+                auto spriteFrame = SpriteFrame::createWithTexture(texture, frameRect);
+                frameVec.pushBack(spriteFrame);
+            }
+            auto animation = Animation::createWithSpriteFrames(frameVec);
+            animation->setDelayPerUnit(0.1f);
+            auto key = __String::createWithFormat("%s_%d",frameName.c_str(),i)->getCString();
+            if (AnimationCache::getInstance()->getAnimation(key)==nullptr) {
+                AnimationCache::getInstance()->addAnimation(animation, key);
+            }
         }
-        auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(0.1f);
-        auto key = __String::createWithFormat("penhuokou_zidan.png_%d",i)->getCString();
-        if (AnimationCache::getInstance()->getAnimation(key)==nullptr) {
-            AnimationCache::getInstance()->addAnimation(animation, key);
-        }
-    }
+    };
+    
+    registAnimations("penhuokou_zidan.png");
+    registAnimations("wandoujia_zidan.png");
     
     return true;
 }
 
 void Bullet::run()
 {
-    
+//    setPositionY(getPositionY()+1);
 }
 

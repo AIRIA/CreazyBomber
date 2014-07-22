@@ -187,11 +187,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/objects/MapObject.cpp"
-            timestampString = "427697788.001285"
+            timestampString = "427705146.188036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1162"
-            endingLineNumber = "1162"
+            startingLineNumber = "1167"
+            endingLineNumber = "1167"
             landmarkName = "SnowBallMan::doAnimate()"
             landmarkType = "5">
          </BreakpointContent>

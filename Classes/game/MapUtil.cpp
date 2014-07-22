@@ -341,9 +341,10 @@ MapObject *MapUtil::getMapObject(std::string name)
             element = WoodBox::create(mapCell);
             m_vCommonTiles.pushBack(element);
             break;
-//        case kCellTypeWanDou:
-//            element = GroundTile::create(mapCell);
-//            break;
+        case kCellTypeWanDou:
+            element = SnowBallMan::create(mapCell);
+            m_vCommonTiles.pushBack(element);
+            break;
         case kCellTypeDiCi:
             element = DiCi::create(mapCell);
             break;
