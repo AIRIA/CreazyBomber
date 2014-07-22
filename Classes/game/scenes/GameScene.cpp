@@ -142,8 +142,8 @@ bool GameScene::init()
         std::string mapTip = "textures/zh_cn/"+getMapName()+"-hd";
         textureFiles.push_back(mapTip);
     }
-    if (config->getSelectLevel()==12) {
-        textureFiles.push_back(__String::createWithFormat("textures/monster_%s_boss-hd",config->getSelectSceneName().c_str())->getCString());
+    if (config->getSelectLevel()==12||(config->getSelectSceneName().find("battle")!=std::string::npos&&config->getSelectLevel()==8)) {
+        textureFiles.push_back(__String::createWithFormat("textures/monster_%s_boss-hd",config->getSelectSceneName().substr(0,2).c_str())->getCString());
         textureFiles.push_back("textures/monster_bomb-hd");
     }
     

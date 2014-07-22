@@ -291,6 +291,7 @@ public:
     MAPOBJ_CREATE(WoodBox);
     virtual void update(float delta);
     virtual void onExit();
+    void moveBoxSelect(float delta);
 protected:
     bool _isMoving = false;
     CC_SYNTHESIZE(WalkDirection, m_eMovingDirection, MovingDirection);

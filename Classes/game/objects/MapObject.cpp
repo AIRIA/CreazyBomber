@@ -1221,73 +1221,114 @@ void WoodBox::update(float delta)
     {
         return;
     }
-    auto mapUtil = MapUtil::getInstance();
+    
     auto status = manager->getPlayer()->getWalkDirection();// GameManager::getInstance()->getWalkDirection();
     if(status!=kWalkStand)
     {
         auto rect = getBoundingBox();
-        rect.size = Size(TILE_WIDTH,TILE_HEIGHT-10);
-        auto playerRect = GameManager::getInstance()->getPlayer()->getBoundingBox();
+        rect.origin.x += 1;
+        rect.origin.y += 1;
+        rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+        auto player = GameManager::getInstance()->getPlayer();
+        auto playerRect = Rect(player->getPositionX()-TILE_WIDTH/2-1,player->getPositionY(),TILE_WIDTH+2,TILE_HEIGHT);
         auto isCollision = playerRect.intersectsRect(rect);
         if(isCollision)
         {
-            GameManager::getInstance()->setIsCollision(isCollision);
-            if (GameConfig::getInstance()->getSelectLevel()==11&&GameConfig::getInstance()->getSelectSceneName()=="cl") {
-                return;
-            }
-            /* 根据行走碰撞的方向 执行不同的操作 */
-            auto direction = manager->getPlayer()->getWalkDirection();//GameManager::getInstance()->getWalkDirection();
-            setMovingDirection(direction);
-            auto nextCoordinate = Point(getCol(),getRow());
-            auto offset = Point::ZERO;
-            m_Anchor = Point::ZERO;
-            m_Scale= Point::ZERO;
-            switch (direction) {
-                case kWalkUp:
-                    offset = Point(0,-1);
-                    m_Anchor = Point(0.5f,1.0f);
-                    m_Scale = Point(1,0);
-                    break;
-                case kWalkDown:
-                    offset = Point(0,1);
-                    m_Anchor = Point(0.5f,0.0f);
-                    m_Scale = Point(1,0);
-                    break;
-                case kWalkLeft:
-                    offset = Point(-1,0);
-                    m_Anchor = Point(0.0f,0.5f);
-                    m_Scale = Point(0,1);
-                    break;
-                case kWalkRight:
-                    offset = Point(1,0);
-                    m_Anchor = Point(1.0f,0.5f);
-                    m_Scale = Point(0,1);
-                    break;
-                default:
-                    break;
-            }
-            nextCoordinate += offset;
-            if(mapUtil->isBorder(nextCoordinate))
-            {
-                return;
-            }
-            offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
-            auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), nextCoordinate);
-            if(tile==nullptr||tile->getType()==kCellTypeMonster)
-            {
-                _isMoving = true;
-                GameManager::getInstance()->getMovingBoxes().pushBack(this);
-                auto moveAct = MoveBy::create(0.3,offset);
-                auto moveCall = CallFunc::create([&,nextCoordinate]()->void{
-                    setCol(nextCoordinate.x);
-                    setRow(nextCoordinate.y);
-                    setZOrder(getRow()*10);
-                    _isMoving = false;
-                    GameManager::getInstance()->getMovingBoxes().eraseObject(this);
-                });
-                runAction(Sequence::create(moveAct,moveCall, NULL));
-            }
+            scheduleOnce(schedule_selector(WoodBox::moveBoxSelect), 0.2f);
         }
+        else
+        {
+            unschedule(schedule_selector(WoodBox::moveBoxSelect));
+        }
+    }
+    else
+    {
+        unschedule(schedule_selector(WoodBox::moveBoxSelect));
+    }
+}
+
+void WoodBox::moveBoxSelect(float delta)
+{
+    auto rect = getBoundingBox();
+    rect.origin.x += 1;
+    rect.origin.y += 1;
+    rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
+    auto player = GameManager::getInstance()->getPlayer();
+    auto playerRect = Rect(player->getPositionX()-TILE_WIDTH/2-1,player->getPositionY(),TILE_WIDTH+2,TILE_HEIGHT);
+    auto mapUtil = MapUtil::getInstance();
+    if (GameConfig::getInstance()->getSelectLevel()==11&&GameConfig::getInstance()->getSelectSceneName()=="cl") {
+        return;
+    }
+    /* 根据行走碰撞的方向 执行不同的操作 */
+    auto direction = manager->getPlayer()->getWalkDirection();//GameManager::getInstance()->getWalkDirection();
+    setMovingDirection(direction);
+    auto nextCoordinate = Point(getCol(),getRow());
+    auto offset = Point::ZERO;
+    m_Anchor = Point::ZERO;
+    m_Scale= Point::ZERO;
+    switch (direction) {
+        case kWalkUp:
+            offset = Point(0,-1);
+            m_Anchor = Point(0.5f,1.0f);
+            m_Scale = Point(1,0);
+            break;
+        case kWalkDown:
+            offset = Point(0,1);
+            m_Anchor = Point(0.5f,0.0f);
+            m_Scale = Point(1,0);
+            break;
+        case kWalkLeft:
+            offset = Point(-1,0);
+            m_Anchor = Point(0.0f,0.5f);
+            m_Scale = Point(0,1);
+            break;
+        case kWalkRight:
+            offset = Point(1,0);
+            m_Anchor = Point(1.0f,0.5f);
+            m_Scale = Point(0,1);
+            break;
+        default:
+            break;
+    }
+    
+    if(direction==kWalkUp||direction==kWalkDown)
+    {
+        if(!(player->getPositionX() > rect.origin.x && player->getPositionX()< rect.origin.x+TILE_WIDTH))
+        {
+            return;
+        }
+    }
+    
+    if(direction==kWalkLeft||direction==kWalkRight)
+    {
+        auto playerVerticalMid = player->getPositionY()+TILE_HEIGHT/2;
+        if(!(playerVerticalMid>getPositionY() && playerVerticalMid<getPositionY()+TILE_HEIGHT))
+        {
+            return;
+        }
+    }
+    
+    
+    nextCoordinate += offset;
+    if(mapUtil->isBorder(nextCoordinate))
+    {
+        return;
+    }
+    offset = Point(offset.x*TILE_WIDTH,offset.y*-1*TILE_HEIGHT);
+    auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), nextCoordinate);
+    if(tile==nullptr||tile->getType()==kCellTypeMonster)
+    {
+        _isMoving = true;
+        GameManager::getInstance()->getMovingBoxes().pushBack(this);
+        auto moveAct = MoveBy::create(0.3,offset);
+        auto moveCall = CallFunc::create([&,nextCoordinate]()->void{
+            setCol(nextCoordinate.x);
+            setRow(nextCoordinate.y);
+            setZOrder(getRow()*10);
+            _isMoving = false;
+            GameManager::getInstance()->getMovingBoxes().eraseObject(this);
+        });
+        runAction(Sequence::create(moveAct,moveCall, NULL));
     }
 }
 
