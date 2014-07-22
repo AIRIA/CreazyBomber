@@ -1107,6 +1107,7 @@ void SnowBallMan::doAnimate()
         if (this->getMapCell()->getCellName().find("喷火口")==std::string::npos) {
             auto mapCell = *it;
             ball = SnowBallOrWorm::create(mapCell);
+            ball->setRow(getRow());
             switch (direction) {
                 case 1:
                     break;
