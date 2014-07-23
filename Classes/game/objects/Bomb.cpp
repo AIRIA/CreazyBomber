@@ -86,44 +86,18 @@ void Bomb::doTileDestory()
 
 void Bomb::initBombAnimations()
 {
-    auto createBombAnimation = [](std::string fileName,int frameNum,float delay=0.2f)->void{
-        if(AnimationCache::getInstance()->getAnimation(fileName))
-        {
-            return;
-        }
-        
-        auto bombFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
-        auto texture = bombFrame->getTexture();
-        auto rect = bombFrame->getRect();
-        auto size = rect.size;
-        auto frameWidth = size.width/frameNum;
-        auto frameHeight = size.height;
-        frameNum = frameNum>5?5:frameNum;
-        Vector<SpriteFrame*> frameVec;
-        for(auto i=0;i<frameNum;i++)
-        {
-            auto frameRect = Rect(rect.origin.x+frameWidth*i,rect.origin.y,frameWidth,frameHeight);
-            auto frame = SpriteFrame::createWithTexture(texture, frameRect);
-            frameVec.pushBack(frame);
-        }
-        
-        auto animation = Animation::createWithSpriteFrames(frameVec);
-        animation->setDelayPerUnit(delay);
-        AnimationCache::getInstance()->addAnimation(animation, fileName);
-    };
-    
-    createBombAnimation(GameConfig::getInstance()->getSelectRoleName()+"-timer-zd.png",2);
-    createBombAnimation(GameConfig::getInstance()->getSelectRoleName()+"-zd.png",2);
+    Util::addAnimation(GameConfig::getInstance()->getSelectRoleName()+"-timer-zd.png", 2,0.2f);
+    Util::addAnimation(GameConfig::getInstance()->getSelectRoleName()+"-zd.png",2,0.2f);
     for (auto i=1; i<=9; i++) {
         char name[50];
         sprintf(name, "%s-zd0%d.png",GameConfig::getInstance()->getSelectRoleName().c_str(),i);
         if(GameConfig::getInstance()->getSelectRoleName()==std::string("viking"))
         {
-            createBombAnimation(name,8,0.1f);
+            Util::addAnimation(name, 8,0.1f);
         }
         else
         {
-            createBombAnimation(name,9,0.1f);
+            Util::addAnimation(name, 9,0.1f);
         }
         
     }

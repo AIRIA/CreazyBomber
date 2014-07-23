@@ -33,7 +33,7 @@ void Util::playEffect(std::string effect,bool repeat)
     }
 }
 
-void Util::addAnimation(std::string fileName, int frameNum)
+void Util::addAnimation(std::string fileName, int frameNum,float delay)
 {
     auto animation = AnimationCache::getInstance()->getAnimation(fileName);
     if(animation)
@@ -52,7 +52,7 @@ void Util::addAnimation(std::string fileName, int frameNum)
         frameVec.pushBack(spriteFrame);
     }
     animation = Animation::createWithSpriteFrames(frameVec);
-    animation->setDelayPerUnit(0.15f);
+    animation->setDelayPerUnit(delay);
     AnimationCache::getInstance()->addAnimation(animation,fileName);
 }
 

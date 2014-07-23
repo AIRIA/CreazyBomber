@@ -42,6 +42,7 @@ void MapUtil::dispose()
     m_vMapBorders.clear();
     mapVec.clear();
     m_vLvDai.clear();
+    m_vMonsterBombs.clear();
 }
 
 void MapUtil::readMapTxt()

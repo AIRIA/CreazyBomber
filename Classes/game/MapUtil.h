@@ -14,6 +14,8 @@
 #include "game/objects/BigBuilding.h"
 #include "game/objects/Player.h"
 #include "game/objects/Bomb.h"
+#include "game/objects/MonsterSkills.h"
+
 
 enum CellType{
     kCellTypeBornPlace    = 88,//英雄出生的地方
@@ -158,6 +160,8 @@ public:
     
     Vector<LvDai*> &getLvDai(){ return m_vLvDai;};
     
+    Vector<MonsterBomb*> &getMonsterBombs(){return m_vMonsterBombs;};
+    
 protected:
     
     /**
@@ -176,6 +180,7 @@ protected:
     Vector<BombFire*> m_vFires;
     Vector<Bomb*> m_vBombs;
     Vector<LvDai*> m_vLvDai;
+    Vector<MonsterBomb*> m_vMonsterBombs;
     /* 普通建筑 不具有任何攻击力和伤害的 可以阻挡穿透 */
     Vector<MapObject*> m_vCommonTiles;
     /* 边界 */

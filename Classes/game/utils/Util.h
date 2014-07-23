@@ -20,7 +20,7 @@ public:
     /**
      * 解析单行动画纹理
      */
-    static void addAnimation(std::string fileName,int frameNum);
+    static void addAnimation(std::string fileName,int frameNum,float delay = 0.15f);
     
     static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
 };

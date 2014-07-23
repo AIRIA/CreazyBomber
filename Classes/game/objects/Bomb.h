@@ -24,12 +24,12 @@ public:
     virtual void onExit();
     
     void initBombAnimations();
-    void bomb();
+    virtual void bomb();
     virtual void doTileDestory();
     /**
      * 更新UI层可以使用的炸弹的数量
      */
-    void updateBombnum();
+    virtual void updateBombnum();
 
 protected:
     bool _isBombed;

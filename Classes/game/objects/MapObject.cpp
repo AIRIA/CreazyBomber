@@ -499,6 +499,7 @@ void Monster::doTileAttack()
                 this->guzhua(3);
                 break;
             case 9:
+                this->guzhua(3);
                 break;
             case 10:
                 break;
@@ -509,8 +510,10 @@ void Monster::doTileAttack()
                 this->bullet(5);
                 break;
             case 13:
+                this->callMonster(2);
                 break;
             case 14:
+                 this->bullet(4);
                 break;
             case 15:
                 this->callMonster(3);
@@ -571,11 +574,34 @@ void Monster::fire(int length)
 void Monster::bullet(int length)
 {
     
+    auto createBomb = [this](Point pos)->void{
+        auto tile = MapUtil::getInstance()->getMapObjectFromMapObjectVector(MapUtil::getInstance()->getCommonTiles(), pos);
+        if (tile||MapUtil::getInstance()->isBorder(pos)) {
+            return;
+        }
+        auto bomb = MonsterBomb::create(Bomb::kBombNormal);
+        bomb->setPower(3);
+        bomb->setCol(pos.x);
+        bomb->setRow(pos.y);
+        getParent()->addChild(bomb);
+    };
+    
+    for (auto i=-length; i<length; i++) {
+        if(i==0)
+        {
+            continue;
+        }
+        
+        auto pos1 = Point(getCol(),getRow()+i);
+        auto pos2 = Point(getCol()+i,getRow());
+        createBomb(pos1);
+        createBomb(pos2);
+    }
+    
 }
 
 void Monster::callMonster(int type)
 {
-    return;
     auto mapUtil = MapUtil::getInstance();
     std::string monsterName;
     switch (type) {
@@ -618,7 +644,26 @@ void Monster::callMonster(int type)
 
 void Monster::guzhua(int length)
 {
-    
+    auto mapUtil = MapUtil::getInstance();
+    auto mid = length/2;
+    for (auto i=-mid; i<=mid; i++) {
+        for (auto j=-mid; j<=mid; j++) {
+            if((i==mid||i==-mid||j==mid||j==-mid))
+            {
+                auto col = getCol()+i;
+                auto row = getRow()+j;
+                auto coordinate = Point(col,row);
+                auto tile = mapUtil->getMapObjectFromMapObjectVector(mapUtil->getCommonTiles(), coordinate);
+                if(tile==nullptr&&mapUtil->isBorder(coordinate)==false)
+                {
+                    auto fire = MonsterDiCi::create();
+                    fire->setCol(col);
+                    fire->setRow(row);
+                    getParent()->addChild(fire);
+                }
+            }
+        }
+    }
 }
 
 /* 在这里执行NPC的AI逻辑 */
@@ -639,6 +684,14 @@ void Monster::update(float delta)
     while(it!=util->getBombFires().end())
     {
         auto fire = *it;
+        
+        auto monsterFire = dynamic_cast<MonsterBombFire*>(fire);
+        if(monsterFire)
+        {
+            it++;
+            continue;
+        }
+        
         auto rect = fire->boundingBox();
         rect.origin = Point(fire->getPosition()-Point(TILE_WIDTH,TILE_HEIGHT)/2);
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
@@ -720,14 +773,17 @@ void Monster::update(float delta)
         }
         if((tile!=nullptr&&tile->getType()!=kCellTypeTransfer)||util->isBorder(coordinate))
         {
-            return;
+            auto monsterBomb = dynamic_cast<MonsterBomb*>(tile);
+            if (monsterBomb==nullptr) {
+                return;
+            }
         }
         walk(m_eDirection);
         setIsCollison(false);
     }
     
     Point nextPosition = getPosition()+getVecSpeed();
-    //需要检测即将到底的位置是不是到达了需要判断方向的地方
+    //需要检测即将到达的位置是不是到达了需要判断方向的地方
     
     auto updateCoordinate = [&]()->void{
         setIsCollison(true);
