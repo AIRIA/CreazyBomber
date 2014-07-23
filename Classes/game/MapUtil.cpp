@@ -269,7 +269,7 @@ Node *MapUtil::getCommonTileLayer()
         if(mapObj->getType()==kCellTypeBigBuilding)
         {
             auto mapCell = mapObj->getMapCell();
-            auto width = atoi(mapCell->getArgs().at(1)->getValue().c_str());
+            auto width = atoi(mapCell->getArgs().at(0)->getValue().c_str());
             auto height = atoi(mapCell->getArgs().at(1)->getValue().c_str());
             auto collision = mapCell->getArgs().at(2);
             auto val = collision->getValue();
