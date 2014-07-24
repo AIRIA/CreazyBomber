@@ -60,5 +60,4 @@ public class AppActivity extends Cocos2dxActivity {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
-	
 }
