@@ -51,6 +51,8 @@ void GameConfig::init()
         __userDefault->setBoolForKey(KEY_SOUND_ENABLED, true);
         __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, true);
         __userDefault->setIntegerForKey(KEY_COIN_NUM, 30000);
+        __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, 3);
+        __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, 3);
     }  
 }
 

@@ -7,6 +7,7 @@
 //
 
 #include "BomberButton.h"
+#include "game/GameManager.h"
 
 BomberButton *BomberButton::create()
 {
@@ -44,7 +45,7 @@ void BomberButton::addEventListeners()
     touchListener->onTouchEnded = [](Touch *touch,Event *event)->void{
         auto target = static_cast<BomberButton*>(event->getCurrentTarget());
         target->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("bomb_up.png"));
-        NotificationCenter::getInstance()->postNotification(ADD_NORMAL_BOMB);
+        GameManager::getInstance()->getPlayer()->addBomb();
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 }

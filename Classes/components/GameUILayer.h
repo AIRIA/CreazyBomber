@@ -10,6 +10,7 @@
 #define __CreazyBomber__GameUILayer__
 
 #include "base/BaseLayer.h"
+#include "game/objects/Bomb.h"
 
 class GameUILayer:public BaseLayer
 {
@@ -26,9 +27,13 @@ protected:
     void _updateMonsterCount(Ref *pSender);
     void _showBossHp(Ref *pSender);
     void _updateBossHp(Ref *pSender);
+    void _timerBombHandler(Ref *pSender);
     
     ProgressTimer *hpBar;
     ProgressTimer *bossHpBar;
+private:
+    bool haveTimerBomb = false;
+    Bomb *timerBomb;
 };
 
 #endif /* defined(__CreazyBomber__GameUILayer__) */

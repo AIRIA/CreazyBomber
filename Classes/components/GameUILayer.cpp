@@ -76,6 +76,75 @@ void GameUILayer::onTexturesLoaded()
     hpMenuItem->setScale(m_fScaleFactor);
     settingItem->setScale(m_fScaleFactor);
     
+    auto hpNumStr = Util::itoa(__userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM));
+    auto timerNumStr = __String::createWithFormat("%d",__userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM))->getCString();
+    
+    auto hpNum = Label::createWithBMFont("font/number01.fnt", hpNumStr);
+    auto timerNum = Label::createWithBMFont("font/number01.fnt", timerNumStr);
+    hpNum->setAnchorPoint(Point::ZERO);
+    timerNum->setAnchorPoint(Point::ZERO);
+    hpNum->setPosition(hpMenuItem->getNormalImage()->getContentSize().width-10,hpMenuItem->getNormalImage()->getContentSize().height-15);
+    timerNum->setPosition(timerBombItem->getNormalImage()->getContentSize().width-10,timerBombItem->getNormalImage()->getContentSize().height-15);
+    timerBombItem->addChild(timerNum);
+    timerNum->setTag(101);
+    hpMenuItem->addChild(hpNum);
+    hpNum->setTag(101);
+    
+    timerBombItem->setCallback([this](Ref *pSender)->void{
+        if(haveTimerBomb)
+        {
+            timerBomb->bomb();
+            return;
+        }
+        
+        /* 如果有定时炸弹数量的话 就放置定时炸弹 如果已经放置了定时炸弹就引爆定时炸弹 */
+        auto num = __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM);
+        if (num==0) {
+            return;
+        }
+        num--;
+        auto item = static_cast<MenuItemSprite*>(pSender);
+        __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, num);
+        auto numLabel = item->getChildByTag(101);
+        auto label = dynamic_cast<Label*>(numLabel);
+        label->setString(Util::itoa(num));
+        auto manager = GameManager::getInstance();
+        if(manager->getBombNum()==0)
+        {
+            return;
+        }
+        
+        
+        haveTimerBomb = true;
+        timerBomb = GameManager::getInstance()->getPlayer()->addBomb(Bomb::kBombTimer);
+    });
+    
+    hpMenuItem->setCallback([&](Ref *pSender)->void{
+        auto item = static_cast<MenuItemSprite*>(pSender);
+        auto num = __userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM);
+        if (num==0) {
+            return;
+        }
+        /* 更新玩家的血量 */
+        auto player = GameManager::getInstance()->getPlayer();
+        auto playerHp = player->getHP();
+        if (playerHp>=99) {
+            return;
+        }
+        num--;
+        auto targetHp = playerHp+50;
+        targetHp = targetHp>99?99:targetHp;
+        auto progressTo = ProgressFromTo::create(1.0f, playerHp, targetHp);
+        player->setHP(targetHp);
+        hpBar->runAction(progressTo);
+        __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, num);
+        auto numLabel = item->getChildByTag(101);
+        auto label = dynamic_cast<Label*>(numLabel);
+        label->setString(Util::itoa(num));
+
+        
+    });
+    
     auto menu = Menu::create(settingItem,hpMenuItem,timerBombItem,nullptr);
     addChild(menu);
     menu->ignoreAnchorPointForPosition(false);
@@ -137,12 +206,20 @@ void GameUILayer::onEnter()
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateMonsterCount), UPDATE_MONSTER_COUNT, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_showBossHp),SHOW_BOSS_HP, nullptr);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_updateBossHp), UPDATE_BOSS_HP, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameUILayer::_timerBombHandler), TIMER_BOMB_BOMB , nullptr);
 }
+
 
 void GameUILayer::onExit()
 {
     BaseLayer::onExit();
     NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
+
+void GameUILayer::_timerBombHandler(cocos2d::Ref *pSender)
+{
+    haveTimerBomb = false;
 }
 
 void GameUILayer::_showBossHp(cocos2d::Ref *pSender)

@@ -61,6 +61,7 @@ enum WalkDirection{
 #define GAME_RETRY           "game_retry"
 #define GAME_EXIT            "game_exit"
 
+#define TIMER_BOMB_BOMB      "timer_bomb_bomb"
 #define UPDATE_HP            "update_hp"
 #define MONSTER_DESTROY      "monster_destroy"
 #define SHOW_PAUSE           "show_pause"
@@ -132,6 +133,8 @@ enum WalkDirection{
 #define KEY_CL_BATTLE_LEVEL "key_cl_battle_level"
 #define KEY_BC_BATTLE_LEVEL "key_bc_battle_level"
 #define KEY_MD_BATTLE_LEVEL "key_md_battle_level"
+#define KEY_HP_BOTTLE_NUM   "hp_bottle_num"
+#define KEY_TIMER_BOMB_NUM  "timer_bomb_num"
 
 #define __userDefault      UserDefault::getInstance()
 

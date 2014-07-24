@@ -62,6 +62,14 @@
          contextName = "operator():HomeScene.cpp">
       </ContextState>
       <ContextState
+         contextName = "operator():GameUILayer.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "hpMenuItem-&gt;getChildByTag(101);">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "cocos2d::Node::getPosition() const:CCNode.cpp">
       </ContextState>
       <ContextState
@@ -140,7 +148,7 @@
                value = "rect.origin.y">
             </PersistentString>
             <PersistentString
-               value = "coordinate">
+               value = "getPositionX()">
             </PersistentString>
             <PersistentString
                value = "this">
@@ -155,7 +163,7 @@
                value = "GameManager::getInstance();">
             </PersistentString>
             <PersistentString
-               value = "getPositionX()">
+               value = "coordinate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

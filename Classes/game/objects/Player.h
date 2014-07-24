@@ -11,6 +11,7 @@
 
 #include "common/CommonHeaders.h"
 #include "game/objects/MapObject.h"
+#include "game/objects/Bomb.h"
 
 
 
@@ -55,6 +56,8 @@ public:
      * 播放角色死亡的动画
      */
     void die();
+    /* 放置炸弹 */
+    Bomb *addBomb(Bomb::BombType type=Bomb::kBombNormal);
     
 protected:
     Point _coordinate;

@@ -160,6 +160,30 @@ bool Player::init()
     return true;
 }
 
+Bomb *Player::addBomb(Bomb::BombType type)
+{
+    auto manager = GameManager::getInstance();
+    if(manager->getBombNum()==0)
+    {
+        return nullptr;
+    }
+    
+    auto coordinate = getCoordinate();
+    auto tile = MapUtil::getInstance()->getMapObjectFromBombVector(MapUtil::getInstance()->getBomb(), coordinate);
+    if(tile&&dynamic_cast<Bomb*>(tile))
+    {
+        return nullptr;
+    }
+    auto bomb = Bomb::create(type);
+    bomb->setZOrder(0);
+    bomb->setCol(coordinate.x);
+    bomb->setRow(coordinate.y);
+    bomb->setAnchorPoint(Point(0.5f,0.0f));
+    bomb->setPosition(convertCoordinate2Point(coordinate));
+    GameManager::getInstance()->getMapTileLayer()->addChild(bomb);
+    return bomb;
+}
+
 void Player::die()
 {
     stopAllActions();

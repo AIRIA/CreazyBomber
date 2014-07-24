@@ -1323,21 +1323,37 @@ void WoodBox::moveBoxSelect(float delta)
     m_Scale= Point::ZERO;
     switch (direction) {
         case kWalkUp:
+            if(getRow()>player->getRow())
+            {
+                return;
+            }
             offset = Point(0,-1);
             m_Anchor = Point(0.5f,1.0f);
             m_Scale = Point(1,0);
             break;
         case kWalkDown:
+            if(getRow()<player->getRow())
+            {
+                return;
+            }
             offset = Point(0,1);
             m_Anchor = Point(0.5f,0.0f);
             m_Scale = Point(1,0);
             break;
         case kWalkLeft:
+            if(getCol()>player->getCol())
+            {
+                return;
+            }
             offset = Point(-1,0);
             m_Anchor = Point(0.0f,0.5f);
             m_Scale = Point(0,1);
             break;
         case kWalkRight:
+            if(getCol()>player->getCol())
+            {
+                return;
+            }
             offset = Point(1,0);
             m_Anchor = Point(1.0f,0.5f);
             m_Scale = Point(0,1);

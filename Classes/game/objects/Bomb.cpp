@@ -27,7 +27,15 @@ void Bomb::onEnter()
         this->bomb();
     });
     MapUtil::getInstance()->getCommonTiles().pushBack(this);
-    runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
+    if(getBombType()==kBombTimer)
+    {
+        runAction(RepeatForever::create(animate));
+    }
+    else
+    {
+        runAction(Sequence::create(Repeat::create(animate, 8),animateCall, NULL));
+    }
+    
     Util::playEffect(SOUND_ITEM_PUT_BOMB);
 }
 
@@ -105,6 +113,13 @@ void Bomb::initBombAnimations()
 
 void Bomb::bomb()
 {
+    
+    if(getBombType()==kBombTimer)
+    {
+        NotificationCenter::getInstance()->postNotification(TIMER_BOMB_BOMB);
+    }
+    
+    
     Util::playEffect(SOUND_ITEM_BOMB_EXPLODE);
     auto manager = GameManager::getInstance();
     manager->setBombNum(manager->getBombNum()+1);
