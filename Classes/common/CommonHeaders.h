@@ -41,6 +41,8 @@ enum WalkDirection{
 
 #define HANDLER private
 
+#define LOCAL_ASSET 0
+
 #define DESIGN_WIDTH 960
 #define DESIGN_HEIGHT 640
 

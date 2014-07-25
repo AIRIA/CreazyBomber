@@ -11,6 +11,32 @@
 
 #include "common/CommonHeaders.h"
 
+#if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
+
+#include <jni.h>
+#include "platform/android/jni/JniHelper.h"
+#include <android/log.h>
+
+enum MethodType{
+    kPPdoSdkShowAds,
+    kPPdoSdkHideAds,
+    kPPdoSdkShowScoreWall,
+    kPPdoSdkLogin,
+    kPPdoSdkPay
+};
+
+class PluginUtil
+{
+private:
+    static JniMethodInfo minfo;
+    static jobject obj;
+public:
+    static void init();
+    static void invoke(MethodType key, std::string param="");
+};
+
+#endif
+
 class Util
 {
 public:
@@ -24,5 +50,6 @@ public:
     
     static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
 };
+
 
 #endif /* defined(__CreazyBomber__Util__) */

@@ -2,6 +2,7 @@
 #include "game/scenes/HomeScene.h"
 #include "game/scenes/GameScene.h"
 #include "game/scenes/WelcomeScene.h"
+#include "game/utils/Util.h"
 
 USING_NS_CC;
 
@@ -19,12 +20,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("Crazy Bomber");
-        glview->setFrameSize(1200, 640);
+        glview->setFrameSize(1280, 800);
         director->setOpenGLView(glview);
     }
     srand(time(NULL));
-    director->setDisplayStats(true);
+//    director->setDisplayStats(true);
     director->setAnimationInterval(1.0 / 60);
+#if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
+    PluginUtil::init();
+#endif
     WelcomeScene::create()->run();
     
     return true;

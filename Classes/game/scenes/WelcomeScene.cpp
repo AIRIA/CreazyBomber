@@ -46,10 +46,21 @@ bool WelcomeScene::init()
     /* 预加载的PVR纹理 */
     textureFiles.push_back("textures/bg-hd");
     textureFiles.push_back("textures/opening-hd");
+    
+#if (LOCAL_ASSET == 0 )
+    log("%s","en_us");
+    textureFiles.push_back("textures/en_us/locale_1-hd");
+    textureFiles.push_back("textures/en_us/locale_2-hd");
+    textureFiles.push_back("textures/en_us/locale_3-hd");
+    textureFiles.push_back("textures/en_us/locale_4-hd");
+#else
+    log("%s","zh_cn");
     textureFiles.push_back("textures/zh_cn/locale_1-hd");
     textureFiles.push_back("textures/zh_cn/locale_2-hd");
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
     textureFiles.push_back("textures/zh_cn/locale_4-hd");
+#endif
+    
     textureFiles.push_back("textures/selectstage-hd");
     textureFiles.push_back("textures/button-hd");
     textureFiles.push_back("textures/medium2-hd");
@@ -729,6 +740,11 @@ void WelcomeScene::_showStore(Ref *pSender)
         auto timerBomb = MenuItemSprite::create(SPRITE("shop_item_timerbomb_normal.png"), SPRITE("shop_item_timerbomb_press.png"));
         
         hpBottle->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+        hpBottle->setCallback([](Ref *pSender)->void{
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+            PluginUtil::invoke(kPPdoSdkPay);
+#endif
+        });
         timerBomb->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
         
         auto timerMenu = Menu::create(timerBomb,nullptr);

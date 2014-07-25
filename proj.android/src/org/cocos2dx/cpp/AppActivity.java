@@ -23,24 +23,38 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-****************************************************************************/
+ ****************************************************************************/
 package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.KeyEvent;
+
+import com.android.vending.billing.IInAppBillingService;
+import com.giant.crazy.jni.JniBrige;
 
 public class AppActivity extends Cocos2dxActivity {
 	private AlertDialog exitDialog;
+	static String TAG = "Crazy Bomber";
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		JniBrige.getInstance().init(this);
+	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		if(keyCode==KeyEvent.KEYCODE_BACK)
-		{
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			exitDialog = new AlertDialog.Builder(this).setTitle("疯狂炸弹人")
 					.setMessage("真的要退出游戏吗?")
 					.setPositiveButton("继续玩", new OnClickListener() {
@@ -60,4 +74,24 @@ public class AppActivity extends Cocos2dxActivity {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
+
+	@Override
+	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+	        if (JniBrige.getInstance().mHelper == null) return;
+
+	        if (!JniBrige.getInstance().mHelper.handleActivityResult(requestCode, resultCode, data)) {
+	            super.onActivityResult(requestCode, resultCode, data);
+	        }
+	        else {
+	            Log.d(TAG, "onActivityResult handled by IABUtil.");
+	        }
+	 }
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		JniBrige.getInstance().dispose();
+	}
+	
 }

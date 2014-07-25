@@ -132,9 +132,17 @@ bool GameScene::init()
     textureFiles.push_back("textures/button-hd");
     textureFiles.push_back("textures/item-hd");
     
+#if (LOCAL_ASSET == 0 )
+    
+    textureFiles.push_back("textures/en_us/locale_1-hd");
+    textureFiles.push_back("textures/en_us/locale_3-hd");
+    textureFiles.push_back("textures/en_us/locale_4-hd");
+#else
     textureFiles.push_back("textures/zh_cn/locale_1-hd");
     textureFiles.push_back("textures/zh_cn/locale_3-hd");
     textureFiles.push_back("textures/zh_cn/locale_4-hd");
+#endif
+    
     
     setMapName(MapUtil::getInstance()->getMapName());
     if(isShowTip())
