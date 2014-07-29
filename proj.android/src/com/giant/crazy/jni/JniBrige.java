@@ -3,6 +3,7 @@ package com.giant.crazy.jni;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.IabResult;
@@ -12,6 +13,8 @@ import com.giant.creazybomber.R;
 
 public class JniBrige {
 
+	public native void payHandler();
+	
 	private static JniBrige _instance;
 	static String TAG = "Crazy Bomber";
 	String base64EncodedPublicKey;
@@ -58,7 +61,7 @@ public class JniBrige {
 					return;
 
 				Log.d(TAG, "Setup successful. Querying inventory.");
-				/* 连接成功之后 获取物品信息 检查商品是否可以使用*/
+				/* 连接成功之后 获取物品信息 检查商品是否可以使用 */
 				mHelper.queryInventoryAsync(mGotInventoryListener);
 			}
 		});
@@ -82,96 +85,86 @@ public class JniBrige {
 
 			Log.d(TAG, "Query inventory was successful.");
 
-			Purchase coinPurchase = inventory.getPurchase(context.getResources().getString(R.string.SKU_GOLD_COIN));
-			String hasItem = coinPurchase == null?"no item":"find item";
+			Purchase coinPurchase = inventory.getPurchase(context
+					.getResources().getString(R.string.SKU_GOLD_COIN));
+			String hasItem = coinPurchase == null ? "no item" : "find item";
 			Log.d(TAG, hasItem);
 		}
 	};
-	
+
 	// Callback for when a purchase is finished
-    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+	IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+		public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+			if (mHelper == null)
+				return;
+			if (result.isFailure()) {
+				complain("Error purchasing: " + result);
+				return;
+			}
+			Log.d(TAG, "Purchase successful.");
 
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
+			if (purchase.getSku().equals(
+					context.getResources().getString(R.string.SKU_GOLD_COIN))) {
+				mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+			}
+		}
+	};
 
-            if (result.isFailure()) {
-                complain("Error purchasing: " + result);
-                return;
-            }
-//            if (!verifyDeveloperPayload(purchase)) {
-//                complain("Error purchasing. Authenticity verification failed.");
-//                return;
-//            }
+	// Called when consumption is complete
+	IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+		public void onConsumeFinished(Purchase purchase, IabResult result) {
+			if (mHelper == null)
+				return;
 
-            Log.d(TAG, "Purchase successful.");
+			if (result.isSuccess()) {
+				payHandler();
+			} else {
+				complain("Error while consuming: " + result);
+			}
+			Log.d(TAG, "End consumption flow.");
+		}
+	};
 
-            if (purchase.getSku().equals(context.getResources().getString(R.string.SKU_GOLD_COIN))) {
-                // bought 1/4 tank of gas. So consume it.
-                Log.d(TAG, "Purchase is gas. Starting gas consumption.");
-                mHelper.consumeAsync(purchase, mConsumeFinishedListener);
-            }
-//            else if (purchase.getSku().equals(SKU_PREMIUM)) {
-//                // bought the premium upgrade!
-//                Log.d(TAG, "Purchase is premium upgrade. Congratulating user.");
-//                alert("Thank you for upgrading to premium!");
-//            }
-//            else if (purchase.getSku().equals(SKU_INFINITE_GAS)) {
-//                // bought the infinite gas subscription
-//                Log.d(TAG, "Infinite gas subscription purchased.");
-//                alert("Thank you for subscribing to infinite gas!");
-//            }
-        }
-    };
-    
- // Called when consumption is complete
-    IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
-        public void onConsumeFinished(Purchase purchase, IabResult result) {
-            Log.d(TAG, "Consumption finished. Purchase: " + purchase + ", result: " + result);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
-
-            // We know this is the "gas" sku because it's the only one we consume,
-            // so we don't check which sku was consumed. If you have more than one
-            // sku, you probably should check...
-            if (result.isSuccess()) {
-                // successfully consumed, so we apply the effects of the item in our
-                // game world's logic, which in our case means filling the gas tank a bit
-                Log.d(TAG, "Consumption successful. Provisioning.");
-                alert("You filled 1/4 tank. Your tank is now 1/4 full!");
-            }
-            else {
-                complain("Error while consuming: " + result);
-            }
-            Log.d(TAG, "End consumption flow.");
-        }
-    };
-	
 	void complain(String message) {
-        Log.e(TAG, "**** CrazyBomber Error: " + message);
-        alert("Error: " + message);
-    }
+		Log.e(TAG, "**** CrazyBomber Error: " + message);
+		alert("Error: " + message);
+	}
 
-    void alert(String message) {
-        AlertDialog.Builder bld = new AlertDialog.Builder(context);
-        bld.setMessage(message);
-        bld.setNeutralButton("OK", null);
-        Log.d(TAG, "Showing alert dialog: " + message);
-        bld.create().show();
-    }
-	
+	void alert(String message) {
+		AlertDialog.Builder bld = new AlertDialog.Builder(context);
+		bld.setMessage(message);
+		bld.setNeutralButton("OK", null);
+		Log.d(TAG, "Showing alert dialog: " + message);
+		bld.create().show();
+	}
+
 	public void doSdkPay(String params) {
 		Log.v(TAG, "invoke show ads method");
-		String payLoad = "";
-		mHelper.launchPurchaseFlow(context, context.getResources().getString(R.string.SKU_GOLD_COIN), RC_REQUEST, mPurchaseFinishedListener, payLoad);
+		context.runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				String payLoad = "";
+				mHelper.launchPurchaseFlow(context, context.getResources()
+						.getString(R.string.SKU_GOLD_COIN), RC_REQUEST,
+						mPurchaseFinishedListener, payLoad);
+			}
+		});
 	}
 
-	public void dispose()
-	{
-		if (mHelper != null) mHelper.dispose();
-		   mHelper = null;
+	public void doSdkToast(final String params) {
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(context, params, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
-	
+
+	public void dispose() {
+		if (mHelper != null)
+			mHelper.dispose();
+		mHelper = null;
+	}
+
 }

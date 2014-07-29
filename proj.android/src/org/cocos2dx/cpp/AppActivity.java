@@ -29,18 +29,13 @@ package org.cocos2dx.cpp;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.android.vending.billing.IInAppBillingService;
 import com.giant.crazy.jni.JniBrige;
 
 public class AppActivity extends Cocos2dxActivity {
@@ -55,15 +50,15 @@ public class AppActivity extends Cocos2dxActivity {
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitDialog = new AlertDialog.Builder(this).setTitle("疯狂炸弹人")
-					.setMessage("真的要退出游戏吗?")
-					.setPositiveButton("继续玩", new OnClickListener() {
+			exitDialog = new AlertDialog.Builder(this).setTitle("Crazy Bomber")
+					.setMessage("Do you really want to quit the game?")
+					.setPositiveButton("Continue", new OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							exitDialog.dismiss();
 						}
-					}).setNegativeButton("退出", new OnClickListener() {
+					}).setNegativeButton("Quit", new OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {

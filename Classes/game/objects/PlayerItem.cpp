@@ -86,8 +86,8 @@ void PlayerItem::update(float delta)
                 
                 if(_speedUp==false)
                 {
-//                    manager->setSpeed(manager->getSpeed()*1.3f);
-//                    manager->getPlayer()->setSpeed(manager->getPlayer()->getSpeed()*1.3f);
+                    auto player = manager->getPlayer();
+                    player->setSpeed(player->getSpeed()*1.3f);
                     checkShoeNum();
                 }
                 
@@ -120,8 +120,8 @@ void PlayerItem::checkShoeNum()
         {
             this->checkShoeNum();
         }else{
-//            manager->setSpeed(manager->getSpeed()/1.3f);
-//            manager->getPlayer()->setSpeed(manager->getPlayer()->getSpeed()/1.3f);
+            auto player = manager->getPlayer();
+            player->setSpeed(player->getSpeed()/1.3f);
             _speedUp = false;
         }
         

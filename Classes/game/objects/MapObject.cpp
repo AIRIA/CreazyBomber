@@ -174,6 +174,7 @@ void MapObject::doTileDestory()
         });
         stopAllActions();
         runAction(Sequence::create(animate,animateCallback, NULL));
+        Util::playEffect(EFFECT_ITEM_BOMBED);
     }
 }
 
@@ -327,6 +328,7 @@ void TransferDoor::update(float delta)
         auto scaleAct = ScaleTo::create(0.5f, 0.0f);
         auto scaleHandler = CallFunc::create([]()->void{
             NotificationCenter::getInstance()->postNotification(GAME_RESULT);
+            Util::playEffect(SOUND_ENTER_TONGGUANDIAN);
         });
         
         manager->getPlayer()->runAction(Sequence::create(Spawn::create(moveAct,scaleAct, NULL),scaleHandler, NULL));
@@ -693,7 +695,7 @@ void Monster::update(float delta)
         }
         
         auto rect = fire->boundingBox();
-        rect.origin = Point(fire->getPosition()-Point(TILE_WIDTH,TILE_HEIGHT)/2);
+        rect.origin = Point(fire->getPosition()-Point(TILE_WIDTH/2,0));
         rect.size = Size(TILE_WIDTH,TILE_HEIGHT);
         if(monsterRect.intersectsRect(rect))
         {
@@ -706,6 +708,10 @@ void Monster::update(float delta)
                 runAction(Repeat::create(seq, 2));
                 NotificationCenter::getInstance()->postNotification(UPDATE_BOSS_HP,data);
             }else{
+                auto randomNum = rand()%5;
+                if (randomNum==0) {
+                    Util::playEffect(SOUND_PLAYER_RANDOM);
+                }
                 doTileDestory();
                 return;
             }
@@ -1350,7 +1356,7 @@ void WoodBox::moveBoxSelect(float delta)
             m_Scale = Point(0,1);
             break;
         case kWalkRight:
-            if(getCol()>player->getCol())
+            if(getCol()<player->getCol())
             {
                 return;
             }
@@ -1400,6 +1406,7 @@ void WoodBox::moveBoxSelect(float delta)
             GameManager::getInstance()->getMovingBoxes().eraseObject(this);
         });
         runAction(Sequence::create(moveAct,moveCall, NULL));
+        Util::playEffect(EFFECT_MOVE_BOX);
     }
 }
 

@@ -147,7 +147,7 @@ bool GameScene::init()
     setMapName(MapUtil::getInstance()->getMapName());
     if(isShowTip())
     {
-        std::string mapTip = "textures/zh_cn/"+getMapName()+"-hd";
+        std::string mapTip = "textures/en_us/"+getMapName()+"-hd";
         textureFiles.push_back(mapTip);
     }
     if (config->getSelectLevel()==12||(config->getSelectSceneName().find("battle")!=std::string::npos&&config->getSelectLevel()==8)) {
@@ -202,14 +202,31 @@ void GameScene::onTexturesLoaded()
 
 void GameScene::startGame()
 {
-    if(GameConfig::getInstance()->getSelectLevel()==12)
+    auto sceneName = GameConfig::getInstance()->getSelectSceneName();
+    if(sceneName.find("battle")==std::string::npos)
     {
-        Util::playSound(SOUND_SCENE_BG,true);
+        if(GameConfig::getInstance()->getSelectLevel()!=12)
+        {
+            Util::playSound(SOUND_SCENE_BG,true);
+        }
+        else
+        {
+            Util::playSound(SOUND_BOSS_BG,true);
+        }
     }
     else
     {
-        Util::playSound(SOUND_BOSS_BG,true);
+        if(GameConfig::getInstance()->getSelectLevel()!=8)
+        {
+            Util::playSound(SOUND_SCENE_BG,true);
+        }
+        else
+        {
+            Util::playSound(SOUND_BOSS_BG,true);
+        }
     }
+    
+    
     
     auto util = MapUtil::getInstance();
     /* 初始化道具的动画 */
@@ -302,9 +319,16 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
 {
     auto mapObj = static_cast<MapObject*>(pSender);
     auto row = mapObj->getRow(),col = mapObj->getCol();
-    auto itemId = rand()%5;
+    auto itemId = rand()%10;
     if(itemId<5)
     {
+        if(itemId==PlayerInfoParam::kTypeCoin)
+        {
+            itemId = rand()%3;
+            if (itemId) {
+                return;
+            }
+        }
         auto playerItemType = GameManager::getInstance()->getPlayerItems().at(itemId);
         auto item = PlayerItem::create();
         item->setItemType(playerItemType);
@@ -318,7 +342,7 @@ void GameScene::createPlayerItem(cocos2d::Ref *pSender)
 bool GameScene::isShowTip()
 {
     auto level = atoi(getMapName().c_str());
-    if(level>2104|| level==1205 ||level==1308||level==1310||(level>=1209 && level<=1212)||level==1301||level==1309)
+    if(level>2104|| level==1205 ||level==1201 ||level==1308||level==1310||(level>=1209 && level<=1212)||level==1301||level==1309)
     {
         return false;
     }

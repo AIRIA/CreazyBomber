@@ -22,7 +22,8 @@ enum MethodType{
     kPPdoSdkHideAds,
     kPPdoSdkShowScoreWall,
     kPPdoSdkLogin,
-    kPPdoSdkPay
+    kPPdoSdkPay,
+    kPPdoSdkToast
 };
 
 class PluginUtil
@@ -41,6 +42,7 @@ class Util
 {
 public:
     static std::string itoa(int i);
+    static void charge();
     static void playSound(std::string sound,bool repeat=false);
     static void playEffect(std::string effect,bool repeat=false);
     /**
@@ -49,7 +51,10 @@ public:
     static void addAnimation(std::string fileName,int frameNum,float delay = 0.15f);
     
     static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
+    
+    static void toast(std::string msg);
 };
+
 
 
 #endif /* defined(__CreazyBomber__Util__) */

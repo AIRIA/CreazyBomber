@@ -35,6 +35,9 @@ bool WelcomeScene::init()
     if (!BaseLayer::init()) {
         return false;
     }
+    
+    SimpleAudioEngine::getInstance()->stopAllEffects();
+    
     /* 预加载音频文件 */
     SimpleAudioEngine::getInstance()->preloadBackgroundMusic(SOUND_MAIN_BG);
     SimpleAudioEngine::getInstance()->preloadEffect(EFFECT_UI_CLICK);
@@ -154,6 +157,8 @@ void WelcomeScene::onTexturesLoaded()
     BaseLayer::onTexturesLoaded();
     _initBackground();
     _initMenu();
+    //循环播放背景音乐
+    Util::playSound(SOUND_MAIN_BG,true);
 }
 
 void WelcomeScene::_initMenu()
@@ -741,11 +746,33 @@ void WelcomeScene::_showStore(Ref *pSender)
         
         hpBottle->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
         hpBottle->setCallback([](Ref *pSender)->void{
-#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
-            PluginUtil::invoke(kPPdoSdkPay);
-#endif
+            auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
+            if (coin>=100) {
+                coin -= 100;
+                __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
+                __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, __userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM)+1);
+                Util::toast("purchase succeeded,enjoy game!");
+            }
+            else
+            {
+                Util::toast("do not have enough gold coins,please charge!");
+                Util::charge();
+            }
         });
         timerBomb->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+        timerBomb->setCallback([](Ref *pSender)->void{
+            auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
+            if (coin>100) {
+                coin -= 100;
+                __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
+                __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM)+1);
+                MessageBox("buy success", "TIP");
+            }
+            else
+            {
+                MessageBox("lack of coin", "tip");
+            }
+        });
         
         auto timerMenu = Menu::create(timerBomb,nullptr);
         auto hpMenu = Menu::create(hpBottle,nullptr);

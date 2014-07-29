@@ -2,5 +2,7 @@
 <resources>
     <string name="app_name">CreazyBomber</string>
     <string name="pub_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz4ty9LOufMZqRpwf+U6UFjAr9edzupPXqnCSVPWxRfmAFAp7/IzPHILvx0ooviVqv0nrs42yl8bihuZTyUq2sFYDyy1JxvTLcr4w/nWwc31Cec0ClNpourFm+a53Lmghxmn5BVB29Og3gDzBATHGlgv+VeyDzW01yxwnjz/rqAXJgckVTTZIp7K2R1Xp/H1xRcTFKne4hbBxseHDCv1wbEIPgmE65k6u2G0bfo29eVWW6nFytLGlKK7JeQf6KvfY+Gp18qemCXyGJjygUR0mGWtZt2gRf4wfrt1LhbliBWFUYgfFD8J/TP1gr1DWFCOQQ4cG5mta1UmRbOesTDyEgQIDAQAB</string>
-    <string name="SKU_GOLD_COIN">android.test.purchased</string>
+    <string name="SKU_GOLD_COIN">10010</string>
+<!--     android.test.purchased -->
 </resources>
+

@@ -102,7 +102,7 @@ enum WalkDirection{
 #define SOUND_INGAME_WIN           "music/soundEffect/ingame_win.mp3"
 #define SOUND_INGAME_FAILED        "music/soundEffect/ingame_fail.mp3"
 #define SOUND_ITEM_BOMB_EXPLODE    "music/soundEffect/item_bomb_explode.mp3"
-#define SOUND_ENTER_TONGGUANDIAN   "music/soundEffect/playe_enter_tongguandian.mp3"
+#define SOUND_ENTER_TONGGUANDIAN   "music/soundEffect/play_enter_tongguandian.mp3"
 #define SOUND_INGAME_START         "music/soundEffect/ingame_game_start.mp3"
 #define SOUND_INGAME_COUNT_NUMBER  "music/soundEffect/ingame_count_number.mp3"
 #define SOUND_BOSS_BG              "music/bg/music_game_boss.mp3"
@@ -110,6 +110,10 @@ enum WalkDirection{
 #define EFFECT_UI_CLICK            "music/soundEffect/ui_click.mp3"
 #define EFFECT_UI_ITEM_IN          "music/soundEffect/ui_item_in.mp3"
 #define EFFECT_UI_ITEM_OUT         "music/soundEffect/ui_item_out.mp3"
+#define EFFECT_UI_ITEM_OUT         "music/soundEffect/ui_item_out.mp3"
+#define EFFECT_UI_ITEM_OUT         "music/soundEffect/ui_item_out.mp3"
+#define EFFECT_MOVE_BOX            "music/soundEffect/scene_move_box.mp3"
+#define EFFECT_ITEM_BOMBED          "music/soundEffect/scene_item_bombed.mp3"
 
 #define SOUND_PLAYER_ATTACKED __String::createWithFormat("music/soundEffect/player_%s_attacked.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()
 #define SOUND_PLAYER_DEATH    __String::createWithFormat("music/soundEffect/player_%s_death.mp3",GameConfig::getInstance()->getSelectRoleName().c_str())->getCString()

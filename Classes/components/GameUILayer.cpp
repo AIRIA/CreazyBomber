@@ -68,7 +68,7 @@ void GameUILayer::onTexturesLoaded()
     });
     
     hpMenuItem->setAnchorPoint(Point(1.0f,1.0f));
-    hpMenuItem->setPosition(VisibleRect::right()+Point(-20,100));
+    hpMenuItem->setPosition(VisibleRect::right()+Point(-40,100));
     timerBombItem->setAnchorPoint(hpMenuItem->getAnchorPoint());
     timerBombItem->setPosition(hpMenuItem->getPosition()-Point(0,80*GameManager::getInstance()->getScaleFactor()));
     
@@ -141,7 +141,7 @@ void GameUILayer::onTexturesLoaded()
         auto numLabel = item->getChildByTag(101);
         auto label = dynamic_cast<Label*>(numLabel);
         label->setString(Util::itoa(num));
-
+        Util::playEffect(SOUND_ITEM_USE_HP);
         
     });
     
@@ -249,7 +249,7 @@ void GameUILayer::_showBossHp(cocos2d::Ref *pSender)
 void GameUILayer::_updateBossHp(cocos2d::Ref *pSender)
 {
     int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
-    auto targetHP = bossHpBar->getPercentage()-*hurt/1.0f;
+    auto targetHP = bossHpBar->getPercentage()-*hurt/20.0f;
     if(targetHP<=0)
     {
         NotificationCenter::getInstance()->postNotification(BOSS_DEAD);
@@ -270,6 +270,10 @@ void GameUILayer::_updateHpHandler(cocos2d::Ref *pSender)
     int *hurt = (int*)static_cast<Node*>(pSender)->getUserData();
     auto progressTo = ProgressFromTo::create(1.0f, player->getHP()+*hurt, player->getHP());
     hpBar->runAction(progressTo);
+    if(player->getHP()<50)
+    {
+        Util::playEffect(SOUND_PLAYER_LOW_HP);
+    }
 }
 
 void GameUILayer::_updatePlayerInfoHandler(cocos2d::Ref *pSender)

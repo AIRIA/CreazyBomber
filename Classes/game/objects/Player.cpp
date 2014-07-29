@@ -216,7 +216,7 @@ void Player::_revive(cocos2d::Ref *pSender)
     beAttack(-100);
     m_WalkDirection = kWalkEmpty;
     stand();
-    Util::playSound(SOUND_SCENE_BG);
+    Util::playSound(SOUND_SCENE_BG,true);
     Util::playEffect(SOUND_PLAYER_BIRTH);
 }
 

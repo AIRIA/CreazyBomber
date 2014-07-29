@@ -70,8 +70,8 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
     wrapper->addChild(bg);
     
     auto charge = MenuItemSprite::create(SPRITE("shop_charge_btn_normal.png"), SPRITE("shop_charge_btn_press.png"));
-    auto revice = MenuItemSprite::create(SPRITE("revive_normal.png"), SPRITE("revive_press.png"));
-    revice->setCallback([&](Ref *pSender)->void{
+    auto revive = MenuItemSprite::create(SPRITE("revive_normal.png"), SPRITE("revive_press.png"));
+    revive->setCallback([&](Ref *pSender)->void{
         auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
         if(coin>=REVIVE_COIN)
         {
@@ -85,16 +85,17 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
         }
         else
         {
-            MessageBox("金币不足 请充值", "提示");
+            Util::toast("do not have enough gold coins,please charge!");
+            Util::charge();
         }
     });
-    revice->setPosition(Point(0,20));
+    revive->setPosition(Point(0,20));
     charge->setPosition(Point(0,-150));
     charge->setCallback([](Ref *pSender)->void{
-        MessageBox("充值功能暂未开放,敬请等待!", "提示");
+        Util::charge();
     });
     
-    auto menu = Menu::create(revice,charge,nullptr);
+    auto menu = Menu::create(revive,charge,nullptr);
     menu->ignoreAnchorPointForPosition(false);
     wrapper->addChild(menu);
     
@@ -113,6 +114,23 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
     wrapper->addChild(coin);
     wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,NULL));
     addChild(wrapper);
+    auto exit = MenuItemSprite::create(SPRITE("exit_normal.png"), SPRITE("exit_press.png"));
+    auto retry = MenuItemSprite::create(SPRITE("restart_normal.png"), SPRITE("restart_press.png"));
+
+    exit->setPosition(Point(-150,-230));
+    exit->setCallback([](Ref *pSender)->void{
+        //            GameManager::getInstance()->setSpeed(Point::ZERO);
+        WelcomeScene::create()->run();
+    });
+    retry->setPosition(Point(150,-230));
+    retry->setCallback([](Ref *pSender)->void{
+        NotificationCenter::getInstance()->postNotification(GAME_RETRY);
+    });
+
+    
+    auto menu2 = Menu::create(exit,retry,nullptr);
+    menu2->ignoreAnchorPointForPosition(false);
+    wrapper->addChild(menu2);
     
 }
 

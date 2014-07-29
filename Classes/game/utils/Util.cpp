@@ -31,6 +31,7 @@ void Util::playEffect(std::string effect,bool repeat)
     {
         SimpleAudioEngine::getInstance()->playEffect(effect.c_str(),repeat);
     }
+    
 }
 
 void Util::addAnimation(std::string fileName, int frameNum,float delay)
@@ -73,7 +74,26 @@ std::vector<std::string> Util::split(std::string _string,std::string delimiter,s
     {
         res.push_back(strTmp);
     }
+
     return res;
+}
+
+void Util::toast(std::string msg)
+{
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+    PluginUtil::invoke(kPPdoSdkToast,msg);
+#else
+    
+#endif
+}
+
+void Util::charge()
+{
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+    PluginUtil::invoke(kPPdoSdkPay,"");
+#else
+    
+#endif
 }
 
 #pragma mark----------------------plugin util-------------------------------
@@ -118,6 +138,9 @@ void PluginUtil::invoke(MethodType key, std::string param) {
         case kPPdoSdkLogin:
             methodName = "doSdkLogin";
             break;
+        case kPPdoSdkToast:
+            methodName = "doSdkToast";
+            break;
         default:
             break;
 	}
@@ -132,4 +155,17 @@ void PluginUtil::invoke(MethodType key, std::string param) {
     
 }
 
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_com_giant_crazy_jni_JniBrige_payHandler(JNIEnv *env,jobject thiz)
+    {
+        __userDefault->setIntegerForKey(KEY_COIN_NUM, __userDefault->getIntegerForKey(KEY_COIN_NUM)+1000);
+        auto msg = __String::createWithFormat("pay success,+%d coins!",__userDefault->getIntegerForKey(KEY_COIN_NUM))->getCString();
+        Util::toast(msg);
+    }
+    
+}
+
 #endif
+

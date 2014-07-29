@@ -16,8 +16,8 @@ GameConfig *GameConfig::getInstance()
         _instance = new GameConfig();
         _instance->init();
         _instance->setSelectRoleName("viking");
-        _instance->setSelectSceneName("md");
-        _instance->setSelectLevel(12);
+        _instance->setSelectSceneName("bc_battle");
+        _instance->setSelectLevel(4);
     }
     return _instance;
 }
@@ -50,7 +50,7 @@ void GameConfig::init()
         
         __userDefault->setBoolForKey(KEY_SOUND_ENABLED, true);
         __userDefault->setBoolForKey(KEY_EFFECT_ENABLED, true);
-        __userDefault->setIntegerForKey(KEY_COIN_NUM, 30000);
+        __userDefault->setIntegerForKey(KEY_COIN_NUM, 300);
         __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, 3);
         __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, 3);
     }  
