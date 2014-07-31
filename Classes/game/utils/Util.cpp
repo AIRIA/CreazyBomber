@@ -95,6 +95,24 @@ void Util::charge()
     
 #endif
 }
+void Util::chargeConfirm()
+{
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+    PluginUtil::invoke(kPPdoSdkPayConfirm,"");
+#else
+    
+#endif
+}
+
+void Util::gameAnalyze(AnalyzeType type)
+{
+    auto config = GameConfig::getInstance();
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+    PluginUtil::invoke(kPPdoSdkAnalyze,__String::createWithFormat("{\"key\":\"%d\",\"value\":\"%s_%d\"}",type,config->getSelectSceneName().c_str(),config->getSelectLevel())->getCString());
+#else
+    
+#endif
+}
 
 #pragma mark----------------------plugin util-------------------------------
 
@@ -141,6 +159,11 @@ void PluginUtil::invoke(MethodType key, std::string param) {
         case kPPdoSdkToast:
             methodName = "doSdkToast";
             break;
+        case kPPdoSdkPayConfirm:
+            methodName = "doSdkPayConfirm";
+            break;
+        case kPPdoSdkAnalyze:
+            methodName = "doSdkAnalyze";
         default:
             break;
 	}

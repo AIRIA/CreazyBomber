@@ -29,14 +29,17 @@ package org.cocos2dx.cpp;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
 import com.giant.crazy.jni.JniBrige;
+import com.umeng.analytics.game.UMGameAgent;
 
 public class AppActivity extends Cocos2dxActivity {
 	private AlertDialog exitDialog;
@@ -45,6 +48,9 @@ public class AppActivity extends Cocos2dxActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		JniBrige.getInstance().init(this);
+		UMGameAgent.init(this);
+		UMGameAgent.setDebugMode(false);
+		getDeviceInfo(this);
 	}
 
 	@Override
@@ -88,5 +94,49 @@ public class AppActivity extends Cocos2dxActivity {
 		super.onDestroy();
 		JniBrige.getInstance().dispose();
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		UMGameAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		UMGameAgent.onPause(this);
+	}
+	
+	public static String getDeviceInfo(Context context) {
+	    try{
+	      org.json.JSONObject json = new org.json.JSONObject();
+	      android.telephony.TelephonyManager tm = (android.telephony.TelephonyManager) context
+	          .getSystemService(Context.TELEPHONY_SERVICE);
+	  
+	      String device_id = tm.getDeviceId();
+	      
+	      android.net.wifi.WifiManager wifi = (android.net.wifi.WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+	          
+	      String mac = wifi.getConnectionInfo().getMacAddress();
+	      json.put("mac", mac);
+	      
+	      if( TextUtils.isEmpty(device_id) ){
+	        device_id = mac;
+	      }
+	      
+	      if( TextUtils.isEmpty(device_id) ){
+	        device_id = android.provider.Settings.Secure.getString(context.getContentResolver(),android.provider.Settings.Secure.ANDROID_ID);
+	      }
+	      
+	      json.put("device_id", device_id);
+	      Log.v(TAG, json.toString());
+	      return json.toString();
+	    }catch(Exception e){
+	      e.printStackTrace();
+	    }
+	  return null;
+	}
+	    
+	
 	
 }

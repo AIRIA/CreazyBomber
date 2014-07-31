@@ -60,6 +60,7 @@ void ResultLayer::_changeBgColor()
 
 void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 {
+    Util::gameAnalyze(kLevelFailed);
     Util::playEffect(SOUND_INGAME_FAILED);
     _changeBgColor();
     auto wrapper = Node::create();
@@ -136,6 +137,7 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)
 {
+    Util::gameAnalyze(kLevelFinish);
     _changeBgColor();
     auto config = GameConfig::getInstance();
     auto scaleFactor = GameManager::getInstance()->getScaleFactor();

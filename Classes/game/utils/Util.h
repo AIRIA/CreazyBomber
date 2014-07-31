@@ -23,8 +23,12 @@ enum MethodType{
     kPPdoSdkShowScoreWall,
     kPPdoSdkLogin,
     kPPdoSdkPay,
-    kPPdoSdkToast
+    kPPdoSdkToast,
+    kPPdoSdkPayConfirm,
+    kPPdoSdkAnalyze
 };
+
+
 
 class PluginUtil
 {
@@ -38,9 +42,17 @@ public:
 
 #endif
 
+enum AnalyzeType{
+    kLevelStart = 1,
+    kLevelFailed,
+    kLevelFinish
+};
+
 class Util
 {
 public:
+    static void gameAnalyze(AnalyzeType type);
+    static void chargeConfirm();
     static std::string itoa(int i);
     static void charge();
     static void playSound(std::string sound,bool repeat=false);

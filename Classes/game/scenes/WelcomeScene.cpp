@@ -755,8 +755,7 @@ void WelcomeScene::_showStore(Ref *pSender)
             }
             else
             {
-                Util::toast("do not have enough gold coins,please charge!");
-                Util::charge();
+                Util::chargeConfirm();
             }
         });
         timerBomb->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
@@ -766,11 +765,11 @@ void WelcomeScene::_showStore(Ref *pSender)
                 coin -= 100;
                 __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
                 __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM)+1);
-                MessageBox("buy success", "TIP");
+                MessageBox("buy timer bomb successed", "TIP");
             }
             else
             {
-                MessageBox("lack of coin", "tip");
+                Util::chargeConfirm();
             }
         });
         

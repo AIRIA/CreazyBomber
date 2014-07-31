@@ -1,7 +1,12 @@
 package com.giant.crazy.jni;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +15,7 @@ import com.android.vending.billing.util.IabResult;
 import com.android.vending.billing.util.Inventory;
 import com.android.vending.billing.util.Purchase;
 import com.giant.creazybomber.R;
+import com.umeng.analytics.game.UMGameAgent;
 
 public class JniBrige {
 
@@ -45,7 +51,7 @@ public class JniBrige {
 		context = ctx;
 		base64EncodedPublicKey = ctx.getResources().getString(R.string.pub_key);
 		mHelper = new IabHelper(ctx, base64EncodedPublicKey);
-		mHelper.enableDebugLogging(true);
+		mHelper.enableDebugLogging(false);
 		Log.d(TAG, "Starting setup.");
 
 		/* 监听是否可以连接 google play 服务 */
@@ -160,7 +166,58 @@ public class JniBrige {
 			}
 		});
 	}
+	AlertDialog exitDialog;
+	public void doSdkPayConfirm(final String params){
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				exitDialog = new AlertDialog.Builder(context).setTitle("Crazy Bomber")
+						.setMessage("Gold is not enough,Do you want to recharge?\n"
+								+ "$0.99 = 1000 coin")
+						.setPositiveButton("Continue", new OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								doSdkPay(params);
+							}
+						}).setNegativeButton("Cancle", new OnClickListener() {
 
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								exitDialog.dismiss();
+								
+							}
+						}).show();
+			}
+		});
+	}
+
+	
+	public void doSdkAnalyze(String params){
+		Log.v(TAG, params);
+		try {
+			JSONObject param = new JSONObject(params);
+			int key = param.getInt("key");
+			String value = param.getString("value");
+			switch (key) {
+			case 1: //start level
+				UMGameAgent.startLevel(value);
+				break;
+			case 2: //faild level
+				UMGameAgent.failLevel(value);
+				break;
+			case 3: //finish level
+				UMGameAgent.finishLevel(value);
+				break;
+			default:
+				break;
+			}
+		} catch (JSONException e) {
+			Log.v(TAG, "json format error");
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void dispose() {
 		if (mHelper != null)
 			mHelper.dispose();

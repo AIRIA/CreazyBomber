@@ -202,6 +202,7 @@ void GameScene::onTexturesLoaded()
 
 void GameScene::startGame()
 {
+    Util::gameAnalyze(kLevelStart);
     auto sceneName = GameConfig::getInstance()->getSelectSceneName();
     if(sceneName.find("battle")==std::string::npos)
     {
