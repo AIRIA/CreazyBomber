@@ -30,7 +30,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     PluginUtil::init();
 #endif
     WelcomeScene::create()->run();
-    
     return true;
 }
 

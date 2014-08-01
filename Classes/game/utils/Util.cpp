@@ -114,6 +114,23 @@ void Util::gameAnalyze(AnalyzeType type)
 #endif
 }
 
+void Util::share()
+{
+    auto winSize = Director::getInstance()->getWinSize();
+    auto render = RenderTexture::create(winSize.width, winSize.height);
+	auto runningScene = Director::getInstance()->getRunningScene();
+	render->begin();
+	runningScene->visit();
+	render->end();
+	render->saveToFile("record.png", Image::Format::PNG);
+    auto shareImgPath = FileUtils::getInstance()->getWritablePath()+"record.png";
+#if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
+    PluginUtil::invoke(kPPdoSdkShare,shareImgPath);
+#else
+    
+#endif
+}
+
 #pragma mark----------------------plugin util-------------------------------
 
 #if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
@@ -164,6 +181,10 @@ void PluginUtil::invoke(MethodType key, std::string param) {
             break;
         case kPPdoSdkAnalyze:
             methodName = "doSdkAnalyze";
+            break;
+        case kPPdoSdkShare:
+            methodName = "doSdkShare";
+            break;
         default:
             break;
 	}

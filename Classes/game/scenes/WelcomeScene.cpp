@@ -159,6 +159,7 @@ void WelcomeScene::onTexturesLoaded()
     _initMenu();
     //循环播放背景音乐
     Util::playSound(SOUND_MAIN_BG,true);
+    Util::share();
 }
 
 void WelcomeScene::_initMenu()

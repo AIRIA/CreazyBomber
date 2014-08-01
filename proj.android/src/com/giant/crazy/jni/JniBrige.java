@@ -14,6 +14,7 @@ import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.IabResult;
 import com.android.vending.billing.util.Inventory;
 import com.android.vending.billing.util.Purchase;
+import com.giant.crazy.share.UMengShare;
 import com.giant.creazybomber.R;
 import com.umeng.analytics.game.UMGameAgent;
 
@@ -133,7 +134,7 @@ public class JniBrige {
 
 	void complain(String message) {
 		Log.e(TAG, "**** CrazyBomber Error: " + message);
-		alert("Error: " + message);
+//		alert("Error: " + message);
 	}
 
 	void alert(String message) {
@@ -217,6 +218,16 @@ public class JniBrige {
 		}
 	}
 	
+	public void doSdkShare(final String params)
+	{
+		Log.v(TAG, "invoke sdk share");
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				UMengShare.getInstance().share(context, params);
+			}
+		});
+	}
 	
 	public void dispose() {
 		if (mHelper != null)

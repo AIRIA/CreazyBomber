@@ -56,6 +56,7 @@ void ResultLayer::_changeBgColor()
     auto fadeAct = FadeTo::create(1.0f, 128);
     bg->runAction(fadeAct);
     addChild(bg);
+    Util::share();
 }
 
 void ResultLayer::_gameOver(cocos2d::Ref *pSender)

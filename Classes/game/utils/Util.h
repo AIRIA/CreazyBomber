@@ -25,7 +25,8 @@ enum MethodType{
     kPPdoSdkPay,
     kPPdoSdkToast,
     kPPdoSdkPayConfirm,
-    kPPdoSdkAnalyze
+    kPPdoSdkAnalyze,
+    kPPdoSdkShare
 };
 
 
@@ -51,6 +52,7 @@ enum AnalyzeType{
 class Util
 {
 public:
+    static void share();
     static void gameAnalyze(AnalyzeType type);
     static void chargeConfirm();
     static std::string itoa(int i);
