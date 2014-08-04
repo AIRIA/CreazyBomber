@@ -76,15 +76,16 @@ public class AppActivity extends Cocos2dxActivity {
 
 	@Override
 	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
-	        if (JniBrige.getInstance().mHelper == null) return;
-
-	        if (!JniBrige.getInstance().mHelper.handleActivityResult(requestCode, resultCode, data)) {
-	            super.onActivityResult(requestCode, resultCode, data);
-	        }
-	        else {
-	            Log.d(TAG, "onActivityResult handled by IABUtil.");
-	        }
+		super.onActivityResult(requestCode, resultCode, data);
+//	        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+//	        if (JniBrige.getInstance().mHelper == null) return;
+//
+//	        if (!JniBrige.getInstance().mHelper.handleActivityResult(requestCode, resultCode, data)) {
+//	            super.onActivityResult(requestCode, resultCode, data);
+//	        }
+//	        else {
+//	            Log.d(TAG, "onActivityResult handled by IABUtil.");
+//	        }
 	 }
 	
 	@Override

@@ -122,8 +122,8 @@ void Util::share()
 	render->begin();
 	runningScene->visit();
 	render->end();
-	render->saveToFile("record.png", Image::Format::PNG);
-    auto shareImgPath = FileUtils::getInstance()->getWritablePath()+"record.png";
+	render->saveToFile("record.jpg", Image::Format::JPG);
+    auto shareImgPath = FileUtils::getInstance()->getWritablePath()+"record.jpg";
 #if (CC_PLATFORM_ANDROID == CC_TARGET_PLATFORM)
     PluginUtil::invoke(kPPdoSdkShare,shareImgPath);
 #else
