@@ -73,6 +73,51 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- youmi pay -->
+
+        <activity
+            android:name="net.umipay.android.UmipayBrowser"
+            android:theme="@style/UmipayTheme_NoFullscreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.unionpay.uppay.PayActivityEx"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.unionpay.uppay.PayActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.UPPay" >
+        </activity>
+
+        <service
+            android:name="net.umipay.android.poll.Push_Poll_service"
+            android:exported="false" />
+        <service
+            android:name="net.umipay.android.poll.SmsReceiverService"
+            android:exported="false" />
+
+        <receiver android:name="net.umipay.android.poll.Push_Boot_Receiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="net.umipay.android.poll.Push_Alarm_Receiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="net.umipay.android.poll.push_alarm" />
+            </intent-filter>
+        </receiver>
+        <!-- 如有渠道需求可设置渠道号【整数】（最长支持10位） -->
+        <meta-data
+            android:name="UMIPAY_CHANNEL"
+            android:value="0" />
     </application>
 
     <supports-screens
@@ -82,15 +127,23 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <!--添加以下必备权限-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS" />
+    <!--开通短代支付所需权限（可选）-->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 检测网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 获取用户手机的IMEI，用来唯一的标识用户 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- 缓存资源优先存入SDcard -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

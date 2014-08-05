@@ -1,6 +1,16 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := entryex_so
+LOCAL_SRC_FILES := prebuilt/$(TARGET_ARCH_ABI)/libentryex.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := mppay_so
+LOCAL_SRC_FILES := prebuilt/$(TARGET_ARCH_ABI)/libmppay.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := cocos2dcpp_shared
 

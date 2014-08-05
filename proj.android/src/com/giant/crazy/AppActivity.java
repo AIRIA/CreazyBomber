@@ -33,10 +33,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.giant.crazy.jni.JniBrige;
+import com.giant.crazy.pay.UmiPayManager;
 import com.umeng.analytics.game.UMGameAgent;
 
 public class AppActivity extends Cocos2dxActivity {
@@ -48,6 +48,7 @@ public class AppActivity extends Cocos2dxActivity {
 		JniBrige.getInstance().init(this);
 		UMGameAgent.init(this);
 		UMGameAgent.setDebugMode(false);
+		UmiPayManager.init(this);
 	}
 	
 

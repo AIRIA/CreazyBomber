@@ -14,6 +14,7 @@ import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.IabResult;
 import com.android.vending.billing.util.Inventory;
 import com.android.vending.billing.util.Purchase;
+import com.giant.crazy.pay.UmiPayManager;
 import com.giant.crazy.share.UMengShare;
 import com.giant.creazybomber.R;
 import com.umeng.analytics.game.UMGameAgent;
@@ -151,10 +152,15 @@ public class JniBrige {
 
 			@Override
 			public void run() {
-				String payLoad = "";
-				mHelper.launchPurchaseFlow(context, context.getResources()
-						.getString(R.string.SKU_GOLD_COIN), RC_REQUEST,
-						mPurchaseFinishedListener, payLoad);
+				boolean type = true;
+				if(type){
+					UmiPayManager.showPayView();
+				}else{
+					String payLoad = "";
+					mHelper.launchPurchaseFlow(context, context.getResources()
+							.getString(R.string.SKU_GOLD_COIN), RC_REQUEST,
+							mPurchaseFinishedListener, payLoad);
+				}
 			}
 		});
 	}
