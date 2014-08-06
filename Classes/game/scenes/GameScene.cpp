@@ -171,6 +171,7 @@ bool GameScene::init()
 
 void GameScene::onTexturesLoaded()
 {
+    Util::showSpotAds();
     auto util = MapUtil::getInstance();
     BaseLayer::onTexturesLoaded();
     MapUtil::getInstance()->initMapSize();

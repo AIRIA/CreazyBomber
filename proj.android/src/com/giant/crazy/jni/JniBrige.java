@@ -1,5 +1,9 @@
 package com.giant.crazy.jni;
 
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsManager;
+import net.youmi.android.spot.SpotManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,7 +18,6 @@ import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.IabResult;
 import com.android.vending.billing.util.Inventory;
 import com.android.vending.billing.util.Purchase;
-import com.giant.crazy.pay.UmiPayManager;
 import com.giant.crazy.share.UMengShare;
 import com.giant.creazybomber.R;
 import com.umeng.analytics.game.UMGameAgent;
@@ -146,7 +149,7 @@ public class JniBrige {
 		bld.create().show();
 	}
 
-	public void doSdkPay(String params) {
+	public void doSdkPay(final String params) {
 		Log.v(TAG, "invoke show ads method");
 		context.runOnUiThread(new Runnable() {
 
@@ -154,7 +157,8 @@ public class JniBrige {
 			public void run() {
 				boolean type = true;
 				if(type){
-					UmiPayManager.showPayView();
+//					UmiPayManager.showPayView();
+					doSdkShowOffersWall(params);
 				}else{
 					String payLoad = "";
 					mHelper.launchPurchaseFlow(context, context.getResources()
@@ -173,20 +177,29 @@ public class JniBrige {
 			}
 		});
 	}
+	/**
+	 * 获取玩家的积分信息
+	 * @return
+	 */
+	public int doSdkGetPoint(){
+		int point = PointsManager.getInstance(context).queryPoints();
+		return 1100;
+	}
+	
 	AlertDialog exitDialog;
 	public void doSdkPayConfirm(final String params){
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				exitDialog = new AlertDialog.Builder(context).setTitle("Crazy Bomber")
-						.setMessage("Gold is not enough,Do you want to recharge?\n"
-								+ "$0.99 = 1000 coin")
-						.setPositiveButton("Continue", new OnClickListener() {
+				exitDialog = new AlertDialog.Builder(context).setTitle("疯狂炸弹人")
+						.setMessage("积分不足,是否要赚取积分?\n"
+								+ "100积分 = 1000 金币")
+						.setPositiveButton("赚取", new OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								doSdkPay(params);
 							}
-						}).setNegativeButton("Cancle", new OnClickListener() {
+						}).setNegativeButton("取消", new OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -239,6 +252,50 @@ public class JniBrige {
 		if (mHelper != null)
 			mHelper.dispose();
 		mHelper = null;
+	}
+
+//--------------------------------------------------------------------------------------
+	/**
+	 * 显示迷你广告条
+	 * @param params
+	 */
+	public void doSdkShowMiniAds(String params){
+		
+	}
+	
+	/**
+	 * 显示插屏广告
+	 * @param params
+	 */
+	public void doSdkShowSpotAds(String params){
+		Log.v(TAG, "invoke sdk show spot ads");
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				SpotManager.getInstance(context).showSpotAds(context);
+			}
+		});
+	}
+	
+	/**
+	 * 显示积分墙
+	 * @param params
+	 */
+	public void doSdkShowOffersWall(String params){
+		Log.v(TAG, "invoke show offerswall method");
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				OffersManager.getInstance(context).showOffersWall();
+				// 积分墙配置检查（没有使用“通过 SDK 获取积分订单”功能）：
+				boolean isSuccess = OffersManager.getInstance(context).checkOffersAdConfig();
+				if(isSuccess){
+					Log.v(TAG, "config ok");
+				}
+				// 积分墙配置检查（使用“通过 SDK 获取积分订单”功能）：
+				//boolean isSuccess = OffersManager.getInstance(context).checkOffersAdConfig(true);
+			}
+		});
 	}
 
 }

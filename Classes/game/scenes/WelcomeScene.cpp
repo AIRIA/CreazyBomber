@@ -14,6 +14,7 @@ enum NodeTags{
     kTagRoleMenu,
     kTagMenu,
     kTagWrapperNode,
+    kTagInfoLabel,
     kTagNode1,
     kTagNode2,
     kTagNode3,
@@ -159,6 +160,7 @@ void WelcomeScene::onTexturesLoaded()
     _initMenu();
     //循环播放背景音乐
     Util::playSound(SOUND_MAIN_BG,true);
+    Util::showSpotAds();
     Util::share();
 }
 
@@ -746,12 +748,13 @@ void WelcomeScene::_showStore(Ref *pSender)
         auto timerBomb = MenuItemSprite::create(SPRITE("shop_item_timerbomb_normal.png"), SPRITE("shop_item_timerbomb_press.png"));
         
         hpBottle->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
-        hpBottle->setCallback([](Ref *pSender)->void{
+        hpBottle->setCallback([this](Ref *pSender)->void{
             auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
             if (coin>=100) {
                 coin -= 100;
                 __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
                 __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, __userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM)+1);
+                this->_updateCoinInfo();
                 Util::toast("purchase succeeded,enjoy game!");
             }
             else
@@ -760,13 +763,14 @@ void WelcomeScene::_showStore(Ref *pSender)
             }
         });
         timerBomb->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
-        timerBomb->setCallback([](Ref *pSender)->void{
+        timerBomb->setCallback([this](Ref *pSender)->void{
             auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
-            if (coin>100) {
-                coin -= 100;
+            if (coin>=50) {
+                coin -= 50;
                 __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
                 __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM)+1);
                 MessageBox("buy timer bomb successed", "TIP");
+                this->_updateCoinInfo();
             }
             else
             {
@@ -796,8 +800,31 @@ void WelcomeScene::_showStore(Ref *pSender)
         });
         node3->addChild(timerMenu);
         node2->addChild(hpMenu);
+        
+        auto label = Label::createWithBMFont("font/font4.fnt", "积分:0 金币:1000 \n 血瓶:3 定时:3");
+        label->setAnchorPoint(Point::ANCHOR_BOTTOM_RIGHT);
+        label->setScale(m_fScaleFactor);
+        label->setPosition(Point(VisibleRect::right().x+300,15));
+        label->setTag(kTagInfoLabel);
+        label->runAction(EaseBackOut::create(MoveBy::create(0.2f, Point(-330,0))));
+        addChild(label);
+        this->_updateCoinInfo();
     });
     
+}
+
+void WelcomeScene::_updateCoinInfo()
+{
+    auto labelNode = getChildByTag(kTagInfoLabel);
+    if (labelNode) {
+        auto label = static_cast<Label*>(labelNode);
+        auto hp = __userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM);
+        auto timer = __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM);
+        auto coin = __userDefault->getIntegerForKey(KEY_COIN_NUM);
+        auto point = Util::getPoint();
+        auto info = __String::createWithFormat("积分:%d 金币:%d \n 血瓶:%d 定时:%d", point,coin,hp,timer)->getCString();
+        label->setString(info);
+    }
 }
 
 #pragma mark -----------Handlers---------------

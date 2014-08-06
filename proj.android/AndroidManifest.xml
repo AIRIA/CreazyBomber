@@ -78,8 +78,8 @@
 
         <activity
             android:name="net.umipay.android.UmipayBrowser"
-            android:theme="@style/UmipayTheme_NoFullscreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/UmipayTheme_NoFullscreen" />
         <activity
             android:name="com.unionpay.uppay.PayActivityEx"
             android:configChanges="orientation|keyboardHidden"
@@ -118,6 +118,42 @@
         <meta-data
             android:name="UMIPAY_CHANNEL"
             android:value="0" />
+
+        <!-- youmi ads -->
+        <activity
+            android:name="net.youmi.android.AdBrowser"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+
+        <service
+            android:name="net.youmi.android.AdService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="net.youmi.android.ExpService"
+            android:exported="false" >
+        </service>
+
+        <receiver android:name="net.youmi.android.AdReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="net.youmi.android.offers.OffersReceiver"
+            android:exported="false" >
+        </receiver>
+        <receiver
+            android:name="com.giant.crazy.pay.MyPointsReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="ep_a4b8e736cb33d417" />
+                <action android:name="vp_a4b8e736cb33d417" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <supports-screens
@@ -128,7 +164,7 @@
         android:xlargeScreens="true" />
 
     <uses-permission android:name="com.android.vending.BILLING" />
-    <!--添加以下必备权限-->
+    <!-- 添加以下必备权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -138,12 +174,12 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS" />
-    <!--开通短代支付所需权限（可选）-->
+    <!-- 开通短代支付所需权限（可选） -->
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 检测网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 </manifest>

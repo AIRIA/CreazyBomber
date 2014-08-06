@@ -57,6 +57,7 @@ void ResultLayer::_changeBgColor()
     bg->runAction(fadeAct);
     addChild(bg);
     Util::share();
+    Util::showSpotAds();
 }
 
 void ResultLayer::_gameOver(cocos2d::Ref *pSender)

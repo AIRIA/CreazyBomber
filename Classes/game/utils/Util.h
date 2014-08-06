@@ -26,7 +26,9 @@ enum MethodType{
     kPPdoSdkToast,
     kPPdoSdkPayConfirm,
     kPPdoSdkAnalyze,
-    kPPdoSdkShare
+    kPPdoSdkShare,
+    kPPdoSdkShowSpotAds,
+    kPPdoSdkShowOffersWall
 };
 
 
@@ -39,6 +41,7 @@ private:
 public:
     static void init();
     static void invoke(MethodType key, std::string param="");
+    static int getPoint();
 };
 
 #endif
@@ -52,6 +55,17 @@ enum AnalyzeType{
 class Util
 {
 public:
+    /**
+     * 显示积分墙
+     */
+    static void showOffersWall();
+    /**
+     * 显示插屏广告
+     */
+    static void showSpotAds();
+    static int getPoint();
+    static void spendPoint(int point);
+    static void rewardPoint(int point);
     static void share();
     static void gameAnalyze(AnalyzeType type);
     static void chargeConfirm();
@@ -67,6 +81,7 @@ public:
     static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
     
     static void toast(std::string msg);
+    
 };
 
 

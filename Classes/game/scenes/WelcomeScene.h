@@ -119,6 +119,8 @@ protected:
     
     void _hideCurrentStatus(const std::function<void ()> &func = nullptr);
     
+    void _updateCoinInfo();
+    
 HANDLER:
     void _hideGameMode(float duration,const std::function<void ()> &func = nullptr);
     void _hideRoles(float duration,const std::function<void ()> &callback = nullptr);

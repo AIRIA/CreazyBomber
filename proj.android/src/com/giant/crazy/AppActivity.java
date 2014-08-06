@@ -26,6 +26,12 @@ THE SOFTWARE.
  ****************************************************************************/
 package com.giant.crazy;
 
+import net.youmi.android.AdManager;
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsChangeNotify;
+import net.youmi.android.offers.PointsManager;
+import net.youmi.android.spot.SpotManager;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
@@ -39,9 +45,10 @@ import com.giant.crazy.jni.JniBrige;
 import com.giant.crazy.pay.UmiPayManager;
 import com.umeng.analytics.game.UMGameAgent;
 
-public class AppActivity extends Cocos2dxActivity {
+public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 	private AlertDialog exitDialog;
 	static String TAG = "Crazy Bomber";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,21 +56,26 @@ public class AppActivity extends Cocos2dxActivity {
 		UMGameAgent.init(this);
 		UMGameAgent.setDebugMode(false);
 		UmiPayManager.init(this);
+		AdManager.getInstance(this).init("a4b8e736cb33d417",
+				"b3f07b604b6f126e", false);
+		OffersManager.getInstance(this).onAppLaunch(); //积分墙
+		SpotManager.getInstance(this).loadSpotAds(); //插屏
+		AdManager.getInstance(this).setUserDataCollect(true); //用户数据统计
+		PointsManager.getInstance(this).registerNotify(this);
 	}
-	
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitDialog = new AlertDialog.Builder(this).setTitle("Crazy Bomber")
-					.setMessage("Do you really want to quit the game?")
-					.setPositiveButton("Continue", new OnClickListener() {
+			exitDialog = new AlertDialog.Builder(this).setTitle("疯狂炸弹人")
+					.setMessage("你真的要退出游戏吗?")
+					.setPositiveButton("继续", new OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							exitDialog.dismiss();
 						}
-					}).setNegativeButton("Quit", new OnClickListener() {
+					}).setNegativeButton("退出", new OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -76,23 +88,28 @@ public class AppActivity extends Cocos2dxActivity {
 	}
 
 	@Override
-	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-//	        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
-//	        if (JniBrige.getInstance().mHelper == null) return;
-//
-//	        if (!JniBrige.getInstance().mHelper.handleActivityResult(requestCode, resultCode, data)) {
-//	            super.onActivityResult(requestCode, resultCode, data);
-//	        }
-//	        else {
-//	            Log.d(TAG, "onActivityResult handled by IABUtil.");
-//	        }
-	 }
-	
+		// Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + ","
+		// + data);
+		// if (JniBrige.getInstance().mHelper == null) return;
+		//
+		// if (!JniBrige.getInstance().mHelper.handleActivityResult(requestCode,
+		// resultCode, data)) {
+		// super.onActivityResult(requestCode, resultCode, data);
+		// }
+		// else {
+		// Log.d(TAG, "onActivityResult handled by IABUtil.");
+		// }
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		JniBrige.getInstance().dispose();
+		SpotManager.getInstance(this).unregisterSceenReceiver();
+		OffersManager.getInstance(this).onAppExit();
+		PointsManager.getInstance(this).unRegisterNotify(this);
 	}
 
 	@Override
@@ -105,5 +122,10 @@ public class AppActivity extends Cocos2dxActivity {
 	protected void onPause() {
 		super.onPause();
 		UMGameAgent.onPause(this);
+	}
+
+	@Override
+	public void onPointBalanceChange(int arg0) {
+		/* 调用2dx 的方法更新积分 */
 	}
 }
