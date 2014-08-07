@@ -35,6 +35,7 @@ import net.youmi.android.spot.SpotManager;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -44,6 +45,9 @@ import android.view.KeyEvent;
 import com.giant.crazy.jni.JniBrige;
 import com.giant.crazy.pay.UmiPayManager;
 import com.umeng.analytics.game.UMGameAgent;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 
 public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 	private AlertDialog exitDialog;
@@ -62,6 +66,12 @@ public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 		SpotManager.getInstance(this).loadSpotAds(); //插屏
 		AdManager.getInstance(this).setUserDataCollect(true); //用户数据统计
 		PointsManager.getInstance(this).registerNotify(this);
+		//umeng message
+		PushAgent mPushAgent = PushAgent.getInstance(this);
+		mPushAgent.enable();
+		PushAgent.getInstance(this).onAppStart();
+		mPushAgent.setDebugMode(true);
+		
 	}
 
 	@Override

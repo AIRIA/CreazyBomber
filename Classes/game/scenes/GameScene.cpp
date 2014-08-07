@@ -147,7 +147,11 @@ bool GameScene::init()
     setMapName(MapUtil::getInstance()->getMapName());
     if(isShowTip())
     {
-        std::string mapTip = "textures/en_us/"+getMapName()+"-hd";
+#if (LOCAL_ASSET == 0 )
+       std::string mapTip = "textures/en_us/"+getMapName()+"-hd";
+#else
+       std::string mapTip = "textures/zh_cn/"+getMapName()+"-hd";
+#endif
         textureFiles.push_back(mapTip);
     }
     if (config->getSelectLevel()==12||(config->getSelectSceneName().find("battle")!=std::string::npos&&config->getSelectLevel()==8)) {

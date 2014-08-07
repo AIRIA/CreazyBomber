@@ -56,7 +56,6 @@ void ResultLayer::_changeBgColor()
     auto fadeAct = FadeTo::create(1.0f, 128);
     bg->runAction(fadeAct);
     addChild(bg);
-    Util::share();
     Util::showSpotAds();
 }
 
@@ -88,7 +87,7 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
         }
         else
         {
-            Util::toast("do not have enough gold coins,please charge!");
+            Util::toast("没有足够的金币,赚取积分兑换吧!");
             Util::charge();
         }
     });
@@ -115,7 +114,9 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
     coin->setPosition(-30,-200);
     coin->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
     wrapper->addChild(coin);
-    wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,NULL));
+    wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,CallFunc::create([]()->void{
+        Util::share();
+    }),NULL));
     addChild(wrapper);
     auto exit = MenuItemSprite::create(SPRITE("exit_normal.png"), SPRITE("exit_press.png"));
     auto retry = MenuItemSprite::create(SPRITE("restart_normal.png"), SPRITE("restart_press.png"));
@@ -208,7 +209,9 @@ void ResultLayer::_showResult(cocos2d::Ref *pSender)
             Util::playEffect(SOUND_INGAME_COUNT_NUMBER);
             parent->schedule(schedule_selector(ResultLayer::_scoreAnimateSelector), 0.07);
         });
-        wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,showScore,NULL));
+        wrapper->runAction(Sequence::create(DelayTime::create(0.5f),easeAct,showScore,CallFunc::create([]()->void{
+            Util::share();
+        }),NULL));
         parent->addChild(wrapper);
     };
     

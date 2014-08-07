@@ -175,7 +175,6 @@ void WelcomeScene::onTexturesLoaded()
     //循环播放背景音乐
     Util::playSound(SOUND_MAIN_BG,true);
     Util::showSpotAds();
-    Util::share();
 }
 
 void WelcomeScene::_initMenu()
@@ -769,7 +768,7 @@ void WelcomeScene::_showStore(Ref *pSender)
                 __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
                 __userDefault->setIntegerForKey(KEY_HP_BOTTLE_NUM, __userDefault->getIntegerForKey(KEY_HP_BOTTLE_NUM)+1);
                 this->_updateCoinInfo();
-                Util::toast("purchase succeeded,enjoy game!");
+                Util::toast("血瓶购买成功!");
             }
             else
             {
@@ -783,7 +782,7 @@ void WelcomeScene::_showStore(Ref *pSender)
                 coin -= 50;
                 __userDefault->setIntegerForKey(KEY_COIN_NUM, coin);
                 __userDefault->setIntegerForKey(KEY_TIMER_BOMB_NUM, __userDefault->getIntegerForKey(KEY_TIMER_BOMB_NUM)+1);
-                MessageBox("buy timer bomb successed", "TIP");
+                Util::toast("定时炸弹购买成功!");
                 this->_updateCoinInfo();
             }
             else
