@@ -183,7 +183,7 @@ public class JniBrige {
 	 */
 	public int doSdkGetPoint(){
 		int point = PointsManager.getInstance(context).queryPoints();
-		return 1100;
+		return point;
 	}
 	
 	AlertDialog exitDialog;
@@ -192,12 +192,12 @@ public class JniBrige {
 			@Override
 			public void run() {
 				exitDialog = new AlertDialog.Builder(context).setTitle("疯狂炸弹人")
-						.setMessage("积分不足,是否要赚取积分?\n"
+						.setMessage("积分不足,是否要使用积分兑换金币?\n"
 								+ "100积分 = 1000 金币")
-						.setPositiveButton("赚取", new OnClickListener() {
+						.setPositiveButton("兑换", new OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								doSdkPay(params);
+								buyCoin();
 							}
 						}).setNegativeButton("取消", new OnClickListener() {
 
@@ -209,6 +209,37 @@ public class JniBrige {
 						}).show();
 			}
 		});
+	}
+	AlertDialog confirmDialog;
+	public void buyCoin(){
+		int point = doSdkGetPoint();
+		
+		if(point>=100){
+			PointsManager.getInstance(context).spendPoints(100);
+			payHandler();
+		}else{
+			context.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					confirmDialog = new AlertDialog.Builder(context).setTitle("疯狂炸弹人")
+							.setMessage("积分不足,是否要赚取积分 获得积分后重新进入商城界面就会使用获得的积分兑换金币?\n"
+									+ "100积分 = 1000 金币")
+							.setPositiveButton("赚取", new OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									doSdkPay("");
+								}
+							}).setNegativeButton("取消", new OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									exitDialog.dismiss();
+								}
+							}).show();
+					
+				}
+			});
+		}
 	}
 
 	

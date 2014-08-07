@@ -297,12 +297,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/game/scenes/WelcomeScene.cpp"
-            timestampString = "429011839.95997"
+            timestampString = "429077082.873897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "818"
-            endingLineNumber = "818"
-            landmarkName = "WelcomeScene::_updateCoinInfo()"
+            startingLineNumber = "833"
+            endingLineNumber = "833"
+            landmarkName = "WelcomeScene::_updateCoinInfo(Ref *pSender)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

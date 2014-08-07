@@ -50,6 +50,8 @@ public:
     void onTexturesLoaded();
     virtual bool init();
     CREATE_FUNC(WelcomeScene);
+    virtual void onEnter();
+    virtual void onExit();
     
 protected:
     Node *node1,*node2,*node3,*node4;
@@ -63,6 +65,7 @@ protected:
     
     void _hideTargetMenuItem(MenuItemSprite *item);
     void _showTargetMenuItem(MenuItemSprite *item);
+    
 
     /**
      * 初始化所有的菜单
@@ -119,7 +122,7 @@ protected:
     
     void _hideCurrentStatus(const std::function<void ()> &func = nullptr);
     
-    void _updateCoinInfo();
+    void _updateCoinInfo(Ref *pSender = nullptr);
     
 HANDLER:
     void _hideGameMode(float duration,const std::function<void ()> &func = nullptr);
@@ -129,6 +132,10 @@ HANDLER:
     void _hideStore(float duration,const std::function<void ()> &callback = nullptr);
     void _back(Ref *pSender = nullptr);
     void _showStore(Ref *pSender = nullptr);
+    /**
+     * 显示增加金币的动画
+     */
+    void _buyCoin(Ref *pSender);
 };
 
 

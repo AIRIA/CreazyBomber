@@ -31,6 +31,20 @@ enum NodeTags{
 #define SHOW_STORE_TIME 0.3f
 
 
+
+void WelcomeScene::onEnter()
+{
+    BaseLayer::onEnter();
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(WelcomeScene::_updateCoinInfo), UPDATE_PLAER_COIN, nullptr);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(WelcomeScene::_buyCoin), BUY_COIN_SUCCESS, nullptr);
+}
+
+void WelcomeScene::onExit()
+{
+    BaseLayer::onExit();
+    NotificationCenter::getInstance()->removeAllObservers(this);
+}
+
 bool WelcomeScene::init()
 {
     if (!BaseLayer::init()) {
@@ -801,9 +815,9 @@ void WelcomeScene::_showStore(Ref *pSender)
         node3->addChild(timerMenu);
         node2->addChild(hpMenu);
         
-        auto label = Label::createWithBMFont("font/font4.fnt", "积分:0 金币:1000 \n 血瓶:3 定时:3");
+        auto label = Label::createWithBMFont("font/font_04.fnt", "积分:0 金币:1000 \n 血瓶:3 定时:3");
         label->setAnchorPoint(Point::ANCHOR_BOTTOM_RIGHT);
-        label->setScale(m_fScaleFactor);
+        label->setScale(m_fScaleFactor*0.7);
         label->setPosition(Point(VisibleRect::right().x+300,15));
         label->setTag(kTagInfoLabel);
         label->runAction(EaseBackOut::create(MoveBy::create(0.2f, Point(-330,0))));
@@ -813,7 +827,7 @@ void WelcomeScene::_showStore(Ref *pSender)
     
 }
 
-void WelcomeScene::_updateCoinInfo()
+void WelcomeScene::_updateCoinInfo(Ref *pSender)
 {
     auto labelNode = getChildByTag(kTagInfoLabel);
     if (labelNode) {
@@ -883,6 +897,12 @@ void WelcomeScene::_hideLevelSelect(float duration, const std::function<void ()>
 void WelcomeScene::_hideStore(float duration, const std::function<void ()> &callback)
 {
     _hideGameMode(duration,callback);
+    auto label = getChildByTag(kTagInfoLabel);
+    if(label)
+    {
+        auto moveOut = EaseBackIn::create(MoveBy::create(0.2f, Point(300,0)));
+        label->runAction(Sequence::create(moveOut,CallFunc::create(CC_CALLBACK_0(Node::removeFromParent, label)), NULL));
+    }
 }
 
 void WelcomeScene::_hideCurrentStatus(const std::function<void ()> &func)
@@ -943,23 +963,22 @@ void WelcomeScene::_back(Ref *pSender)
     this->statusVec.erase(endIt);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void WelcomeScene::_buyCoin(cocos2d::Ref *pSender)
+{
+    auto label = Label::createWithBMFont("font/font_04.fnt", "金币+1000");
+    label->setAnchorPoint(Point::ANCHOR_MIDDLE);
+    label->setOpacity(0);
+    label->setPosition(VisibleRect::center()-Point(0,100));
+    label->setAlignment(TextHAlignment::CENTER);
+    auto moveUp = MoveBy::create(0.3f, Point(0,300));
+    auto fadeIn = FadeTo::create(0.3f, 255);
+    auto scaleTo = ScaleTo::create(0.2f, 3);
+    auto fadeOut = FadeTo::create(0.2f, 0);
+    auto spawnOut = Spawn::create(scaleTo,fadeOut, NULL);
+    auto spawnIn = Spawn::create(moveUp,fadeIn, NULL);
+    label->runAction(Sequence::create(spawnIn,DelayTime::create(0.3f), spawnOut,CallFunc::create(CC_CALLBACK_0(Node::removeFromParent, label)), NULL));
+    addChild(label);
+}
 
 
 

@@ -42,5 +42,6 @@ void AppDelegate::applicationDidEnterBackground() {
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
+    NotificationCenter::getInstance()->postNotification(UPDATE_PLAER_COIN);
     SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

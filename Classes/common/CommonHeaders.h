@@ -75,9 +75,11 @@ enum WalkDirection{
 #define SHOW_BOSS_HP         "show_boss_hp"
 #define UPDATE_BOSS_HP       "update_boss_hp"
 #define BOSS_DEAD            "boss_dead"
-#define PLAYER_REVIVE "player_revive" //玩家原地复活
+#define PLAYER_REVIVE        "player_revive"       //玩家原地复活
 
-#define DISABLE_BOMB_BUTTON "disable_bomb_button"
+#define DISABLE_BOMB_BUTTON  "disable_bomb_button"
+#define UPDATE_PLAER_COIN    "update_player_coin"
+#define BUY_COIN_SUCCESS     "buy_coin_success"
 
 #pragma mark--------Damage Values---------------------------------------------
 

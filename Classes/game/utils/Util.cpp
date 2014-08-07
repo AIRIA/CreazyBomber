@@ -236,7 +236,6 @@ void PluginUtil::invoke(MethodType key, std::string param) {
 	}
 	jstring paramStr = minfo.env->NewStringUTF(param.c_str());
 	minfo.env->CallVoidMethod(obj, minfo.methodID, paramStr);
-
 }
 
 extern "C"
@@ -244,8 +243,10 @@ extern "C"
 	JNIEXPORT void JNICALL Java_com_giant_crazy_jni_JniBrige_payHandler(JNIEnv *env,jobject thiz)
 	{
 		__userDefault->setIntegerForKey(KEY_COIN_NUM, __userDefault->getIntegerForKey(KEY_COIN_NUM)+1000);
-		auto msg = __String::createWithFormat("pay success,+%d coins!",__userDefault->getIntegerForKey(KEY_COIN_NUM))->getCString();
-		Util::toast(msg);
+//		auto msg = __String::createWithFormat("",__userDefault->getIntegerForKey(KEY_COIN_NUM))->getCString();
+        NotificationCenter::getInstance()->postNotification(UPDATE_PLAER_COIN);
+        NotificationCenter::getInstance()->postNotification(BUY_COIN_SUCCESS);
+		Util::toast("金币兑换成功");
 	}
 
 }
