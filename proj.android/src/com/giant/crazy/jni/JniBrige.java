@@ -18,7 +18,7 @@ import com.android.vending.billing.util.IabHelper;
 import com.android.vending.billing.util.IabResult;
 import com.android.vending.billing.util.Inventory;
 import com.android.vending.billing.util.Purchase;
-import com.giant.crazy.share.UMengShare;
+import com.giant.crazy.net.NetManager;
 import com.giant.creazybomber.R;
 import com.umeng.analytics.game.UMGameAgent;
 
@@ -34,6 +34,7 @@ public class JniBrige {
 	static final int RC_REQUEST = 10001;
 	boolean mIsPremium = false;
 	Activity context;
+	boolean enableAds = false;
 
 	public static Object instance() {
 		return getInstance();
@@ -74,6 +75,24 @@ public class JniBrige {
 				Log.d(TAG, "Setup successful. Querying inventory.");
 				/* 连接成功之后 获取物品信息 检查商品是否可以使用 */
 				mHelper.queryInventoryAsync(mGotInventoryListener);
+			}
+		});
+		
+		context.runOnUiThread(new Runnable() {
+			public void run() {
+				String res = NetManager.sendHttpRequest("https://gist.githubusercontent.com/AIRIA/7c37b4d444636848de4d/raw/flag.json");
+				if(res!=null){
+					/* 检查是否开启了广告 */
+					try {
+						JSONObject json = new JSONObject(res);
+						enableAds = json.getBoolean("meizu");
+//						enableAds = json.getBoolean("xiaomi");
+						Log.v(TAG, res);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+						
+				}
 			}
 		});
 
@@ -150,7 +169,7 @@ public class JniBrige {
 	}
 
 	public void doSdkPay(final String params) {
-		Log.v(TAG, "invoke show ads method");
+		Log.v(TAG, "invoke pay method");
 		context.runOnUiThread(new Runnable() {
 
 			@Override
@@ -173,7 +192,7 @@ public class JniBrige {
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(context, params, Toast.LENGTH_LONG).show();
+				Toast.makeText(context, params, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -188,6 +207,9 @@ public class JniBrige {
 	
 	AlertDialog exitDialog;
 	public void doSdkPayConfirm(final String params){
+		if(enableAds==false)
+			return;
+		
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -270,13 +292,15 @@ public class JniBrige {
 	
 	public void doSdkShare(final String params)
 	{
-		Log.v(TAG, "invoke sdk share");
-		context.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				UMengShare.getInstance().share(context, params);
-			}
-		});
+		/* 没有相应的推广地址 暂不分享 */
+//		doSdkToast("与更多的好友分享游戏吧~");
+//		Log.v(TAG, "invoke sdk share");
+//		context.runOnUiThread(new Runnable() {
+//			@Override
+//			public void run() {
+//				UMengShare.getInstance().share(context, params);
+//			}
+//		});
 	}
 	
 	public void dispose() {
@@ -299,6 +323,8 @@ public class JniBrige {
 	 * @param params
 	 */
 	public void doSdkShowSpotAds(String params){
+		if(enableAds==false)
+			return;
 		Log.v(TAG, "invoke sdk show spot ads");
 		context.runOnUiThread(new Runnable() {
 			@Override

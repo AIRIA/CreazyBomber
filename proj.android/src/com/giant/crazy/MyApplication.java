@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.giant.crazy.jni.JniBrige;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;

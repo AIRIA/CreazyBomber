@@ -3,9 +3,11 @@ package com.giant.crazy.share;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
@@ -13,6 +15,7 @@ import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.QZoneShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
@@ -21,7 +24,7 @@ import com.umeng.socialize.weixin.media.WeiXinShareContent;
 public class UMengShare {
 
 	private static UMengShare _instance;
-	final static UMSocialService mController = UMServiceFactory
+	public final static UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.share");
 	Activity activity;
 	
@@ -42,13 +45,13 @@ public class UMengShare {
 		return _instance;
 	}
 
-	public void share(Activity activity, String path) {
+	public void share(final Activity activity, String path) {
 		this.activity = activity;
 		this.path = path;
 		mController.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
 				SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE, SHARE_MEDIA.QQ,
 				SHARE_MEDIA.SINA);
-		
+		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 		shareImage = new UMImage(activity, BitmapFactory.decodeFile(path));
 		
 		mController.setShareContent(content);
@@ -66,11 +69,16 @@ public class UMengShare {
 			}
 			
 			@Override
-			public void onComplete(SHARE_MEDIA arg0, int arg1, SocializeEntity arg2) {
-				Log.v(TAG, "share complete");
+			public void onComplete(SHARE_MEDIA arg0, int eCode, SocializeEntity arg2) {
+				if(eCode == StatusCode.ST_CODE_SUCCESSED){
+                    Toast.makeText(activity, "分享成功,奖励50金币~",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(activity, "分享失败",Toast.LENGTH_SHORT).show();
+                }
 				
 			}
 		});
+		
 	}
 
 	public void addWXPlatform() {

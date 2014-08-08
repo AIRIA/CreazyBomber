@@ -35,7 +35,6 @@ import net.youmi.android.spot.SpotManager;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -44,10 +43,10 @@ import android.view.KeyEvent;
 
 import com.giant.crazy.jni.JniBrige;
 import com.giant.crazy.pay.UmiPayManager;
+import com.giant.crazy.share.UMengShare;
 import com.umeng.analytics.game.UMGameAgent;
 import com.umeng.message.PushAgent;
-import com.umeng.message.UmengNotificationClickHandler;
-import com.umeng.message.entity.UMessage;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 	private AlertDialog exitDialog;
@@ -111,6 +110,10 @@ public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 		// else {
 		// Log.d(TAG, "onActivityResult handled by IABUtil.");
 		// }
+		UMSsoHandler ssoHandler = UMengShare.mController.getConfig().getSsoHandler(requestCode) ;
+	    if(ssoHandler != null){
+	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
 	}
 
 	@Override
