@@ -18,7 +18,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="google play" >
+            android:value="xiaomi" >
         </meta-data>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
@@ -220,7 +220,6 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
-    <uses-permission android:name="com.android.vending.BILLING" />
     <!-- 添加以下必备权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />

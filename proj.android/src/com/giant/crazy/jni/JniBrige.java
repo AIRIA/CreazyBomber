@@ -14,12 +14,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.vending.billing.util.IabHelper;
-import com.android.vending.billing.util.IabResult;
-import com.android.vending.billing.util.Inventory;
-import com.android.vending.billing.util.Purchase;
 import com.giant.crazy.net.NetManager;
-import com.giant.creazybomber.R;
 import com.umeng.analytics.game.UMGameAgent;
 
 public class JniBrige {
@@ -29,7 +24,6 @@ public class JniBrige {
 	private static JniBrige _instance;
 	static String TAG = "Crazy Bomber";
 	String base64EncodedPublicKey;
-	public IabHelper mHelper;
 	static final String SKU_PREMIUM = "premium";
 	static final int RC_REQUEST = 10001;
 	boolean mIsPremium = false;
@@ -55,28 +49,7 @@ public class JniBrige {
 	 */
 	public void init(Activity ctx) {
 		context = ctx;
-		base64EncodedPublicKey = ctx.getResources().getString(R.string.pub_key);
-		mHelper = new IabHelper(ctx, base64EncodedPublicKey);
-		mHelper.enableDebugLogging(false);
 		Log.d(TAG, "Starting setup.");
-
-		/* 监听是否可以连接 google play 服务 */
-		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-			@Override
-			public void onIabSetupFinished(IabResult result) {
-				Log.d(TAG, "Setup finished.");
-				if (!result.isSuccess()) {
-					complain("Problem setting up in-app billing: " + result);
-					return;
-				}
-				if (mHelper == null)
-					return;
-
-				Log.d(TAG, "Setup successful. Querying inventory.");
-				/* 连接成功之后 获取物品信息 检查商品是否可以使用 */
-				mHelper.queryInventoryAsync(mGotInventoryListener);
-			}
-		});
 		
 		context.runOnUiThread(new Runnable() {
 			public void run() {
@@ -85,8 +58,8 @@ public class JniBrige {
 					/* 检查是否开启了广告 */
 					try {
 						JSONObject json = new JSONObject(res);
-						enableAds = json.getBoolean("meizu");
-//						enableAds = json.getBoolean("xiaomi");
+//						enableAds = json.getBoolean("meizu");
+						enableAds = json.getBoolean("xiaomi");
 						Log.v(TAG, res);
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -98,62 +71,6 @@ public class JniBrige {
 
 	}
 
-	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-
-		@Override
-		public void onQueryInventoryFinished(IabResult result,
-				Inventory inventory) {
-			Log.d(TAG, "Query inventory finished.");
-
-			if (mHelper == null)
-				return;
-
-			if (result.isFailure()) {
-				// complain("Failed to query inventory: " + result);
-				return;
-			}
-
-			Log.d(TAG, "Query inventory was successful.");
-
-			Purchase coinPurchase = inventory.getPurchase(context
-					.getResources().getString(R.string.SKU_GOLD_COIN));
-			String hasItem = coinPurchase == null ? "no item" : "find item";
-			Log.d(TAG, hasItem);
-		}
-	};
-
-	// Callback for when a purchase is finished
-	IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-		public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-			if (mHelper == null)
-				return;
-			if (result.isFailure()) {
-				complain("Error purchasing: " + result);
-				return;
-			}
-			Log.d(TAG, "Purchase successful.");
-
-			if (purchase.getSku().equals(
-					context.getResources().getString(R.string.SKU_GOLD_COIN))) {
-				mHelper.consumeAsync(purchase, mConsumeFinishedListener);
-			}
-		}
-	};
-
-	// Called when consumption is complete
-	IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
-		public void onConsumeFinished(Purchase purchase, IabResult result) {
-			if (mHelper == null)
-				return;
-
-			if (result.isSuccess()) {
-				payHandler();
-			} else {
-				complain("Error while consuming: " + result);
-			}
-			Log.d(TAG, "End consumption flow.");
-		}
-	};
 
 	void complain(String message) {
 		Log.e(TAG, "**** CrazyBomber Error: " + message);
@@ -174,16 +91,7 @@ public class JniBrige {
 
 			@Override
 			public void run() {
-				boolean type = true;
-				if(type){
-//					UmiPayManager.showPayView();
-					doSdkShowOffersWall(params);
-				}else{
-					String payLoad = "";
-					mHelper.launchPurchaseFlow(context, context.getResources()
-							.getString(R.string.SKU_GOLD_COIN), RC_REQUEST,
-							mPurchaseFinishedListener, payLoad);
-				}
+				doSdkShowOffersWall(params);
 			}
 		});
 	}
@@ -304,9 +212,7 @@ public class JniBrige {
 	}
 	
 	public void dispose() {
-		if (mHelper != null)
-			mHelper.dispose();
-		mHelper = null;
+		
 	}
 
 //--------------------------------------------------------------------------------------
