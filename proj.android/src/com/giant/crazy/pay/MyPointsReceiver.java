@@ -1,7 +1,7 @@
 package com.giant.crazy.pay;
 
-import net.youmi.android.offers.EarnPointsOrderList;
-import net.youmi.android.offers.PointsReceiver;
+import a.b.c.os.EarnPointsOrderList;
+import a.b.c.os.PointsReceiver;
 import android.content.Context;
 import android.content.Intent;
 

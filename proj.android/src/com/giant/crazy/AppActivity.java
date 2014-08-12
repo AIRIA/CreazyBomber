@@ -26,14 +26,13 @@ THE SOFTWARE.
  ****************************************************************************/
 package com.giant.crazy;
 
-import net.youmi.android.AdManager;
-import net.youmi.android.offers.OffersManager;
-import net.youmi.android.offers.PointsChangeNotify;
-import net.youmi.android.offers.PointsManager;
-import net.youmi.android.spot.SpotManager;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import a.b.c.AdManager;
+import a.b.c.os.OffersManager;
+import a.b.c.os.PointsChangeNotify;
+import a.b.c.os.PointsManager;
+import a.b.c.st.SpotManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;

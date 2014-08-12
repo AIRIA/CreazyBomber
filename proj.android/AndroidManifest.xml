@@ -18,7 +18,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="meizu" >
+            android:value="anzhi" >
         </meta-data>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
@@ -126,21 +126,21 @@
 
         <!-- youmi ads -->
         <activity
-            android:name="net.youmi.android.AdBrowser"
+            android:name="a.b.c.AdBrowser"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 
         <service
-            android:name="net.youmi.android.AdService"
+            android:name="a.b.c.AdService"
             android:exported="false" >
         </service>
         <service
-            android:name="net.youmi.android.ExpService"
+            android:name="a.b.c.ExpService"
             android:exported="false" >
         </service>
 
-        <receiver android:name="net.youmi.android.AdReceiver" >
+        <receiver android:name="a.b.c.AdReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 

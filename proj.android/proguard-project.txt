@@ -19,8 +19,8 @@
 #   public *;
 #}
 
--dontwarn net.youmi.android.**
--keep class net.youmi.android.** {
+-dontwarn a.b.c.**
+-keep class a.b.c.** {
     *;
 }
 
