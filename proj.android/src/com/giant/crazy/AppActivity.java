@@ -28,11 +28,6 @@ package com.giant.crazy;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
-import a.b.c.AdManager;
-import a.b.c.os.OffersManager;
-import a.b.c.os.PointsChangeNotify;
-import a.b.c.os.PointsManager;
-import a.b.c.st.SpotManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -40,6 +35,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.feiwo.manage.FwRecommendManage;
+import com.feiwo.view.FwBannerManager;
+import com.feiwo.view.FwInterstitialManager;
 import com.giant.crazy.jni.JniBrige;
 import com.giant.crazy.pay.UmiPayManager;
 import com.giant.crazy.share.UMengShare;
@@ -47,9 +45,10 @@ import com.umeng.analytics.game.UMGameAgent;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
+public class AppActivity extends Cocos2dxActivity {
 	private AlertDialog exitDialog;
 	static String TAG = "Crazy Bomber";
+	private final String APP_KEY = "93db85ed909c13838ff95ccfa94cebd9";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +57,16 @@ public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 		UMGameAgent.init(this);
 		UMGameAgent.setDebugMode(false);
 		UmiPayManager.init(this);
-		AdManager.getInstance(this).init("a4b8e736cb33d417",
-				"b3f07b604b6f126e", false);
-		OffersManager.getInstance(this).onAppLaunch(); //积分墙
-		SpotManager.getInstance(this).loadSpotAds(); //插屏
-		AdManager.getInstance(this).setUserDataCollect(true); //用户数据统计
-		PointsManager.getInstance(this).registerNotify(this);
 		//umeng message
 		PushAgent mPushAgent = PushAgent.getInstance(this);
 		mPushAgent.enable();
 		PushAgent.getInstance(this).onAppStart();
 		mPushAgent.setDebugMode(true);
-		
+		//FeiWo initialize
+		FwInterstitialManager.init(this,APP_KEY);
+		FwBannerManager.init(this,APP_KEY);
+		FwRecommendManage.getInstance().init(this, APP_KEY);
+
 	}
 
 	@Override
@@ -119,9 +116,6 @@ public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 	protected void onDestroy() {
 		super.onDestroy();
 		JniBrige.getInstance().dispose();
-		SpotManager.getInstance(this).unregisterSceenReceiver();
-		OffersManager.getInstance(this).onAppExit();
-		PointsManager.getInstance(this).unRegisterNotify(this);
 	}
 
 	@Override
@@ -136,8 +130,4 @@ public class AppActivity extends Cocos2dxActivity implements PointsChangeNotify{
 		UMGameAgent.onPause(this);
 	}
 
-	@Override
-	public void onPointBalanceChange(int arg0) {
-		/* 调用2dx 的方法更新积分 */
-	}
 }

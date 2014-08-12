@@ -9,9 +9,9 @@
     <uses-feature android:glEsVersion="0x00020000" />
 
     <application
+        android:name="com.giant.crazy.MyApplication"
         android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:name="com.giant.crazy.MyApplication" >
+        android:label="@string/app_name" >
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="53d86ca0fd98c582e701741c" >
@@ -79,86 +79,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- youmi pay -->
-
-        <activity
-            android:name="net.umipay.android.UmipayBrowser"
-            android:screenOrientation="portrait"
-            android:theme="@style/UmipayTheme_NoFullscreen" />
-        <activity
-            android:name="com.unionpay.uppay.PayActivityEx"
-            android:configChanges="orientation|keyboardHidden"
-            android:excludeFromRecents="true"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <activity
-            android:name="com.unionpay.uppay.PayActivity"
-            android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:excludeFromRecents="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.UPPay" >
-        </activity>
-
-        <service
-            android:name="net.umipay.android.poll.Push_Poll_service"
-            android:exported="false" />
-        <service
-            android:name="net.umipay.android.poll.SmsReceiverService"
-            android:exported="false" />
-
-        <receiver android:name="net.umipay.android.poll.Push_Boot_Receiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="net.umipay.android.poll.Push_Alarm_Receiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="net.umipay.android.poll.push_alarm" />
-            </intent-filter>
-        </receiver>
-        <!-- 如有渠道需求可设置渠道号【整数】（最长支持10位） -->
-        <meta-data
-            android:name="UMIPAY_CHANNEL"
-            android:value="0" />
-
-        <!-- youmi ads -->
-        <activity
-            android:name="a.b.c.AdBrowser"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-
-        <service
-            android:name="a.b.c.AdService"
-            android:exported="false" >
-        </service>
-        <service
-            android:name="a.b.c.ExpService"
-            android:exported="false" >
-        </service>
-
-        <receiver android:name="a.b.c.AdReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="net.youmi.android.offers.OffersReceiver"
-            android:exported="false" >
-        </receiver>
-        <receiver
-            android:name="com.giant.crazy.pay.MyPointsReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="ep_a4b8e736cb33d417" />
-                <action android:name="vp_a4b8e736cb33d417" />
-            </intent-filter>
-        </receiver>
         <!-- 友盟消息推送 -->
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
@@ -211,6 +131,50 @@
         <service android:name="com.umeng.message.UmengIntentService" />
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
+
+        <!-- 飞沃 -->
+        <receiver android:name="com.feiwo.receiver.InReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.feiwo.receiver.ConnectReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+            <!-- </intent-filter> -->
+        </receiver>
+
+        <activity
+            android:name="com.feiwo.activity.PA"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+        <activity
+            android:name="com.feiwo.view.IA"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.feiwo.RDA"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop" >
+        </activity>
+        <activity
+            android:name="com.feiwo.RLA"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask" >
+        </activity>
     </application>
 
     <supports-screens

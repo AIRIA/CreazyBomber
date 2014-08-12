@@ -3,9 +3,6 @@ package com.giant.crazy.jni;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import a.b.c.os.OffersManager;
-import a.b.c.os.PointsManager;
-import a.b.c.st.SpotManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +10,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.feiwo.manage.FwRecommendManage;
+import com.feiwo.view.FwInterstitialManager;
 import com.giant.crazy.net.NetManager;
 import com.umeng.analytics.game.UMGameAgent;
 
@@ -108,8 +107,8 @@ public class JniBrige {
 	 * @return
 	 */
 	public int doSdkGetPoint(){
-		int point = PointsManager.getInstance(context).queryPoints();
-		return point;
+		//int point = PointsManager.getInstance(context).queryPoints();
+		return 0;
 	}
 	
 	AlertDialog exitDialog;
@@ -144,7 +143,6 @@ public class JniBrige {
 		int point = doSdkGetPoint();
 		
 		if(point>=100){
-			PointsManager.getInstance(context).spendPoints(100);
 			payHandler();
 		}else{
 			context.runOnUiThread(new Runnable() {
@@ -234,7 +232,7 @@ public class JniBrige {
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				SpotManager.getInstance(context).showSpotAds(context);
+				FwInterstitialManager.showInterstitial();
 			}
 		});
 	}
@@ -248,14 +246,7 @@ public class JniBrige {
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				OffersManager.getInstance(context).showOffersWall();
-				// 积分墙配置检查（没有使用“通过 SDK 获取积分订单”功能）：
-				boolean isSuccess = OffersManager.getInstance(context).checkOffersAdConfig();
-				if(isSuccess){
-					Log.v(TAG, "config ok");
-				}
-				// 积分墙配置检查（使用“通过 SDK 获取积分订单”功能）：
-				//boolean isSuccess = OffersManager.getInstance(context).checkOffersAdConfig(true);
+				FwRecommendManage.getInstance().openAppWall();
 			}
 		});
 	}

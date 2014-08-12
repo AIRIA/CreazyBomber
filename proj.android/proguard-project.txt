@@ -19,10 +19,11 @@
 #   public *;
 #}
 
--dontwarn a.b.c.**
--keep class a.b.c.** {
-    *;
-}
+-keep class com.feiwo.** { *; }
+-dontwarn com.feiwo.**
+-keepattributes Signature 
+-keep class sun.misc.Unsafe { *; }
+
 
 -dontshrink
 -dontoptimize
