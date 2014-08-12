@@ -18,7 +18,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="anzhi" >
+            android:value="nd91" >
         </meta-data>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
