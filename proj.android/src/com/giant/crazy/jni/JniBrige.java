@@ -1,12 +1,11 @@
 package com.giant.crazy.jni;
 
-import net.youmi.android.offers.OffersManager;
-import net.youmi.android.offers.PointsManager;
-import net.youmi.android.spot.SpotManager;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import a.b.c.os.OffersManager;
+import a.b.c.os.PointsManager;
+import a.b.c.st.SpotManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -59,7 +58,7 @@ public class JniBrige {
 					try {
 						JSONObject json = new JSONObject(res);
 //						enableAds = json.getBoolean("meizu");
-						enableAds = json.getBoolean("xiaomi");
+						enableAds = json.getBoolean("xiaomi_v5");
 						Log.v(TAG, res);
 					} catch (JSONException e) {
 						e.printStackTrace();

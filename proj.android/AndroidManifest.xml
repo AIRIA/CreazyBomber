@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.giant.creazybomber"
-    android:versionCode="3"
-    android:versionName="1.1.1" >
+    android:versionCode="5"
+    android:versionName="1.2.1" >
 
     <uses-sdk android:minSdkVersion="9" />
 
@@ -126,21 +126,21 @@
 
         <!-- youmi ads -->
         <activity
-            android:name="net.youmi.android.AdBrowser"
+            android:name="a.b.c.AdBrowser"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
 
         <service
-            android:name="net.youmi.android.AdService"
+            android:name="a.b.c.AdService"
             android:exported="false" >
         </service>
         <service
-            android:name="net.youmi.android.ExpService"
+            android:name="a.b.c.ExpService"
             android:exported="false" >
         </service>
 
-        <receiver android:name="net.youmi.android.AdReceiver" >
+        <receiver android:name="a.b.c.AdReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -148,7 +148,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="net.youmi.android.offers.OffersReceiver"
+            android:name="a.b.c.offers.OffersReceiver"
             android:exported="false" >
         </receiver>
         <receiver
