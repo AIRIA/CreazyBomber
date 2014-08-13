@@ -56,7 +56,7 @@ public class JniBrige {
 					/* 检查是否开启了广告 */
 					try {
 						JSONObject json = new JSONObject(res);
-						enableAds = json.getBoolean("anzhi");
+						enableAds = json.getBoolean("qh360");
 //						enableAds = json.getBoolean("xiaomi");
 						Log.v(TAG, res);
 					} catch (JSONException e) {
