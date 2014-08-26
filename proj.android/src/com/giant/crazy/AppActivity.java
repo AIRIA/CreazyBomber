@@ -39,11 +39,8 @@ import com.feiwo.manage.FwRecommendManage;
 import com.feiwo.view.FwBannerManager;
 import com.feiwo.view.FwInterstitialManager;
 import com.giant.crazy.jni.JniBrige;
-import com.giant.crazy.pay.UmiPayManager;
-import com.giant.crazy.share.UMengShare;
 import com.umeng.analytics.game.UMGameAgent;
 import com.umeng.message.PushAgent;
-import com.umeng.socialize.sso.UMSsoHandler;
 
 public class AppActivity extends Cocos2dxActivity {
 	private AlertDialog exitDialog;
@@ -56,7 +53,7 @@ public class AppActivity extends Cocos2dxActivity {
 		JniBrige.getInstance().init(this);
 		UMGameAgent.init(this);
 		UMGameAgent.setDebugMode(false);
-		UmiPayManager.init(this);
+
 		//umeng message
 		PushAgent mPushAgent = PushAgent.getInstance(this);
 		mPushAgent.enable();
@@ -106,10 +103,7 @@ public class AppActivity extends Cocos2dxActivity {
 		// else {
 		// Log.d(TAG, "onActivityResult handled by IABUtil.");
 		// }
-		UMSsoHandler ssoHandler = UMengShare.mController.getConfig().getSsoHandler(requestCode) ;
-	    if(ssoHandler != null){
-	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-	    }
+		
 	}
 
 	@Override

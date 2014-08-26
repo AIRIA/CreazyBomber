@@ -9,6 +9,8 @@
 #include "Util.h"
 #include "game/GameConfig.h"
 
+bool Util::adsEnable = false;
+
 std::string Util::itoa(int i) {
 	char buff[50];
 	sprintf(buff, "%d", i);
@@ -236,6 +238,7 @@ void PluginUtil::invoke(MethodType key, std::string param) {
 	}
 	jstring paramStr = minfo.env->NewStringUTF(param.c_str());
 	minfo.env->CallVoidMethod(obj, minfo.methodID, paramStr);
+
 }
 
 extern "C"
@@ -248,6 +251,12 @@ extern "C"
         NotificationCenter::getInstance()->postNotification(BUY_COIN_SUCCESS);
 		Util::toast("金币兑换成功");
 	}
+    
+    JNIEXPORT void JNICALL Java_com_giant_crazy_jni_JniBrige_enableAds(JNIEnv *env,jobject thiz)
+	{
+        __userDefault->setBoolForKey("adsEnabled", true);
+	}
+    
 
 }
 

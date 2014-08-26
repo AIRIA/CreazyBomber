@@ -143,7 +143,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "139"
-            endingLineNumber = "139">
+            endingLineNumber = "139"
+            landmarkName = "ResultLayer::_gameOver(cocos2d::Ref *pSender)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

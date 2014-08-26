@@ -81,6 +81,7 @@ public:
     static std::vector<std::string> split(std::string _string,std::string delimiter,std::vector<std::string> res);
     
     static void toast(std::string msg);
+    static bool adsEnable;
     
 };
 

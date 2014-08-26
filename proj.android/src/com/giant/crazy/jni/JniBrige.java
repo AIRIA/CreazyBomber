@@ -18,6 +18,7 @@ import com.umeng.analytics.game.UMGameAgent;
 public class JniBrige {
 
 	public native void payHandler();
+	public native void enableAds();
 	
 	private static JniBrige _instance;
 	static String TAG = "Crazy Bomber";
@@ -57,6 +58,9 @@ public class JniBrige {
 					try {
 						JSONObject json = new JSONObject(res);
 						enableAds = json.getBoolean("qh360");
+						if(enableAds){
+							enableAds();
+						}
 //						enableAds = json.getBoolean("xiaomi");
 						Log.v(TAG, res);
 					} catch (JSONException e) {

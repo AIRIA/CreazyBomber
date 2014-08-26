@@ -136,6 +136,12 @@ void ResultLayer::_gameOver(cocos2d::Ref *pSender)
     menu2->ignoreAnchorPointForPosition(false);
     wrapper->addChild(menu2);
     
+    auto adsEnabeld = __userDefault->getBoolForKey("adsEnabled",false);
+    if(adsEnabeld==false)
+    {
+        charge->setVisible(false);
+    }
+    
 }
 
 void ResultLayer::_showResult(cocos2d::Ref *pSender)
